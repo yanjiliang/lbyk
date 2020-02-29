@@ -208,7 +208,7 @@
                     </div>
                     <div class="verticode">
                         <p>验证码</p>
-                        <input type="text" name="username" @blur="reSize()" id="code" placeholder="请输入验证码">
+                        <input type="text" name="username" @blur="reSize()" id="code" maxlength="4" placeholder="请输入验证码">
                         <span v-show="sendCode" class="codetext" @click="getCode()">获取验证码</span>
                         <span v-show="!sendCode" class="codetext"><span>{{code_time}}S</span></span>
                     </div>
@@ -413,14 +413,7 @@ export default {
                             this.resStatus = res.data
                             this.resMsg = res.data.msg
 
-                            // if(res.data.result == 'success'){
-                            //     // this.$router.push({path:'/OrderSuccessApp'})
-                            //     this.$router.push({path:'/AppointmentSuccess'})
-                            // }else if(res.data.result == 'error'){
-                            //     // this.$router.push({path:'/OrderFaileApp'})
-                            //     this.$router.push({ name:'AppointmentFail',params:{ resmsg: this.resMsg }})
-
-                            // }
+                            
                             
                             if(res.data.result == 'success'){
                                 this.$router.push({path:'/AppointmentSuccess'})
@@ -519,13 +512,7 @@ export default {
                 //给iOS APP传参
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
             },
-        //解析地址中传进来的课程ID
-        // getCourseId(){
-        //     let params = window.location.search
-        //     let index = params.lastIndexOf('=')
-        //     this.cd_courseid = params.substring(index+1,params.length)
-
-        // },
+        
         ClickTo : function (qury,addrInfo){
             
             if (this.device === 'android') {
@@ -644,7 +631,7 @@ export default {
                     axios.post(url,param).then((res)=>{
                         this.wechatSharedata = res.data.data
                         wx.config({
-                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                             appId: this.wechatSharedata.appId, // 必填，公众号的唯一标识
                             timestamp: this.wechatSharedata.timestamp, // 必填，生成签名的时间戳
                             nonceStr: this.wechatSharedata.nonceStr, // 必填，生成签名的随机串

@@ -31,8 +31,8 @@
                 </div>
             </div>
 
-            <!-- <p>{{type}}</p>
-            <p>{{msg_identity}}</p> -->
+            <!-- <p>{{type}}</p> -->
+            <!-- <p>{{msg_staffinfo_data}}</p> -->
 
             <ul>
                 <li class="msglistli" v-for="(item,index) in Asistlist" :key="index" @click.prevent="msg_skipe_teacher(index)">
@@ -184,7 +184,6 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.msg_staffinfo_data = res.data.data
-                
                 
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
                 if(this.type == 'classTeacher'){

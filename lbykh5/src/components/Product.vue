@@ -2,7 +2,7 @@
     <div class="product">
         <div class="wrap" ref="product_wrap">
             <div class="product_list" ref="product_list">
-                <div class="item" v-for="(item,index) in productInfo" :key='index'>
+                <div class="item" v-for="(item,index) in productInfo" :key='index' @click="renew_select(index)">
                     <p class="title">{{item.title}}</p>
                     <p class="price"><span style="font-size:14px">￥</span>{{item.sellingPrice}}</p>
                     <p class="info">{{item.introduce}}</p>
@@ -13,6 +13,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
+import { Toast } from 'vant'
 // import { Toast } from 'vant'
 export default {
     name:'product',
@@ -64,6 +65,20 @@ export default {
                 
             })
         },
+        renew_select(index){
+            let len = this.productInfo.length
+            for(let i=0;i<len;i++){
+                if(i == index){
+                    document.getElementsByClassName('item')[index].classList.add('select_item')
+                }else{
+                    document.getElementsByClassName('item')[index].classList.remove('select_item')
+                }
+            }
+            let productPage_data = {
+                select_item_index : index,
+            }
+            this.$emit('productPage_data',productPage_data)
+        }
     }
 }
 </script>
@@ -107,8 +122,17 @@ export default {
                         font-weight 400
                         color #5E5862
                         white-space normal
+                    &:active
+                        border  1px solid #FFDAA1
+                        box-sizing border-box
+                        background #F9F4E7
                     &:hover
                         border  1px solid #FFDAA1
+                        box-sizing border-box
                         background #F9F4E7
+.select_item
+    border  1px solid #FFDAA1
+    box-sizing border-box
+    background #F9F4E7
 
 </style>

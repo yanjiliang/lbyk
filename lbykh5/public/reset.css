@@ -1,0 +1,115 @@
+body,p,h1,h2,h3,h4,h5,ul{
+  margin: 0;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img{
+  border: none;
+  vertical-align: none;
+}
+
+a{
+  text-decoration: none;
+  color: #3c3c3c;
+}
+
+i{
+  font-style: normal;
+}
+
+input,button{
+  margin: 0;
+  padding: 0;
+}
+
+button{
+  outline: none;
+}
+
+body{
+  font-family:"Avenir",PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Helvetica Neue,Arial,sans-serif ;
+  color:#353239;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+@media screen and (device-width:414px){
+  body{
+    font-size: 17.664px;
+  }
+}
+
+.clearfix:after{
+  content: '';
+  display: block;
+  clear: both;
+  font-size: 0;
+}
+
+.fl{
+  float: left;
+}
+
+.fr{
+  float: right;
+}
+
+
+.c4{
+  color: #f48;
+}
+
+.c5{
+  color: #f58;
+}
+
+.mt10{
+  margin-top: 10px;
+}
+
+.mr10{
+  margin-right: 10px;
+}
+
+.wh10{
+  width: 10px;
+  height: 10px;
+}
+
+.navigation > ul > li > .arrow{
+  margin-left: 5px;
+  font-size: 7px;
+}
+
+.navigation > ul > li > .shoopCartx{
+  color: #f40;
+}
+
+.layer{
+  margin: 0 auto;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.indent{
+  text-indent:2em;
+}
+
+.map,.mapbox{
+  position: relative;
+}
+.map-mask{
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+

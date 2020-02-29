@@ -1,0 +1,175 @@
+.activityPage .container {
+    width: 10rem;
+    box-sizing: border-box;
+    opacity: 1;
+    padding-bottom: 80px;
+    background: rgba(250, 248, 248, 1);
+}
+
+
+/* 
+头部招生管理 */
+
+.activityPage .container .topbox {
+    background: url('../../images/activity/bg2x.png') no-repeat;
+    background-size: 100% 100%;
+    width: 10rem;
+    height: 192px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.activityPage .container .topbox .top {
+    width: 9.0rem;
+    position: absolute;
+    bottom: 0.533333rem;
+    height: 100px;
+    padding-left: 0.96rem;
+    display: flex;
+    align-items: center;
+
+}
+
+.activityPage .container .topbox .top .left {
+    margin-right: 3.5rem;
+}
+
+.activityPage .container .topbox .top .left p:nth-child(1) {
+    width: 80px;
+    height: 28px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;
+    color: rgba(235, 194, 132, 1);
+    margin-bottom: 6px;
+    opacity: 1;
+}
+
+.activityPage .container .topbox .top .left p:nth-child(2) {
+    width: 140px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(246, 246, 246, 1);
+    opacity: 1;
+}
+
+.activityPage .container .topbox .top .right {
+    width: 46px;
+    height: 47px;
+}
+
+.activityPage .container .topbox .top .right img {
+    width: 46px;
+    height: 47px;
+}
+
+
+/* 功能介绍 */
+
+.activityPage .container .function_infobox {
+    width: 9.146666rem;
+    background-color: #fff;
+    padding: 8px 16px;
+}
+
+.activityPage .container .function_infobox p:nth-child(1) {
+    width: 72px;
+    height: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    color: rgba(24, 24, 24, 1);
+    opacity: 1;
+    margin-bottom: 0.32rem;
+}
+
+.activityPage .container .function_infobox p:nth-child(2) {
+    width: 343px;
+    height: 61px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: rgba(26, 27, 32, 1);
+    opacity: 1;
+}
+
+.activityPage .container .banner_box {
+    padding: 10px 16px 24px 16px;
+    background-color: #fff;
+}
+
+
+.activityPage .container .banner_box img {
+    width: 100%;
+}
+
+.activityPage .container .privilege_show p {
+    margin-top: 16px;
+}
+
+.activityPage .container .privilege_show p img {
+    width: 100%;
+}
+
+
+/* 按钮 */
+
+.activityPage .btn {
+    padding: 0 0.426666rem;
+    text-align: center;
+    margin-bottom: 30px;
+    position: fixed;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    bottom: -30px;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+
+.activityPage .btn p:nth-child(1) {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 56px;
+    color: rgba(255, 255, 255, 1);
+    width: 9.146666rem;
+    height: 56px;
+    background: rgba(255, 68, 75, 1);
+    box-shadow: 0px 4px 6px rgba(255, 68, 75, 0.2);
+
+    border-radius: 30px;
+}
+
+.activityPage .btn p:nth-child(2) {
+    font-size: 12px;
+    font-weight: 400;
+    color: #C6C6C6;
+
+    margin-top: 0.32rem;
+}
+
+.activityPage .btn p:nth-child(2) a {
+    color: #FF444B;
+}
+
+
+/* 规则 */
+.van-button__text {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 68, 75, 1);
+
+}
+
+.van-dialog__content {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+}
+
+/* van-dialog__message--has-title */
+.van-dialog__content .van-dialog__message {
+    color: #303133 !important;
+    text-align: left;
+}

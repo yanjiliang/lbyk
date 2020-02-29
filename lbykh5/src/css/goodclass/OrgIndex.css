@@ -1,0 +1,705 @@
+/* 地图 */
+
+.orgindex .container {
+    box-sizing: border-box;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0 0 35px 0;
+}
+
+.orgindex .container .mapbox {
+    /*地图和机构信息的大盒子*/
+    width: 100%;
+    height: 16rem;
+    position: relative;
+}
+
+.orgindex .container .mapbox .category {
+    /*地图和机构信息的大盒子*/
+    line-height: 17px;
+    text-align: center;
+    background: #fff;
+    opacity: 0.9;
+    border-radius: 3px;
+    padding: 8px 12px;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.orgindex .container .mapbox .category p {
+    /*地图和机构信息的大盒子*/
+    font-size: 12px;
+    font-weight: 500;
+    color: #353239;
+}
+
+.orgindex .container .mapbox .map {
+    /*地图和机构信息的大盒子*/
+    z-index: 1!important;
+    opacity: 1;
+}
+
+
+/* 机构头部信息与地址 */
+
+.orgindex .container .mapbox .topbox {
+    z-index: 999;
+    opacity: 1;
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox {
+    padding: 16px 12px;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    margin-bottom: 0.32rem;
+    text-align: left;
+}
+
+
+/* @media only screen and (device-width:414px) {
+    .orgindex .container .mapbox .topbox .orgheadbox{
+        padding: 16px 12px;
+        width: 22.375rem;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 0px 30px rgba(0,0,0,0.05);
+        border-radius:8px;
+    }
+} */
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgheadtop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.42666rem;
+    margin-top: -0.74666rem;
+    text-align: left;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgheadtop .logo {
+    width: 1.6rem;
+    height: 1.6rem;
+    text-align: center;
+    line-height: 60px;
+    color: #FFFFFF;
+    margin-right: 0.32rem;
+    border-radius: 8px;
+    opacity: 1;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgheadtop .logo img {
+    width: 1.6rem;
+    height: 1.6rem;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgheadtop .title {
+    color: #353239;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 28px;
+    padding-top: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgpicbox {
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgpicbox .piclist {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+.orgindex .container .mapbox .topbox .orgheadbox .orgpicbox .piclist img {
+    width: 128px;
+    height: 88px;
+    flex-shrink: 0;
+    object-fit: cover;
+    margin-right: 8px;
+    border-radius: 5px;
+}
+
+
+/* 位置信息 */
+
+.orgindex .container .mapbox .topbox .orglocationbox {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 12px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-align: left;
+}
+
+
+/* .orgindex .container .mapbox .topbox .orglocationbox .divier{
+    border-right: 0.6px solid #E8E8E8;
+} */
+
+.orgindex .container .mapbox .topbox .orglocationleft {
+    width: 6.8rem;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-bottom: 0px;
+    line-height: 24px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) .icon {
+    margin-right: 3px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) .icon img {
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-top: -2px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) .locainfo {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 12em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 3px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) .distance {
+    font-size: 14px;
+    font-weight: 400;
+    color: #5e5862;
+    position: absolute;
+    right: 9px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(1) .distance span {
+    color: #4DC9BD;
+}
+
+.orgindex .container .mapbox .topbox .orglocationleft div:nth-child(2) {
+    color: #9B9B9B;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    color: rgba(155, 155, 155, 1);
+    width: 18em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-top: 3px;
+}
+
+.orgindex .container .mapbox .topbox .orglocationright {
+    border: 0.6px solid #E8E8E8;
+    height: 0.9rem;
+    margin-left: 0.32rem;
+}
+
+@media only screen and (device-width:414px) {
+    .orgindex .container .mapbox .topbox .orglocationright {
+        border: 0.6px solid #E8E8E8;
+        height: 0.82666rem;
+        margin-left: 0.32rem;
+    }
+}
+
+.orgindex .container .mapbox .topbox .orglocationright .icon {
+    height: 0.82666rem;
+    width: 0.82666rem;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
+    position: absolute;
+    right: 0.6rem;
+}
+
+.orgindex .container .mapbox .topbox .orglocationright img {
+    width: 0.82666rem;
+    height: 0.82666rem;
+}
+
+
+/* 精选好课 */
+
+.orgindex .container .classlistbox {
+    margin-top: 60px;
+    padding: 0 0.42666rem;
+}
+
+.orgindex .container .classlistbox .title {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px;
+    color: rgba(53, 50, 57, 1);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.orgindex .container .classlistbox .title a {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #FF444B;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.orgindex .container .classlistbox .title a:after {
+    content: '';
+    width: 0.37333rem;
+    height: 0.37333rem;
+    display: inline-block;
+    background: url('../../images/GoodClass/返回橙色2x.png');
+    background-size: cover;
+    margin: -0.05333rem 0;
+}
+
+
+/* 没有数据展示 */
+
+.orgindex .container .noclass {
+    display: flex;
+    border: 1px dashed #E4EEEE;
+    border-radius: 8px;
+    padding: 0.53333rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.orgindex .container .noclass div:nth-child(1) {
+    margin-right: 0.32rem;
+}
+
+.orgindex .container .noclass div:nth-child(2) p:nth-child(1) {
+    font-size: 0.373333rem;
+    font-weight: bold;
+    line-height: 0.53333rem;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+}
+
+.orgindex .container .noclass div:nth-child(2) p:nth-child(2) {
+    font-size: 0.32rem;
+    font-weight: 400;
+    line-height: 0.453333rem;
+    color: rgba(155, 155, 155, 1);
+    opacity: 1;
+}
+
+.orgindex .container .noclass img {
+    width: 0.88rem;
+    height: 0.88rem;
+}
+
+
+/* 没有数据展示 */
+
+.orgindex .amap-icon img {
+    width: 31px;
+    height: 39px;
+}
+
+.orgindex .container .classlistbox .list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.orgindex .container .classlistbox .list div:nth-last-child(1) {
+    margin-bottom: 0;
+}
+
+.orgindex .container .classlistbox .list .left {
+    background: url('../../assets/images/default.png') no-repeat;
+    background-size: cover;
+    width: 128px;
+    height: 88px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.orgindex .container .classlistbox .list .left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.orgindex .container .classlistbox .list .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 16px;
+    height: 88px;
+}
+
+.orgindex .container .classlistbox .list .right .title2 {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: bold;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.orgindex .container .classlistbox .list .right .tags {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+}
+
+.orgindex .container .classlistbox .list .right .tags span {
+    background: rgba(251, 245, 237, 1);
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 159, 27, 1);
+    margin-right: 0.13333rem;
+    padding: 2px 4px;
+}
+
+.orgindex .container .classlistbox .list .right .price {
+    display: flex;
+    align-items: center;
+}
+
+.orgindex .container .classlistbox .list .right .price span:nth-child(1) {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: rgba(255, 68, 75, 1);
+    opacity: 1;
+    margin-right: 5px;
+}
+
+.orgindex .container .classlistbox .list .right .price span:nth-child(1) i {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 24px;
+    color: rgba(255, 68, 75, 1);
+    opacity: 1;
+}
+
+.orgindex .container .classlistbox .list .right .price span:nth-child(2) {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 14px;
+    color: rgba(198, 198, 198, 1);
+    opacity: 1;
+    text-decoration: line-through;
+}
+
+
+/* 授课老师 */
+
+.orgindex .box {
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    padding: 0 0.42666rem;
+    margin-top: 30px;
+}
+
+.orgindex .box .classteacher .title {
+    margin-bottom: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+}
+
+.orgindex .box .classteacher .title p {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px;
+}
+
+.orgindex .box .classteacher .title .a_showall {
+    font-size: 14px;
+    line-height: 24px;
+    color: #C6C6C6;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.orgindex .box .classteacher .title .a_edit {
+    font-size: 14px;
+    line-height: 24px;
+    color: #FF444B;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.orgindex .box .classteacher .title .a_showall:after {
+    content: '';
+    width: 0.37333rem;
+    height: 0.37333rem;
+    display: inline-block;
+    background: url('../../images/GoodClass/reback2x.png');
+    background-size: cover;
+    margin: -0.05333rem 0;
+}
+
+.orgindex .box .classteacher .title .a_edit:after {
+    content: '';
+    width: 0.37333rem;
+    height: 0.37333rem;
+    display: inline-block;
+    background: url('../../images/GoodClass/返回橙色2x.png');
+    background-size: cover;
+    margin: -0.05333rem 0;
+}
+
+.orgindex .box .classteacher .teacherlist {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.orgindex .box .classteacher .teacherlist ul li {
+    display: flex;
+    border-bottom: 0.6px solid #EEEEEE;
+    box-sizing: border-box;
+}
+
+.orgindex .box .classteacher .teacherlist ul li:last-child {
+    border: 0;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherpic {
+    margin-right: 0.32rem;
+    margin-top: 0.74666rem;
+    margin-bottom: 0.61333rem;
+    border-radius: 50%;
+    width: 1.6rem;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    text-align: center;
+    color: #4DC9BD;
+    font-size: 14px;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherpic p {
+    border: 0.8px solid #4DC9BD;
+    border-radius: 50%;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherpic img {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo {
+    margin-top: 16px;
+    margin-bottom: 13px;
+    width: 76%;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .teachername {
+    margin-top: 0.10666rem;
+    margin-bottom: 0.10666rem;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .motto {
+    margin-bottom: 0.21333rem;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .teachername span:nth-child(1) {
+    color: #1A1B20;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin-right: 0.213333rem;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .teachername span:nth-child(2) {
+    color: #C6C6C6;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .teachertag {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.orgindex .box .classteacher .teacherlist .teacherinfo .teachertag .tag {
+    display: flex;
+    flex-direction: row;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .teachertag .tag span {
+    border: 1px solid rgba(246, 246, 246, 1);
+    opacity: 1;
+    border-radius: 3px;
+    margin-right: 0.21333rem;
+    padding: 0.05333rem 0.10666rem;
+    color: #9B9B9B;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+}
+
+.orgindex .box .classteacher .teacherlist ul li .teacherinfo .motto {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(94, 88, 98, 1);
+    opacity: 1;
+}
+
+
+/* 品牌故事 */
+
+
+/* .orgindex .box .bandstory .bandtitle{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-top: 0.8rem;
+    margin-bottom: 0.53333rem;
+} */
+
+.orgindex .box .bandstory .bandtitle {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.orgindex .box .bandstory .bandtitle p {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+.orgindex .box .bandstory .bandtitle a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #FF444B;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.orgindex .box .bandstory .bandtitle a:after {
+    content: '';
+    width: 0.37333rem;
+    height: 0.37333rem;
+    display: inline-block;
+    background: url('../../images/GoodClass/返回橙色2x.png');
+    background-size: cover;
+    margin: -0.05333rem 0;
+}
+
+.orgindex .box .bandstory .bandinfo {
+    font-size: 15px;
+    color: #5e5862;
+    line-height: 28px;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 16px 12px 16px 12px;
+    position: relative;
+    margin-bottom: 0.90666rem;
+}
+
+.orgindex .box .bandstory .bandinfo span {
+    display: inline-block;
+    width: 56px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(77, 201, 189, 1);
+    margin-right: 4px;
+}
+
+.orgindex .box .bandstory .bandinfo p:nth-child(1) {
+    width: 100%;
+    overflow: hidden;
+    /* height: 168px; */
+    white-space: pre-line;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+
+/* 折叠 */
+
+
+/* .orgindex .fold{
+    -webkit-line-clamp: 6;
+} */
+
+.orgindex .box .bandstory .bandinfo p:nth-child(2) {
+    margin-top: 12px;
+    display: flex;
+    width: 74px;
+    margin: 0 auto;
+    height: 0.64rem;
+    line-height: 0.64rem;
+    color: #4DC9BD;
+}
+
+.orgindex .box .bandstory .bandinfo p:nth-child(2) i {
+    width: 14px;
+    height: 14px;
+}
+
+.orgindex .box .bandstory .bandinfo p:nth-child(2) i img {
+    width: 14px;
+    height: 14px;
+}
+
+
+.van-image-preview__index{
+    top: 90%!important;
+    
+}

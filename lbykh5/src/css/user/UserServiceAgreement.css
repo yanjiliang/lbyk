@@ -1,0 +1,12 @@
+
+.app{
+    max-width: 677px;
+    margin: 0 auto;
+}
+
+.userServiceContent > p{
+    line-height: 30px;
+}
+.userServiceContent{
+    padding: 0 12px 16px 16px;
+}

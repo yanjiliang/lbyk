@@ -1,0 +1,843 @@
+/* 顶部阴影 */
+
+
+/* 顶部阴影 */
+
+.classdetail {
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.swipebox {
+    height: 7.68rem;
+    width: 10rem;
+    clear: both;
+}
+
+.swipebox .swipeitem {
+    height: 3.84rem;
+}
+
+.swipebox .swipeitem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.indicater{
+    
+    position: absolute;
+    top: 70%;
+    right: 25px;
+    z-index: 1019;
+}
+.indicater span{
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #fff;
+    opacity: 0.7;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.indicater .change{
+    display: inline-block;
+    width: 19px;
+    height: 6px;
+    background-color: #fff;
+    opacity: 0.7;
+    border-radius: 3px;
+    margin-right: 4px;
+}
+
+/* 轮播图 */
+
+
+/* 详情列表 */
+.detailinfobox {
+    position: relative;
+    
+}
+.classdetail .detailinfobox_wrap {
+    position: relative;
+}
+
+.detailinfobox .infotitle {
+    background: url(../../images/GoodClass/kcxqtop.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    opacity: 1;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    padding: 3% 0 15.3362% 0;
+    box-sizing: border-box;
+}
+
+.detailinfobox .infotitle .classname {
+    /* width: 3.86666667rem; */
+    width: 3.5rem;
+    text-align: left;
+    z-index: 188;
+    position: relative;
+    margin-left: 0.42666rem;
+}
+
+.detailinfobox .infotitle .sort {
+    position: absolute;
+    top: 0.6rem;
+    left: 1rem;
+}
+
+.detailinfobox .infotitle .sort img {
+    width: 1.81333rem;
+    height: 0.88rem;
+}
+
+.detailinfobox .infotitle .classname p:nth-child(1) {
+    color: #C6C6C6;
+    font-size: 10px;
+    line-height: 14px;
+    margin-top: 0;
+}
+
+.detailinfobox .infotitle .classname p:nth-child(2) {
+    color: #353239;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-top: 0.1066rem;
+}
+
+.detailinfobox .infotitle .locationinfo {
+    display: flex;
+    align-items: center;
+    padding-top: 0.6rem;
+    position: relative;
+    justify-content: space-between;
+    width: 5.64668rem;
+}
+
+.detailinfobox .infotitle .locationinfo .location {
+    display: flex;
+    align-items: center;
+}
+
+.detailinfobox .infotitle .locationinfo .location p:nth-child(1) {
+    height: 14px;
+    line-height: 14px;
+    margin-right: 3px;
+}
+
+.detailinfobox .infotitle .locationinfo .location p:nth-child(1) img {
+    width: 12px;
+    height: 12px;
+}
+
+.detailinfobox .infotitle .locationinfo .location p:nth-child(2) {
+    color: #FFC72B;
+    font-size: 12px;
+    padding-right: 3px;
+    line-height: 14px;
+    width: 12em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.detailinfobox .infotitle .locationinfo>p {
+    color: #fff;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.classdetail .classinfo {
+    /* width: 21.43rem; */
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    padding: 0 0.42666rem;
+    padding-bottom: 0.8rem;
+}
+
+.classdetail .classinfo .classtitle {
+    color: #353239;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.classdetail .classinfo .classpricebox {
+    margin: 0.5333rem 0;
+    font-weight: normal;
+}
+
+.classdetail .classinfo .classpricebox .price {
+    color: #FF444B;
+    font-size: 24px;
+    line-height: 29px;
+    margin-right: 0.42666rem;
+    font-weight: bold;
+}
+
+.classdetail .classinfo .classpricebox i {
+    font-size: 13px;
+}
+
+.classdetail .classinfo .classpricebox .oriprice {
+    text-decoration: line-through;
+    color: #9B9B9B;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 17px;
+}
+
+.classdetail .classinfo .tags {
+    display: flex;
+    /* width: 9.14666rem; */
+    justify-content: space-around;
+    /* height: 1.81333rem; */
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0.32rem 0;
+}
+
+.classdetail .classinfo .tags .tagbox {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    height: 1.2rem;
+}
+
+.classdetail .classinfo .tags .tagbox .tagpic {
+    margin-left: 0.45333rem;
+    margin-right: 0.18666rem;
+}
+
+.classdetail .classinfo .tags .tagbox .tagpic img {
+    width: 24px;
+    height: 24px;
+}
+
+.classdetail .classinfo .tags .tagbox .taginfo p:nth-child(1) {
+    color: #1A1B20;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.classdetail .classinfo .tags .tagbox .taginfo p:nth-child(2) {
+    color: #C6C6C6;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+/* 品牌故事 */
+
+.classdetail .classinfo .bandstory {
+    /* width: 9.14666rem; */
+}
+
+.classdetail .classinfo .bandstory .bandtitle {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-top: 0.8rem;
+    margin-bottom: 0.5333rem;
+}
+
+.classdetail .classinfo .bandstory .bandinfo {
+    font-size: 15px;
+    color: #5e5862;
+    line-height: 28px;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 16px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 0.90666rem;
+}
+
+.classdetail .classinfo .bandstory .bandinfo span {
+    display: inline-block;
+    width: 56px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(77, 201, 189, 1);
+    margin-right: 4px;
+}
+
+.classdetail .classinfo .bandstory .bandinfo p:nth-child(1) {
+    width: 100%;
+    overflow: hidden;
+    /* height: 168px; */
+    white-space: pre-line;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+
+/* 折叠 */
+
+.classdetail .fold {
+    -webkit-line-clamp: 6;
+}
+
+.classdetail .classinfo .bandstory .bandinfo p:nth-child(2) {
+    padding-top: 12px;
+    display: flex;
+    width: 74px;
+    margin: 0 auto;
+    /* height: 0.64rem;
+    line-height: 0.64rem; */
+    color: #4DC9BD;
+}
+
+.classdetail .classinfo .bandstory .bandinfo p:nth-child(2) i {
+    width: 14px;
+    height: 14px;
+}
+
+.classdetail .classinfo .bandstory .bandinfo p:nth-child(2) i img {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* 没有数据展示 */
+
+.classdetail .classinfo .classteacher .noclass {
+    display: flex;
+    border: 1px dashed #E4EEEE;
+    border-radius: 8px;
+    padding: 0.53333rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.classdetail .classinfo .classteacher .noclass div:nth-child(1) {
+    margin-right: 0.32rem;
+}
+
+
+/* .classdetail .classinfo .classteacher  .noclass div:nth-child(2) p:nth-child(1){
+    font-size:0.373333rem;
+    font-weight:bold;
+    line-height:0.53333rem;
+    color:rgba(53,50,57,1);
+    opacity:1;
+} */
+
+.classdetail .classinfo .classteacher .noclass div:nth-child(2) p:nth-child(1) {
+    font-size: 0.32rem;
+    font-weight: 400;
+    line-height: 0.453333rem;
+    color: rgba(155, 155, 155, 1);
+    opacity: 1;
+}
+
+.classdetail .classinfo .classteacher .noclass img {
+    width: 0.88rem;
+    height: 0.88rem;
+}
+
+
+/* 没有数据展示 */
+
+
+/* 授课老师 */
+
+.classdetail .classinfo .classteacher .title {
+    margin-top: 0.8rem;
+    margin-bottom: 0.5333rem;
+    display: flex;
+    align-items: center;
+}
+
+.classdetail .classinfo .classteacher .title p {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+.classdetail .classinfo .classteacher .title a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #C6C6C6;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.classdetail .classinfo .classteacher .title a:after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url('../../images/GoodClass/reback2x.png');
+    background-size: cover;
+    margin: -2px 0;
+}
+
+.classinfo .classteacher .teacherlist {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0 12px;
+    /* width: 8.50666rem; */
+}
+
+.classinfo .classteacher .teacherlist ul li {
+    display: flex;
+    align-items: center;
+    border-bottom: 0.6px solid #EEEEEE;
+    box-sizing: border-box;
+}
+
+.classinfo .classteacher .teacherlist ul li:last-child {
+    border: 0;
+}
+
+.classinfo .classteacher .teacherlist ul li .teacherpic {
+    margin-right: 0.32rem;
+    margin-top: 0.74666rem;
+    margin-bottom: 0.61333rem;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #4DC9BD;
+    font-size: 14px;
+}
+
+.classinfo .classteacher .teacherlist .teacherpic p {
+    border: 0.8px solid #4DC9BD;
+    border-radius: 50%;
+}
+
+.classinfo .classteacher .teacherlist .teacherpic img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo {
+    margin-top: 16px;
+    margin-bottom: 13px;
+    width: 76%;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachername {
+    margin-top: 0.10666rem;
+    margin-bottom: 0.10666rem;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .motto {
+    margin-bottom: 0.21333rem;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachername span:nth-child(1) {
+    color: #1A1B20;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin-right: 0.213333rem;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachername span:nth-child(2) {
+    color: #C6C6C6;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachertag {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachertag .tag {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .teachertag .tag span {
+    border: 1px solid rgba(246, 246, 246, 1);
+    opacity: 1;
+    border-radius: 3px;
+    margin-right: 0.21333rem;
+    padding: 0.05333rem 0.10666rem;
+    color: #9B9B9B;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+}
+
+.classinfo .classteacher .teacherlist .teacherinfo .motto {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(94, 88, 98, 1);
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    width: 18em;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    opacity: 1;
+}
+
+
+/* 机构信息 */
+
+.classdetail .classinfo .orginfobox .title {
+    margin-top: 0.8rem;
+    /* width: 9.14666rem; */
+    margin-bottom: 0.5333rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.classdetail .classinfo .orginfobox .title p {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+}
+
+.classdetail .classinfo .orginfobox .title a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #C6C6C6;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.classdetail .classinfo .orginfobox .title a:after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    background: url('../../images/GoodClass/reback2x.png');
+    background-size: cover;
+    position: absolute;
+    right: -20px;
+    top: 5px;
+}
+
+.classdetail .classinfo .orginfobox .orginfo {
+    /* width: 8.50666rem; */
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0.5333rem 0.32rem;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orgtitle {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.42666rem;
+    border-bottom: 0.6px solid #E8E8E8;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orgtitle .orgpic {
+    height: 1.28rem;
+    width: 1.28rem;
+    margin-right: 12px;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orgtitle .orgpic img {
+    width: 1.28rem;
+    height: 1.28rem;
+    object-fit: cover;
+    background: rgba(0, 0, 0, 0);
+    opacity: 1;
+    border-radius: 12px;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orgtitle .info p:nth-child(1) {
+    height: 0.58666rem;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+    margin-bottom: 0.16rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orgtitle .info p:nth-child(2) {
+    height: 0.5333rem;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(198, 198, 198, 1);
+    opacity: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* .classdetail .classinfo .orginfobox .orginfo .orglocatin{
+
+} */
+
+.classdetail .classinfo .orginfobox .orginfo .orglocatin .locainfo {
+    display: flex;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 12px;
+    position: relative;
+}
+
+
+/* .classdetail .classinfo .orginfobox .orginfo .orglocatin .locainfo div:nth-child(1){
+    
+} */
+
+.classdetail .classinfo .orginfobox .orginfo .orglocatin .locainfo div p:nth-child(1) {
+    height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 24px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    width: 17em;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orglocatin .locainfo div p:nth-child(2) {
+    height: 0.5333rem;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(198, 198, 198, 1);
+    opacity: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    width: 20em;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orglocatin .locainfo a {
+    color: #4DC9BD;
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 400;
+    position: absolute;
+    right: 0;
+    bottom: 46%;
+    transform: translate(0, 50%);
+}
+
+.classdetail .classinfo .orginfobox .orginfo .orglocatin .map {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+
+/* 预约须知 */
+
+
+
+/* 立即预约 */
+
+.classdetail .orderbtn {
+    height: 1.17333rem;
+    width: 100%;
+    padding: 0 0.42666rem;
+    box-sizing: border-box;
+    max-width: 540px;
+    color: #FFFFFF;
+    opacity: 1;
+    text-align: center;
+    position: fixed;
+    bottom: 28px;
+    margin: 0 auto;
+    z-index: 999;
+}
+
+.classdetail .orderbtn p {
+    background-color: #FF444B;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 44px;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+    opacity: 1;
+}
+
+
+/* 详情列表 */
+
+
+/* 弹出框 */
+
+.classdetail .pup .pupbox {
+    padding: 24px;
+}
+
+.classdetail .pup .pupbox .title {
+    display: flex;
+    flex-direction: column;
+}
+
+.classdetail .pup .pupbox .title p:nth-child(1) {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+    margin-bottom: 8px;
+}
+
+.classdetail .pup .pupbox .title p:nth-child(2) {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(155, 155, 155, 1);
+    opacity: 1;
+    margin-bottom: 20px;
+}
+
+.classdetail .pup .pupbox .studentname p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+}
+
+.classdetail .pup .pupbox .phonenumber p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+}
+
+.classdetail .pup .pupbox .verticode p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(53, 50, 57, 1);
+    opacity: 1;
+}
+
+.classdetail .pup .pupbox input::-webkit-input-placeholder {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(198, 198, 198, 1);
+}
+
+.classdetail .pup .pupbox input {
+    outline-style: none;
+    border: 0;
+    width: 100%;
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-size: 18px;
+    /* border-bottom: 1px solid #ccc; */
+}
+
+.classdetail .pup .pupbox .studentname {
+    border-bottom: 1px solid #E8E8E8;
+    margin-bottom: 16px;
+}
+
+.classdetail .pup .pupbox .phonenumber {
+    border-bottom: 1px solid #E8E8E8;
+    margin-bottom: 16px;
+}
+
+.classdetail .pup .pupbox .verticode {
+    border-bottom: 1px solid #E8E8E8;
+    margin-bottom: 16px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.classdetail .pup .pupbox .verticode span {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    display: block;
+    width: 90px;
+    height: 29px;
+    /* line-height: 29px; */
+    border: 0.6px solid rgba(77, 201, 189, 1);
+    color: #4DC9BD;
+    padding: 6px 12px;
+    border-radius: 16px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.classdetail .yesbtn {
+    height: 44px;
+    width: 100%;
+    color: #FFFFFF;
+    opacity: 1;
+    text-align: center;
+    padding-right: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.classdetail .yesbtn p {
+    background-color: #FF444B;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 44px;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 1);
+    opacity: 1;
+}
+
+.classdetail .amap-icon img {
+    width: 31px;
+    height: 39px;
+}
+
+
+
+.van-image-preview__index{
+    top: 90%!important;
+    
+}

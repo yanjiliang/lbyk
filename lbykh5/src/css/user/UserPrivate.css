@@ -1,0 +1,9 @@
+
+.userInfo{
+    max-width: 677px;
+    margin: 0 auto;
+    padding:0 16px;
+}
+.userInfo p{
+    line-height: 30px;
+}

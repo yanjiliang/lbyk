@@ -1,0 +1,162 @@
+.msgList>.navbox {
+    padding: 0 16px 0 16px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 0;
+    opacity: 1;
+    z-index: 999;
+}
+
+.msgList>.navbox .orglocation {
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    font-size: 12px;
+    color: #5e5862;
+    margin-bottom: 18px;
+    margin-top: 1px;
+    line-height: 12px;
+}
+
+.msgList>.navbox>.nav {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.msgList>.navbox>.nav>.navitem {
+    width: 25%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.msgList>.navbox>.nav>.navitem p {
+    width: 100%;
+}
+
+.msgList>.navbox>.nav>.navitem a {
+    text-decoration: none;
+    font-size: 12px;
+    color: #5e5862;
+    line-height: 17px;
+}
+
+.msgList .navbox .nav img {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* 以上是导航栏的样式设置 */
+
+
+/* 时间戳的样式 */
+
+.msglistli .msgtime {
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: #9B9B9B;
+    font-size: 12px;
+}
+
+
+/* 时间戳的样式 */
+
+
+/* 以下是消息列表的样式设置 */
+
+.msglistli {
+    width: 343/12 rem;
+    margin: 16px;
+    opacity: 1;
+}
+
+.msglistli .msgbox {
+    widows: 100%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+}
+
+.msglistli .msgbox .msgtitlebox {
+    padding-top: 12px;
+    padding-left: 12px;
+    display: flex;
+    flex-direction: row;
+}
+
+.msglistli .msgbox .msgtitlebox i {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.msglistli .msgbox .msgtitlebox i img {
+    height: 28px;
+    width: 28px;
+}
+
+.msglistli .msgbox .msgtitlebox .msgtitle {
+    color: #353239;
+    font-size: 16px;
+    display: inline-block;
+    height: 22px;
+    margin: 3px 0;
+    line-height: 22px;
+}
+
+.msglistli .msgbox .msgcontent {
+    font-size: 14px;
+    color: #9B9B9B;
+    padding: 8px 12px;
+    line-height: 28px;
+    white-space: pre-line;
+}
+
+.msglistli .msgbox .msgevent {
+    position: relative;
+    padding: 12px;
+}
+
+.msglistli .msgbox .msgevent a {
+    text-decoration: none;
+    color: #353239;
+    /* font-family: "PingFang SC"; */
+    font-size: 14px;
+    display: inline-block;
+    width: 11em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.msglistli .msgbox .msgevent:after {
+    content: '';
+    color: black;
+    position: absolute;
+    right: 0.32rem;
+    top: 16px;
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url('../../images/msgasist/return1.png') no-repeat;
+    background-size: 100%;
+}
+
+.msgdivider {
+    padding: 0 12px;
+    color: #E8E8E8;
+}
+
+.cube {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    /* Other transform properties here */
+}

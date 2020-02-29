@@ -1,0 +1,109 @@
+/* 头部设置 */
+.classStatement .top{
+    width: 10rem;
+    height: 4.21333rem;
+    background: url('../../images/ClassTime/bgpic.png') no-repeat;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.classStatement .top .orgname{
+    display: flex;
+    align-items: center;
+    height:20px;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(94,88,98,1);
+    position: absolute;
+    left: 0.85333rem;
+    top: 0.66666rem;
+    
+}
+.classStatement .top .orgname .orgicon{
+    width: 0.37333rem;
+    height: 0.37333rem;
+    background: url('../../images/ClassTime/门店@2x.png') no-repeat;
+    background-size: 100% 100%;
+    margin-right: 0.21333rem;
+}
+.classStatement .top .orgname .storename{
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    width: 12em;
+}
+.classStatement .top .classname{
+    height:22px;
+    font-size:16px;
+    font-weight:400;
+    line-height:22px;
+    color:rgba(53,50,57,1);
+    position: absolute;
+    left: 0.85333rem;
+    top: 1.46666rem;
+    width: 17em;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+.classStatement .top .time{
+    height:20px;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(94,88,98,1);
+    position: absolute;
+    left: 0.85333rem;
+    top: 2.8rem;
+}
+.classStatement .container{
+    padding: 0 0.85333rem;
+}
+.classStatement .container .classinfobox .infoitem{
+    width: 100%;
+    height: 1.44rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.6px solid #EEEEEE;
+}
+.classStatement .container .classinfobox .infoitem p:nth-child(1){
+    height:22px;
+    font-size:16px;
+    font-weight:400;
+    line-height:22px;
+    color:rgba(155,155,155,1);
+}
+.classStatement .container .classinfobox .infoitem p:nth-child(2){
+    height:22px;
+    font-size:16px;
+    font-weight:400;
+    line-height:22px;
+    color:rgba(53,50,57,1);
+}
+
+.classStatement .container .linktobox .linkitem{
+    width: 100%;
+    height: 1.44rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.6px solid #EEEEEE;
+}
+.classStatement .container .linktobox .linkitem p:nth-child(1){
+    height:22px;
+    font-size:16px;
+    font-weight:400;
+    line-height:22px;
+    color:rgba(53,50,57,1);
+}
+.classStatement .container .linktobox .linkitem p:nth-child(2){
+    width: 14px;
+    height: 14px;
+    background: url('../../images/ClassTime/reback2x.png') no-repeat;
+    background-size: 100% 100%;
+}

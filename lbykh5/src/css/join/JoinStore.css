@@ -1,0 +1,131 @@
+.join_body_bg{
+    padding: 16px;
+}
+.join_card {
+    margin: 0 auto;
+    padding: 16px 20px 20px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow:0px 0px 30px rgba(0,0,0,0.05);
+
+}
+
+.join_inviter {
+    height: 20px;
+    line-height: 20px;
+}
+
+.join_inviter span img {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+.join_inviter span:nth-child(2) {
+    font-size: 14px;
+    margin-left: 8px;
+    color: #5e5862;
+}
+
+.join_inviter span span {
+    margin-right: 8px;
+    color: #353239;
+}
+
+.join_org {
+    padding: 48px 10px 25px 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.join_org img {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+}
+
+.join_org div:nth-child(2) {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 20px 0 12px 0;
+}
+
+.join_org div:nth-child(3) {
+    color: #9b9b9b;
+    line-height: 20px;
+}
+
+
+.join_card .join_input_item {
+    border-bottom: 1pt solid #e8e8e8;
+    overflow: hidden;
+    line-height: 22px;
+    padding: 20px 0;
+    font-size: 16px;
+}
+.join_card .join_input_item  button{
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+
+.join_card .join_input_item input {
+    outline: none;
+    border: none;
+    width: 100%;
+    color: #353239;
+    font-size: 16px;
+}
+
+.join_card .code_input {
+    width: 50%;
+}
+
+.join_card .get_code {
+    width: 50%;
+    text-align: right;
+}
+
+.join_card .join_submit {
+    text-align: center;
+    margin-top: 56px;
+}
+
+.join_card .join_submit .btn {
+    
+    width: 100%;
+    font-size: 16px;
+    display: inline-block;
+    width:303px;
+    height:44px;
+    line-height: 44px;
+    color:rgba(255,255,255,1);
+    background:rgba(255,68,75,1);
+    border-radius:5px;
+    opacity:1;
+}
+
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #C6C6C6;
+}
+
+.join_bottom {
+    margin-top: 18px;
+}
+
+.join_bottom img {
+    width: 129px;
+    height: 48px;
+    margin: 0 auto;
+    display: block;
+}
+
+
+
+
+
+
+

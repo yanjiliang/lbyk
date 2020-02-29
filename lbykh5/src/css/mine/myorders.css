@@ -1,0 +1,310 @@
+
+.myorders .nodatapic{
+    width: 9.54rem;
+    text-align: center;
+    
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(198,198,198,1);
+
+}
+.myorders .nodatapic img{
+    width: 150px;
+    height: 150px;
+}
+
+
+.myorders .order_info_box {
+    padding: 0 16px;
+}
+
+.myorders .order_info_box .order_item {
+    /* height:319px; */
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    border-radius: 8px;
+    padding: 20px 16px;
+    margin-top: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.myorders .order_info_box .order_item .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.myorders .order_info_box .order_item .top .top_left {
+    display: flex;
+    align-items: center;
+}
+
+.myorders .order_info_box .order_item .top .top_left .orgpic {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+}
+
+.myorders .order_info_box .order_item .top .top_left .orgpic img {
+    width: 48px;
+    height: 48px;
+    width: 48px;
+    border-radius: 12px;
+}
+
+.myorders .order_info_box .order_item .top .top_left .orginfo p:nth-child(1) {
+    height: 22px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    color: rgba(24, 24, 24, 1);
+    opacity: 1;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    white-space: nowrap;
+    width: 9em;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: nowrap;
+
+
+}
+
+.myorders .order_info_box .order_item .top .top_left .orginfo p:nth-child(2) {
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(198, 198, 198, 1);
+    opacity: 1;
+    display: -webkit-box;
+    white-space: nowrap;
+    width: 11em;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    
+}
+
+.myorders .order_info_box .order_item .top .top_right {
+    width: 68px;
+    height: 16px;
+    background: rgba(77, 201, 189, 1);
+    box-shadow: 0px 3px 6px rgba(59, 155, 146, 0.16);
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    padding: 5px 9px 4px 5px;
+}
+
+.myorders .order_info_box .order_item .top .top_right img {
+    width: 16px;
+    height: 16px;
+}
+
+.myorders .order_info_box .order_item .top .top_right p:nth-child(1) {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.myorders .order_info_box .order_item .top .top_right p:nth-child(2) {
+    width: 48px;
+    height: 17px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    color: rgba(255, 255, 255, 1);
+    opacity: 1;
+}
+
+.myorders .order_info_box .order_item .mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.myorders .order_info_box .order_item .mid .mid_left p:nth-child(1) {
+    width: 186px;
+    height: 44px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    color: rgba(24, 24, 24, 1);
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.myorders .order_info_box .order_item .mid .mid_left p span {
+    width: 40px;
+    height: 14px;
+    background: rgba(252, 240, 234, 1);
+    opacity: 1;
+    border-radius: 3px;
+    margin-right: 8px;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 14px;
+    color: rgba(238, 121, 65, 1);
+}
+
+.myorders .order_info_box .order_item .mid .mid_right {
+    text-align: right;
+}
+
+.myorders .order_info_box .order_item .mid .mid_right i {
+    font-size: 12px;
+}
+
+.myorders .order_info_box .order_item .mid .mid_right p:nth-child(1) {
+    height: 24px;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 24px;
+    color: rgba(255, 82, 43, 1);
+    opacity: 1;
+}
+
+.myorders .order_info_box .order_item .mid .mid_right p:nth-child(2) {
+    height: 14px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 14px;
+    color: rgba(198, 198, 198, 1);
+    text-decoration: line-through;
+}
+
+.myorders .order_info_box .order_item .click_btn {
+    width: 100px;
+    height: 17px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(198, 198, 198, 1);
+    opacity: 1;
+    margin: 20px auto 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.myorders .order_info_box .order_item .click_btn p {
+    margin-right: 4px;
+}
+
+.myorders .order_info_box .order_item .click_btn i img {
+    width: 12px;
+    height: 12px;
+}
+
+@keyframes bottomHeinght {
+    0% {
+        height: 0;
+    }
+    50% {
+        height: 42px;
+    }
+    100% {
+        height: 84px;
+    }
+}
+
+@-webkit-keyframes bottomHeinght
+/* Safari 和 Chrome */
+
+{
+    0% {
+        height: 0;
+    }
+    50% {
+        height: 42px;
+    }
+    100% {
+        height: 84px;
+    }
+}
+
+@keyframes bottomHeinghtfold {
+    100% {
+        height: 84px;
+    }
+    50% {
+        height: 42px;
+    }
+    0% {
+        height: 0;
+    }
+}
+
+@-webkit-keyframes bottomHeinghtfold
+/* Safari 和 Chrome */
+
+{
+    100% {
+        height: 84px;
+    }
+    50% {
+        height: 42px;
+    }
+    0% {
+        height: 0;
+    }
+}
+
+.myorders .order_info_box .order_item .bottom {
+    margin-top: 20px;
+    /* animation: bottomHeinght 1s ease-out; */
+    box-sizing: border-box;
+    animation: bottomHeinght 0.3s linear;
+    -webkit-animation: bottomHeinght 0.3s linear;
+    /* Safari 和 Chrome */
+}
+.myorders .order_info_box .order_item .bottom {
+    animation: bottomHeinghtfold 0.3s linear;
+    -webkit-animation: bottomHeinghtfold 0.3s linear;
+    /* Safari 和 Chrome */
+}
+
+.myorders .order_info_box .order_item .bottom .bottom_item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.myorders .order_info_box .order_item .bottom .bottom_item p:nth-child(1) {
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(155, 155, 155, 1);
+    opacity: 1;
+    margin-right: 12px;
+}
+
+.myorders .order_info_box .order_item .bottom .bottom_item p:nth-child(2) {
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(24, 24, 24, 1);
+    opacity: 1;
+}
+
+
+/* 处理折叠 */
+
+.myorders .my_orders_fold {
+    /* display: none; */
+    height: 0;
+    display: none;
+}

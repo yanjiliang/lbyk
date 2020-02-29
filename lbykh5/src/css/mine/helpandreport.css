@@ -1,0 +1,136 @@
+.helpandreport .container{
+    padding: 34px 16px;
+    background:#fff;
+}
+
+.helpandreport .container .weixin img{
+    width: 100%;
+    height: 100%;
+}
+.helpandreport .container .weixin{
+    padding-top: 2px;
+}
+.helpandreport .container .box{
+    width:100%;
+    background:rgba(255,255,255,1);
+    border-radius:8px;
+    box-shadow:0px 0px 30px rgba(0,0,0,0.05);
+    margin-bottom: 16px;
+    padding-bottom: 18px;
+    
+}
+.helpandreport .container .title{
+    width:144px;
+    height:22px;
+    font-size:16px;
+    font-weight:bold;
+    line-height:22px;
+    color:rgba(53,50,57,1);
+    opacity:1;
+    margin: 18px 0 9px 16px;
+}
+.helpandreport .container .secondtitle{
+    width:169px;
+    height:20px;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(94,88,98,1);
+    opacity:1;
+    margin: 0px 0 16px 16px;
+}
+
+
+.helpandreport .container .serveSurrpote{
+    padding-top: 2px;
+    box-sizing: border-box;
+}
+.helpandreport .container .serveSurrpote .staff .item{
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.helpandreport .container .serveSurrpote .staff .item img{
+    width: 48px;
+    height: 48px;
+    display: block;
+}
+.helpandreport .container .serveSurrpote .staff .item .left{
+    display: flex;
+    align-items: center;
+}
+
+.helpandreport .container .serveSurrpote .staff .item .left .avatar{
+    margin-right: 12px;
+}
+.helpandreport .container .serveSurrpote .staff .item .left .info p:nth-child(1){
+    width:42px;
+    height:20px;
+    font-size:14px;
+    font-weight:bold;
+    line-height:20px;
+    color:#353239;
+    margin-bottom: 8px;
+}
+.helpandreport .container .serveSurrpote .staff .item .left .info p:nth-child(2){
+    width:126px;
+    height:20px;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(122,122,122,1);
+    opacity:1;
+}
+.helpandreport .container .serveSurrpote .staff .item .right p{
+    width:84px;
+    height:28px;
+    text-align: center;
+    background:rgba(255,68,75,1);
+    opacity:1;
+    border-radius:3px;
+    font-weight:400;
+    line-height:28px;
+    color:rgba(255,255,255,1);
+}
+
+
+.helpandreport .container .mainStore{
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.helpandreport .container .mainStore .storeinfo p:nth-child(1){
+    width:144px;
+    height:22px;
+    font-size:16px;
+    font-weight:bold;
+    line-height:22px;
+    color:rgba(53,50,57,1);
+    opacity:1;
+    margin-bottom: 8px;
+}
+.helpandreport .container .mainStore .storeinfo p:nth-child(2){
+    width:84px;
+    height:20px;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:rgba(94,88,98,1);
+    opacity:1;
+}
+.helpandreport .container .mainStore .btn{
+    width:84px;
+    height:28px;
+    text-align: center;
+    background:rgba(255,68,75,1);
+    opacity:1;
+    border-radius:3px;
+    font-weight:400;
+    line-height:28px;
+    color:rgba(255,255,255,1);
+}

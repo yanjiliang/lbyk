@@ -2,7 +2,7 @@
     <div class="orderManagement">
         
         <div class="contentbox" v-if="content_loading">
-            <div class="orderinfo">
+            <div class="order_mana_info">
                 <div class="infotop">
                     <p id="showAll" class="showActive" @click="showAll">全部</p>
                     <p id="showPending" @click="showPending">待跟进</p>
@@ -256,12 +256,20 @@ import { Toast,Dialog } from 'vant'
                         axios.post(url,param).then(() =>{
                             //把需要删除的数据提交后台接口
                             this.$nextTick(()=>{
-                                this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
+                                // this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
+                                if(this.activeitem == 0){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',this.token)
+                                }else if(this.activeitem == 1){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'pending',this.token)
+                                }else if(this.activeitem == 2){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)
+                                }
                             })
                             this.ordershow = false;
                         }).catch((err)=>{
                             console.log(err)
                         })
+                        // Toast(this.activeitem)
                         
                     }).catch(() => {
                     // on cancel

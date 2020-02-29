@@ -57,7 +57,7 @@
         
         <!-- 待跟进预约 -->
         <div class="orderbox">
-            <div class="orderinfo">
+            <div class="enroll_orderinfo">
                 <div class="infotop">
                     <p>待跟进预约</p>
                     <p @click="enroll_skipe_order_page" class="allorder"><span>全部预约</span><span><img src="../../images/GoodClass/reback2x.png" alt=""></span></p>

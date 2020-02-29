@@ -233,6 +233,32 @@ export default {
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     // this.$router.push({name:'Teacher',params:{storeId:this.cd_storeid,courseId:this.cd_courseid}})
+                    if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'noJump'){
+                        return
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'app'){
+                        //跳APP页面的方法调用
+                        let qury = this.Asistlist[index].msgLinkDtoList[0]
+                        this.parameter = JSON.parse(qury.parameter)
+                        let storeId = JSON.parse(qury.parameter).storeId
+                        let classId = JSON.parse(qury.parameter).classId
+                        let studentId = JSON.parse(qury.parameter).studentId
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
+                    
+                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
+                        //跳H5页面的方法
+                        let qury = this.Asistlist[index].msgLinkDtoList[0]
+                        this.parameter = JSON.parse(qury.parameter)
+                        let storeId = JSON.parse(qury.parameter).storeId
+                        let classId = JSON.parse(qury.parameter).classId
+                        let studentId = JSON.parse(qury.parameter).studentId
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
+                            window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){
+                        //链接 目前没用到
+                    }
                 }
                 if (this.device === 'ios') { 
                     
@@ -247,14 +273,10 @@ export default {
                         let storeId = JSON.parse(qury.parameter).storeId
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
-                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                        if(this.device == 'android'){
-                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
-                        }
-                        if(this.device == 'ios'){
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId                     
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
-                        }
+
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
                         //跳H5页面的方法
                         let qury = this.Asistlist[index].msgLinkDtoList[0]
@@ -263,13 +285,9 @@ export default {
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                        if(this.device == 'android'){
-                            window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
-                        }
-                        if(this.device == 'ios'){
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
-                        }
+                        
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){
                         //链接 目前没用到
                     }

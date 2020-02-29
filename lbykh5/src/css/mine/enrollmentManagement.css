@@ -175,39 +175,39 @@
     height: 150px;
 }
 
-.enrollmentManagement > .orderbox .orderinfo .infotop{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop{
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.53333rem;
 }
-.enrollmentManagement > .orderbox .orderinfo .infotop p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop p:nth-child(1){
     font-size:0.48rem;
     font-weight:bold;
     line-height:25px;
     color:rgba(53,50,57,1);
 }
-.enrollmentManagement > .orderbox .orderinfo .infotop .allorder{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop .allorder{
     display: flex;
     align-items: center;
 }
-.enrollmentManagement > .orderbox .orderinfo .infotop .allorder span:nth-child(1) {
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop .allorder span:nth-child(1) {
     font-size:0.373333rem;
     font-weight:400;
     color:rgba(198,198,198,1);
 }
-.enrollmentManagement > .orderbox .orderinfo .infotop .allorder span:nth-child(2) {
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop .allorder span:nth-child(2) {
     display: inline-block;
     width: 14px;
     height: 14px;
 }
-.enrollmentManagement > .orderbox .orderinfo .infotop .allorder span:nth-child(2) img{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infotop .allorder span:nth-child(2) img{
     
     width: 14px;
     height: 14px;
 }
 
-.enrollmentManagement > .orderbox .orderinfo .infodown .item{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item{
     display: flex;
     align-items: center;
     height: 2.69333rem;
@@ -216,11 +216,11 @@
     border-radius: 8px;
     margin-bottom: 0.53333rem;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_pic{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_pic{
     width: 2.453333rem;
     text-align: center;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_pic p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_pic p:nth-child(1){
     width: 0.85333rem;
     height: 0.85333rem;
     border-radius: 50%;
@@ -228,22 +228,22 @@
     margin: 0 auto;
     margin-bottom: 0.213333rem;
 }
-.enrollmentManagement .orderbox .orderinfo .infodown .item .item_pic p:nth-child(2){
+.enrollmentManagement .orderbox > .enroll_orderinfo .infodown .item .item_pic p:nth-child(2){
     width: 2.453333rem;
     color: #4DC9BD;
     font-size:12px;
     font-weight:400;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_pic img{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_pic img{
     width: 0.373333rem;
     height: 0.373333rem;
     transform: translateY(0.24rem);
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_info{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_info{
     
     width: 100%;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_info > p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_info > p:nth-child(1){
     font-size:14px;
     font-weight:400;
     line-height:20px;
@@ -255,7 +255,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_info > p:nth-child(2){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_info > p:nth-child(2){
     margin: 0.213333rem 0;
     height: 20px;
     font-size:14px;
@@ -269,13 +269,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_info > p:nth-child(3){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_info > p:nth-child(3){
     font-size:12px;
     font-weight:400;
     line-height:17px;
     color:rgba(155,155,155,1);
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item  .item_contact{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item  .item_contact{
     position: absolute;
     right: 0.4266666rem;
     bottom: 0.6rem;
@@ -288,7 +288,7 @@
     box-shadow:0px 3px 6px rgba(59,155,146,0.16);
     padding: 4px 9px 4px 5px;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item  .item_contact img{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item  .item_contact img{
     width: 0.426666rem;
     height: 0.426666rem;
     margin-right: 0.106666rem;
@@ -297,17 +297,17 @@
 .enrollmentManagement .bgc_pending{
     background-color: #EAFEFC;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_pic .text_pending{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_pic .text_pending{
     color: #4DC9BD;
 }
 .orderManenrollmentManagementagement .bgc_processed{
     background-color: #F6F6F6;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .item .item_pic .text_processed{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .item .item_pic .text_processed{
     color: #C6C6C6;
 }
 /* 弹出框 */
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .mark{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .mark{
     width: 0.693333rem;
     height: 0.106666rem;
     background:rgba(232,232,232,1);
@@ -315,7 +315,7 @@
     border-radius:7px;
     margin: 0.426666rem auto 0.66666rem auto;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -324,7 +324,7 @@
     box-sizing: border-box;
 }
 
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_pic p{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_pic p{
     width: 1.546666rem;
     height: 1.546666rem;
     border-radius:50%;
@@ -334,15 +334,15 @@
     justify-content:center;
     align-items: center;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_pic img{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_pic img{
     width: 0.64rem‬;
     height: 0.64rem;
     display: block;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_info{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_info{
     margin-right: 0;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(1){
     font-size:0.48rem;
     font-weight:400;
     line-height:30px;
@@ -355,7 +355,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.enrollmentManagement .orderbox .orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(2){
+.enrollmentManagement .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(2){
     font-size:0.373333rem;
     font-weight:400;
     line-height:0.53333rem;
@@ -368,7 +368,7 @@
     overflow: hidden;
 }
 
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_attact{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_attact{
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -381,17 +381,17 @@
     border-radius: 15px;
     padding: 0.13333rem 0.24rem 0.106666rem 0.13333rem;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_attact img{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_attact img{
     width: 16px;
     height: 16px;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_top .pup_top_attact p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_top .pup_top_attact p:nth-child(1){
     width: 0.426666rem;
     height: 0.426666rem;
     margin-right: 0.106666rem;
 }
 
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid{
     width:8.293333rem;
     /* height:3.68rem; */
     background:rgba(252,252,252,1);
@@ -403,20 +403,20 @@
     margin-top: 0.853333rem;
     margin-bottom: 0.853333rem;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .title{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .title{
     font-size:14px;
     font-weight:400;
     line-height:0.533333rem;
     color:rgba(155,155,155,1);
     margin-bottom: 0.32rem;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info{
     display: flex;
     align-items: center;
     justify-content: space-between;
 
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left p{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left p{
     font-size: 16px;
     font-weight:bold;
     line-height:26px;
@@ -431,11 +431,11 @@
     overflow: hidden;
 
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div{
     display: flex;
     align-items: center;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div span{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div span{
     
     background:rgba(251,245,237,1);
     opacity:1;
@@ -449,12 +449,12 @@
     box-sizing: border-box;
     display: block;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right{
     display: flex;
     flex-direction: column;
     text-align: right;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(1){
     
     height:0.64rem;
     font-size:0.53333rem;
@@ -463,11 +463,11 @@
     color:rgba(255,68,75,1);
     opacity:1;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right i{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right i{
     font-size:0.32rem;
     font-weight:normal;
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(2){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(2){
     font-size:0.32rem;
     font-weight:normal;
     line-height:0.373333rem;
@@ -477,7 +477,7 @@
 }
 
 
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_down{
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_down{
     display: flex;
     align-items: center;
     width: 9.146666rem;
@@ -485,7 +485,7 @@
     justify-content: space-between;
     
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_down p:nth-child(1){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_down p:nth-child(1){
     width:2.56rem;
     height:1.173333rem;
     background:rgba(246,246,246,1);
@@ -497,7 +497,7 @@
     line-height:1.173333rem;
     color:rgba(198,198,198,1);
 }
-.enrollmentManagement > .orderbox .orderinfo .infodown .pup .pup_down p:nth-child(2){
+.enrollmentManagement > .orderbox > .enroll_orderinfo .infodown .pup .pup_down p:nth-child(2){
     width:6.16rem;
     height:1.173333rem;
     background:rgba(255,68,75,1);

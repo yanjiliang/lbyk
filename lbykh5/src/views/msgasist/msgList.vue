@@ -140,7 +140,7 @@ export default {
             this.getData(msg.mcid,msg.storeId,msg.cuid,msg.token)
             
             this.getorgphone(msg.storeId,msg.cuid,msg.token)
-            this.getStaffInfo(msg.cuid,msg.staffCuId,msg.storeId,msg.classId,msg.token)
+            this.getStaffInfo(msg.cuid,msg.cuid,msg.storeId,msg.classId,msg.token)
         },
         ClickTo : function (qury){
             
@@ -186,15 +186,28 @@ export default {
                 this.msg_staffinfo_data = res.data.data
                 
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
-                if(this.type == 'classTeacher'){
-                    //this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                    if(this.msg_staffinfo_data.roleList){
-                        this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                    }else{
-                        this.msg_identity = 'teacher'
-                    }
-                }else if(this.type == 'classStudent'){
+                // if(this.type == 'classTeacher'){
+                //     //this.msg_identity = this.msg_staffinfo_data.roleList[0]
+                //     if(this.msg_staffinfo_data.roleList){
+                //         this.msg_identity = this.msg_staffinfo_data.roleList[0]
+                //     }else{
+                //         this.msg_identity = 'teacher'
+                //     }
+                // }else if(this.type == 'classStudent'){
+                //     this.msg_identity = 'student'
+                // }
+                if(this.type == 'classStudent'){
                     this.msg_identity = 'student'
+                }else{
+                    let len = this.msg_staffinfo_data.roleList.length
+                    let list = this.msg_staffinfo_data.roleList
+                    for(let i=0;i<len;i++){
+                        if(list[i] == 'attendOfficer'){
+                            this.msg_identity = 'attendOfficer'
+                        }else{
+                            this.msg_identity = 'teacher'
+                        }
+                    }
                 }
             }).catch((err)=>{
                 console.log(err)

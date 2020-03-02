@@ -31,7 +31,7 @@
                     <div v-if="time >= 7300">
                         <p>教务管理轻松便捷</p>
                     </div>
-                    <!-- <p class="renew_btn"   v-if="time < 7300" @click="toRenew()"><span>续费</span></p> -->
+                    <p class="renew_btn"   v-if="time < 7300" @click="toRenew()"><span>续费</span></p>
                     <!-- <p v-if="base_openStatus == true && base_effective == false">超过有效期</p> -->
                     
                 </div>

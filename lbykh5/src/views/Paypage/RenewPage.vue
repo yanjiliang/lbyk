@@ -80,8 +80,8 @@ import { Toast } from 'vant'
       getProductinfo(storeId, func, cuid, token) {
         //http://192.168.3.22:8081/goods/functionServiceRenewalGoods?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_bZFtqlbNfPgMzh7rKlq&functional=RecruitStudents
         // let url = this.ip + 'recruitStudents/goodsInfo';
-        // let url = this.ip + 'goods/functionServiceGoods'
-         let url = 'http://192.168.3.22:8081/goods/functionServiceRenewalGoods'
+        let url = this.ip + 'goods/functionServiceRenewalGoods'
+        // let url = 'http://192.168.3.22:8081/goods/functionServiceRenewalGoods'
         let param = new URLSearchParams()
         param.append("storeId", storeId)
         param.append("functional", func) //RecruitStudents

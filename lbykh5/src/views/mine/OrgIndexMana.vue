@@ -365,13 +365,11 @@ export default {
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
         },
         ClickTo : function (qury){//联系机构
-            var u = navigator.userAgent//app = navigator.appVersion;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
-            var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            if (isAndroid) {
+            
+            if (this.device == 'android') {
                 window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.org_storeId+'","Phonenumber":"'+this.org_index_phone+'"}');
             }
-            if (isIOS) { 
+            if (this.device == 'ios') { 
         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.org_storeId+'","Phonenumber":"'+this.org_index_phone+'"}')
             }
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
@@ -379,14 +377,12 @@ export default {
         },
         oi_skipe_page (index){
                 //跳转页面
-                var u = navigator.userAgent; //app = navigator.appVersion;
-                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
-                var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                if (isAndroid) {
-                    window.android.SkipPage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"JXHK","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
+                
+                if (this.device == 'android') {
+                    window.android.SkipPage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"ZSKCXQ","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
                     
                 }
-                if (isIOS) { 
+                if (this.device == 'ios') { 
                     //jump  取值为true为跳新页面打开，false为当前页面打开
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"KCXQ","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
                 }

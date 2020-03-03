@@ -2,7 +2,7 @@
 
     <div class="msgList">
             <div class="navbox" v-if="type == 'classStudent' || type == 'classTeacher'">
-                <span class="orglocation">{{msgorg_data.storeName}}</span>
+                <a class="msg_orgin" @click.prevent="msg_skipe_orgindex('JGZY')"><span class="orglocation">{{msgorg_data.storeName}}<img src="../../images/msgasist/return2.png"></span></a>
                 <div class="nav" >
                     <div class="navitem">
                         <a @click.prevent="ClickTo('LXJG')" href="">
@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <!-- <div class="navitem">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -26,6 +26,12 @@
                         <a @click.prevent="ClickTo('KSJL')" href="">
                             <img src="../../images/msgasist/课时记录@2x.png" alt="">
                             <p>课时记录</p>
+                        </a>
+                    </div>
+                    <div class="navitem">
+                        <a @click.prevent="msg_skipe_orgindex('DK')" href="">
+                            <img src="../../images/msgasist/dk2x.png" alt="">
+                            <p>打卡</p>
                         </a>
                     </div>
                 </div>

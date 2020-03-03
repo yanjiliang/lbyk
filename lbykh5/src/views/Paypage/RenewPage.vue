@@ -78,8 +78,6 @@ import { Toast } from 'vant'
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
       },
       getProductinfo(storeId, func, cuid, token) {
-        //http://192.168.3.22:8081/goods/functionServiceRenewalGoods?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_bZFtqlbNfPgMzh7rKlq&functional=RecruitStudents
-        // let url = this.ip + 'recruitStudents/goodsInfo';
         let url = this.ip + 'goods/functionServiceRenewalGoods'
         // let url = 'http://192.168.3.22:8081/goods/functionServiceRenewalGoods'
         let param = new URLSearchParams()
@@ -124,6 +122,7 @@ import { Toast } from 'vant'
               window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
           }else if(this.device === 'ios'){
               window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+              // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
           }
         })
         
@@ -143,7 +142,7 @@ import { Toast } from 'vant'
           position relative
           .bg_box
               width 10rem
-              height 208px
+              height 258px
               background-image: linear-gradient( #2E3662, #3B467A)
               box-sizing border-box
           .bg_box_1

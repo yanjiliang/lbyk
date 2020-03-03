@@ -79,6 +79,10 @@ const aliPay = () =>
 const RenewPage = () =>
     import ('./views/Paypage/RenewPage.vue')
 
+
+const CreateClock = () =>
+    import ('./views/Clockin/CreateClock.vue')
+
 Vue.use(Router);
 
 
@@ -380,6 +384,15 @@ const router = new Router({
                 title: '续费'
             },
             component: RenewPage
+        },
+        
+        {
+            path: '/CreateClock',
+            name: 'CreateClock',
+            meta: {
+                title: '创建/编辑打卡'
+            },
+            component: CreateClock
         },
     ]
 })

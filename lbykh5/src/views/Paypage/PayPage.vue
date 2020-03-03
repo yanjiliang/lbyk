@@ -87,7 +87,7 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.orderInfo = res.data.data
-                Toast(res.data.msg)
+                // Toast(res.data.msg)
                 // this.goodsId = this.productInfo.goodsId;
                 // this.price = this.productInfo.sellingPrice
                 let closedTime = this.orderInfo.closedTime

@@ -82,13 +82,22 @@ export default {
                 if(this.resultinfo.status == 'openingSuccess'){//这里只是下单成功
                     //const orderId = this.resultinfo.data.orderDto.orderId
                     Toast.success('开通成功')
-                    setTimeout(()=>{
-                        if(this.device === 'android'){
-                            window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
-                        }else if(this.device === 'ios'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
-                        }
-                    },2000)
+                    if(price == 0){
+                        setTimeout(()=>{
+                            if(this.device === 'android'){
+                                window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                            }else if(this.device === 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                            }
+                        },2000)
+                    }else{
+                    //     if(this.device === 'android'){
+                    //         window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                    //     }else if(this.device === 'ios'){
+                    //         window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                    //     }
+                    }
+                    
                     
                     // if(price == 0){
                     //     Toast.success('开通成功')

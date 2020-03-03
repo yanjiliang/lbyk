@@ -2,7 +2,7 @@
     <div class="product">
         <div class="wrap" ref="product_wrap">
             <div class="product_list" ref="product_list">
-                <div class="item" v-for="(item,index) in productInfo" :key='index' @click="renew_select(index)">
+                <div class="item"  ref="product_item" v-for="(item,index) in productInfo" :key='index' @click="renew_select(index)">
                     <p class="title">{{item.title}}</p>
                     <p class="price"><span style="font-size:14px">￥</span>{{item.sellingPrice}}</p>
                     <p class="info">{{item.introduce}}</p>
@@ -20,7 +20,7 @@ export default {
     data(){
         return{
             productlist:this.productInfo,
-            
+            select_item_index :0,
         }
     },
     props:{
@@ -30,10 +30,13 @@ export default {
         }
     },
     mounted(){
-       this.$nextTick(()=>{
+        setTimeout(()=>{
+            // this.$refs.product_item[0].classList.add('select_item')
+            this.renew_select(0)
+        },300)
+        this.$nextTick(()=>{
            let getlen = setInterval(()=>{
                 const len = this.productInfo.length
-                
                 this.Bscroll(len)
                 if(len){
                     clearInterval(getlen)
@@ -66,13 +69,48 @@ export default {
             })
         },
         renew_select(index){
+            
             let len = this.productInfo.length
-            for(let i=0;i<len;i++){
-                if(i == index){
-                    document.getElementsByClassName('item')[index].classList.add('select_item')
-                }else{
-                    document.getElementsByClassName('item')[index].classList.remove('select_item')
-                }
+            // for(let i=0;i<len;i++){
+            //     if(i == index){
+            //         document.getElementsByClassName('item')[index].classList.add('select_item')
+            //     }else{
+            //         document.getElementsByClassName('item')[index].classList.remove('select_item')
+            //     }
+            // }
+            switch (index){
+                case 0 :
+                    document.getElementsByClassName('item')[0].classList.add('select_item')
+                    for(let i=0;i<len;i++){
+                        if(i !== index){
+                            document.getElementsByClassName('item')[i].classList.remove('select_item')
+                        }
+                    }
+                    break;
+                case 1 :
+                    document.getElementsByClassName('item')[1].classList.add('select_item')
+                    for(let i=0;i<len;i++){
+                        if(i !== index){
+                            document.getElementsByClassName('item')[i].classList.remove('select_item')
+                        }
+                    }
+                    break;
+                case 2 :
+                    document.getElementsByClassName('item')[2].classList.add('select_item')
+                    for(let i=0;i<len;i++){
+                        if(i !== index){
+                            document.getElementsByClassName('item')[i].classList.remove('select_item')
+                        }
+                    }
+                    break;
+                case 3 :
+                    document.getElementsByClassName('item')[3].classList.add('select_item')
+                    for(let i=0;i<len;i++){
+                        if(i !== index){
+                            document.getElementsByClassName('item')[i].classList.remove('select_item')
+                        }
+                    }
+                    break;
             }
             let productPage_data = {
                 select_item_index : index,
@@ -105,7 +143,9 @@ export default {
                     border-radius 10px
                     margin-right 4px
                     padding 20px 16px
+                    border  1px solid #EBEBEB
                     box-sizing border-box
+
                     .title
                         font-size 18px
                         font-weight bold
@@ -122,17 +162,17 @@ export default {
                         font-weight 400
                         color #5E5862
                         white-space normal
-                    &:active
-                        border  1px solid #FFDAA1
-                        box-sizing border-box
-                        background #F9F4E7
+                    // &:active
+                    //     border  1px solid #FFDAA1
+                    //     box-sizing border-box
+                    //     background #F9F4E7
                     &:hover
                         border  1px solid #FFDAA1
                         box-sizing border-box
                         background #F9F4E7
-.select_item
-    border  1px solid #FFDAA1
-    box-sizing border-box
-    background #F9F4E7
+                .select_item
+                    border  1px solid #ECCB8F
+                    box-sizing border-box
+                    background #FDF8E6
 
 </style>

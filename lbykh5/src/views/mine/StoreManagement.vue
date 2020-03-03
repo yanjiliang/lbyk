@@ -59,11 +59,11 @@
                 
                 <div class="row">
                     <div class="list_item" @click.prevent="ClickTo('YGGL')">
-                        <p style="box-shadow:0px 4px 6px rgba(255, 179, 36, .2);"><img src="../../images/mine/yggl2xnew.png" alt=""></p>
+                        <p style="box-shadow:0px 4px 6px rgba(255, 132, 36, .2);"><img src="../../images/mine/yggl2xnew.png" alt=""></p>
                         <p>员工管理</p>
                     </div>
                     <div class="list_item" @click.prevent="ClickTo('XYGL')">
-                        <p style="box-shadow:0px 4px 6px rgba(254, 160, 33, .2);"><img src="../../images/mine/xygl2xnew.png" alt=""></p>
+                        <p style="box-shadow:0px 4px 6px rgba(33, 151, 254, .2);"><img src="../../images/mine/xygl2xnew.png" alt=""></p>
                         <p>学员管理</p>
                     </div>
                     <div class="list_item" @click.prevent="ClickTo('BJGL')">
@@ -79,6 +79,10 @@
                     <div class="list_item" @click.prevent="ClickTo('SKJL')">
                         <p style="box-shadow:0px 3px 6px rgba(255, 71, 102, .2);"><img src="../../images/mine/skjl2xnew.png" alt=""></p>
                         <p>上课记录</p>
+                    </div>
+                    <div class="list_item" @click.prevent="ClickTo('DK')">
+                        <p style="box-shadow:0px 3px 6px rgba(151, 71, 255, .2);"><img src="../../images/mine/dk2xnew.png" alt=""></p>
+                        <p>打卡</p>
                     </div>
                 </div>
             </div>
@@ -154,7 +158,7 @@ export default {
     },
     methods: {
         toRenew(){
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
         },
         McDispatcher (qury){
             //接受数据

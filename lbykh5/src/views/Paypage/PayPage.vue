@@ -96,10 +96,7 @@ export default {
                 this.close_time_hour = closeTime[0]
                 this.close_time_minit = closeTime[1]
                 this.close_time_sec = closeTime[2]
-                let time_now_hour =  new Date().getHours(); //当前时间
-                let time_now_minit =  new Date().getMinutes(); //当前时间
-                let time_now_sec =  new Date().getSeconds(); //当前时间
-                this.time = (this.close_time_hour - time_now_hour) * 3600 + (this.close_time_minit - time_now_minit) *60 + + (this.close_time_sec - time_now_sec)
+                
                 // this.timingCut()
                 setInterval(()=>{
                     this.timingCut()
@@ -110,6 +107,10 @@ export default {
             })
         },
         timingCut(){
+                let time_now_hour =  new Date().getHours(); //当前时间
+                let time_now_minit =  new Date().getMinutes(); //当前时间
+                let time_now_sec =  new Date().getSeconds(); //当前时间
+                this.time = (this.close_time_hour - time_now_hour) * 3600 + (this.close_time_minit - time_now_minit) *60 + + (this.close_time_sec - time_now_sec)
                 let time = this.time
                 if(time>0){
                     let min = parseInt(time / 60)

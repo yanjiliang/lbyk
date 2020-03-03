@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <!-- <p>{{store_mana_data.prompt}}</p> -->
+        
 
         <div class="enrollmana" v-if="recruit_openStatus" @click="skipe_storemana()">
             <div class="pic"><img src="../../images/mine/zsgl2xnew.png" alt=""></div>
@@ -116,6 +116,7 @@
             <div class="btn">开通</div>
         </div>
 
+        <!-- <p>{{aa}}</p> -->
         
     </div>
 </template>
@@ -143,7 +144,7 @@ export default {
             recruit_effective:'',
             recruit_expirationDate:'',
             time:'',
-            token:''
+            token:'',
         }
     },
     beforeMount() {
@@ -158,7 +159,7 @@ export default {
     },
     methods: {
         toRenew(){
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW","renewType":"BaseFunctional" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
         },
         McDispatcher (qury){
             //接受数据
@@ -246,6 +247,7 @@ export default {
             this.androidparams = msg
             this.cuid =msg.cuid;
             this.storeId =msg.storeId;
+            this.token = msg.token
             this.getStoreManaData(msg.cuid,msg.storeId,msg.token)
             // this.getFuctionInfo(msg.cuid,msg.storeId.msg.token)
         },
@@ -275,6 +277,7 @@ export default {
                 
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
+                    
                     if(qury.data.openStatus){
                         window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理","cuid":"'+this.cuid+'"}')
                     }else{

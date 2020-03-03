@@ -23,7 +23,7 @@
                     <div class="time" v-if="time >= 7300">
                         <p>更懂教育的互联网营销</p>
                     </div>
-                    <!-- <p class="renew_btn" v-if="time < 7300" @click="toRenew()"><span>续费</span></p> -->
+                    <p class="renew_btn" v-if="time < 7300" @click="toRenew()"><span>续费</span></p>
                     
                 </div>
                 <div class="pic"></div>
@@ -238,8 +238,8 @@ export default {
         },
         methods:{
             toRenew(){
-                Toast('toRenew')
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.enroll_storeId+'"}')
+                
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW","url": "'+this.Url+'/RenewPage","renewType":"RecruitStudents","jump":"true","title":"续费","storeId": "'+this.enroll_storeId+'"}')
             },
             getData(cuid,storeId,token){
                 var url = this.ip + 'recruitStudents/managerInfo';

@@ -82,6 +82,10 @@ const RenewPage = () =>
 
 const CreateClock = () =>
     import ('./views/Clockin/CreateClock.vue')
+const CreateClockMana = () =>
+    import ('./views/Clockin/CreateClockMana.vue')
+const QuickToClock = () =>
+    import ('./views/Clockin/QuickToClock.vue')
 
 Vue.use(Router);
 
@@ -393,6 +397,24 @@ const router = new Router({
                 title: '创建/编辑打卡'
             },
             component: CreateClock
+        },
+        
+        {
+            path: '/CreateClockMana',
+            name: 'CreateClockMana',
+            meta: {
+                title: '打卡管理'
+            },
+            component: CreateClockMana
+        },
+        
+        {
+            path: '/QuickToClock',
+            name: 'QuickToClock',
+            meta: {
+                title: '快速打卡'
+            },
+            component: QuickToClock
         },
     ]
 })

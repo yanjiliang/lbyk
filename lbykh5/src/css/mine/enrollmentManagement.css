@@ -110,6 +110,7 @@
     right: 10%;
     top: 45%;
     height: 28px;
+    z-index: 999;
     border: 1px solid #fff;
     color: #fff;
     border-radius: 15px;

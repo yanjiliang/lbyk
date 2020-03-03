@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <!-- <p>{{type}}</p> -->
+            <!-- <p>{{isManager}}</p> -->
             <!-- <p>{{msg_staffinfo_data}}</p> -->
 
             <ul>
@@ -97,7 +97,8 @@ export default {
             parameter:'',
             msg_identity:'',
             employStatus:'',
-            staffId:''
+            staffId:'',
+            isManager:Boolean
         }
     },
     
@@ -151,11 +152,11 @@ export default {
         ClickTo : function (qury){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'","type":"'+this.type+'"}');
+                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","isManager":"'+this.isManager+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'","type":"'+this.type+'"}');
             }
             if (this.device === 'ios') { 
                 //Toast(this.msg_identity)
-        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
             }
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
             //scheme 类型命名规范：例：员工管理-YGGL  首字母大写 
@@ -190,30 +191,23 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.msg_staffinfo_data = res.data.data
-                
+                this.isManager = this.msg_staffinfo_data.manager
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
-                // if(this.type == 'classTeacher'){
-                //     //this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                //     if(this.msg_staffinfo_data.roleList){
-                //         this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                //     }else{
-                //         this.msg_identity = 'teacher'
-                //     }
-                // }else if(this.type == 'classStudent'){
-                //     this.msg_identity = 'student'
-                // }
+                
                 if(this.type == 'classStudent'){
                     this.msg_identity = 'student'
                 }else{
                     let len = this.msg_staffinfo_data.roleList.length
                     let list = this.msg_staffinfo_data.roleList
                     for(let i=0;i<len;i++){
-                        if(list[i] == 'attendOfficer'){
+                        if(list[i] === 'attendOfficer'){
                             this.msg_identity = 'attendOfficer'
+                            return
                         }else{
                             this.msg_identity = 'teacher'
                         }
                     }
+                    
                 }
             }).catch((err)=>{
                 console.log(err)

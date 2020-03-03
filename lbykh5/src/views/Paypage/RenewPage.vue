@@ -12,12 +12,12 @@
           <div class="renew_userinfo_right">
             <p class="renew_func_title">{{renewPage_resdata.functionalName}}</p>
             <p class="renew_orgin_name">{{renewPage_resdata.storeName}}</p>
-            <p class="renew_func_date">有效期至 {{renewPage_resdata.storeFunctionalDto.expirationDate}} <span v-if="renewPage_resdata.storeFunctionalDto.effective">（已过期）</span></p>
+            <p class="renew_func_date">有效期至 {{renewPage_resdata.storeFunctionalDto.expirationDate}} <span v-if="!renewPage_resdata.storeFunctionalDto.effective">（已过期）</span></p>
           </div>
         </div>
       </div>
     </div>
-    <!-- <p>{{productInfo}}</p> -->
+    <!-- <p>{{renewPage_resdata}}</p> -->
     <div class="renew_product_box">
       <p style="font-size:18px;font-weight:bold">选择优惠套餐</p>
       
@@ -72,7 +72,8 @@ import { Toast } from 'vant'
         this.renew_cuid = qury.data.cuid
         this.renew_storeId = qury.data.storeId
         this.renew_token = qury.data.token
-        this.getProductinfo(this.renew_storeId, 'RecruitStudents', this.renew_cuid, this.renew_token)
+        this.renew_type = qury.data.renewType
+        this.getProductinfo(this.renew_storeId,qury.data.renewType, this.renew_cuid, this.renew_token)
       },
       linkIos: function () {
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')

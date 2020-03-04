@@ -13,7 +13,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 // import { Toast } from 'vant'
 export default {
     name:'product',

@@ -1,6 +1,5 @@
 <template>
     <div class="h5video">
-        <p>视频组件</p>
         <video-player class="video-player vjs-custom-skin" 
             ref="videoPlayer" 
             :playsinline="true" 
@@ -12,6 +11,12 @@
 <script>
 export default {
     name:'h5video',
+    props:{
+        fileVideoSrc:{
+            type:String,
+            required:true
+        }
+    },
     data(){
         return{
             playerOptions: {
@@ -25,9 +30,9 @@ export default {
                 fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
                 sources: [{
                 type: "video/mp4", // 类型
-                src: 'https://vdept.bdstatic.com/764455576d4c41717a38465475774b44/46336d686d557152/2ef15986c5d3d052703ed106d6c02c0dcb2962cea4261fa15d0510c37eededb38a0f5d56df3ee66afd7b7ad6788b400a.mp4?auth_key=1582713127-0-0-c0612d6359e182c60cc39a17584d2840' // url地址
+                src:this.fileVideoSrc
                 }],
-                poster: '', // 封面地址
+                poster: this.fileVideoSrc, // 封面地址
                 notSupportedMessage: '此视频暂无法播放，请稍后再试', // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
                 controlBar: {
                 timeDivider: false, // 当前时间和持续时间的分隔符
@@ -41,5 +46,23 @@ export default {
 }
 </script>
 <style lang="stylus">
-    
+.video-player
+    border-radius 15px
+    overflow hidden
+    .vjs-control-bar
+        border-radius 0 0 15px 15px
+    .vjs-big-play-button
+        height 40px!important
+        width 40px!important
+        border-radius 20px
+        border 0
+        background rgba(0,0,0,.5)
+        
+        .vjs-icon-placeholder:before
+            top -15px
+.vjs-custom-skin > .video-js .vjs-big-play-button
+    height 40px!important
+    width 40px!important
+    margin-left -20px
+    margin-top -20px!important
 </style>

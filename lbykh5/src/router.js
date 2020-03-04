@@ -17,6 +17,7 @@ const ApplySuccess = () =>
 
 
 import GoodClass from './views/goodclass/GoodClass.vue'
+import { Upload } from 'element-ui'
 const ClassDetail = () =>
     import ('./views/goodclass/ClassDetail.vue')
 const ClassDetailOrg = () =>
@@ -86,6 +87,7 @@ const CreateClockMana = () =>
     import ('./views/Clockin/CreateClockMana.vue')
 const QuickToClock = () =>
     import ('./views/Clockin/QuickToClock.vue')
+
 
 Vue.use(Router);
 
@@ -416,6 +418,8 @@ const router = new Router({
             },
             component: QuickToClock
         },
+
+        
     ]
 })
 

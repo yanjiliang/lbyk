@@ -8,7 +8,7 @@
 
             <!-- 打卡内容 start -->
             <van-field
-                v-model="clock_theme"
+                v-model="clock_content"
                 rows="4"
                 autosize
                 type="textarea"
@@ -17,31 +17,51 @@
             />
             <!-- 打卡内容 end -->
             <van-divider />
-
-
             <div>
-                <van-uploader v-model="fileList" multiple :max-count='9' />
+                <van-uploader v-model="imageList" accept="image/*"  multiple :max-count='9' />
             </div>
 
             <div>
-                <van-uploader>
-                    <van-button icon="photo" type="primary">上传文件</van-button>
-                </van-uploader>
+                <van-uploader v-if="!isUpload" v-model="videoList" accept="video/*"  :after-read="afterRead" multiple :max-count='1' />
             </div>
 
-            <div>
-                <input type="file" name="" id="">
+
+            <!-- <video :src="videosrc" id="video" class="clock_video"></video> -->
+            <video v-if="isUpload" id="video" class="clock_video" controls muted webkit-playsinline="true" playsinline="true" poster="" :src="fileVideoSrc"></video>
+            
+            <div class="colock_box">
+                <H5Video v-if="isUpload" :fileVideoSrc='fileVideoSrc'/>
             </div>
+
+
         </div>
     </div>
 </template>
+
 <script>
+import H5Video from '../../components/H5Video'
 export default {
     name:'QuickToClock',
     data(){
         return{
-            fileList:[]
+            fileList:[],
+            imageList:[],
+            videoList:[],
+            clock_content:'',
+            fileVideoSrc:'',
+            isUpload:false
         }
+    },
+    components:{
+        H5Video
+    },
+    methods:{
+        afterRead(file){
+            console.log(file)
+            console.log(file.file)
+            this.fileVideoSrc = file.content
+            this.isUpload = true
+        },
     }
 }
 </script>
@@ -52,6 +72,7 @@ export default {
         font-weight 400!important
     .quick_clock_wrap
         padding 26px 24px
+        
         .quick_clock_title
                 margin-bottom 10px
                 margin-top 26px
@@ -71,5 +92,19 @@ export default {
                     display none
             .van-divider
                 margin 0
+        .clock_video
+            width 100%
+            height 200px
+        
+
+//     .van-uploader__upload
+//             border 1px solid #FF444B!important
+    
+
+// .quick_to_colock .van-uploader__preview-delete{
+//     color #FF444B!important
+// }
+            
+        
 
 </style>

@@ -80,7 +80,6 @@ import { Toast } from 'vant'
       },
       getProductinfo(storeId, func, cuid, token) {
         let url = this.ip + 'goods/functionServiceRenewalGoods'
-        // let url = 'http://192.168.3.22:8081/goods/functionServiceRenewalGoods'
         let param = new URLSearchParams()
         param.append("storeId", storeId)
         param.append("functional", func) //RecruitStudents

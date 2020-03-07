@@ -228,7 +228,7 @@ VueAMap.initAMapApiLoader({
 import { AMapManager } from 'vue-amap'
 let amapManager = new AMapManager();
 const axios = require('axios')
-import {Toast } from 'vant';
+import {Toast,Notify } from 'vant';
 
 import BScroll from 'better-scroll'
 // import {store} from '../../../store/index'
@@ -441,8 +441,21 @@ export default {
             
             let url = this.ip + 'course/details';
             axios.post(url,param).then((res)=>{
-                
-                   this.course_detail_data = res.data.data
+
+                if(res.data.result == 'noPrivileges'){
+                    Toast({
+                        message: res.data.msg,
+                        overlay : true,
+                        forbidClick:true,
+                        duration:0
+                    })
+                    setTimeout(()=>{
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+                    },1500)
+                }else if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else if(res.data.result == 'success'){
+                    this.course_detail_data = res.data.data
                    this.res_result = res.data.result //课程已下架的返回结果为false
                    this.res_msg = res.data.msg
                    if(this.res_result == 'error'){
@@ -473,9 +486,7 @@ export default {
                     }else if(this.course_detail_data.minAge != 0 && this.course_detail_data.maxAge == 60){
                         this.age = this.course_detail_data.minAge  +'岁以上'
                     }
-                    // this.cd_courseid = this.classdetail_userInfo.data.courseId
-                    
-
+                }
             })
         },
         

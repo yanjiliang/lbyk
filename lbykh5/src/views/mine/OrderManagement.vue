@@ -27,7 +27,7 @@
                                     <p>{{ item.createTime }}</p>
                                 </div>
                                 <div class="item_contact">
-                                    <img src="../../images/mine/电话6@2x(1).png" alt="">
+                                    <img src="../../images/mine/phone2x.png" alt="">
                                     <p @click="conTackto('LXJG',item.phone)">联系学员</p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                 <p>{{ popupdata.createTime }}</p>
                             </div>
                             <div class="pup_top_attact">
-                                <p><img src="../../images/mine/电话6@2x(1).png" alt=""></p>
+                                <p><img src="../../images/mine/phone2x.png" alt=""></p>
                                 <p @click="conTackto('LXJG',popupdata.phone)">联系学员</p>
                             </div>
                         </div>
@@ -133,12 +133,24 @@ import { Toast,Dialog } from 'vant'
                 this.order_mana_cuid = qury.data.cuid
                 this.order_mana_storeid = qury.data.storeId
                 this.token = qury.data.token
+                this.showAll()
                 this.$nextTick(()=>{
                     this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',qury.data.token)
                 })
             },
             linkIos : function (){
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+            },
+            getParams(msg){
+                this.order_mana_userInfo = msg
+                this.order_mana_cuid = msg.cuid
+                this.order_mana_storeid = msg.storeId
+                this.token = msg.token
+                this.showAll()
+                this.$nextTick(()=>{
+                    this.getOrderinfo(msg.cuid,msg.storeId,'',msg.token)
+                })
+                
             },
             getData(cuid,storeId,token){
        
@@ -331,6 +343,7 @@ import { Toast,Dialog } from 'vant'
         },
         beforeMount(){
             window.McDispatcher = this.McDispatcher
+            window.getParams = this.getParams
         }
     }
 </script>

@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="top_right" @click="ClickTo('LXJG',item.servicePhone)">
-                        <p><img src="../../images/mine/电话6@2x(1).png" alt=""></p>
+                        <p><img src="../../images/mine/phone2x.png" alt=""></p>
                         <p>联系机构</p>
                     </div>
                 </div>

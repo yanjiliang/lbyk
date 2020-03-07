@@ -87,6 +87,8 @@ const CreateClockMana = () =>
     import ('./views/Clockin/CreateClockMana.vue')
 const QuickToClock = () =>
     import ('./views/Clockin/QuickToClock.vue')
+const ClockDetail = ()=>
+    import ('./views/Clockin/ClockDetail.vue')
 
 
 Vue.use(Router);
@@ -419,6 +421,14 @@ const router = new Router({
             component: QuickToClock
         },
 
+        {
+            path: '/ClockDetail',
+            name: 'ClockDetail',
+            meta: {
+                title: '打卡详情'
+            },
+            component: ClockDetail
+        },
         
     ]
 })

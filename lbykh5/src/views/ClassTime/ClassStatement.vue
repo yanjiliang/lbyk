@@ -1,7 +1,7 @@
 <template>
     <div class="classStatement">
         <!-- 头部背景 -->
-        <div class="top">
+        <div class="top" v-if="hasData">
             <div class="orgname">
                 <div class="orgicon"></div>
                 <div class="storename">{{ class_statement_data.storeName }}</div>
@@ -10,11 +10,11 @@
             <div class="time">{{ class_statement_data.startTime + ' -' + class_statement_data.endTime.substring(10) }}</div>
         </div>
         
-        <div class="container">
+        <div class="container" v-if="hasData">
             <div class="classinfobox">
                 <div class="infoitem">
                     <p>授课老师</p>
-                    <p><span v-for="(item1,index) in class_statement_data.teacherList" :key="index">{{item1.teacherName +','}}</span></p>
+                    <p><span v-for="(item1,index) in class_statement_data.teacherList" :key="index">{{item1.teacherName}}</span><span v-if="index == class_statement_data.teacherList.length-1">,</span></p>
                 </div>
                 <div class="infoitem">
                     <p>学员考勤</p>
@@ -42,11 +42,11 @@
                     <p>在本班级的课时记录</p>
                     <p></p>
                 </div>
-                <div class="linkitem" @click="ClickTo('SKJL')" v-if="this.ident == 'teacher' && this.working == '0'">
+                <div class="linkitem" @click="ClickTo('SKJL')" v-if="this.ident != 'student' && this.working == '0'">
                     <p>在本班级的上课记录</p>
                     <p></p>
                 </div>
-                <div class="linkitem" @click="ClickTo('LXJG')" v-if="this.ident == 'teacher' && this.working == '0'">
+                <div class="linkitem" @click="ClickTo('LXJG')" v-if="this.ident != 'student' && this.working == '0'">
                     <p>联系机构</p>
                     <p></p>
                 </div>
@@ -63,9 +63,16 @@
 
 
         </div>
+
+
+        <div class="no_data" v-if="!hasData">
+            <img src="../../assets/images/nodata2x.png" alt="">
+            <p>没有与您相关的信息</p>
+        </div>
     </div>
 </template>
 <script>
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
     name:'classStatement',
@@ -85,7 +92,8 @@ export default {
             classId:'',
             ident:'',
             working:'',
-            servicePhone:''
+            servicePhone:'',
+            hasData:Boolean
         }
     },
     methods:{
@@ -94,7 +102,7 @@ export default {
             if(ident == 'student'){
                 this.getstateStudent(cuid,classScheduleId,studentId,token)
                 
-            }else if(ident == 'teacher'){
+            }else{
                 this.getstateTeacher(cuid,storeId,classScheduleId,token)
             }
         },
@@ -108,7 +116,14 @@ export default {
             
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
-                this.class_statement_data = res.data.data
+                if(res.data.data === null){
+                    document.title = '课节详情'
+                    document.getElementsByTagName('title')[0].innerText  = '课节详情'
+                    this.hasData = false
+                }else{
+                    this.class_statement_data = res.data.data
+                }
+                
             }).catch((err)=>{
                 console.log(err)
             })
@@ -121,7 +136,13 @@ export default {
             param.append("classScheduleId", classScheduleId)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
-                this.class_statement_data = res.data.data
+                if(res.data.data === null){
+                    document.title = '课节详情'
+                    document.getElementsByTagName('title')[0].innerText  = '课节详情'
+                    this.hasData = false
+                }else{
+                    this.class_statement_data = res.data.data
+                }
             }).catch((err)=>{
                 console.log(err)
             })
@@ -153,7 +174,7 @@ export default {
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
             //scheme 类型命名规范：例：员工管理-YGGL  首字母大写 
         },
-        McDispatcher : function (qury){
+        McDispatcher (qury){
             this.class_statement_userInfo =qury
             this.ident = qury.data.ident
             this.cuid =qury.data.cuid;
@@ -163,11 +184,11 @@ export default {
             this.studentId =qury.data.studentId;
             this.classScheduleId =qury.data.classScheduleId;
             this.working = qury.data.employStatus
-            this.getData(this.cuid,this.classId,this.storeId,this.studentId,this.classScheduleId,this.ident,qury.data.token)
-            this.getphone(this.storeId,qury.data.cuid,qury.data.token)
+            this.getData(qury.data.cuid,qury.data.classId,qury.data.storeId,qury.data.studentId,qury.data.classScheduleId,qury.data.ident,qury.data.token)
+            this.getphone(qury.data.storeId,qury.data.cuid,qury.data.token)
             
         },
-        linkIos : function (){
+        linkIos(){
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
         },
         getphone(storeId,cuid,token){
@@ -190,7 +211,7 @@ export default {
                 
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                    window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页",storeId":"'+this.cd_storeid+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
+                    window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');
                 }
                 if (this.device === 'ios') { 
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}')

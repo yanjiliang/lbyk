@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem">
+                    <div class="navitem">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div> -->
+                    </div>
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -28,24 +28,23 @@
                             <p>课时记录</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <!-- <div class="navitem">
                         <a @click.prevent="msg_skipe_orgindex('DK')" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>打卡</p>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
-            <!-- <p>{{isManager}}</p> -->
-            <!-- <p>{{msg_staffinfo_data}}</p> -->
+            
 
             <ul>
-                <li class="msglistli" v-for="(item,index) in Asistlist" :key="index" @click.prevent="msg_skipe_teacher(index)">
+                <li class="msglistli" v-for="(item,index) in Asistlist" :key="index">
                     <div class="msgtime">
                         <p>{{item.sendTime}}</p>
                     </div>
-                    <div class="msgbox">
+                    <div class="msgbox" @click.prevent="msg_skipe_teacher(index)">
                         <div class="msgtitlebox">
                             <i v-if="item.icon"><img src="../../images/msgasist/sktx.png" alt=""></i>
                             <span class="msgtitle" v-if="item.title">
@@ -124,7 +123,6 @@ export default {
             this.msg_studentid = qury.data.studentId
 
             this.$nextTick(()=>{
-                // this.getData(qury.data.mcid)
                 this.getData(qury.data.mcid,qury.data.storeId,qury.data.cuid,qury.data.token)
                 this.getorgphone(qury.data.storeId,qury.data.cuid,qury.data.token)
                 this.getStaffInfo(qury.data.cuid,qury.data.cuid,qury.data.storeId,qury.data.classId,qury.data.token)
@@ -148,6 +146,7 @@ export default {
             
             this.getorgphone(msg.storeId,msg.cuid,msg.token)
             this.getStaffInfo(msg.cuid,msg.cuid,msg.storeId,msg.classId,msg.token)
+            this.getStaffId(msg.cuid,msg.cuid,msg.storeId,msg.token)
         },
         ClickTo : function (qury){
             
@@ -172,9 +171,12 @@ export default {
             param.append("cuid", cuid)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                
                 this.msglist_data = res.data.data
                 this.Asistlist = this.msglist_data.data
-                
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 // msgLinkDtoList
             }).catch((err)=>{
                 console.log(err)
@@ -193,7 +195,9 @@ export default {
                 this.msg_staffinfo_data = res.data.data
                 this.isManager = this.msg_staffinfo_data.manager
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
-                
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 if(this.type == 'classStudent'){
                     this.msg_identity = 'student'
                 }else{
@@ -222,6 +226,9 @@ export default {
             param.append("storeId", storeId)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 this.staffId = res.data.data.staffId
             })
         },
@@ -235,6 +242,9 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.msgorg_data = res.data.data
                 this.phone = this.msgorg_data.servicePhone
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
             }).catch((err)=>{
                 console.log(err)
             })
@@ -256,7 +266,7 @@ export default {
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId
                     
-                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
                         //跳H5页面的方法
@@ -266,7 +276,7 @@ export default {
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                            window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                            window.android.SkipPage('{"linkType": "h5","scheme": "'+ qury.url +'","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){
                         //链接 目前没用到
@@ -286,7 +296,7 @@ export default {
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId                     
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
 
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
@@ -297,7 +307,7 @@ export default {
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
                         
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){

@@ -46,6 +46,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+
 .video-player
     border-radius 15px
     overflow hidden

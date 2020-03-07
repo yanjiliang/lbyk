@@ -191,7 +191,7 @@ let amapManager = new VueAMap.AMapManager();
 const axios = require('axios')
 
 import BScroll from 'better-scroll'
-
+import {Toast,Notify} from 'vant'
 
 export default {
     name:'orgindex',
@@ -319,24 +319,40 @@ export default {
             param.append("latitude", lat)
             param.append("storeId", storeId)
             axios.post(url,param).then((res) =>{
-                this.orgindexData = res.data.data
-                this.org_index_phone = this.orgindexData.servicePhone
-                this.org_index_course = this.orgindexData.qualityCourseList
-                this.imglist = this.orgindexData.picList.reverse()
-                this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
-                this.spans = this.orgindexData.teacherInfoDtoList 
-                this.Bscroll()
-                for(let i = 0; i< this.orgindexData.qualityCourseList.length;i++){
-                    if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
-                        this.age[i] = '不限年龄'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].maxAge +'岁以下'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].minAge + '-' +this.orgindexData.qualityCourseList[i].maxAge +'岁'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].minAge  +'岁以上'
+                if(res.data.result == 'noPrivileges'){
+                    Toast({
+                        message: res.data.msg,
+                        overlay : true,
+                        forbidClick:true,
+                        duration:0
+                    })
+                    setTimeout(()=>{
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+                    },1500)
+                }else if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else if(res.data.result == 'success'){
+                    this.orgindexData = res.data.data
+                    this.org_index_phone = this.orgindexData.servicePhone
+                    this.org_index_course = this.orgindexData.qualityCourseList
+                    this.imglist = this.orgindexData.picList.reverse()
+                    this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
+                    this.spans = this.orgindexData.teacherInfoDtoList 
+                    this.Bscroll()
+                    for(let i = 0; i< this.orgindexData.qualityCourseList.length;i++){
+                        if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
+                            this.age[i] = '不限年龄'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].maxAge +'岁以下'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].minAge + '-' +this.orgindexData.qualityCourseList[i].maxAge +'岁'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].minAge  +'岁以上'
+                        }
                     }
                 }
+
+                
             }).catch(()=>{
                 
             })

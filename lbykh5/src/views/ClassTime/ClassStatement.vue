@@ -34,7 +34,7 @@
             
             
             <div class="linktobox">
-                <div class="linkitem" @click="ClickTo('KJXQ')" v-if="this.working == '1'">
+                <div class="linkitem" @click="ClickTo('KJXQ')" v-if="this.ident != 'student' && this.working == '1'">
                     <p>课节详情</p>
                     <p></p>
                 </div>
@@ -64,6 +64,7 @@
 
         </div>
 
+        <!-- <p>{{aa}}</p> -->
 
         <div class="no_data" v-if="!hasData">
             <img src="../../assets/images/nodata2x.png" alt="">
@@ -93,7 +94,8 @@ export default {
             ident:'',
             working:'',
             servicePhone:'',
-            hasData:Boolean
+            hasData:Boolean,
+            aa:''
         }
     },
     methods:{
@@ -116,6 +118,7 @@ export default {
             
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                this.aa = res.data.data
                 if(res.data.data === null){
                     document.title = '课节详情'
                     document.getElementsByTagName('title')[0].innerText  = '课节详情'
@@ -136,6 +139,7 @@ export default {
             param.append("classScheduleId", classScheduleId)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                this.aa = res.data.data
                 if(res.data.data === null){
                     document.title = '课节详情'
                     document.getElementsByTagName('title')[0].innerText  = '课节详情'

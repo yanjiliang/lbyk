@@ -1,0 +1,241 @@
+.clocklist{
+    box-sizing: border-box;
+}
+.clocklist .clock_list_wrap{
+    box-sizing: border-box;
+    padding: 0 16px;
+}
+.clocklist .clock_list_wrap .clock_list_item{
+    box-sizing: inherit;
+}
+.clocklist .clock_item_userinfo{
+    display: flex;
+    align-items: center;
+}
+.clocklist .clock_item_userinfo .clock_item_avatar{
+    margin-right: 12px;
+}
+.clocklist .clock_item_userinfo .clock_item_avatar img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: block;
+}
+.clocklist .clock_item_userinfo .clock_item_user_info{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+.clocklist .clock_item_userinfo .clock_item_user_info .clock_info{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    color: #9B9B9B;
+}
+.clocklist .clock_item_userinfo .clock_item_user_info .clock_info p:nth-child(1){
+    font-size: 12px;
+    line-height: 17px;
+}
+.clocklist .clock_item_userinfo .clock_item_user_info .clock_info p:nth-child(2){
+    font-size: 14px;
+    line-height: 20px;
+}
+/* 以上是打卡列表单项，顶部信息栏 */
+
+/* 打卡内容区域 */
+.clock_item_content{
+    box-sizing: border-box;
+    margin: 12px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #353239;
+}
+.clock_item_images{
+    position: relative;
+}
+.clock_item_images .clock_img_count{
+    width: 22px;
+    height: 22px;
+    border-radius: 10px 0 10px 0;
+    box-sizing: border-box;
+    position: absolute;
+    background: rgba(6, 6, 6, .3);
+    bottom: 0;
+    right: 0;
+    color: #FFFFFF;
+    padding: 2px 4px 2px 4px;
+}
+.clock_item_images ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clock_item_images ul li{
+    margin-right: 8px;
+}
+.clock_item_images ul li:last-child{
+    margin-right: 0;
+}
+.clock_item_images ul li img{
+    width: 2.773333rem;
+    height: 2.773333rem;
+    display: block;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.clock_item_video{
+    box-sizing: border-box;
+}
+
+.clock_item_class_info{
+    margin: 16px 0 12px 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.clock_item_class_info p{
+    color: #C6C6C6;
+}
+.clock_item_class_info p span{
+    color: #60C38C;
+    margin-left: 8px;
+}
+
+.clock_item_func {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clock_item_func .clock_item_zan_user{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_item_zan_user p{
+    color: #353239;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-left: 8px;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li{
+    border: 1px solid #E8E8E8;
+    border-radius: 50%;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li:not(:first-child){
+    margin-left: -17px;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li img{
+    width: 28px;
+    height: 28px;
+    display: block;
+    border-radius: 50%;
+}
+.clock_item_func .clock_list_btn{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_list_btn .clock_list_btn01 {
+    margin-right: 8px;
+}
+.clock_item_func .clock_list_btn .btn_clock {
+    border: 1px solid #C6C6C6;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: #C6C6C6;
+}
+.clock_item_func .clock_list_btn .btn_clock img{
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 4px;
+}
+
+
+/* 排行榜 */
+.rankList_wrap .van-tab--active{
+    color: #353239;
+    font-size: 14px;
+}
+
+.rankList_wrap .van-tab{
+    font-size: 12px;
+}
+
+.rankList_wrap .van-tabs__line{
+    display: none;
+}
+
+.rankList_wrap .rank_list_comen{
+    box-sizing: border-box;
+    padding: 0 24px;
+}
+
+.rankList_wrap .rank_list_comen ul li{
+    box-sizing: border-box;
+    padding: 12px 0;
+    border-bottom: 1px solid #E8E8E8;
+}
+.rankList_wrap .rank_list_comen ul li:last-child{
+    border: 0 solid #FFFFFF;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #353239;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar{
+    display: flex;
+    align-items: center;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .rank_item_userinfo p:nth-child(2){
+    color: #9B9B9B;
+    font-size: 12px;
+    line-height: 17px;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .avatar_pic{
+    margin-right: 12px;
+    position: relative;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .avatar_pic .rank_num{
+    width: 16PX;
+    height: 16PX;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 16PX;
+    color: #FF444B;
+    font-size: 12px;
+    font-weight: bold;
+    background: #FFFFFF;
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .avatar_pic .rank_num img{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transform: translateX(-18%) translateY(-16%);
+}
+.rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .avatar_pic img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: block;
+    
+}

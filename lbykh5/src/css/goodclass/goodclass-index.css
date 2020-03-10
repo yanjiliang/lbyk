@@ -138,9 +138,10 @@ body{
     border-radius: 3px;
     padding: 2px 4px;
     background-color: #fbf5ed;
-    margin-right: 0.1334rem;
+    margin-right: 5px;
     box-sizing: border-box;
     display: block;
+    white-space: nowrap;
 }
 
 .goodclass .gcList .listbox .item .titl {

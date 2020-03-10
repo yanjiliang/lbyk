@@ -147,7 +147,7 @@
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
-                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.addrInfo)">复制地址</a> 
+                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr)">复制地址</a> 
                             </div> 
                         </div> 
                         

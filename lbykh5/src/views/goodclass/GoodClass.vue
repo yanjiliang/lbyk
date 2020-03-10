@@ -249,7 +249,7 @@ const axios = require('axios')
                         if(this.imagelist[index].jumpPage == 'StoreEntryPage'){
                             
                             if (this.device === 'android') {
-                                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/Addorganize","scheme":""}');
+                                window.android.SkipPage('{"scheme":"JGRZ","url": "'+this.Url+'/Addorganize"}');
                                 
                             }
                             if (this.device === 'ios') { 

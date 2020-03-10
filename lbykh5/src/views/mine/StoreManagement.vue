@@ -27,15 +27,15 @@
                 <div class="store_service_wrap">
                     <div class="store_service_product_item">
                         <div class="store_service_info">
-                            <p class="store_service_name">教务服务<span v-if="time < 7300"><span v-if="base_effective"> · 使用中</span><span v-if="!base_effective"> · 已过期</span></span></p>
-                            <div v-if="time < 7300">
+                            <p class="store_service_name">教务服务<span v-if="base_time < 7300"><span v-if="base_openStatus"><span v-if="base_effective"> · 使用中</span><span v-if="!base_effective"> · 已过期</span></span><span v-if="!base_openStatus"> · 未开通</span></span></p>
+                            <div v-if="base_time < 7300">
                                 <p v-if="base_effective">有效期至 {{base_expirationDate}}</p>
                                 <p v-if="!base_effective">部分操作将受限，请及时续费</p>
                             </div>
-                            <div v-if="time >= 7300">
+                            <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" v-if="time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':base_time<7}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -94,15 +94,24 @@
                     <!-- 营销服务  -->
                     <div class="store_service_product_item">
                         <div class="store_service_info">
-                            <p class="store_service_name">营销服务<span v-if="time < 7300"><span v-if="market_effective"> · 使用中</span><span v-if="!market_effective"> · 已过期</span></span></p>
-                            <div v-if="time < 7300">
+                            <p class="store_service_name">营销服务
+                                <span v-if="market_time < 7300">
+                                    <span v-if="market_openStatus === true">
+                                        <span v-if="market_effective"> · 使用中</span>
+                                        <span v-if="!market_effective"> · 已过期</span>
+                                    </span>
+                                    <span v-if="market_openStatus === false"> · 未开通</span>
+                                </span>
+                            </p>
+                            <div v-if="market_time < 7300">
                                 <p v-if="market_effective">有效期至 {{market_expirationDate}}</p>
                                 <p v-if="!market_effective">部分操作将受限，请及时续费</p>
                             </div>
-                            <div v-if="time >= 7300">
+                            <div v-if="market_time >= 7300">
                                 <p>更懂教育的互联网营销</p>
+                                
                             </div>
-                            <p class="store_mana_renew_btn" v-if="time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':market_time<7}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -143,7 +152,6 @@
                 </div>
                 
             </div>
-            
         </div>
         
     </div>
@@ -171,7 +179,8 @@ export default {
             market_openStatus:'',
             market_effective:'',
             market_expirationDate:'',
-            time:'',
+            base_time:'',
+            market_time:'',
             token:'',
         }
     },
@@ -190,12 +199,19 @@ export default {
                 //跳转预约管理页面
                
                 if (this.device === 'android') {
-                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/orderManagement","title":"预约管理","scheme":"QBYY","storeId":"'+this.storeId+'"}');
-                    
+                    if(this.market_openStatus == false){
+                        Toast('未开通营销服务，开通后即可享用该功能！')
+                    }else{
+                        window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/orderManagement","title":"预约管理","scheme":"QBYY","storeId":"'+this.storeId+'"}');
+                    }
                 }
                 if (this.device === 'ios') { 
                     //jump  取值为true为跳新页面打开，false为当前页面打开
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/orderManagement","title":"预约管理","scheme":"QBYY","storeId":"'+this.storeId+'","title":"预约管理"}')
+                    if(this.market_openStatus == false){
+                        Toast('未开通营销服务，开通后即可享用该功能！')
+                    }else{
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/orderManagement","title":"预约管理","scheme":"QBYY","storeId":"'+this.storeId+'","title":"预约管理"}')
+                    }
                 }
             },
         toRenew(func){
@@ -231,10 +247,18 @@ export default {
         skipe_storemana(){
       
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理","cuid":"'+this.cuid+'","storeId":"'+this.storeId+'"}');
+                if(this.market_openStatus == false){
+                    Toast('未开通营销服务，开通后即可享用该功能！')
+                }else{
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理","cuid":"'+this.cuid+'","storeId":"'+this.storeId+'"}');
+                }
             }
             if (this.device === 'ios') { 
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理","cuid":"'+this.cuid+'","storeId":"'+this.storeId+'"}')
+                if(this.market_openStatus == false){
+                    Toast('未开通营销服务，开通后即可享用该功能！')
+                }else{
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理","cuid":"'+this.cuid+'","storeId":"'+this.storeId+'"}')
+                }
             }
         },
         getStoreManaData(cuid,storeId,token){
@@ -269,19 +293,30 @@ export default {
                             this.base_effective = funclist[i].effective
                             this.base_openStatus = funclist[i].openStatus
                             this.base_expirationDate = funclist[i].expirationDate
-                            let arrdate = this.base_expirationDate.split('-')
-                            var date = new Date();
-                            let year =arrdate[0] - date.getFullYear() 
-                            let month =arrdate[1] - date.getMonth() + 1;
-                            let day =arrdate[2] - date.getDate();
-                            let today = year * 365 + month*30 + day
-
-                            this.time = today
+            
+                            let sDate2 = new Date()
+                            let sDate1 = Date.parse(this.base_expirationDate);
+                            sDate2 = Date.parse(sDate2);
+                            let dateSpan = sDate2 - sDate1;
+                            dateSpan = Math.abs(dateSpan);
+                            let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+                            this.base_time = iDays
                         }else if(funclist[i].functional == 'MarketingService'){
                             //营销服务功能
                             this.market_effective = funclist[i].effective
                             this.market_openStatus = funclist[i].openStatus
                             this.market_expirationDate = funclist[i].expirationDate
+                            if(funclist[i].expirationDate === ''){
+                                this.market_expirationDate = new Date()
+                            }
+                            let sDate2 = new Date()
+                            // let sDate2 = date.getFullYear() +'-'+(date.getMonth() + 1)+'-'+date.getDate()
+                            let sDate1 = Date.parse(this.market_expirationDate);
+                            sDate2 = Date.parse(sDate2);
+                            let dateSpan = sDate2 - sDate1;
+                            dateSpan = Math.abs(dateSpan);
+                            let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+                            this.market_time = iDays
                         }
                     }
                     if(this.store_mana_data.prompt){
@@ -328,5 +363,9 @@ export default {
 
 body{
     background: #f6f6f6;
+}
+.time_long{
+    color: #FFFFFF;
+    background: #FF444B;
 }
 </style>

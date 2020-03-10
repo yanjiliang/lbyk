@@ -90,18 +90,25 @@
                 </div>
             </div>
 
-            <!-- 课程介绍 -->
-            <div class="bandstory">
-                <div class="bandtitle">
-                    <p>课程介绍</p>
-                    <a href="" @click.prevent="pre_edit_page('KCJSBJ',cd_token)">编辑</a>
+            <!-- 视课 -->
+            <div class="class_pre_video">
+                <div class="title">
+                    <div class="class_video">
+                        <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
+                        <p>好课程 一“视”便知</p>
+                    </div>
+                    <a href="" @click.prevent="pre_edit_page('VIDEO',cd_token)">编辑/添加</a>
                 </div>
-                <div class="bandinfo">
-                    <p  ref="bandinfo">{{course_detail_data.introduce}}</p>
-
+                <div class="noclass" v-if="course_detail_data.teacherInfoDtoList.length == 0">
+                    <div class="noclass_icon">
+                        <img src="../../images/GoodClass/orgindex/通用-线2@2x.png" alt="icon图片">
+                    </div>
+                    <div class="noclass_info">
+                        <p>未添加视频展示</p>
+                        <p>视频更容易吸引用户，并增加曝光机会</p>
+                    </div>
                 </div>
             </div>
-            
             <!-- 授课老师 -->
             <div class="classteacher">
                 
@@ -171,7 +178,7 @@
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}-{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
-                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.addrInfo)">复制地址</a> 
+                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr)">复制地址</a> 
                             </div> 
                         </div> 
                         
@@ -191,6 +198,18 @@
                             </el-amap>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 课程介绍 -->
+            <div class="bandstory">
+                <div class="bandtitle">
+                    <p>课程介绍</p>
+                    <a href="" @click.prevent="pre_edit_page('KCJSBJ',cd_token)">编辑</a>
+                </div>
+                <div class="bandinfo">
+                    <p  ref="bandinfo">{{course_detail_data.introduce}}</p>
+
                 </div>
             </div>
         </div>

@@ -12,12 +12,12 @@
           <div class="renew_userinfo_right">
             <p class="renew_func_title">{{renewPage_resdata.functionalName}}</p>
             <p class="renew_orgin_name">{{renewPage_resdata.storeName}}</p>
-            <p class="renew_func_date">有效期至 {{renewPage_resdata.storeFunctionalDto.expirationDate}} <span v-if="!renewPage_resdata.storeFunctionalDto.effective">（已过期）</span></p>
+            <p class="renew_func_date" v-if="renewPage_resdata.storeFunctionalDto.effective">有效期至 {{renewPage_resdata.storeFunctionalDto.expirationDate}} <span v-if="!renewPage_resdata.storeFunctionalDto.effective">（已过期）</span></p>
           </div>
         </div>
       </div>
     </div>
-    <!-- <p>{{renewPage_resdata}}</p> -->
+    <!-- <p>{{typeof(select_price)}}</p> -->
     <div class="renew_product_box">
       <p style="font-size:18px;font-weight:bold">选择优惠套餐</p>
       
@@ -30,7 +30,7 @@
         <p class="renew_btn_price" >{{select_title}}：￥{{select_price}}</p>
         <p class="renew_btn_click" @click="goToRenew()">立即续费</p>
       </div>
-      <p class="renew_protocol">点击“立即续费”按钮即代表阅读并同意 <a :href="Url+'/lbykServiceAgreement'">《蜡笔优课服务协议》</a></p>
+      <p class="renew_protocol">点击“立即续费”按钮即代表阅读并同意 <a @click="toService()">《蜡笔优课服务协议》</a></p>
     </div>
   </div>
 </template>
@@ -66,6 +66,10 @@ import { Toast } from 'vant'
       this.linkIos()
     },
     methods: {
+      // :href="Url+'/lbykServiceAgreement'"
+      toService(){
+                      window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+      },
       McDispatcher(qury) {
         //接受数据
         this.userInfo = qury
@@ -117,12 +121,25 @@ import { Toast } from 'vant'
         axios.post(url,param).then((res)=>{
           let res_data = res.data.data
           let orderId = res_data.orderDto.orderId
-          Toast(res_data.msg)
-          if(this.device === 'android'){
-              window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
-          }else if(this.device === 'ios'){
-              window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
-              // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
+          
+          if(res_data.status == 'orderSuccess'){
+              if(this.device === 'android'){
+                  window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+              }else if(this.device === 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                  // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
+              }
+          }else if(res_data.status == 'openingSuccess'){
+            Toast.success('开通成功')
+            setTimeout(()=>{
+                if(this.device === 'android'){
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                }else if(this.device === 'ios'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                }
+            },1500)
+          }else{
+            Toast(res_data.msg)
           }
         })
         

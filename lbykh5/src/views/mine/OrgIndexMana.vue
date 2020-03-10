@@ -74,8 +74,8 @@
                         <img src="../../images/GoodClass/orgindex/通用-线2@2x.png" alt="icon图片">
                     </div>
                     <div class="noclass_info">
-                        <p>招生功能未开启</p>
-                        <p>马上开启，拥抱周边3公里优质生源</p>
+                        <p>暂未发布课程</p>
+                        <p>马上发布，拥抱周边3公里优质生源</p>
                     </div>
                 </div>
                 
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <!-- <p>{{org_index_userInfo}}</p> -->
+            <!-- <p>{{aa}}</p> -->
             
             <!-- 师资力量 -->
             <div class="box">
@@ -230,7 +230,8 @@ export default {
             age:[],
             spans:Object,
             pre_index:0,
-            pre_show:false
+            pre_show:false,
+            aa:''
         }
     },
     beforeMount() {
@@ -429,7 +430,7 @@ export default {
             let param = new URLSearchParams()
             param.append("cuid", cuid)
             param.append("storeId", storeId)
-            param.append("functional", "RecruitStudents")
+            param.append("functional", "MarketingService")
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 let qury = res.data

@@ -1,6 +1,6 @@
 export default {
     geturl() {
-        //return "http://www.labiyouke.com/h5";
+        //return "https://www.labiyouke.com/h5";
         //return "https://test.labiyouke.com/h5";
         return "http://192.168.3.26:8089/h5"
         

@@ -49,17 +49,18 @@
 }
 .store_mana_renew_btn{
     position: absolute;
-    bottom: 0;
+    bottom: 25%;
     right: 0;
     box-sizing: border-box;
     padding: 3px 13px;
-    background: #FF444B;
+    border: 1px solid #C6C6C6;
+    color: #C6C6C6;
     border-radius: 13px;
+    background: #FFFFFF;
 }
 .store_mana_renew_btn span{
     display: inline-block;
     font-size: 14px;
-    color: #FFFFFF;
     font-weight: 400;
     line-height: 20px;
 }

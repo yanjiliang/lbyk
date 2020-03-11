@@ -134,9 +134,9 @@ import { Toast,Dialog } from 'vant'
                 this.order_mana_storeid = qury.data.storeId
                 this.token = qury.data.token
                 this.showAll()
-                this.$nextTick(()=>{
-                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',qury.data.token)
-                })
+                // this.$nextTick(()=>{
+                //     this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',qury.data.token)
+                // })
             },
             linkIos : function (){
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
@@ -147,25 +147,25 @@ import { Toast,Dialog } from 'vant'
                 this.order_mana_storeid = msg.storeId
                 this.token = msg.token
                 this.showAll()
-                this.$nextTick(()=>{
-                    this.getOrderinfo(msg.cuid,msg.storeId,'',msg.token)
-                })
+                // this.$nextTick(()=>{
+                //     this.getOrderinfo(msg.cuid,msg.storeId,'',msg.token)
+                // })
                 
             },
-            getData(cuid,storeId,token){
+            // getData(cuid,storeId,token){
        
-                var url = this.ip + 'course-appointment/storeList';
-                //?cuid=" + cuid + "&storeId=" + storeId + "&pageNo=1&pageSize=5"
-                let param = new URLSearchParams()
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("pageNo", "1")
-                param.append("pageSize", "10")
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    this.order_mana_data = res.data.data.data
-                })
-            },
+            //     var url = this.ip + 'course-appointment/storeList';
+            //     //?cuid=" + cuid + "&storeId=" + storeId + "&pageNo=1&pageSize=5"
+            //     let param = new URLSearchParams()
+            //     param.append("cuid", cuid)
+            //     param.append("storeId", storeId)
+            //     param.append("pageNo", "1")
+            //     param.append("pageSize", "10")
+            //     param.append("userToken", token)
+            //     axios.post(url,param).then((res)=>{
+            //         this.order_mana_data = res.data.data.data
+            //     })
+            // },
 
             showAll: function(){
                 console.log('1122')

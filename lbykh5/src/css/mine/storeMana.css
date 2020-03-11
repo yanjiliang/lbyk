@@ -52,17 +52,17 @@
     bottom: 25%;
     right: 0;
     box-sizing: border-box;
-    padding: 3px 13px;
-    border: 1px solid #C6C6C6;
     color: #C6C6C6;
-    border-radius: 13px;
-    background: #FFFFFF;
+    border-radius: 14px;
+    background: #f6f6f6;
+    min-width: 60px;
+    text-align: center;
 }
 .store_mana_renew_btn span{
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 30px;
 }
 .store_data_info{
     display: flex;

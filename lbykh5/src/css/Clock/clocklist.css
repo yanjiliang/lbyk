@@ -1,9 +1,11 @@
 .clocklist{
     box-sizing: border-box;
+    background: #FFFFFF;
+    padding: 15px 0 20px 0;
 }
 .clocklist .clock_list_wrap{
     box-sizing: border-box;
-    padding: 0 16px;
+    padding: 40px 16px;
 }
 .clocklist .clock_list_wrap .clock_list_item{
     box-sizing: inherit;
@@ -11,6 +13,7 @@
 .clocklist .clock_item_userinfo{
     display: flex;
     align-items: center;
+    /* margin-top: 40px; */
 }
 .clocklist .clock_item_userinfo .clock_item_avatar{
     margin-right: 12px;
@@ -164,6 +167,10 @@
 
 
 /* 排行榜 */
+.rankList_wrap{
+    box-sizing: border-box;
+    padding: 20px 0;
+}
 .rankList_wrap .van-tab--active{
     color: #353239;
     font-size: 14px;

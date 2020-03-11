@@ -35,9 +35,9 @@
                             <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':base_time<7}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':base_time<=7}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
-
+                        <!-- <p>{{base_time}}</p> -->
                         <div class="store_data_info">
                             <div class="toptitle">
                                 <p style="margin-bottom:4px">{{store_mana_data.readingStudentCount}}</p>
@@ -111,7 +111,7 @@
                                 <p>更懂教育的互联网营销</p>
                                 
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':market_time<7}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':market_time<=7}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -297,10 +297,10 @@ export default {
                             let sDate2 = new Date()
                             let sDate1 = Date.parse(this.base_expirationDate);
                             sDate2 = Date.parse(sDate2);
-                            let dateSpan = sDate2 - sDate1;
-                            dateSpan = Math.abs(dateSpan);
+                            let dateSpan =sDate1 - sDate2;
+                            // dateSpan = Math.abs(dateSpan);
                             let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
-                            this.base_time = iDays
+                            this.base_time = iDays+1
                         }else if(funclist[i].functional == 'MarketingService'){
                             //营销服务功能
                             this.market_effective = funclist[i].effective
@@ -313,10 +313,10 @@ export default {
                             // let sDate2 = date.getFullYear() +'-'+(date.getMonth() + 1)+'-'+date.getDate()
                             let sDate1 = Date.parse(this.market_expirationDate);
                             sDate2 = Date.parse(sDate2);
-                            let dateSpan = sDate2 - sDate1;
-                            dateSpan = Math.abs(dateSpan);
+                            let dateSpan =sDate1 - sDate2;
+                            // dateSpan = Math.abs(dateSpan);
                             let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
-                            this.market_time = iDays
+                            this.market_time = iDays+1
                         }
                     }
                     if(this.store_mana_data.prompt){

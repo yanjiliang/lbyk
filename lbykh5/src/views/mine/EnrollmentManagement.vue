@@ -26,7 +26,7 @@
                 <p>暂无数据</p>
             </div>
             
-            <div class="listbox">
+            <div class="listbox" v-if="loadingDone">
                 
                 <waterfall style="background-color:#fff" :col='col' :width="itemWidth" :gutterWidth="gutterWidth" :data="data"  >
                      
@@ -68,6 +68,7 @@ export default {
             return {
                 imagelist: [],
                 datalist: [],
+                loadingDone:false,
                 col:2,
                 ip: this.$ip.getIp(),
                 Url:this.$Url.geturl(),
@@ -181,22 +182,6 @@ export default {
                     })
                 }
             },
-            // getCourseDetail(cuid,storeId,id,token){
-            //     //查询预约的课程详细信息
-                
-            //     let url = this.ip + 'course-appointment/getById';
-            //     //?cuid=' +emroll_cuid+'&storeId='+enroll_storeId+'&id='+id
-            //     let param = new URLSearchParams()
-            //     param.append("cuid", cuid)
-            //     param.append("storeId", storeId)
-            //     param.append("id", id)
-            //     param.append("userToken", token)
-            //     axios.post(url,param).then((res) =>{
-            //         this.courseDetail = res.data.data
-            //     }).catch((err)=>{
-            //         console.log(err)
-            //     })
-            // },
             McDispatcher : function (qury){
             this.emroll_userInfo = qury
             this.emroll_cuid = qury.data.cuid
@@ -373,7 +358,11 @@ export default {
 	      }
         },
         mounted () {
+            
             this.linkIos()
+            setTimeout(()=>{
+                this.loadingDone = true
+            },200)
             
         },
         beforeMount(){

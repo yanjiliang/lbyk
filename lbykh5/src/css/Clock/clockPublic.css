@@ -1,0 +1,150 @@
+/* fontsize */
+.font_10px{
+    font-size: 10px;
+    line-height: 14px;
+}
+.font_12px{
+    font-size: 12px;
+    line-height: 17px;
+}
+.font_14px{
+    font-size: 14px;
+    line-height: 20px;
+}
+.font_16px{
+    font-size: 16px;
+    line-height: 22px;
+}
+.font_20px{
+    font-size: 20px;
+    line-height: 28px;
+}
+/* fontsize */
+
+/* color */
+.color_F6F6F6{
+    color: #F6F6F6;
+}
+.color_F4DCBC{
+    color: #F4DCBC
+}
+.color_60C38C{
+    color: #60C38C;
+}
+.color_FF444B{
+    color: #FF444B;
+}
+.color_FFFFFF{
+    color: #FFFFFF;
+}
+.color_3E3E3E{
+    color: #3E3E3E;
+}
+.color_181818{
+    color: #181818;
+}
+.color_353239{
+    color: #353239;
+}
+.color_9B9B9B{
+    color: #9B9B9B;
+}
+/* color */
+
+/* font-weight */
+.font_weight_bold{
+    font-weight: bold;
+}
+.font_weight_400{
+    font-weight: 400;
+}
+.font_weight_600{
+    font-weight: 600;
+}
+.font_weight_700{
+    font-weight: 700;
+}
+.font_weight_800{
+    font-weight: 800;
+}
+.font_weight_900{
+    font-weight: 900;
+}
+/* font-weight */
+
+.btn_clock_theme{
+    background: #60C38C;
+    color: #FFFFFF;
+}
+
+
+
+/* img */
+.img_14{
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+.img_16{
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+.img_20{
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+.img_28{
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+.img_48{
+    width: 48px;
+    height: 48px;
+    display: block;
+}
+.img_74{
+    width: 74px;
+    height: 74px;
+    display: block;
+}
+.img_104{
+    width: 104px;
+    height: 104px;
+    display: block;
+}
+
+
+.img_16_round{
+    width: 16px;
+    height: 16px;
+    display: block;
+    border-radius: 50%;
+}
+.img_28_round{
+    width: 28px;
+    height: 28px;
+    display: block;
+    border-radius: 50%;
+}
+.img_48_round{
+    width: 48px;
+    height: 48px;
+    display: block;
+    border-radius: 50%;
+}
+.img_74_round{
+    width: 74px;
+    height: 74px;
+    display: block;
+    border-radius: 50%;
+}
+.img_104_round{
+    width: 104px;
+    height: 104px;
+    display: block;
+    border-radius: 50%;
+}
+/* img  */

@@ -27,8 +27,6 @@
                                 <li><img src="http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg" alt=""></li>
                                 <li><img src="http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg" alt=""></li>
                                 <li><img src="http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg" alt=""></li>
-                                <!-- <li><img src="http://img1.imgtn.bdimg.com/it/u=2661784626,3834854501&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img5.imgtn.bdimg.com/it/u=3796740409,1068808904&fm=26&gp=0.jpg" alt=""></li> -->
                             </ul>
                             <p class="clock_img_count">+6</p>
                         </div>

@@ -1,100 +1,100 @@
 <template>
-    <div class="create_clock_mana">
-        <div class="clock_mana_wrap">
-            <!-- 打卡统计数据  start -->
-            <div class="clock_mana_info">
-                <div class="clock_mana_data_statistic">
-                    <div class="data_statistic_item">
-                        <p>12</p>
-                        <p>进行中</p>
-                    </div>
-                    <div style="color:#FFF">|</div>
-                    <div class="data_statistic_item">
-                        <p>9999</p>
-                        <p>已结束</p>
-                    </div>
-                    <div style="color:#FFF">|</div>
-                    <div class="data_statistic_item">
-                        <p>1.3W</p>
-                        <p>累计打卡</p>
-                    </div>
-                </div>
-                <div class="create_clock_mana_btn">
-                    <p><img src="../../images/CreateClock/create_mana_btn.png" alt=""></p>
-                    <p>创建打卡</p>
-                </div>      
-            </div>
-            <!-- 打卡统计数据  end -->
-
-            <div class="no_clock_recod">
-                <img src="../../images/CreateClock/no_clock_recod.png" alt="">
-                <p>暂无打卡记录</p>
-            </div>
-
-            <!-- 打卡活动列表  start -->
-            <div class="clock_mana_list" >
-                <div class="clock_mana_list_item">
-                    <div class="clock_list_item_top">
-                        <div class="clock_list_item_top_left">
-                            <p>这一周，很难忘</p>
-                            <p>2020年1月10日-2020年2月10日</p>
-                        </div>
-                        <div class="clock_list_item_top_right">
-                            <p v-show="true">进行中</p>
-                            <p v-show="false">已结束</p>
-                        </div>
-                    </div>
-                    <van-divider />
-                    <div class="clock_list_item_bottom">
-                        <div class="clock_list_bottom_item">
-                            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
-                            <p>参与人数：300</p>
-                        </div>
-                        <div class="clock_list_bottom_item">
-                            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
-                            <p>累计打卡次数：300</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="clock_mana_list_item">
-                    <div class="clock_list_item_top">
-                        <div class="clock_list_item_top_left">
-                            <p>这一周，很难忘这一周这一周海绵宝宝派大星</p>
-                            <p>2020年1月10日-2020年2月10日</p>
-                        </div>
-                        <div class="clock_list_item_top_right">
-                            <p v-show="false">进行中</p>
-                            <p v-show="true">已结束</p>
-                        </div>
-                    </div>
-                    <van-divider />
-                    <div class="clock_list_item_bottom">
-                        <div class="clock_list_bottom_item">
-                            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
-                            <p>参与人数：300</p>
-                        </div>
-                        <div class="clock_list_bottom_item">
-                            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
-                            <p>累计打卡次数：300</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 打卡活动列表  end -->
+<div class="create_clock_mana">
+  <div class="clock_mana_wrap">
+    <!-- 打卡统计数据  start -->
+    <div class="clock_mana_info">
+      <div class="clock_mana_data_statistic">
+        <div class="data_statistic_item">
+          <p>12</p>
+          <p>进行中</p>
         </div>
+        <div style="color:#FFF">|</div>
+        <div class="data_statistic_item">
+          <p>9999</p>
+          <p>已结束</p>
+        </div>
+        <div style="color:#FFF">|</div>
+        <div class="data_statistic_item">
+          <p>1.3W</p>
+          <p>累计打卡</p>
+        </div>
+      </div>
+      <div class="create_clock_mana_btn">
+        <p><img src="../../images/CreateClock/create_mana_btn.png" alt=""></p>
+        <p>创建打卡</p>
+      </div>
     </div>
+    <!-- 打卡统计数据  end -->
+
+    <div class="no_clock_recod">
+      <img src="../../images/CreateClock/no_clock_recod.png" alt="">
+      <p>暂无打卡记录</p>
+    </div>
+
+    <!-- 打卡活动列表  start -->
+    <div class="clock_mana_list">
+      <div class="clock_mana_list_item">
+        <div class="clock_list_item_top">
+          <div class="clock_list_item_top_left">
+            <p>这一周，很难忘</p>
+            <p>2020年1月10日-2020年2月10日</p>
+          </div>
+          <div class="clock_list_item_top_right">
+            <p v-show="true">进行中</p>
+            <p v-show="false">已结束</p>
+          </div>
+        </div>
+        <van-divider />
+        <div class="clock_list_item_bottom">
+          <div class="clock_list_bottom_item">
+            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
+            <p>参与人数：300</p>
+          </div>
+          <div class="clock_list_bottom_item">
+            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
+            <p>累计打卡次数：300</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="clock_mana_list_item">
+        <div class="clock_list_item_top">
+          <div class="clock_list_item_top_left">
+            <p>这一周，很难忘这一周这一周海绵宝宝派大星</p>
+            <p>2020年1月10日-2020年2月10日</p>
+          </div>
+          <div class="clock_list_item_top_right">
+            <p v-show="false">进行中</p>
+            <p v-show="true">已结束</p>
+          </div>
+        </div>
+        <van-divider />
+        <div class="clock_list_item_bottom">
+          <div class="clock_list_bottom_item">
+            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
+            <p>参与人数：300</p>
+          </div>
+          <div class="clock_list_bottom_item">
+            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
+            <p>累计打卡次数：300</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 打卡活动列表  end -->
+  </div>
+</div>
 </template>
 <script>
 export default {
-    name:'CreateClockMana'
+  name: 'CreateClockMana'
 }
 </script>
 <style lang="stylus" scoped>
     .clock_mana_wrap
         padding 26px 16px 35px 16px
         background #FAF8F8
-        
+
         box-sizing border-box
         .clock_mana_info
             height 95px
@@ -113,7 +113,7 @@ export default {
                 align-items center
                 text-align center
                 background rgba(255,255,255,0.1)
-                
+
                 width 6.16rem
                 height 63px
                 border-radius 10px
@@ -142,8 +142,8 @@ export default {
                 border-radius 18px
                 padding 6px
                 p
-                
-                    img 
+
+                    img
                         width 14px
                         height 14px
                         vertical-align middle
@@ -155,9 +155,9 @@ export default {
                         color #FF444B
         .no_clock_recod
             width 130px
-            margin 3.2rem auto 
+            margin 3.2rem auto
             text-align center
-            img 
+            img
                 width 130px
                 height 130px
             p
@@ -217,10 +217,10 @@ export default {
                         align-items center
                         width 50%
                         text-align left
-                        
-                        p 
-                            
-                            img 
+
+                        p
+
+                            img
                                 width 14px
                                 height 14px
                                 vertical-align text-top

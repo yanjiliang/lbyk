@@ -353,7 +353,12 @@ export default {
         showPopup : function (token){
             //控制弹出页面的显示隐藏
             if(token == ''){
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                if(this.device == 'android'){
+                    Toast('未登陆，请登录后再预约！')
+                }
+                if(this.device == 'ios'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
             }else{
                 this.ordershow = true
             }

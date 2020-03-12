@@ -45,13 +45,27 @@
     <div class="clock_introduce">
         <p class="font_16px color_181818" style="margin-bottom:12px">打卡介绍</p>
         <p class="font_16px color_353239">眼间一个紧张又快乐的学期又过去了，在学期结,时我总结了一下，在这一学期中我有进步的地方也不足之处。首先说说我进步的地方吧,就是我的成绩提高了不少，字也比以前写得端正漂亮了。</p>
-        <div flex="main:center cross:center" style="margin: 16px 0">
+        <div flex="main:center cross:center" style="margin: 16px 0" v-show="false">
             <div flex="main:center cross:center" style="width:104px;height:104px;border-radius:50%;background:rgba(96,195,140,.1)">
                 <div flex="main:center cross:center" style="width:94px;height:94px;border-radius:50%;background:rgba(96,195,140,.4)">
                     <div flex="main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:rgba(96,195,140,1)">
                         <p class="font_16px color_FFFFFF">立即打卡</p>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div flex="main:center cross:center" style="margin: 16px 0" v-show="false">
+            <div flex="dir:top main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:#EBFFF4;border:1px dashed #60C38C">
+                <p><img class="img_28" src="../../images/CreateClock/enrolling.png" alt=""></p>
+                <p class="font_16px color_60C38C">进行中</p>
+            </div>
+        </div>
+
+        <div flex="main:center cross:center" style="margin: 16px 0" >
+            <div flex="dir:top main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:#F6F6F6;border:1px dashed #9B9B9B">
+                <p><img class="img_28" src="../../images/CreateClock/hasend.png" alt=""></p>
+                <p class="font_16px color_C6C6C6">已结束</p>
             </div>
         </div>
         <p class="font_14px color_9B9B9B" style="text-align:center">2020年1月10日-2020年1月20日</p>
@@ -76,6 +90,8 @@ export default {
 <style lang="stylus" scoped>
 .clock_detail
     background #FAF8F8
+    max-width 540px
+    margin 0 auto
     .clock_detail_navinfo_box
         padding 115px 16px 0 16px
         width 10rem

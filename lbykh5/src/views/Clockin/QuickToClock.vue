@@ -188,6 +188,8 @@ export default {
 <style lang="stylus" scoped>
 @import url(../../../public/resetVant.css);
 .quick_to_colock
+    max-width 540px
+    margin 0 auto
     input,textarea
         font-size 18px!important
         font-weight 400!important

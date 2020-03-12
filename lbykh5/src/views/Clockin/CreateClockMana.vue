@@ -91,6 +91,9 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.create_clock_mana
+    max-width 540px
+    margin 0 auto
     .clock_mana_wrap
         padding 26px 16px 35px 16px
         background #FAF8F8

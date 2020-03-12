@@ -7,6 +7,10 @@
     font-size: 12px;
     line-height: 17px;
 }
+.font_13px{
+    font-size: 13px;
+    line-height: 22px;
+}
 .font_14px{
     font-size: 14px;
     line-height: 20px;
@@ -14,6 +18,10 @@
 .font_16px{
     font-size: 16px;
     line-height: 22px;
+}
+.font_18px{
+    font-size: 18px;
+    line-height: 25px;
 }
 .font_20px{
     font-size: 20px;
@@ -49,6 +57,12 @@
 .color_9B9B9B{
     color: #9B9B9B;
 }
+.color_C6C6C6{
+    color: #C6C6C6;
+}
+.color_FF9F1B{
+    color: #FF9F1B;
+}
 /* color */
 
 /* font-weight */
@@ -78,8 +92,22 @@
 }
 
 
+/* btn */
+.btn_60C38C{
+    background: #60C38C;
+    box-shadow:0px 4px 6px rgba(33,140,87,0.2);
+    color: #FFFFFF;
+    border-radius: 15px;
+}
+/* btn */
+
 
 /* img */
+.img_10{
+    width: 10px;
+    height: 10px;
+    display: block;
+}
 .img_14{
     width: 14px;
     height: 14px;
@@ -103,6 +131,11 @@
 .img_48{
     width: 48px;
     height: 48px;
+    display: block;
+}
+.img_60{
+    width: 60px;
+    height: 60px;
     display: block;
 }
 .img_74{
@@ -135,6 +168,12 @@
     display: block;
     border-radius: 50%;
 }
+.img_60_round{
+    width: 60px;
+    height: 60px;
+    display: block;
+    border-radius: 50%;
+}
 .img_74_round{
     width: 74px;
     height: 74px;
@@ -148,3 +187,136 @@
     border-radius: 50%;
 }
 /* img  */
+
+
+ .clock_btn{
+    display: flex;
+    align-items: center;
+}
+ .clock_btn .clock_btn01 {
+    margin-right: 8px;
+}
+ .clock_btn .btn_clock {
+    border: 1px solid #C6C6C6;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: #C6C6C6;
+}
+ .clock_btn .btn_clock img{
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 4px;
+}
+
+.clock_item_func {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clock_item_func .clock_item_zan_user{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_item_zan_user p{
+    color: #353239;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-left: 8px;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li{
+    border: 1px solid #E8E8E8;
+    border-radius: 50%;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li:not(:first-child){
+    margin-left: -22px;
+}
+.clock_item_func .clock_item_zan_user .clock_item_info_list ul li img{
+    width: 28px;
+    height: 28px;
+    display: block;
+    border-radius: 50%;
+}
+.clock_item_func .clock_list_btn{
+    display: flex;
+    align-items: center;
+}
+.clock_item_func .clock_list_btn .clock_list_btn01 {
+    margin-right: 8px;
+}
+.clock_item_func .clock_list_btn .btn_clock {
+    border: 1px solid #C6C6C6;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: #C6C6C6;
+}
+.clock_item_func .clock_list_btn .btn_clock img{
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 4px;
+}
+
+.clock_item_video{
+    box-sizing: border-box;
+}
+
+.clock_item_class_info{
+    margin: 16px 0 12px 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.clock_item_class_info p{
+    color: #C6C6C6;
+}
+.clock_item_class_info p span{
+    color: #60C38C;
+    margin-left: 8px;
+}
+
+
+.clock_item_images{
+    position: relative;
+}
+.clock_item_images .clock_img_count{
+    width: 22px;
+    height: 22px;
+    border-radius: 10px 0 10px 0;
+    box-sizing: border-box;
+    position: absolute;
+    background: rgba(6, 6, 6, .3);
+    bottom: 0;
+    right: 0;
+    color: #FFFFFF;
+    padding: 2px 4px 2px 4px;
+}
+.clock_item_images ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.clock_item_images ul li{
+    margin-right: 8px;
+}
+.clock_item_images ul li:last-child{
+    margin-right: 0;
+}
+.clock_item_images ul li img{
+    display: block;
+    border-radius: 10px;
+    object-fit: cover;
+}

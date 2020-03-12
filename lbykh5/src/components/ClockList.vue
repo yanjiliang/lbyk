@@ -24,12 +24,17 @@
                         <div class="clock_item_images">
                             <!-- <p>这里是照片区域</p> -->
                             <ul>
-                                <li><img src="http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg" alt=""></li>
+                                <li v-for="(item, index) in preImage" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                             </ul>
                             <p class="clock_img_count">+6</p>
                         </div>
+                        <!-- 图片预览 -->
+                        <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                            <template v-slot:index>
+                                
+                            </template>
+                        </van-image-preview>
+                        <!-- 图片预览 -->
                         <div class="clock_item_video" v-show="false">
                             <H5Video :fileVideoSrc='fileVideoSrc'/>
                         </div>
@@ -49,8 +54,74 @@
                                 </div>
                                 <p>1.2w人觉得很赞</p>
                             </div>
-                            <div class="clock_list_btn">
-                                <div class="clock_list_btn01 btn_clock">
+                            <div class="clock_btn">
+                                <div class="clock_btn01 btn_clock">
+                                    <img src="../images/CreateClock/share.png" alt="">
+                                    <p>分享</p>
+                                </div>
+                                <div class="btn_clock">
+                                    <img src="../images/CreateClock/zan.png" alt="">
+                                    <p>点赞</p>
+                                </div>
+                            </div>
+                        </div>
+                        <van-divider />
+                    </div>
+
+                    
+
+                    <div class="clock_list_item">
+                        <div class="clock_item_userinfo">
+                            <!-- 打卡头部用户信息 -->
+                            <div class="clock_item_avatar">
+                                <img src="http://img2.imgtn.bdimg.com/it/u=1347074168,2023995894&fm=26&gp=0.jpg" alt="">
+                            </div>
+                            <div class="clock_item_user_info">
+                                <p class="user_name">阿拉啦</p>
+                                <div class="clock_info">
+                                    <p>已打卡7次</p>
+                                    <p>2020/01/20 17:53</p>
+                                </div>
+                            </div>
+                            <!-- 打卡头部用户信息 -->
+                        </div>
+                        <div class="clock_item_content">
+                            <p>ICLR 2020 自确定开会地点选在非洲埃塞俄比亚首都以来，一波三起，但最终仍逃不掉取消线下会议的命运。</p>
+                        </div>
+                        <div class="clock_item_images" v-show="false">
+                            <!-- <p>这里是照片区域</p> -->
+                            <ul>
+                                <li v-for="(item, index) in preImage" :key="index"><img style="width: 2.773333rem;height: 2.773333rem;" :src="item" alt="" @click="preClick(index)"></li>
+                            </ul>
+                            <p class="clock_img_count">+6</p>
+                        </div>
+                        <!-- 图片预览 -->
+                        <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                            <template v-slot:index></template>
+                        </van-image-preview>
+                        <!-- 图片预览 -->
+                        <div class="clock_item_video" >
+                            <!-- 这里是视频区域 -->
+                            <H5Video :fileVideoSrc='fileVideoSrc'/>
+                        </div>
+                        <div class="clock_item_class_info">
+                            <p>来自<span>2020届舞蹈基础A班</span></p>
+                        </div>
+                        <div class="clock_item_func">
+                            <div class="clock_item_zan_user">
+                                <div class="clock_item_info_list">
+                                    <ul>
+                                        <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
+                                        <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
+                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
+                                        <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
+                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
+                                    </ul>
+                                </div>
+                                <p>1.2w人觉得很赞</p>
+                            </div>
+                            <div class="clock_btn">
+                                <div class="clock_btn01 btn_clock">
                                     <img src="../images/CreateClock/share.png" alt="">
                                     <p>分享</p>
                                 </div>
@@ -61,6 +132,7 @@
                             </div>
                         </div>
                     </div>
+                    <van-divider />
                 </div>
             </van-tab>
             <van-tab title="排行榜">
@@ -140,7 +212,7 @@ export default {
         return{
             active: 0,
             activeOrder:0,
-            fileVideoSrc:'https://vdept.bdstatic.com/517343656d3536457a3545666d746332/4d4e45336772414e/fb960137af249219574ec927565e65dacd499b44ae5c9376dd3be66f77246433f5e9888aeff98df456ee5ef006fb69d8.mp4?auth_key=1583830447-0-0-9cebb295fd4968e0dd116264029a78f1',
+            fileVideoSrc:'https://vdept.bdstatic.com/77696852377266345341337669366b6b/7062674832625375/9aac19ae0281f09130144bb37e732d6282613949c34bdb4998d63e97f0b75a70dd6477a6df20576c5b37e3f4e6b38df7.mp4?auth_key=1583998702-0-0-9fadfaac7bcd7a1e8b61cb42773079b0',
             ClockList:[
                 {
                     img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
@@ -205,13 +277,33 @@ export default {
                     num:'48'
                 },
             ],
+            preImage:[
+                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
+                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
+                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg'
+            ],
             firstSrc:'../images/CreateClock/first.png',
             secondSrc:'../images/CreateClock/first.png',
             thirdSrc:'../images/CreateClock/first.png',
+            pre_index:0,
+            pre_show:false,
         }
     },
     components:{
         H5Video
+    },
+    methods:{
+        preClick(index){
+            this.pre_show=true;
+            this.pre_index=index;
+            // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "PREVIEW" ,"show": "false"}')
+        },
+        onClose(){
+            // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "PREVIEW" ,"show": "true"}')
+        },
+        onChange(index) {
+            this.pre_index = index;
+        },
     }
 }
 </script>

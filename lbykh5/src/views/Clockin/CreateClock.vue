@@ -195,7 +195,8 @@ export default {
 <style lang="stylus">
 @import url(../../../public/resetVant.css);
     .createclock
-
+        max-width 540px
+        margin 0 auto
         .createclock_wrap
             padding 0 24px
             .create_clock_title

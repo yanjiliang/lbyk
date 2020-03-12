@@ -341,7 +341,33 @@ const router = new Router({
             },
             component: () => import('./views/Clockin/ClockDetail.vue')
         },
+
+        {
+            path: '/ClockShare',
+            name: 'ClockShare',
+            meta: {
+                title: '打卡-分享页面'
+            },
+            component: () => import('./views/Clockin/ClockShare.vue')
+        },
         
+        {
+            path: '/ClassCircle',
+            name: 'ClassCircle',
+            meta: {
+                title: '班级圈子'
+            },
+            component: () => import('./views/Clockin/ClassCircle.vue')
+        }, 
+        
+        {
+            path: '/ClockRecod',
+            name: 'ClockRecod',
+            meta: {
+                title: '打卡记录'
+            },
+            component: () => import('./views/Clockin/ClockRecod.vue')
+        },
     ]
 })
 

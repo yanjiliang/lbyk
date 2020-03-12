@@ -204,11 +204,11 @@
                     </div>
                     <div class="phonenumber">
                         <p>联系电话</p>
-                        <input type="text" name="username" @blur="reSize()" id="phone" placeholder="请输入手机号码">
+                        <input type="tel" pattern="[0-9]*" maxlength="11" name="username" @blur="reSize()" id="phone" placeholder="请输入手机号码">
                     </div>
                     <div class="verticode">
                         <p>验证码</p>
-                        <input type="text" name="username" @blur="reSize()" id="code" maxlength="4" placeholder="请输入验证码">
+                        <input type="tel" pattern="[0-9]*" maxlength="4" name="username" @blur="reSize()" id="code" placeholder="请输入验证码">
                         <span v-show="sendCode" class="codetext" @click="getCode()">获取验证码</span>
                         <span v-show="!sendCode" class="codetext"><span>{{code_time}}S</span></span>
                     </div>

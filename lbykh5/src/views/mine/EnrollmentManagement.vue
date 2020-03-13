@@ -9,6 +9,7 @@
         
     
         <!-- 主体内容信息 -->
+        
         <!-- 课程 -->
         <div class="gcList">
             <div class="gc_top">
@@ -136,6 +137,7 @@ export default {
                         // let aa = res.data.data
                         const indexdata = res.data.data
                         this.data = indexdata.data
+
                         this.$nextTick(()=>{
                             for(let i = 0; i< this.data.length;i++){
                                 if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
@@ -342,7 +344,7 @@ export default {
                 this.$nextTick(()=>{
                     // this.getData(msg.cuid,msg.storeId)
                     this.getData(msg.cuid,msg.storeId,msg.token)
-                    this.getGoodCourseData(this.emroll_cuid,this.enroll_storeId,'',msg.token)
+                    this.getGoodCourseData(msg.cuid,msg.storeId,'',msg.token)
                 })
                 
             },
@@ -358,11 +360,11 @@ export default {
 	      }
         },
         mounted () {
-            
-            this.linkIos()
             setTimeout(()=>{
                 this.loadingDone = true
             },200)
+            this.linkIos()
+            
             
         },
         beforeMount(){

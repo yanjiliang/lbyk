@@ -5,98 +5,120 @@
     <div class="clock_mana_info">
       <div class="clock_mana_data_statistic">
         <div class="data_statistic_item">
-          <p>12</p>
+          <p>{{clockManaInfo.beginningCount}}</p>
           <p>进行中</p>
         </div>
         <div style="color:#FFF">|</div>
         <div class="data_statistic_item">
-          <p>9999</p>
+          <p>{{clockManaInfo.finishedCount}}</p>
           <p>已结束</p>
         </div>
         <div style="color:#FFF">|</div>
         <div class="data_statistic_item">
-          <p>1.3W</p>
+          <p>{{clockManaInfo.totalCount}}</p>
           <p>累计打卡</p>
         </div>
       </div>
-      <div class="create_clock_mana_btn">
+      <div class="create_clock_mana_btn" @click="createClock">
         <p><img src="../../images/CreateClock/create_mana_btn.png" alt=""></p>
         <p>创建打卡</p>
       </div>
     </div>
     <!-- 打卡统计数据  end -->
 
-    <div class="no_clock_recod">
+    <div class="no_clock_recod" v-if="clockList.count == 0">
       <img src="../../images/CreateClock/no_clock_recod.png" alt="">
       <p>暂无打卡记录</p>
     </div>
 
     <!-- 打卡活动列表  start -->
-    <div class="clock_mana_list">
-      <div class="clock_mana_list_item">
+    <div class="clock_mana_list" v-if="clockList.count != 0">
+      <div class="clock_mana_list_item" v-for="(item, index) in clockList.data" :key="index" @click="goToClockDetail(index)">
         <div class="clock_list_item_top">
           <div class="clock_list_item_top_left">
-            <p>这一周，很难忘</p>
-            <p>2020年1月10日-2020年2月10日</p>
+            <p style="margin-bottom:8px">{{item.title}}</p>
+            <p>{{item.startDate.slice(0,10)}}——{{item.endDate.slice(0,10)}}</p>
           </div>
           <div class="clock_list_item_top_right">
-            <p v-show="true">进行中</p>
-            <p v-show="false">已结束</p>
+            <p>{{item.status}}</p>
           </div>
         </div>
         <van-divider />
         <div class="clock_list_item_bottom">
           <div class="clock_list_bottom_item">
             <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
-            <p>参与人数：300</p>
+            <p>参与人数：{{item.attendNum}}</p>
           </div>
           <div class="clock_list_bottom_item">
             <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
-            <p>累计打卡次数：300</p>
+            <p>累计打卡次数：{{item.totalNum}}</p>
           </div>
         </div>
       </div>
 
-      <div class="clock_mana_list_item">
-        <div class="clock_list_item_top">
-          <div class="clock_list_item_top_left">
-            <p>这一周，很难忘这一周这一周海绵宝宝派大星</p>
-            <p>2020年1月10日-2020年2月10日</p>
-          </div>
-          <div class="clock_list_item_top_right">
-            <p v-show="false">进行中</p>
-            <p v-show="true">已结束</p>
-          </div>
-        </div>
-        <van-divider />
-        <div class="clock_list_item_bottom">
-          <div class="clock_list_bottom_item">
-            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
-            <p>参与人数：300</p>
-          </div>
-          <div class="clock_list_bottom_item">
-            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
-            <p>累计打卡次数：300</p>
-          </div>
-        </div>
-      </div>
     </div>
     <!-- 打卡活动列表  end -->
+
+
+    
   </div>
 </div>
 </template>
 <script>
+const axios = require('axios')
 export default {
-  name: 'CreateClockMana'
+  name: 'CreateClockMana',
+  data(){
+    return{
+      ip:this.$ip.getIp(),
+      Url:this.$Url.geturl(),
+      device:this.$device.getDevice(),
+      clockManaInfo:'',
+      clockList:{}
+    }
+  },
+  mounted(){
+    this.getClockManaInfo()
+  },
+  methods:{
+    // /clock/clockManagePage
+    createClock(){
+      this.$router.push({path:'/CreateClock'})
+    },
+    goToClockDetail(index){
+      let clockId = this.clockList.data[index].clockId
+      this.$router.push({path:'/ClockDetail',query:{clockId:clockId}})
+    },
+    getClockManaInfo(){
+      let url = 'http://192.168.3.22:8091/clock/clockManagePage';
+      //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
+      let param = new URLSearchParams()
+      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
+      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("pageNo", 1)
+      param.append("pageSize", 10)
+      axios.post(url,param).then((res)=>{
+        let clockManaInfo = res.data.data
+        this.clockManaInfo = clockManaInfo
+        this.clockList = clockManaInfo.clockList
+        
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }
+
+  }
 }
 </script>
 <style lang="stylus" scoped>
 .create_clock_mana
     max-width 540px
     margin 0 auto
+    
     .clock_mana_wrap
         padding 26px 16px 35px 16px
         background #FAF8F8
+        height 100vh
 
         box-sizing border-box
         .clock_mana_info

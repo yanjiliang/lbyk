@@ -14,7 +14,7 @@
             <div class="classinfobox">
                 <div class="infoitem">
                     <p>授课老师</p>
-                    <p><span v-for="(item1,index) in class_statement_data.teacherList" :key="index">{{item1.teacherName}}</span><span v-if="index == class_statement_data.teacherList.length-1">,</span></p>
+                    <p><span>{{teacherList}}</span></p>
                 </div>
                 <div class="infoitem">
                     <p>学员考勤</p>
@@ -86,6 +86,7 @@ export default {
             class_statement_userInfo:'',
             cuid:'',
             classScheduleId:'',
+            teacherList:[],
             studentId:'',
             storeId:'',
             token:'',
@@ -125,6 +126,14 @@ export default {
                     this.hasData = false
                 }else{
                     this.class_statement_data = res.data.data
+// <span v-for="(item1,index) in class_statement_data.teacherList" :key="index">{{item1.teacherName}}</span><span v-if="index == class_statement_data.teacherList.length-1">,</span>
+                    this.class_statement_data = res.data.data
+                    let teacherList = this.class_statement_data.teacherList
+                    for(let i = 0;i<teacherList.length;i++){
+                        this.teacherList.push(teacherList[i].teacherName)
+                    }
+                    let aa = Array.from(new Set(this.teacherList))
+                    this.teacherList = aa.join(',')
                 }
                 
             }).catch((err)=>{
@@ -146,6 +155,14 @@ export default {
                     this.hasData = false
                 }else{
                     this.class_statement_data = res.data.data
+                    let teacherList = this.class_statement_data.teacherList
+                    // this.teacherList = teacherList
+                    for(let i = 0;i<teacherList.length;i++){
+                        this.teacherList.push(teacherList[i].teacherName)
+                    }
+                    let aa = Array.from(new Set(this.teacherList))
+                    this.teacherList = aa.join(',')
+                    
                 }
             }).catch((err)=>{
                 console.log(err)
@@ -161,7 +178,6 @@ export default {
             this.studentId =msg.studentId;
             this.classScheduleId =msg.classScheduleId;
             this.working = msg.employStatus
-            
             this.getData(this.cuid,this.classId,this.storeId,this.studentId,this.classScheduleId,this.ident,msg.token)
             this.getphone(this.storeId,msg.cuid,msg.token)
             
@@ -170,7 +186,7 @@ export default {
         ClickTo : function (qury){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'"}');
+                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');
             }
             if (this.device === 'ios') {
         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');
@@ -212,7 +228,6 @@ export default {
         },
         cs_skipe_orgindex (qury){
                 //跳转机构主页
-                
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');

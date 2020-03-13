@@ -229,7 +229,13 @@ const axios = require('axios')
                 this.index_cuid = msg.cuid
                 // this.location = '{"latitude": "'+this.lat+'","longitude": "'+this.lng+'"}'
                 this.location = [msg.latitude,msg.longitude]
-                this.getGoodCourseData(msg.longitude,msg.latitude,msg.cuid)
+                this.pageno = 1
+                if(this.lng == 0){
+                    this.getGoodCourseData('','',msg.cuid)
+                }else{
+                    this.getGoodCourseData(this.lng,this.lat,msg.cuid)
+                }
+                this.getIndexBannerData()
             },
             gc_edit_page :function (qury){
                 //跳转页面

@@ -15,7 +15,7 @@
       <p>适用班级</p>
       <p>每个班级同时只能发布一个打卡活动</p>
     </div>
-    <van-field readonly clickable placeholder="请选择" @click="showClassPicker = true" />
+    <van-field readonly clickable :value="selectedClass" placeholder="请选择" @click="showClassPicker = true" />
     <van-popup v-model="showClassPicker" :safe-area-inset-bottom='true' round :style="{height:'50%'}" position="bottom">
       <div class="create_clock_pop_nav">
         <p class="cancel_btn" @click="showClassPicker = false">取消</p>
@@ -26,17 +26,17 @@
 
         <div class="create_clock_select_class_content" ref="class_list_wrap">
           <ul class="create_clock_select_class_list" ref="class_list">
-            <li @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index">
+            <li @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index" >
               <div class="create_clock_select_class_item">
                 <div class="top">
                   <p>{{item.className}}</p>
                 </div>
                 <div class="down">
                   <div class="down_left">
-                    <p>{{item.tags}}</p>
-                    <p ref="class_type" class="class_type">{{item.type}}</p>
+                    <p>{{item.categoryName}}</p>
+                    <p ref="class_type" class="class_type">{{item.teachMethod}}</p>
                   </div>
-                  <div class="down_right" v-show="item.hasSelect">
+                  <div class="down_right" v-show="classList[index].hasSelect">
                     <img src="../../images/CreateClock/selected.png" alt="">
                   </div>
                 </div>
@@ -54,7 +54,7 @@
     </div>
     <van-field readonly clickable :value="currentDate" placeholder="请选择结束日期" @click="showDatePicker = true" />
     <van-popup v-model="showDatePicker" round position="bottom">
-      <van-datetime-picker v-model="value" type="date" :min-date="minDate" :max-date="maxDate" @confirm="onDateConfirm" @cancel="showDatePicker = false" />
+      <van-datetime-picker type="date" :min-date="minDate" :max-date="maxDate" @confirm="onDateConfirm" @cancel="showDatePicker = false" />
     </van-popup>
     <van-divider />
     <!-- 打卡结束时间 end -->
@@ -64,9 +64,9 @@
       <p>推广课程(可选)</p>
       <p>只能选择一个，学员分享的打卡页面可同步展示招生课程</p>
     </div>
-    <van-field readonly clickable :value="selectCourse" placeholder="选择课程" @click="showCoursePicker = true" />
+    <van-field readonly clickable :value="selectCourse" placeholder="选择课程" @click="select_Course" />
     <van-popup v-model="showCoursePicker" round position="bottom">
-      <van-picker show-toolbar :columns="columns" @cancel="showCoursePicker = false" @confirm="onCourseConfirm" />
+      <van-picker show-toolbar :columns="storeCourseTile" @cancel="showCoursePicker = false" @confirm="onCourseConfirm" />
     </van-popup>
     <van-divider />
     <!-- 推广课程 end -->
@@ -75,11 +75,13 @@
     <div class="create_clock_second_title">
       <p>打卡介绍</p>
     </div>
-    <van-field v-model="clock_theme" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
+    <van-field v-model="clock_content" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
     <van-divider />
     <!-- 打卡介绍 end -->
+    
+
     <div style="height:60px"></div>
-    <div class="create_colock_btn">
+    <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
       <p>立即发布</p>
     </div>
 
@@ -87,16 +89,20 @@
 </div>
 </template>
 <script>
-import {
-  Toast
-} from 'vant'
+import {Toast} from 'vant'
+import '../../../public/resetVant.css'
+const axios = require('axios')
 export default {
   name: 'createclock',
   data() {
     return {
+      ip:this.$ip.getIp(),
+      Url:this.$Url.geturl(),
+      device:this.$device.getDevice(),
       clock_theme: '',
+      clock_content:'',
       columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-      value: '',
+      value:'',
       showClassPicker: false,
       showDatePicker: false,
       showCoursePicker: false,
@@ -105,71 +111,50 @@ export default {
       currentDate: '',
       selectCourse: '',
       selectClass: '',
-      classList: [{
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-        {
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-        {
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-        {
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-        {
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-        {
-          className: '钢琴基础班',
-          tags: '钢琴',
-          type: '随到随学',
-          hasSelect: false
-        },
-      ],
-      selectedClass: []
+      classList: [],
+      selectedClass: [],
+      storCourse:'',
+      storeCourseTile:[],
+      storeClass:'',
+      selectedClassId:[],
+      selectedCourseId:[],
+      selectedDate:''
 
     }
   },
   mounted() {
-
+    this.getStoreCoureList()
+    this.getStoreClass()
   },
   methods: {
+    
     onClassConfirm() {
-
       console.log(this.selectedClass)
       this.showClassPicker = false
-
     },
-
-    onChange(picker, value, index) {
-      Toast(`当前值：${value}, 当前索引：${index}`);
+    select_Course(){
+        this.showCoursePicker = true
+        this.selectedCourseId = []
     },
 
     onCourseConfirm(value) {
       this.selectCourse = value;
       this.showCoursePicker = false;
+      for(let i=0;i<this.storCourse.length;i++){
+        if(this.storCourse[i].courseTitle == value){
+          this.selectedCourseId.push(this.storCourse[i].courseId)
+        }
+      }
+      console.log(this.selectedCourseId)
     },
     onDateConfirm(value) {
       //格式化年月格式
       let year = value.getFullYear()
       let month = value.getMonth() + 1
+      month < 10 ? month= '0'+month : month
       let day = value.getDate()
+      day < 10 ? day= '0'+day : day
+      this.selectedDate = year + '-' + month + '-' + day 
       this.currentDate = year + ' 年 ' + month + ' 月 ' + day + ' 日'
       this.showDatePicker = false;
     },
@@ -179,21 +164,93 @@ export default {
         if (this.classList[index].hasSelect) {
           document.getElementsByClassName('create_clock_select_class_item')[index].classList.remove('create_clock_isSelected')
           this.$refs.class_type[index].style.background = '#F6F6F6'
+          // this.selectedClass.splice(index,1)
+          for(let i = 0;i<this.selectedClass.length;i++){
+            if(this.selectedClass[i] == this.classList[index].className){
+              this.selectedClass.splice(i,1)
+              this.selectedClassId.splice(i,1)
+            }
+          }
+          console.log(this.selectedClassId)
           this.classList[index].hasSelect = false
         } else {
           document.getElementsByClassName('create_clock_select_class_item')[index].classList.add('create_clock_isSelected')
           this.$refs.class_type[index].style.background = '#FFFFFF'
           this.classList[index].hasSelect = true
-          this.selectedClass.push(this.classList[index])
+          this.selectedClass.push(this.classList[index].className)
+          this.selectedClassId.push(this.classList[index].classId)
+          console.log(this.selectedClassId)
+          return this.classList
         }
       })
     },
+    getStoreCoureList(){
+      let url = 'http://192.168.3.22:8091/course/pageLsit';
+      //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
+      let param = new URLSearchParams()
+      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
+      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("pageNo ", 1)
+      param.append("pageSize ", 90)
+      axios.post(url,param).then((res)=>{
+        let storCourse = res.data.data
+        this.storCourse = storCourse.data
+        // this.storeCourseTile = 
+        for(let i=0;i<storCourse.data.length;i++){
+          this.storeCourseTile.push(storCourse.data[i].courseTitle)
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+    getStoreClass(){
+      //http://192.168.3.22:8091/class/selectStoreClass?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r%20
+      let url = 'http://192.168.3.22:8091/class-clock/getUnClockClass';
+      let param = new URLSearchParams()
+      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
+      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("pageNo", 1)
+      param.append("pageSize", 10)
+      axios.post(url,param).then((res)=>{
+        let storeClass = res.data.data
+        this.classList = storeClass.data
+        for(let i=0;i<storeClass.length;i++){
+          this.classList[i].hasSelect = false
+        }
+        
+        
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+    toClock(classIds,title,endDate,courseId,introduce){
+      let url = 'http://192.168.3.22:8091/clock/addClock';
+      let param = new URLSearchParams()
+      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
+      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("classIds", classIds)
+      param.append("title", title)
+      param.append("endDate", endDate)
+      param.append("courseId", courseId)
+      param.append("introduce", introduce)
+      axios.post(url,param).then((res)=>{
+        if(res.result == 'success'){
+          setTimeout(()=>{
+            this.$router.push({path:'/CreateClockMana',params:'121'})
+          },200)
+        }else if(res.result == 'error'){
+          Toast(res.msg)
+        }
+        
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }
 
   }
 }
 </script>
 <style lang="stylus">
-@import url(../../../public/resetVant.css);
     .createclock
         max-width 540px
         margin 0 auto

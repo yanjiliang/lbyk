@@ -1,15 +1,15 @@
 .van-uploader__upload{
-    border: 1px solid #FF444B!important;
+    border: 1px solid #60C38C!important;
 }
 .quick_to_colock .van-uploader__preview-delete{
-    color: #FF444B!important
+    color: #60C38C!important
 }
-.van-icon{
+.van-uploader__upload-icon{
     display: none;
 }
 .van-uploader__upload-text{
     margin-top: 0;
-    color: #FF444B;
+    color: #60C38C;
 }
 input,textarea  {
     font-size: 18px!important;

@@ -70,7 +70,7 @@
         </div>
       </div>
     </van-popup>
-
+  
   </div>
   <div style="height:90px"></div>
   <div class="quick_clock_btn_wrap">
@@ -82,7 +82,9 @@
 </template>
 
 <script>
+import '../../../public/resetVant.css'
 import H5Video from '../../components/H5Video'
+const axios = require('axios')
 import {
   Toast
 } from 'vant'
@@ -142,6 +144,7 @@ export default {
     afterImageRead(file) {
       console.log(file)
       console.log(file.file)
+      console.log(this.imageList)
 
       this.typeOfFile = 'image'
     },
@@ -181,12 +184,33 @@ export default {
       this.hasSelected = true
 
     },
+    quickToClock(){
+      
+      let url = 'http://192.168.3.22:8091/class-clock-student/rapidClock';
+      let param = new URLSearchParams()
+      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
+      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("clockId", this.$route.query.clockId)
+      param.append("picFiles", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("classId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("studentId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("impression", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("coverFile", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("videoFile", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      axios.post(url,param).then((res)=>{
+        let clockDetailInfo = res.data.data
+        this.clockDetailInfo = clockDetailInfo
+        
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import url(../../../public/resetVant.css);
+
 .quick_to_colock
     max-width 540px
     margin 0 auto
@@ -359,8 +383,8 @@ export default {
         padding 0 16px
         .quick_colock_btn
                 height 56px
-                background #FF444B
-                box-shadow 0px 4px 6px rgba(255,68,75,0.2)
+                background #60C38C
+                box-shadow 0px 4px 6px rgba(96,195,140,.3)
                 border-radius 28px
                 text-align center
                 line-height 56px

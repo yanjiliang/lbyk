@@ -78,11 +78,10 @@
     </div>
     <!-- 打卡介绍 -->
     <div class="clock_detail_list">
-      <ClockList />
+      <ClockList :ClockRecod='ClockRecod' :requestData='requestData' />
     </div>
 
-    <p>{{clockDetailInfo}}</p>
-    <p>{{clockId}}</p>
+    <!-- <p>{{clockDetailInfo}}</p> -->
 </div>
 </template>
 <script>
@@ -95,7 +94,11 @@ export default {
   data(){
     return{
       clockId:this.$route.query.clockId,
-      clockDetailInfo:''
+      clockDetailInfo:'',
+      ClockRecod:'',
+      requestData:{
+        'clockId':this.$route.query.clockId,
+      }
     }
   },
   components: {
@@ -103,13 +106,14 @@ export default {
   },
   mounted(){
     this.getClockDetailInfo()
+    this.getClockRecod()
   },
   methods:{
     getClockDetailInfo(){
       let url = 'http://192.168.3.22:8091/clock/clockDetails';
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       param.append("clockId", this.$route.query.clockId)
       axios.post(url,param).then((res)=>{
         let clockDetailInfo = res.data.data
@@ -121,7 +125,26 @@ export default {
     },
     quickToClock(){
       this.$router.push({path:'/QuickToClock'})
-    }
+    },
+    getClockRecod(){
+      //http://192.168.3.22:8091/class-clock-student/clockRecord?pageNo=1&pageSize=20&cuid=eYhjQznFDdvZiHz4oXt%20&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_JshGyp7BySa8s3TSYdA
+      let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+      let param = new URLSearchParams()
+      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      param.append("clockId", this.$route.query.clockId)
+      param.append("pageNo", 1)
+      param.append("pageSize", 10)
+      axios.post(url,param).then((res)=>{
+        let ClockRecod = res.data.data
+        this.ClockRecod = ClockRecod.data
+       
+        
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
+    
   }
 }
 </script>

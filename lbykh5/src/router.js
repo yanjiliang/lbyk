@@ -22,7 +22,7 @@ const router = new Router({
             path: '/userPrivate',
             name: 'userPrivate',
             meta: {
-                title: '蜡笔优课用户隐私政策'
+                title: ''//蜡笔优课用户隐私政策
             },
             component: () => import('./views/user/UserPrivate'),
         },
@@ -31,7 +31,7 @@ const router = new Router({
             path: '/userServiceAgreement',
             name: 'userServiceAgreement',
             meta: {
-                title: '蜡笔优课用户服务协议'
+                title: ''//蜡笔优课用户服务协议
             },
             component: () => import('./views/user/UserServiceAgreement'),
         },
@@ -40,7 +40,7 @@ const router = new Router({
             path: '/lbykServiceAgreement',
             name: 'lbykServiceAgreement',
             meta: {
-                title: '蜡笔优课服务协议'
+                title: ''//蜡笔优课服务协议
             },
             component: () => import('./views/user/lbykServiceAgreement.vue'),
         },

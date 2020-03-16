@@ -9,12 +9,12 @@
                 <p style="position:absolute;top:0;right:0;z-index:1001;width:53px;height:51px"><img style="width:53px;height:51px" src="../../images/CreateClock/clock_share_tag.png" alt=""></p>
                 <p class="clock_share_avatar" flex="main:center cross:center"><img class="img_60_round" src="http://pic1.zhimg.com/50/v2-e7d9a07b0c98851d443c60a81e90b6aa_hd.jpg" alt=""></p>
                 <div flex="dir:top main:center cross:center">
-                    <p class="font_18px font_weight_bold color_353239">叶知秋</p>
-                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B">17</span>次</p>
-                    <p class="font_18px color_353239 font_weight_400">“这一周，很难得”</p>
+                    <p class="font_18px font_weight_bold color_353239">学生名字</p>
+                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B">  </span>次</p>
+                    <p class="font_18px color_353239 font_weight_400">“打卡的主题”</p>
                 </div>
                 <div class="clock_content">
-                    <p class="font_14px color_9B9B9B">眼间一个紧张又快乐的学期又过去了，在学期结,时我总结了一下，在这一学期中我有进步的地方也不足之处。首先说说我进步的地方吧,就是我的成绩提高了不少，字也比以前写得端正漂亮了。眼间一个紧张又快乐的学期又过去了，在学期结,时我总结了一下，在这一学期中我有进步的地方也不足之处。首先说说我进步的地方吧,就是我的成绩提高了不少，字也比以前写得端正漂亮了。眼间一个紧张又快乐的学期又过去了，在学期结,时我总结了一下，在这一学期中我有进步的地方也不足之处。首先说说我进步的地方吧,就是我的成绩提高了不少，字也比以前写得端正漂亮了。眼间一个紧张又快乐的学期又过去了，在学期结,时我总结了一下，在这一学期中我有进步的地方也不足之处。首先说说我进步的地方吧,就是我的成绩提高了不少，字也比以前写得端正漂亮了。</p>
+                    <p class="font_14px color_9B9B9B">打卡的感想</p>
 
                 </div>
                 
@@ -39,10 +39,10 @@
                     <H5Video :fileVideoSrc='fileVideoSrc'/>
                 </div>
 
-                <div class="clock_item_class_info">
+                <div class="clock_item_class_info" v-if="false">
                     <p>来自<span>2020届舞蹈基础B班</span></p>
                 </div>
-                <div class="clock_item_func">
+                <div class="clock_item_func" v-if="false">
                     <div class="clock_item_zan_user">
                         <div class="clock_item_info_list">
                             <ul>
@@ -68,15 +68,15 @@
                 </div>
             </div>
         </div>
-
+        <p>{{ClockResult}}</p>
         <!-- 机构信息 -->
         <div style="margin:16px 0;position:relative;z-index:999;padding:0 16px;box-sizing:border-box" >
             <div style="background:#FFFFFF;box-sizing:border-box;padding:16px 16px 12px 16px;border-radius:15px">
                 <div flex="main:left cross:center">
                     <img class="img_48" style="margin-right:8px;border-radius:15px" src="http://pic3.zhimg.com/50/v2-e744631376f29fe10858c1750f169db7_hd.jpg" alt="">
                     <div>
-                        <p class="font_16px color_181818">秦红梅国际儿童艺术（南山店）</p>
-                        <p class="font_13px color_C6C6C6">综合球类/舞蹈/少儿编程/综合武术/国...</p>
+                        <p class="font_16px color_181818">机构的名字</p>
+                        <p class="font_13px color_C6C6C6">机构的科目</p>
                     </div>
                 </div>
                 <van-divider />
@@ -84,9 +84,9 @@
                     <div flex="dir:top main:left">
                         <p flex="main:left cross:center" style="margin-bottom:4px">
                             <img class="img_16" src="../../images/CreateClock/location.png" alt="">
-                            <span class="font_14px color_181818">广东·深圳·南山区</span>
+                            <span class="font_14px color_181818">机构所在市区</span>
                         </p>
-                        <p class="font_12px color_C6C6C6">亿利达创世纪商务中心10A15</p>
+                        <p class="font_12px color_C6C6C6">机构的建筑物地址</p>
                     </div>
                     <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
                         <p style="margin-right:4px">进店逛逛</p>
@@ -96,14 +96,14 @@
             </div>
         </div>
         <!-- 机构信息 -->
-
+        
         <!-- 分享的课程 -->
         <div class="share_course">
             <p class="font_14px color_9B9B9B" style="margin-bottom:8px">赶快报名，跟我一起学习成长吧！</p>
             <div flex="main:left cross:center">
                 <div style="margin-right:12px"><img class="img_48" style="border-radius:10px" src="http://pic1.zhimg.com/50/v2-b7bd451b0bda3c36fa8a7f07d9ac4ffe_hd.jpg" alt=""></div>
                 <div style="width:100%">
-                    <p class="font_16px color_181818" style="margin-bottom:6px">一对一钢琴教学，快速学会一首简单...</p>
+                    <p class="font_16px color_181818" style="margin-bottom:6px">推广课程的标题</p>
                     <div flex="main:justify cross:center">
                         <p class="font_14px color_FF444B">￥79/3节课</p>
                         <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
@@ -137,6 +137,7 @@
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import H5Video from '../../components/H5Video'
+const axios = require('axios')
 export default {
     name:'ClockShare',
     components:{
@@ -144,7 +145,7 @@ export default {
     },
     data(){
         return{
-            fileVideoSrc:'https://vdept.bdstatic.com/377167467142594b5a4e57654d495353/7043524657336531/fcce9148b65dae612135cb2c1e42ce187931ef1efbc23764270e65ae23db0d420c5f9a2b1a953646a5cd331f75b7215d.mp4?auth_key=1584001727-0-0-9c88344e350dd32f54f698061d7200f9',
+            fileVideoSrc:'',
             pre_index:0,
             pre_show:false,
             preImage:[
@@ -154,7 +155,11 @@ export default {
                 'https://drscdn.500px.org/photo/1012172270/q%3D80_m%3D2000/v2?sig=2942fdc49d6607fe66ffe11adf35d02b0dd1e2df11be3474cf617d925b09dcea',
                 'https://drscdn.500px.org/photo/1012172160/q%3D80_m%3D1500/v2?sig=914c45ce0790b4849834e2d1ab9b465957575b95e8c6c17b55ad4d72eab9d3f0'
             ],
+            ClockResult:'',
         }
+    },
+    mounted(){
+        // this.getClockResult()
     },
     methods:{
         preClick(index){
@@ -168,6 +173,24 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
+        getClockResult(){
+            // /class-clock-student/detailedClock
+            let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+            let param = new URLSearchParams()
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("clockId", this.$route.query.clockId)
+            param.append("classId", this.$route.query.classId)
+            param.append("studentId", this.$route.query.studentId)
+            param.append("clockStudentId", this.$route.query.clockStudentId)
+            // param.append("courseId", 10)
+            axios.post(url,param).then((res)=>{
+                let ClockResult = res.data.data
+                this.ClockResult = ClockResult.data
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
     }
 }
 </script>

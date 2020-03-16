@@ -125,6 +125,8 @@
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import '../../css/Clock/clocklist.css'
+import {Toast} from 'vant'
+const axios = require('axios')
 export default {
     name:'ClockRecod',
     data(){
@@ -200,6 +202,9 @@ export default {
             ],
             pre_index:0,
             pre_show:false,
+            cuid:'',
+            storeId:'',
+            clockId:''
         }
     },
     methods:{
@@ -214,6 +219,31 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
+        getRecod(cuid,storeId,clockId){
+            //获取打卡个人主页
+            // /class-clock-student/clockRecord
+            // /class-clock-student/clockPersonalPage
+            let url = 'http://192.168.3.22:8091/class-clock-student/clockPersonalPage';
+            let param = new URLSearchParams()
+            param.append("cuid", cuid)
+            param.append("storeId", storeId)
+            param.append("pageNo", 1)
+            param.append("pageSize", 20)
+            param.append("studentId", clockId)
+            axios.post(url,param).then((res)=>{
+                if(res.result == 'success'){
+                Toast.success('发布成功！')
+                setTimeout(()=>{
+                    this.$router.push({path:'/CreateClockMana',params:'121'})
+                },1200)
+                }else if(res.result == 'error'){
+                Toast(res.msg)
+                }
+                
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
     }
 }
 </script>

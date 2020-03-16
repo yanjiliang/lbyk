@@ -3,142 +3,78 @@
         <van-tabs v-model="active" sticky swipeable lazy-render :border='false'>
             <van-tab title="打卡记录">
                 <div class="clock_list_wrap">
-                    <div class="clock_list_item">
+                    <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
                         <div class="clock_item_userinfo">
                             <!-- 打卡头部用户信息 -->
                             <div class="clock_item_avatar">
-                                <img src="http://img5.imgtn.bdimg.com/it/u=263351484,3972010013&fm=26&gp=0.jpg" alt="">
+                                <img :src="item.studentAvatar" alt="">
                             </div>
                             <div class="clock_item_user_info">
-                                <p class="user_name">诸葛大力</p>
+                                <p class="user_name">{{item.studentName}}</p>
                                 <div class="clock_info">
-                                    <p>已打卡9次</p>
-                                    <p>2020/01/20 17:53</p>
+                                    <p>已打卡 {{item.clockCount}} 次</p>
+                                    <p>{{item.clockDate}}</p>
                                 </div>
                             </div>
                             <!-- 打卡头部用户信息 -->
                         </div>
                         <div class="clock_item_content">
-                            <p>我们今晚邀请了112 位全卡的妈妈分享一下自己的变化。32位妈妈分享结束，自由讨论，宝妈们可以分享自己这一周的变化，思想或者行为上的变化哦。</p>
+                            <p>{{item.impression}}</p>
                         </div>
-                        <div class="clock_item_images">
+                        <div class="clock_item_images" v-if="item.picUrls">
                             <!-- <p>这里是照片区域</p> -->
                             <ul>
-                                <li v-for="(item, index) in preImage" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                                <li v-for="(item1, index) in item.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                             </ul>
-                            <p class="clock_img_count">+6</p>
+                            <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                         </div>
                         <!-- 图片预览 -->
-                        <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                        <van-image-preview v-model="pre_show" :images="item.picUrls" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                             <template v-slot:index>
                                 
                             </template>
                         </van-image-preview>
                         <!-- 图片预览 -->
-                        <div class="clock_item_video" v-show="false">
-                            <H5Video :fileVideoSrc='fileVideoSrc'/>
+                        <div class="clock_item_video" v-if="item.videoUrl">
+                            <H5Video :fileVideoSrc='item.videoUrl'/>
                         </div>
                         <div class="clock_item_class_info">
-                            <p>来自<span>2020届舞蹈基础B班</span></p>
+                            <p>来自<span>{{item.className}}</span></p>
                         </div>
                         <div class="clock_item_func">
                             <div class="clock_item_zan_user">
                                 <div class="clock_item_info_list">
                                     <ul>
-                                        <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
+                                        <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index"><img :src="item2.avatar" alt=""></li>
                                     </ul>
                                 </div>
-                                <p>1.2w人觉得很赞</p>
+                                <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
                             </div>
                             <div class="clock_btn">
                                 <div class="clock_btn01 btn_clock">
                                     <img src="../images/CreateClock/share.png" alt="">
                                     <p>分享</p>
                                 </div>
-                                <div class="btn_clock">
+                                <div class="btn_clock" v-if="item.isPraise == false">
                                     <img src="../images/CreateClock/zan.png" alt="">
                                     <p>点赞</p>
+                                </div>
+                                <div class="btn_clock" v-if="item.isPraise == true">
+                                    <img src="../images/CreateClock/zaned.png" alt="">
+                                    <p>已赞</p>
                                 </div>
                             </div>
                         </div>
                         <van-divider />
                     </div>
 
-                    
-
-                    <div class="clock_list_item">
-                        <div class="clock_item_userinfo">
-                            <!-- 打卡头部用户信息 -->
-                            <div class="clock_item_avatar">
-                                <img src="http://img2.imgtn.bdimg.com/it/u=1347074168,2023995894&fm=26&gp=0.jpg" alt="">
-                            </div>
-                            <div class="clock_item_user_info">
-                                <p class="user_name">阿拉啦</p>
-                                <div class="clock_info">
-                                    <p>已打卡7次</p>
-                                    <p>2020/01/20 17:53</p>
-                                </div>
-                            </div>
-                            <!-- 打卡头部用户信息 -->
-                        </div>
-                        <div class="clock_item_content">
-                            <p>ICLR 2020 自确定开会地点选在非洲埃塞俄比亚首都以来，一波三起，但最终仍逃不掉取消线下会议的命运。</p>
-                        </div>
-                        <div class="clock_item_images" v-show="false">
-                            <!-- <p>这里是照片区域</p> -->
-                            <ul>
-                                <li v-for="(item, index) in preImage" :key="index"><img style="width: 2.773333rem;height: 2.773333rem;" :src="item" alt="" @click="preClick(index)"></li>
-                            </ul>
-                            <p class="clock_img_count">+6</p>
-                        </div>
-                        <!-- 图片预览 -->
-                        <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
-                            <template v-slot:index></template>
-                        </van-image-preview>
-                        <!-- 图片预览 -->
-                        <div class="clock_item_video" >
-                            <!-- 这里是视频区域 -->
-                            <H5Video :fileVideoSrc='fileVideoSrc'/>
-                        </div>
-                        <div class="clock_item_class_info">
-                            <p>来自<span>2020届舞蹈基础A班</span></p>
-                        </div>
-                        <div class="clock_item_func">
-                            <div class="clock_item_zan_user">
-                                <div class="clock_item_info_list">
-                                    <ul>
-                                        <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                        <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
-                                    </ul>
-                                </div>
-                                <p>1.2w人觉得很赞</p>
-                            </div>
-                            <div class="clock_btn">
-                                <div class="clock_btn01 btn_clock">
-                                    <img src="../images/CreateClock/share.png" alt="">
-                                    <p>分享</p>
-                                </div>
-                                <div class="btn_clock">
-                                    <img src="../images/CreateClock/zan.png" alt="">
-                                    <p>点赞</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <van-divider />
                 </div>
             </van-tab>
             <van-tab title="排行榜">
                 <div class="rankList_wrap">
                     <van-tabs v-model="activeOrder" sticky swipeable lazy-render :border='false'>
-                        <van-tab title="打卡榜" class="rank_list_clock">
+                        <van-tab title="打卡榜" class="rank_list_clock" @click="getRankList(requestData.clockId,'clock')">
                             <div class="rank_clock_list rank_list_comen">
                                 <ul>
                                     <li v-for="(clock, index) in ClockList" :key="index">
@@ -166,7 +102,7 @@
                                 </ul>
                             </div>
                         </van-tab>
-                        <van-tab title="点赞榜" class="rank_list_zan">
+                        <van-tab title="点赞榜" class="rank_list_zan" @click="getRankList(requestData.clockId,'praise')">
                             <div class="rank_zan_list rank_list_comen">
                                 <ul>
                                     <li v-for="(zan, index) in ZanList" :key="index">
@@ -202,10 +138,13 @@
             <van-tab disabled></van-tab>
             <van-tab disabled></van-tab>
         </van-tabs>
+
+        <p>{{ClockRank}}</p>
     </div>
 </template>
 <script>
 import H5Video from '../components/H5Video'
+const axios = require('axios')
 export default {
     name:'clocklist',
     data(){
@@ -287,10 +226,21 @@ export default {
             thirdSrc:'../images/CreateClock/first.png',
             pre_index:0,
             pre_show:false,
+            ClockRank:''
         }
     },
     components:{
         H5Video
+    },
+    props:{
+        ClockRecod:{
+            type:Array,
+            required:true
+        },
+        requestData:{
+            type:Array,
+            required:true
+        }
     },
     methods:{
         preClick(index){
@@ -304,6 +254,24 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
+        getRankList(clockId,type){
+            // /class-clock-student/rankingList
+            let url = 'http://192.168.3.22:8091/class-clock-student/rankingList';
+            let param = new URLSearchParams()
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("clockId", clockId)
+            param.append("type", type)
+            param.append("pageNo", 1)
+            param.append("pageSize", 20)
+            axios.post(url,param).then((res)=>{
+                let ClockRank = res.data.data
+                this.ClockRank = ClockRank
+            
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
     }
 }
 </script>

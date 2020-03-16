@@ -79,7 +79,7 @@
     <van-divider />
     <!-- 打卡介绍 end -->
     
-
+    <p>{{storCourse}}</p>
     <div style="height:60px"></div>
     <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
       <p>立即发布</p>
@@ -118,7 +118,9 @@ export default {
       storeClass:'',
       selectedClassId:[],
       selectedCourseId:[],
-      selectedDate:''
+      selectedDate:'',
+      cuid:'eYhjQznFDdvZiHz4oXt',
+      storeId:'STORE_Sh8YinETjSwngmo2szC'
 
     }
   },
@@ -188,8 +190,8 @@ export default {
       let url = 'http://192.168.3.22:8091/course/pageLsit';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", this.cuid)
+      param.append("storeId", this.storeId)
       param.append("pageNo ", 1)
       param.append("pageSize ", 90)
       axios.post(url,param).then((res)=>{
@@ -207,8 +209,8 @@ export default {
       //http://192.168.3.22:8091/class/selectStoreClass?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r%20
       let url = 'http://192.168.3.22:8091/class-clock/getUnClockClass';
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", this.cuid)
+      param.append("storeId", this.storeId)
       param.append("pageNo", 1)
       param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
@@ -226,19 +228,20 @@ export default {
     toClock(classIds,title,endDate,courseId,introduce){
       let url = 'http://192.168.3.22:8091/clock/addClock';
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", this.cuid)
+      param.append("storeId", this.storeId)
       param.append("classIds", classIds)
       param.append("title", title)
       param.append("endDate", endDate)
       param.append("courseId", courseId)
       param.append("introduce", introduce)
       axios.post(url,param).then((res)=>{
-        if(res.result == 'success'){
+        if(res.data.result == 'success'){
+          Toast.success('发布成功！')
           setTimeout(()=>{
             this.$router.push({path:'/CreateClockMana',params:'121'})
-          },200)
-        }else if(res.result == 'error'){
+          },1200)
+        }else if(res.data.result == 'error'){
           Toast(res.msg)
         }
         

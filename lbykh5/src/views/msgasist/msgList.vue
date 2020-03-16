@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <!-- <div class="navitem">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -28,12 +28,12 @@
                             <p>课时记录</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem">
-                        <a @click.prevent="msg_skipe_orgindex('DK')" href="">
+                    <div class="navitem">
+                        <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
-                            <p>打卡</p>
+                            <p>圈子/打卡</p>
                         </a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
 
@@ -174,6 +174,8 @@ export default {
                 
                 this.msglist_data = res.data.data
                 this.Asistlist = this.msglist_data.data
+                this.msg_studentid = this.Asistlist.parameter.studentId
+                this.msg_classid = this.Asistlist.parameter.classId
                 if(res.data.result == 'noLogin'){
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
@@ -337,6 +339,16 @@ export default {
                 if (this.device === 'ios') { 
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","jump":"true","storeId":"'+this.msg_storeid+'"}')
                 }
+            },
+            toClock(){
+            //     if (this.device === 'android') {
+            //         //安卓每个页面方法名不一样
+            //         window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock"}');
+            //     }
+            //     if (this.device === 'ios') { 
+            // 　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock"}')
+            //     }
+                this.$router.push({path:'/ClassCircle',query:{studentId:this.msg_studentid,classId:this.msg_classid}})
             },
 
 

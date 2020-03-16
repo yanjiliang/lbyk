@@ -255,7 +255,7 @@ const axios = require('axios')
                         if(this.imagelist[index].jumpPage == 'StoreEntryPage'){
                             
                             if (this.device === 'android') {
-                                window.android.SkipPage('{"scheme":"JGRZ","url": "'+this.Url+'/Addorganize"}');
+                                window.android.SkipPage('{"scheme":"JoiningStoreApplicationPage","url": "'+this.Url+'/Addorganize"}');
                                 
                             }
                             if (this.device === 'ios') { 

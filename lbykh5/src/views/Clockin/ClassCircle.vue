@@ -3,31 +3,37 @@
         <div class="class_info_wrap">
             <p style="text-align:center;margin-bottom:12px">舞蹈基础A班</p>
 
-            <div class="class_student_info_list">
-                <ul>
-                    <li class="class_student_item" flex="main:left dir:top">
+            <div class="class_student_info_list" ref="studentListBox">
+                <van-swipe class="my-swipe" :show-indicators='false' :change="getindex">
+                    <van-swipe-item class="class_student_item"  v-for="(item, index) in studenList" :key="index">
                         <div flex="main:left cross:center">
-                            <img class="img_48_round" style="margin-right:14px" src="http://img5.imgtn.bdimg.com/it/u=939331267,3271418350&fm=11&gp=0.jpg" alt="">
-                            <p class="font_18px color_FFFFFF font_weight_bold">叶知秋</p>
+                            <div style="margin-right:14px;text-align:center;">
+                                <img  class="img_48_round" v-if="item.studentAvatar"  :src="item.studentAvatar" alt="">
+                                <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #FFFFFF;background:rgba(255,255,255,.3);line-height:48px" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
+                            </div>
+                            <p class="font_18px color_FFFFFF font_weight_bold">{{item.studentName}}</p>
                         </div>
-                        <div flex="main:justify cross:center" style="text-align:center">
+                        <div flex="main:justify cross:center" style="text-align:center;background:rgba(255,255,255,.1);heigth:63px;border-radius:10px;padding:10px 0;margin-top:12px">
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">12</p>
+                                <p class="font_18px color_FFFFFF">{{item.clockCount}}</p>
                                 <p class="font_12px color_F6F6F6">累计打卡</p>
                             </div>
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">23</p>
+                                <p class="font_18px color_FFFFFF">{{item.praiseTotalNum}}</p>
                                 <p class="font_12px color_F6F6F6">累计获赞</p>
                             </div>
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">2</p>
+                                <p class="font_18px color_FFFFFF">{{item.attendTitleNum}}</p>
                                 <p class="font_12px color_F6F6F6">参与主题</p>
                             </div>
                         </div>
-                    </li>
-                </ul>
+                    </van-swipe-item>
+                </van-swipe>
             </div>
 
+            <p>{{classId}}</p>
+            <p>{{ClassCircleHead}}</p>
+            <p>{{ClassCircleIfo}}</p>
 
             <div class="class_circle_clock" flex="main:justify cross:center">
                 <div class="class_circle_clock_tag" flex="main:justiry cross:center">
@@ -35,10 +41,10 @@
                     <p class="font_10px color_FFFFFF">进行中</p>
                 </div>
                 <div style="box-sizing:border-box;padding-top:12px">
-                    <p class="font_16px color_353239">这一周,很难忘这一周这这这这...</p>
-                    <p class="font_14px color_9B9B9B">我已打卡<span class="color_FF444B">3</span>次</p>
+                    <p class="font_16px color_353239">{{ClassCircleHead.title}}</p>
+                    <p class="font_14px color_9B9B9B">我已打卡<span class="color_FF444B"> {{ studentClockNum }} </span>次</p>
                 </div>
-                <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)">
+                <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)" @click="toClock()">
                     <div flex="main:center cross:center" style="width:69px;height:69px;border-radius:50%;background:rgba(96,195,140,.4)">
                         <div flex="main:center cross:center" style="width:61px;height:61px;border-radius:50%;background:rgba(96,195,140,1)">
                             <p class="font_12px color_FFFFFF">去打卡</p>
@@ -125,6 +131,8 @@
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import '../../css/Clock/clocklist.css'
+const axios = require('axios')
+// import BScroll from 'better-scroll'
 export default {
     name:'ClassCircle',
     data(){
@@ -198,11 +206,53 @@ export default {
                 'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
                 'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg'
             ],
+            studenList:[
+                {
+                    img:'http://img5.imgtn.bdimg.com/it/u=939331267,3271418350&fm=11&gp=0.jpg',
+                    name:'张三',
+                    totalclock:'6',
+                    totalzan:'7',
+                    clockTheme:'2'
+                },
+                {
+                    img:'http://img5.imgtn.bdimg.com/it/u=3855228764,1994140555&fm=11&gp=0.jpg',
+                    name:'李四',
+                    totalclock:'6',
+                    totalzan:'7',
+                    clockTheme:'2'
+                },
+                {
+                    img:'http://img1.imgtn.bdimg.com/it/u=86666183,840701312&fm=11&gp=0.jpg',
+                    name:'王二',
+                    totalclock:'6',
+                    totalzan:'7',
+                    clockTheme:'2'
+                },
+                {
+                    img:'http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg',
+                    name:'麻子',
+                    totalclock:'6',
+                    totalzan:'7',
+                    clockTheme:'2'
+                },
+            ],
             pre_index:0,
             pre_show:false,
+            classId:this.$route.query.classId,
+            ClassCircleHead:'',
+            studentClockNum:''
         }
     },
+    mounted(){
+        // this.Bscroll()
+        
+        this.getClassCircleHead()
+    },
     methods:{
+        getindex(index){
+            
+            this.studentClockNum = this.studenList[index].beginningClockCount
+        },
         preClick(index){
             this.pre_show=true;
             this.pre_index=index;
@@ -214,6 +264,32 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
+        getClassCircleHead(){
+            // /class-clock/getClassCircleHead
+            let url = 'http://192.168.3.22:8091/class-clock/getClassCircleHead';
+            let param = new URLSearchParams()
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("classId", this.$route.query.classId)
+            param.append("pageNo", 1)
+            param.append("pageSize", 10)
+            axios.post(url,param).then((res)=>{
+                let ClassCircleHead = res.data.data
+                this.ClassCircleHead = ClassCircleHead
+                this.studenList = ClassCircleHead.clockStudentInfo.data
+                this.ClassCircleIfo = res.data
+                this.studentClockNum = this.studenList[0].beginningClockCount
+                this.clockId = ClassCircleHead.clockId
+                this.studentId = this.studenList[0].studentId
+                
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+        toClock(){
+            this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId}})
+        }
+        
     }
 }
 </script>
@@ -225,12 +301,18 @@ export default {
         box-sizing border-box
         padding 12px 16px 28px 16px
         .class_student_info_list
+            box-sizing border-box
+            width 9.57rem
+            padding-right 16px
+            border-radius 15px
+            position relative
             .class_student_item
                 background #60C38C
                 box-sizing border-box
-                box-shadow 0 10px 20px rgba(96,195,140,0.3)
                 padding 12px
                 border-radius 15px
+                border-right 2px solid #FFFFFF
+            
         .class_circle_clock
             margin-top 32px
             box-sizing border-box

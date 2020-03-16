@@ -59,7 +59,7 @@
     </div>
     <!-- 打卡活动列表  end -->
 
-
+    <p>{{clockManaInfo}}</p>
     
   </div>
 </div>
@@ -93,8 +93,8 @@ export default {
       let url = 'http://192.168.3.22:8091/clock/clockManagePage';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       param.append("pageNo", 1)
       param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
@@ -105,7 +105,8 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
-    }
+    },
+    
 
   }
 }

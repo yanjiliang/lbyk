@@ -11,6 +11,8 @@
     <!-- 打卡内容 end -->
     <van-divider />
 
+     
+
     <div class="file_upload_wrap">
       <van-uploader v-model="videoList" v-if="!isUpload && typeOfFile != 'image'" upload-text="视频+" accept="video/*" :after-read="afterVideoRead" multiple :max-count='1' />
       <van-uploader v-if="typeOfFile != 'video' || typeOfFile == 'image'" v-model="imageList" :after-read="afterImageRead" accept="image/*" upload-text="图片+" multiple :max-count='9' />
@@ -26,10 +28,10 @@
           <p>请选择打卡班级</p>
         </div>
         <div class="selected_pick_left" v-if="hasSelected == true">
-          <img :src="selectedClass[0].img" alt="">
+          <img :src="selectedClass[0].studentAvatar" alt="">
           <div class="select_info">
             <p>{{selectedClass[0].className}}</p>
-            <p>{{selectedClass[0].userName}}</p>
+            <p>{{selectedClass[0].studentName}}</p>
           </div>
         </div>
         <div class="pick_right">
@@ -54,13 +56,13 @@
             <li @click="quick_clock_select_class($event,index)" v-for="(item,index) in userClassList" :key="index">
               <div class="quick_clock_select_class_item">
                 <div class="user_avtar">
-                  <img :src="item.img" alt="">
+                  <img :src="item.studentAvatar" alt="">
                 </div>
 
                 <div class="class_info">
                   <p class="class_title">{{item.className}}</p>
                   <div class="down_info">
-                    <p class="user_name">{{item.userName}}</p>
+                    <p class="user_name">{{item.studentName}}</p>
                     <img v-show="item.hasSelect" src="../../images/CreateClock/selected.png" alt="">
                   </div>
                 </div>
@@ -70,10 +72,17 @@
         </div>
       </div>
     </van-popup>
-  
+    <!-- <p>{{userClassList}}</p>
+    <p>{{fileList}}</p>
+    <p>{{clockId}}</p>
+    <p>{{studentId}}</p>
+    <p>{{classId}}</p>
+    <p>{{imgfile}}</p>
+    <p>{{clock_content}}</p> -->
+
   </div>
   <div style="height:90px"></div>
-  <div class="quick_clock_btn_wrap">
+  <div class="quick_clock_btn_wrap" @click="quickToClock(imgfile,clock_content,videofile)">
     <div class="quick_colock_btn">
       <p>立即发布</p>
     </div>
@@ -100,52 +109,39 @@ export default {
       isUpload: false,
       typeOfFile: '',
       showClassPicker: false,
-      userClassList: [{
-          img: 'http://tiebapic.baidu.com/forum/w%3D580/sign=609b74c0e103738dde4a0c2a831ab073/92d0cb2d11dfa9ec53895d7775d0f703918fc134.jpg',
-          className: '英语',
-          userName: '李老师',
-          hasSelect: false
-        },
-        {
-          img: 'http://img5.imgtn.bdimg.com/it/u=1976440341,1399146824&fm=26&gp=0.jpg',
-          className: '数学',
-          userName: '张老师',
-          hasSelect: false
-        },
-        {
-          img: 'http://img3.imgtn.bdimg.com/it/u=2900828921,4164986636&fm=15&gp=0.jpg',
-          className: '语文',
-          userName: '孙老师',
-          hasSelect: false
-        },
-        {
-          img: 'http://img0.imgtn.bdimg.com/it/u=1700083999,2976908511&fm=15&gp=0.jpg',
-          className: '生物',
-          userName: '赵老师',
-          hasSelect: false
-        }
+      userClassList: [
       ],
       selectedClass: [],
       hasSelectIndex: '',
-      hasSelected: false
+      hasSelected: false,
+      studentId:this.$route.query.studentId,
+      classId:this.$route.query.classId,
+      userClass:'',
+      clockId:this.$route.query.clockId,
+      imgfile:[],
+      coverFile:''
+
     }
   },
   components: {
     H5Video
   },
+  mounted(){
+    this.getUserClass()
+  },
   methods: {
     afterVideoRead(file) {
       console.log(file)
-      console.log(file.file)
+      
       this.fileVideoSrc = file.content
+      this.videofile = file.file
       this.isUpload = true
       this.typeOfFile = 'video'
     },
     afterImageRead(file) {
-      console.log(file)
-      console.log(file.file)
-      console.log(this.imageList)
-
+       // postData是一个数组
+      this.imgfile.push(file.file)
+      console.log(this.imgfile)
       this.typeOfFile = 'image'
     },
     toSelectClass() {
@@ -184,27 +180,85 @@ export default {
       this.hasSelected = true
 
     },
-    quickToClock(){
+    quickToClock(picFile,impression,videoFile){
       
+      let self = this
       let url = 'http://192.168.3.22:8091/class-clock-student/rapidClock';
+      let paramimg = new FormData()
+      paramimg.append("cuid", 'eYhjQznFDdvZiHz4oXt')
+      paramimg.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      paramimg.append("clockId", self.$route.query.clockId)
+      paramimg.append("picFile1", picFile[0])
+      paramimg.append("picFile2", picFile[1])
+      paramimg.append("picFile3", picFile[2])
+      paramimg.append("picFile4", picFile[3])
+      paramimg.append("picFile5", picFile[4])
+      paramimg.append("picFile6", picFile[5])
+      paramimg.append("picFile7", picFile[6])
+      paramimg.append("picFile8", picFile[7])
+      paramimg.append("picFile9", picFile[8])
+      paramimg.append("classId", self.$route.query.classId)
+      paramimg.append("studentId", self.$route.query.studentId)
+      paramimg.append("impression", impression)
+
+      let paramvideo = new FormData()
+      paramvideo.append("cuid", 'eYhjQznFDdvZiHz4oXt')
+      paramvideo.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      paramvideo.append("clockId", self.$route.query.clockId)
+      paramvideo.append("classId", self.$route.query.classId)
+      paramvideo.append("studentId", self.$route.query.studentId)
+      paramvideo.append("impression", impression)
+      paramvideo.append("videoFile", videoFile)
+      let config = {
+          headers: { //添加请求头
+              'Content-Type': 'multipart/form-data'
+          }
+      }
+      if(self.typeOfFile == 'image'){
+        axios.post(url,paramimg,config).then((res)=>{
+          // Toast(res.data.result)
+          if(res.data.result == 'success'){
+            this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+          }else{
+            Toast(res.data.msg)
+          }
+          
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
+      if(self.typeOfFile == 'video'){
+        axios.post(url,paramvideo,config).then((res)=>{
+          // Toast(res.data.result)
+          if(res.data.result == 'success'){
+            this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+          }else{
+            Toast(res.data.msg)
+          }
+          
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
+    },
+    getUserClass(){
+      // /class-clock/getClockClass
+      let url = 'http://192.168.3.22:8091/class-clock/getClockClass';
       let param = new URLSearchParams()
-      param.append("cuid", 'grRF653ZPCGg2RCHNRl')
-      param.append("storeId", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
+      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       param.append("clockId", this.$route.query.clockId)
-      param.append("picFiles", 'STORE_7j2L9E9Znrx1pi3zE1r')
-      param.append("classId", 'STORE_7j2L9E9Znrx1pi3zE1r')
-      param.append("studentId", 'STORE_7j2L9E9Znrx1pi3zE1r')
-      param.append("impression", 'STORE_7j2L9E9Znrx1pi3zE1r')
-      param.append("coverFile", 'STORE_7j2L9E9Znrx1pi3zE1r')
-      param.append("videoFile", 'STORE_7j2L9E9Znrx1pi3zE1r')
+      param.append("pageNo", 1)
+      param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
-        let clockDetailInfo = res.data.data
-        this.clockDetailInfo = clockDetailInfo
+        let userClass = res.data.data
+        this.userClassList = userClass
         
       }).catch((err)=>{
         console.log(err)
       })
-    },
+
+    }
   }
 }
 </script>

@@ -45,6 +45,9 @@ Vue.prototype.$ip = Ip;
 Vue.prototype.$Url = Url
 Vue.prototype.$device = device
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 import { store } from '../store/index'
 
 import App from './App'

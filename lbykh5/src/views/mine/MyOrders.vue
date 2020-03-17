@@ -115,6 +115,9 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.myorders_data = res.data.data
                 this.myorders_list = this.myorders_data.data
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
             }).catch(()=>{
 
             })

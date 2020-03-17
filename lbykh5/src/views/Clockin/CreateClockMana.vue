@@ -59,7 +59,7 @@
     </div>
     <!-- 打卡活动列表  end -->
 
-    <p>{{clockManaInfo}}</p>
+    <!-- <p>{{clockManaInfo}}</p> -->
     
   </div>
 </div>
@@ -83,11 +83,27 @@ export default {
   methods:{
     // /clock/clockManagePage
     createClock(){
-      this.$router.push({path:'/CreateClock'})
+      // this.$router.push({path:'/CreateClock'})
+      if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+      }
+      if (this.device === 'ios') { 
+          //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'"}')
+      }
     },
     goToClockDetail(index){
       let clockId = this.clockList.data[index].clockId
-      this.$router.push({path:'/ClockDetail',query:{clockId:clockId}})
+      // this.$router.push({path:'/ClockDetail',query:{clockId:clockId}})
+      if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+      }
+      if (this.device === 'ios') { 
+          //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'"}')
+      }
     },
     getClockManaInfo(){
       let url = 'http://192.168.3.22:8091/clock/clockManagePage';

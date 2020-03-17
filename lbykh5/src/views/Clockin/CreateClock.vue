@@ -17,34 +17,45 @@
     </div>
     <van-field readonly clickable :value="selectedClass" placeholder="请选择" @click="showClassPicker = true" />
     <van-popup v-model="showClassPicker" :safe-area-inset-bottom='true' round :style="{height:'50%'}" position="bottom">
-      <div class="create_clock_pop_nav">
-        <p class="cancel_btn" @click="showClassPicker = false">取消</p>
-        <p class="pop_title">选择班级</p>
-        <p class="select_btn" @click="onClassConfirm()">确认</p>
-      </div>
-      <div class="create_clock_select_class_wrap">
-
-        <div class="create_clock_select_class_content" ref="class_list_wrap">
-          <ul class="create_clock_select_class_list" ref="class_list">
-            <li @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index" >
-              <div class="create_clock_select_class_item">
-                <div class="top">
-                  <p>{{item.className}}</p>
-                </div>
-                <div class="down">
-                  <div class="down_left">
-                    <p>{{item.categoryName}}</p>
-                    <p ref="class_type" class="class_type">{{item.teachMethod}}</p>
-                  </div>
-                  <div class="down_right" v-show="classList[index].hasSelect">
-                    <img src="../../images/CreateClock/selected.png" alt="">
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+      
+        <div class="create_clock_pop_nav">
+          <p class="cancel_btn" @click="showClassPicker = false">取消</p>
+          <p class="pop_title">选择班级</p>
+          <p class="select_btn" @click="onClassConfirm()">确认</p>
         </div>
-      </div>
+        <div class="create_clock_select_class_wrap"  v-if="storeClass.count != 0">
+
+          <div class="create_clock_select_class_content" ref="class_list_wrap">
+            <ul class="create_clock_select_class_list" ref="class_list">
+              <li @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index" >
+                <div class="create_clock_select_class_item">
+                  <div class="top">
+                    <p>{{item.className}}</p>
+                  </div>
+                  <div class="down">
+                    <div class="down_left">
+                      <p>{{item.categoryName}}</p>
+                      <p ref="class_type" class="class_type">{{item.teachMethod}}</p>
+                    </div>
+                    <div class="down_right" v-show="classList[index].hasSelect">
+                      <img src="../../images/CreateClock/selected.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="noclassdata" v-if="storeClass.count === 0">
+          <div flex="dir:top cross:center" style="margin:60px auto">
+            <img style="width:150px;height:150px;display:block" src="../../assets/images/无数据@2x.png" alt="">
+            <p class="font_12px color_C6C6C6">暂无可发布打卡活动的班级</p>
+          </div>
+        </div>
+      
+
+      
     </van-popup>
     <van-divider />
     <!-- 选择班级 end -->
@@ -79,7 +90,7 @@
     <van-divider />
     <!-- 打卡介绍 end -->
     
-    <p>{{storCourse}}</p>
+    <!-- <p>{{storeClass}}</p> -->
     <div style="height:60px"></div>
     <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
       <p>立即发布</p>
@@ -89,6 +100,8 @@
 </div>
 </template>
 <script>
+import 'flex.css'
+import '../../css/Clock/clockPublic.css'
 import {Toast} from 'vant'
 import '../../../public/resetVant.css'
 const axios = require('axios')
@@ -215,6 +228,7 @@ export default {
       param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
         let storeClass = res.data.data
+        this.storeClass = storeClass
         this.classList = storeClass.data
         for(let i=0;i<storeClass.length;i++){
           this.classList[i].hasSelect = false
@@ -239,7 +253,15 @@ export default {
         if(res.data.result == 'success'){
           Toast.success('发布成功！')
           setTimeout(()=>{
-            this.$router.push({path:'/CreateClockMana',params:'121'})
+            // this.$router.push({path:'/CreateClockMana',params:'121'})
+            if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+            }
+            if (this.device === 'ios') { 
+                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}')
+            }
           },1200)
         }else if(res.data.result == 'error'){
           Toast(res.msg)

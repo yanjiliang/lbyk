@@ -86,6 +86,9 @@ export default {
             param.append("cuid", cuid)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 this.orderInfo = res.data.data
                 // Toast(res.data.msg)
                 // this.goodsId = this.productInfo.goodsId;
@@ -165,7 +168,9 @@ export default {
                 axios.post(url,param).then((res)=>{
                     const ress = res.data.data
                     const url = ress.parameterMap.mwebUrl
-
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     if(ress.parameterMap.mwebUrl){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
                         // window.location.href = url

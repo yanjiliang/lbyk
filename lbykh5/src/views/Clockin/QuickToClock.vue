@@ -3,7 +3,7 @@
   <div class="quick_clock_wrap">
     <div class="quick_clock_title">
       <p>快速打卡</p>
-      <p>这一周很难忘</p>
+      <p>{{clockTheme}}</p>
     </div>
 
     <!-- 打卡内容 start -->
@@ -28,7 +28,8 @@
           <p>请选择打卡班级</p>
         </div>
         <div class="selected_pick_left" v-if="hasSelected == true">
-          <img :src="selectedClass[0].studentAvatar" alt="">
+          <img v-if="false" :src="selectedClass[0].studentAvatar" alt="">
+          <!-- <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.slice(0,2)}}</p> -->
           <div class="select_info">
             <p>{{selectedClass[0].className}}</p>
             <p>{{selectedClass[0].studentName}}</p>
@@ -74,10 +75,10 @@
     </van-popup>
     <!-- <p>{{userClassList}}</p>
     <p>{{fileList}}</p>
-    <p>{{clockId}}</p>
-    <p>{{studentId}}</p>
-    <p>{{classId}}</p>
-    <p>{{imgfile}}</p>
+    <p>{{clockId}}</p> -->
+    <!-- <p>{{studentId}}</p>
+    <p>{{classId}}</p> -->
+    <!-- <p>{{imgfile}}</p>
     <p>{{clock_content}}</p> -->
 
   </div>
@@ -92,6 +93,7 @@
 
 <script>
 import '../../../public/resetVant.css'
+import '../../css/Clock/clockPublic.css'
 import H5Video from '../../components/H5Video'
 const axios = require('axios')
 import {
@@ -119,7 +121,8 @@ export default {
       userClass:'',
       clockId:this.$route.query.clockId,
       imgfile:[],
-      coverFile:''
+      coverFile:'',
+      clockTheme:this.$route.query.clockTheme
 
     }
   },

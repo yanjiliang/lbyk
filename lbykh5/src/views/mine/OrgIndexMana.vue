@@ -312,14 +312,16 @@ export default {
         },
             //  以上是 banner图滑动
             //  下面是请求数据
-        getData (lnt,lat,storeId){
+        getData (lnt,lat,cuid,storeId){
             
             let url = this.ip + 'store/homepage';
             let param = new URLSearchParams()
             param.append("longitude", lnt)
             param.append("latitude", lat)
+            param.append("cuid", cuid)
             param.append("storeId", storeId)
             axios.post(url,param).then((res) =>{
+                
                 if(res.data.result == 'noPrivileges'){
                     Toast({
                         message: res.data.msg,
@@ -375,7 +377,7 @@ export default {
             this.org_storeId = qury.data.storeId
             this.token = qury.data.token
             this.cuid = qury.data.cuid
-            this.getData(qury.data.longitude,qury.data.latitude,qury.data.storeId)
+            this.getData(qury.data.longitude,qury.data.latitude,qury.data.cuid,qury.data.storeId)
             this.getFuctionInfo(qury.data.cuid,qury.data.storeId,qury.data.token)
         },
         linkIos : function (){
@@ -414,7 +416,7 @@ export default {
             this.token = msg.token
             this.cuid = msg.cuid
             this.org_storeId = msg.storeId
-            this.getData(msg.longitude,msg.latitude,msg.storeId)
+            this.getData(msg.longitude,msg.latitude,msg.cuid,msg.storeId)
             this.getFuctionInfo(msg.cuid,msg.storeId,msg.token)
         },
         getShareParams(msg){
@@ -433,6 +435,9 @@ export default {
             param.append("functional", "MarketingService")
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 let qury = res.data
                 this.openStatus = qury.data.openStatus //功能是否开启
                 this.effective = qury.data.effective //功能是否有效

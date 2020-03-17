@@ -4,10 +4,11 @@
             <van-tab title="打卡记录">
                 <div class="clock_list_wrap">
                     <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
-                        <div class="clock_item_userinfo">
+                        <div class="clock_item_userinfo" @click="toClockPersonal(index)">
                             <!-- 打卡头部用户信息 -->
                             <div class="clock_item_avatar">
-                                <img :src="item.studentAvatar" alt="">
+                                <img v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
+                                <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
                             </div>
                             <div class="clock_item_user_info">
                                 <p class="user_name">{{item.studentName}}</p>
@@ -55,7 +56,7 @@
                                     <img src="../images/CreateClock/share.png" alt="">
                                     <p>分享</p>
                                 </div>
-                                <div class="btn_clock" v-if="item.isPraise == false">
+                                <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId)">
                                     <img src="../images/CreateClock/zan.png" alt="">
                                     <p>点赞</p>
                                 </div>
@@ -74,10 +75,10 @@
             <van-tab title="排行榜">
                 <div class="rankList_wrap">
                     <van-tabs v-model="activeOrder" sticky swipeable lazy-render :border='false'>
-                        <van-tab title="打卡榜" class="rank_list_clock" @click="getRankList(requestData.clockId,'clock')">
+                        <van-tab title="打卡榜" class="rank_list_clock">
                             <div class="rank_clock_list rank_list_comen">
                                 <ul>
-                                    <li v-for="(clock, index) in ClockList" :key="index">
+                                    <li v-for="(clock, index) in ClockRank.data" :key="index">
                                         <div class="rank_item">
                                             <div class="rank_item_avatar">
                                                 <div class="avatar_pic">
@@ -87,14 +88,15 @@
                                                         <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
                                                         <span v-if="index > 2">{{index+1}}</span>
                                                     </p>
-                                                    <img :src="clock.img" alt="">
+                                                    <img v-if="clock.studentAvatar" :src="clock.studentAvatar" alt="">
+                                                    <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
                                                 </div>
                                                 <div class="rank_item_userinfo">
-                                                    <p>{{clock.name}}</p>
-                                                    <p>{{clock.class}}</p>
+                                                    <p>{{clock.studentName}}</p>
+                                                    <p>{{clock.className}}</p>
                                                 </div>
                                             </div>
-                                            <div class="rank_item_data">{{clock.num}}次</div>
+                                            <div class="rank_item_data">{{clock.clockOrPraiseCount}}次</div>
                                         </div>
                                     </li>
                                     
@@ -102,7 +104,7 @@
                                 </ul>
                             </div>
                         </van-tab>
-                        <van-tab title="点赞榜" class="rank_list_zan" @click="getRankList(requestData.clockId,'praise')">
+                        <van-tab title="点赞榜" class="rank_list_zan">
                             <div class="rank_zan_list rank_list_comen">
                                 <ul>
                                     <li v-for="(zan, index) in ZanList" :key="index">
@@ -144,89 +146,26 @@
 </template>
 <script>
 import H5Video from '../components/H5Video'
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
     name:'clocklist',
     data(){
         return{
+            ip:this.$ip.getIp(),
+            Url:this.$Url.geturl(),
+            device:this.$device.getDevice(),
             active: 0,
             activeOrder:0,
             fileVideoSrc:'https://vdept.bdstatic.com/77696852377266345341337669366b6b/7062674832625375/9aac19ae0281f09130144bb37e732d6282613949c34bdb4998d63e97f0b75a70dd6477a6df20576c5b37e3f4e6b38df7.mp4?auth_key=1583998702-0-0-9fadfaac7bcd7a1e8b61cb42773079b0',
-            ClockList:[
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'宇文化及',
-                    class:'历史A班',
-                    num:'13'
-                },
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'诸葛亮',
-                    class:'历史A班',
-                    num:'11'
-                },
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'司马懿',
-                    class:'历史A班',
-                    num:'8'
-                },
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'曹操',
-                    class:'历史A班',
-                    num:'5'
-                },
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'曹操',
-                    class:'历史A班',
-                    num:'5'
-                },
-                {
-                    img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
-                    name:'曹操',
-                    class:'历史A班',
-                    num:'5'
-                },
-            ],
-            ZanList:[
-                {
-                    img:'http://img4.imgtn.bdimg.com/it/u=3215380059,2729465507&fm=26&gp=0.jpg',
-                    name:'唐僧',
-                    class:'历史B班',
-                    num:'66'
-                },
-                {
-                    img:'http://img4.imgtn.bdimg.com/it/u=3215380059,2729465507&fm=26&gp=0.jpg',
-                    name:'孙悟空',
-                    class:'历史B班',
-                    num:'60'
-                },
-                {
-                    img:'http://img4.imgtn.bdimg.com/it/u=3215380059,2729465507&fm=26&gp=0.jpg',
-                    name:'沙僧',
-                    class:'历史B班',
-                    num:'53'
-                },
-                {
-                    img:'http://img4.imgtn.bdimg.com/it/u=3215380059,2729465507&fm=26&gp=0.jpg',
-                    name:'吴京',
-                    class:'历史B班',
-                    num:'48'
-                },
-            ],
-            preImage:[
-                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
-                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
-                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg'
-            ],
+            ClockList:[],
+            ZanList:[],
+            preImage:[],
             firstSrc:'../images/CreateClock/first.png',
             secondSrc:'../images/CreateClock/first.png',
             thirdSrc:'../images/CreateClock/first.png',
             pre_index:0,
             pre_show:false,
-            ClockRank:''
         }
     },
     components:{
@@ -237,7 +176,11 @@ export default {
             type:Array,
             required:true
         },
-        requestData:{
+        PraiseRank:{
+            type:Array,
+            required:true
+        },
+        ClockRank:{
             type:Array,
             required:true
         }
@@ -254,24 +197,38 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
-        getRankList(clockId,type){
-            // /class-clock-student/rankingList
-            let url = 'http://192.168.3.22:8091/class-clock-student/rankingList';
+        // /clock-student-praise/clockPraise
+        toClockPraise(clockStudentId){
+            let url = 'http://192.168.3.22:8091/clock-student-praise/clockPraise';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
-            param.append("clockId", clockId)
-            param.append("type", type)
-            param.append("pageNo", 1)
-            param.append("pageSize", 20)
+            param.append("clockStudentId", clockStudentId)
             axios.post(url,param).then((res)=>{
-                let ClockRank = res.data.data
-                this.ClockRank = ClockRank
+                Toast(res.data.result)
             
             }).catch((err)=>{
                 console.log(err)
             })
+        },
+        toClockPersonal(index){
+            
+            // let cuid = 
+            // let storeId = 
+            // let className = this.ClockRecod[index].className
+            const studentId = this.ClockRecod[index].studentId
+            if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+            }
+            if (this.device === 'ios') { 
+                Toast(index)
+                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+        　　　　//window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'&className='+className+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
+            }
         }
+        
     }
 }
 </script>

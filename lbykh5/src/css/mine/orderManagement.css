@@ -240,15 +240,13 @@
     overflow: hidden;
 }
 
-.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact{ 
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    width:1.813333rem;
-    height:0.426666rem;
+    box-sizing: border-box;
     background:rgba(77,201,189,1);
     box-shadow:0px 3px 6px rgba(59,155,146,0.16);
-    opacity:1;
     color:rgba(255,255,255,1);
     border-radius: 15px;
     padding: 0.13333rem 0.24rem 0.106666rem 0.13333rem;
@@ -256,6 +254,7 @@
 .orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact img{
     width: 16px;
     height: 16px;
+    display: block;
 }
 .orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact p:nth-child(1){
     width: 0.426666rem;

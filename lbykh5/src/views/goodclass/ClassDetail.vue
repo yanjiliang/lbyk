@@ -384,6 +384,9 @@ export default {
             let url = this.ip + 'smsVerCode/sendCode?phone=' + this.phone;
             axios.post(url).then((res)=>{
                 this.vercode = res.data
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
             }).catch((err)=>{
                 console.log(err)
             })
@@ -412,6 +415,9 @@ export default {
                         axios.post(url,param).then((res)=>{
                             //响应码success/error
                             this.resMsg = res.data.msg
+                            if(res.data.result == 'noLogin'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                             if(res.data.result == 'success'){
                                 this.$router.push({path:'/OrderSuccessApp'})
                             }else if(res.data.result == 'noLogin'){ 
@@ -446,7 +452,9 @@ export default {
             
             let url = this.ip + 'course/details';
             axios.post(url,param).then((res)=>{
-
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 if(res.data.result == 'noPrivileges'){
                     Toast({
                         message: res.data.msg,

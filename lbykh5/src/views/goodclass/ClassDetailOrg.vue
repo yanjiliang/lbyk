@@ -91,7 +91,7 @@
             </div>
 
             <!-- 视课 -->
-            <div class="class_pre_video">
+            <div class="class_pre_video" v-if="false">
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -370,6 +370,9 @@ import Orderinfo from '../../components/OrderInfo'
                     this.spans = this.course_detail_data.teacherInfoDtoList
 
                     this.course_detail_data.classHourUnit == 'section' ? this.classHourUnit = '节' : this.classHourUnit = '次'
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     //this.classTimeUnit= this.course_detail_data.classTimeUnit
                     if(this.course_detail_data.classTimeUnit == 'minute'){
                         this.classTimeUnit = '分钟'
@@ -530,66 +533,72 @@ import Orderinfo from '../../components/OrderInfo'
                 }
             },
             lowerShelf(storeId,courseId,cuid,token){
-                let url = this.ip + 'course/lowerShelf';
-                //?storeId=' +storeId+ '&courseId=' + courseId
-                let param = new URLSearchParams()
-                param.append("courseId", courseId)
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    let msg = res.data
-                    this.res_result = msg.result
-                    Dialog.confirm({
-                        message: '是否确认下架?',
-                        confirmButtonColor:"#ff444b",
-                        cancelButtonColor:"#9b9b9b",
-                        }).then(() => {
-                        // on close
-                        this.changeWord = false
+                Dialog.confirm({
+                    message: '是否确认下架?',
+                    confirmButtonColor:"#ff444b",
+                    cancelButtonColor:"#9b9b9b",
+                }).then(()=>{
+                    this.changeWord = false
+                    let url = this.ip + 'course/lowerShelf';
+                    let param = new URLSearchParams()
+                    param.append("courseId", courseId)
+                    param.append("cuid", cuid)
+                    param.append("storeId", storeId)
+                    param.append("userToken", token)
+                    axios.post(url,param).then((res)=>{
+                        let msg = res.data
+                        this.res_result = msg.result
+                        if(res.data.result == 'noLogin'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')
-                            this.getCourseData(this.cd_courseid,this.cd_cuid,this.cd_storeid,this.token)
-                            window.location.reload()
-                            //window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+                            
+                            // window.location.reload()
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
                         })
-                        }).catch(() => {
-                        // on cancel
-                        });
-                    
-                    
-                     
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch(()=>{
+                    //cancel
                 })
             },
             uperShelf(storeId,courseId,cuid,token){
-                let url = this.ip + 'course/upperShelf';
-                //?storeId=' +storeId+ '&courseId=' + courseId
-                let param = new URLSearchParams()
-                param.append("courseId", courseId)
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    let msg = res.data
-                    this.res_result = msg.result
-                    Dialog.confirm({
-                        message: '是否确认上架？',
-                        confirmButtonColor:"#ff444b",
-                        cancelButtonColor:"#9b9b9b",
-                        }).then(() => {
-                        // on close
-                        
+                Dialog.confirm({
+                    message: '是否确认上架?',
+                    confirmButtonColor:"#ff444b",
+                    cancelButtonColor:"#9b9b9b",
+                }).then(()=>{
+                    this.changeWord = false
+                    let url = this.ip + 'course/upperShelf';
+                    //?storeId=' +storeId+ '&courseId=' + courseId
+                    let param = new URLSearchParams()
+                    param.append("courseId", courseId)
+                    param.append("cuid", cuid)
+                    param.append("storeId", storeId)
+                    param.append("userToken", token)
+                    axios.post(url,param).then((res)=>{
+                        let msg = res.data
+                        this.res_result = msg.result
+                        if(res.data.result == 'noLogin'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')
                             this.changeWord = true
-                            this.getCourseData(this.cd_courseid,this.cd_cuid,this.cd_storeid,this.token)
-                            window.location.reload()
-                            //window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+                            
+                            // window.location.reload()
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
                         })
-                        });
-                    
-                    
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch(()=>{
+                    //cancel
                 })
+
+                
             }
         },
         mounted(){

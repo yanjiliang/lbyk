@@ -5,7 +5,7 @@
             <div class="logo">
                 <p><img src="../../images/mine/aboutus.png" alt=""></p>
                 <p>蜡笔优课</p>
-                <p>Version 1.0.2</p>
+                <p>Version 1.0.3</p>
             </div>
             
             <div class="info">

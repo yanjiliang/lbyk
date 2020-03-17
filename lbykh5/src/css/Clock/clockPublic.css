@@ -304,13 +304,13 @@
     color: #FFFFFF;
     padding: 2px 4px 2px 4px;
 }
-.clock_item_images ul{
+/* .clock_item_images ul{
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+} */
 .clock_item_images ul li{
-    margin-right: 8px;
+    margin-right: 0.32rem;
 }
 .clock_item_images ul li:last-child{
     margin-right: 0;

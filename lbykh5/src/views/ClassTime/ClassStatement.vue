@@ -120,6 +120,9 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.aa = res.data.data
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 if(res.data.data === null){
                     document.title = '课节详情'
                     document.getElementsByTagName('title')[0].innerText  = '课节详情'
@@ -149,6 +152,9 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.aa = res.data.data
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 if(res.data.data === null){
                     document.title = '课节详情'
                     document.getElementsByTagName('title')[0].innerText  = '课节详情'
@@ -222,6 +228,9 @@ export default {
                 // this.servicePhone = res.data.data
                 let str = res.data.data
                 this.servicePhone = str.servicePhone
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
             }).catch((err)=>{
                 console.log(err)
             })

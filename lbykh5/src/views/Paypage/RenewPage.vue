@@ -95,7 +95,9 @@ import { Toast } from 'vant'
           this.renewPage_resdata = res_data.data
           // Toast(res_data.msg)
           this.productInfo = res_data.data.goodsList
-          
+          if(res.data.result == 'noLogin'){
+              window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+          }
         }).catch((err) => {
           console.log(err)
         })
@@ -121,7 +123,9 @@ import { Toast } from 'vant'
         axios.post(url,param).then((res)=>{
           let res_data = res.data.data
           let orderId = res_data.orderDto.orderId
-          
+          if(res.data.result == 'noLogin'){
+              window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+          }
           if(res_data.status == 'orderSuccess'){
               if(this.device === 'android'){
                   window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')

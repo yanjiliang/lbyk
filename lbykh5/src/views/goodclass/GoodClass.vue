@@ -108,6 +108,9 @@ const axios = require('axios')
                     
                     const indexdata = res.data.data
                     this.data = indexdata.data
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     for(let i = 0; i< this.data.length;i++){
                         if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
                             this.age[i] = '不限年龄'
@@ -141,7 +144,9 @@ const axios = require('axios')
                     let indexdata = res.data.data
                     console.log(indexdata.data)
                     // let page = indexdata.pageNo
-                    
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     if(indexdata.data.length == 0){
                         // this.data = indexdata.data
                         this.pageno = pageNo-1

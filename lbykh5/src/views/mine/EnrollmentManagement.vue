@@ -1,9 +1,9 @@
 <template>
     <div class="enrollmentManagement">
         <div class="btn_issue" >
-            <div class="btn">
+            <div class="btn" @click="ClickTo('KSFB')">
                 <p><img src="../../images/mine/编辑3@2x.png" alt=""></p>
-                <p @click="ClickTo('KSFB')">快速发布</p>
+                <p>快速发布</p>
             </div>
         </div>
         
@@ -88,7 +88,8 @@ export default {
                 lat:'',
                 defaultImg: 'this.src="' + require('../../assets/images/default.png') + '"',
                 age:[],
-                time:''
+                time:'',
+                selectedItem:0
                 // itemWidth:168
             }
         },
@@ -107,6 +108,9 @@ export default {
                 param.append("userToken", token)
                 axios.post(url,param).then((res)=>{
                     // this.tableData = res.data
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     this.enroll_mana_data = res.data.data
                     let arrdate = this.enroll_mana_data.expirationDate.split('-')
                     var date = new Date();
@@ -137,7 +141,9 @@ export default {
                         // let aa = res.data.data
                         const indexdata = res.data.data
                         this.data = indexdata.data
-
+                        if(res.data.result == 'noLogin'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                         this.$nextTick(()=>{
                             for(let i = 0; i< this.data.length;i++){
                                 if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
@@ -167,6 +173,9 @@ export default {
                     axios.post(url,param).then((res) =>{
                         // let aa = res.data.data
                         const indexdata = res.data.data
+                        if(res.data.result == 'noLogin'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                         this.data = indexdata.data
                         for(let i = 0; i< this.data.length;i++){
                             if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
@@ -189,15 +198,21 @@ export default {
             this.emroll_cuid = qury.data.cuid
             this.enroll_storeId = qury.data.storeId
             this.token = qury.data.token
+            
             this.$nextTick(()=>{
+                if(this.selectedItem === 0) this.showAll()
+                if(this.selectedItem === 1) this.showEnrollmenting()
+                if(this.selectedItem === 2) this.showSoldOut()
                 this.getData(qury.data.cuid,qury.data.storeId,qury.data.token)
-                this.getGoodCourseData (qury.data.cuid,qury.data.storeId,'',qury.data.token)
+                // window.location.reload()
+                // this.getGoodCourseData (qury.data.cuid,qury.data.storeId,'',qury.data.token)
             })
             },
             linkIos : function (){
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
             },
             showAll :function (){
+                this.selectedItem = 0
                 document.getElementById('showAll').classList.add('showActive')
                 document.getElementById('showEnrollmenting').classList.remove('showActive')
                 document.getElementById('showSoldOut').classList.remove('showActive')
@@ -206,6 +221,7 @@ export default {
                 })
             },
             showEnrollmenting :function (){
+                this.selectedItem = 1
                 document.getElementById('showAll').classList.remove('showActive')
                 document.getElementById('showEnrollmenting').classList.add('showActive')
                 document.getElementById('showSoldOut').classList.remove('showActive')
@@ -214,6 +230,7 @@ export default {
                 })
             },
             showSoldOut :function (){
+                this.selectedItem = 2
                 document.getElementById('showAll').classList.remove('showActive')
                 document.getElementById('showEnrollmenting').classList.remove('showActive')
                 document.getElementById('showSoldOut').classList.add('showActive')
@@ -274,8 +291,11 @@ export default {
                         param.append("storeId", storeId)
                         param.append("id", id)
                         param.append("userToken", token)
-                        axios.post(url,param).then(() =>{
+                        axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
+                            if(res.data.result == 'noLogin'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                             this.$nextTick(()=>{
                                  this.getData(this.emroll_cuid,this.enroll_storeId,this.token) //更新删除之后的列表数据
                             })
@@ -297,8 +317,11 @@ export default {
                 param.append("status", status)
                 param.append("id", id)
                 param.append("userToken", token)
-                axios.post(url,param).then(() =>{
+                axios.post(url,param).then((res) =>{
                     //
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     this.$nextTick(()=>{
                         // this.getData(this.emroll_cuid,this.enroll_storeId)
                         this.getData(this.emroll_cuid,this.enroll_storeId,this.token)

@@ -1,26 +1,27 @@
 <template>
     <div class="ClockRecod">
         <div class="class_info_wrap">
-            <p style="text-align:center;margin-bottom:12px">舞蹈基础A班</p>
+            <p style="text-align:center;margin-bottom:12px">{{className}}</p>
 
             <div class="class_student_info_list">
                 <ul>
                     <li class="class_student_item" flex="main:left dir:top">
                         <div flex="main:left cross:center">
-                            <img class="img_48_round" style="margin-right:14px" src="http://img5.imgtn.bdimg.com/it/u=939331267,3271418350&fm=11&gp=0.jpg" alt="">
-                            <p class="font_18px color_FFFFFF font_weight_bold">叶知秋</p>
+                            <img v-if="personalInfo.data.studentAvatar" class="img_48_round" style="margin-right:14px" :src="personalInfo.data.studentAvatar" alt="">
+                            <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #FFFFFF;background:rgba(255,255,255,.3);line-height:48px;text-align:center;margin-right:8px" v-if="!personalInfo.data.studentAvatar">{{personalInfo.data.studentName.slice(0,2)}}</p>
+                            <p class="font_18px color_FFFFFF font_weight_bold">{{personalInfo.data.studentName}}</p>
                         </div>
                         <div flex="main:justify cross:center" style="text-align:center">
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">12</p>
+                                <p class="font_18px color_FFFFFF">{{personalInfo.data.clockCount}}</p>
                                 <p class="font_12px color_F6F6F6">累计打卡</p>
                             </div>
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">23</p>
+                                <p class="font_18px color_FFFFFF">{{personalInfo.data.praiseTotalNum}}</p>
                                 <p class="font_12px color_F6F6F6">累计获赞</p>
                             </div>
                             <div style="min-width:30%">
-                                <p class="font_18px color_FFFFFF">2</p>
+                                <p class="font_18px color_FFFFFF">{{personalInfo.data.attendTitleNum}}</p>
                                 <p class="font_12px color_F6F6F6">参与主题</p>
                             </div>
                         </div>
@@ -46,38 +47,33 @@
                     </div>
                 </div>
             </div> -->
+            <!-- <p>{{personalInfo.data.attendTitleNum}}</p> -->
         </div>
 
+        
         <!-- 打卡用户列表 -->
         <div style="margin-top:8px;background:#FFFFFF">
             <div class="clock_list_wrap">
-                <div class="clock_list_item">
+                <div class="clock_list_item" v-for="(item, index) in personalInfo.data.clockRecordDtos.data" :key="index">
                     <div class="clock_item_userinfo">
                         <!-- 打卡头部用户信息 -->
-                        <div class="clock_item_avatar">
-                            <img src="http://img5.imgtn.bdimg.com/it/u=263351484,3972010013&fm=26&gp=0.jpg" alt="">
-                        </div>
-                        <div class="clock_item_user_info">
-                            <p class="user_name">诸葛大力</p>
-                            <div class="clock_info">
-                                <p>已打卡9次</p>
-                                <p>2020/01/20 17:53</p>
-                            </div>
-                        </div>
+                        
+                        <img class="img_16" style="margin-right:8px" src="../../images/CreateClock/time2.png" alt="">
+                        <p class="font_16px color_9B9B9B">{{item.clockDate}}</p>
                         <!-- 打卡头部用户信息 -->
                     </div>
                     <div class="clock_item_content">
-                        <p>我们今晚邀请了112 位全卡的妈妈分享一下自己的变化。32位妈妈分享结束，自由讨论，宝妈们可以分享自己这一周的变化，思想或者行为上的变化哦。</p>
+                        <p>{{item.impression}}</p>
                     </div>
                     <div class="clock_item_images">
                         <!-- <p>这里是照片区域</p> -->
-                        <ul>
-                            <li v-for="(item, index) in preImage" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                        <ul flex="main:left cross:center">
+                            <li v-for="(item1, index) in item.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                         </ul>
-                        <p class="clock_img_count">+6</p>
+                        <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                     </div>
                     <!-- 图片预览 -->
-                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                    <van-image-preview v-model="pre_show" :images="item.picUrls" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                         <template v-slot:index>
                             
                         </template>
@@ -93,14 +89,10 @@
                         <div class="clock_item_zan_user">
                             <div class="clock_item_info_list">
                                 <ul>
-                                    <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
+                                    <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index"><img :src="item2.avatar" alt=""></li>
                                 </ul>
                             </div>
-                            <p>1.2w人觉得很赞</p>
+                            <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
                         </div>
                         <div class="clock_btn">
                             <div class="clock_btn01 btn_clock">
@@ -204,8 +196,13 @@ export default {
             pre_show:false,
             cuid:'',
             storeId:'',
-            clockId:''
+            clockId:'',
+            personalInfo:'',
+            className:this.$route.query.className
         }
+    },
+    mounted(){
+        this.getPersonalInfo()
     },
     methods:{
         preClick(index){
@@ -219,26 +216,25 @@ export default {
         onChange(index) {
             this.pre_index = index;
         },
-        getRecod(cuid,storeId,clockId){
+        getPersonalInfo(){
             //获取打卡个人主页
             // /class-clock-student/clockRecord
             // /class-clock-student/clockPersonalPage
             let url = 'http://192.168.3.22:8091/class-clock-student/clockPersonalPage';
             let param = new URLSearchParams()
-            param.append("cuid", cuid)
-            param.append("storeId", storeId)
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
             param.append("pageNo", 1)
             param.append("pageSize", 20)
-            param.append("studentId", clockId)
+            param.append("studentId", this.$route.query.studentId)
             axios.post(url,param).then((res)=>{
-                if(res.result == 'success'){
-                Toast.success('发布成功！')
-                setTimeout(()=>{
-                    this.$router.push({path:'/CreateClockMana',params:'121'})
-                },1200)
-                }else if(res.result == 'error'){
-                Toast(res.msg)
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
+                let personalInfo = res.data
+                this.personalInfo = personalInfo
+                this.personalRecod = personalInfo.data.clockRecordDtos
+                
                 
             }).catch((err)=>{
                 console.log(err)

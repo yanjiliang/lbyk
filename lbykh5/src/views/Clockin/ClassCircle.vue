@@ -31,9 +31,8 @@
                 </van-swipe>
             </div>
 
-            <p>{{classId}}</p>
-            <p>{{ClassCircleHead}}</p>
-            <p>{{ClassCircleIfo}}</p>
+            
+            <!-- <p>{{ClockRecod}}</p> -->
 
             <div class="class_circle_clock" flex="main:justify cross:center">
                 <div class="class_circle_clock_tag" flex="main:justiry cross:center">
@@ -57,65 +56,66 @@
         <!-- 打卡用户列表 -->
         <div style="margin-top:8px;background:#FFFFFF">
             <div class="clock_list_wrap">
-                <div class="clock_list_item">
-                    <div class="clock_item_userinfo">
+                <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
+                    <div class="clock_item_userinfo" @click="toClockPersonal(index)">
                         <!-- 打卡头部用户信息 -->
                         <div class="clock_item_avatar">
-                            <img src="http://img5.imgtn.bdimg.com/it/u=263351484,3972010013&fm=26&gp=0.jpg" alt="">
+                            <img  v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
+                            <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
                         </div>
                         <div class="clock_item_user_info">
-                            <p class="user_name">诸葛大力</p>
+                            <p class="user_name">{{item.studentName}}</p>
                             <div class="clock_info">
-                                <p>已打卡9次</p>
-                                <p>2020/01/20 17:53</p>
+                                <p>已打卡 {{item.clockCount}} 次</p>
+                                <p>{{item.clockDate}}</p>
                             </div>
                         </div>
                         <!-- 打卡头部用户信息 -->
                     </div>
                     <div class="clock_item_content">
-                        <p>我们今晚邀请了112 位全卡的妈妈分享一下自己的变化。32位妈妈分享结束，自由讨论，宝妈们可以分享自己这一周的变化，思想或者行为上的变化哦。</p>
+                        <p>{{item.impression}}</p>
                     </div>
-                    <div class="clock_item_images">
+                    <div class="clock_item_images" v-if="item.picUrls">
                         <!-- <p>这里是照片区域</p> -->
                         <ul>
-                            <li v-for="(item, index) in preImage" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                            <li v-for="(item, index) in item.picUrls" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                         </ul>
-                        <p class="clock_img_count">+6</p>
+                        <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                     </div>
                     <!-- 图片预览 -->
-                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                    <van-image-preview v-model="pre_show" :images="item.picUrl" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                         <template v-slot:index>
                             
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                    <div class="clock_item_video" v-show="false">
+                    <div class="clock_item_video" v-if="item.videoUrl">
                         <H5Video :fileVideoSrc='fileVideoSrc'/>
                     </div>
                     <div class="clock_item_class_info">
-                        <p>来自<span>2020届舞蹈基础B班</span></p>
+                        <p>来自<span>{{item.className}}</span></p>
                     </div>
                     <div class="clock_item_func">
                         <div class="clock_item_zan_user">
                             <div class="clock_item_info_list">
                                 <ul>
-                                    <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                    <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
+                                    <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index"><img :src="item2.avatar" alt=""></li>
                                 </ul>
                             </div>
-                            <p>1.2w人觉得很赞</p>
+                            <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
                         </div>
                         <div class="clock_btn">
                             <div class="clock_btn01 btn_clock">
                                 <img src="../../images/CreateClock/share.png" alt="">
                                 <p>分享</p>
                             </div>
-                            <div class="btn_clock">
+                            <div class="btn_clock" v-if="item.isPraise == false">
                                 <img src="../../images/CreateClock/zan.png" alt="">
                                 <p>点赞</p>
+                            </div>
+                            <div class="btn_clock" v-if="item.isPraise == true">
+                                <img src="../../images/CreateClock/zaned.png" alt="">
+                                <p>已赞</p>
                             </div>
                         </div>
                     </div>
@@ -137,6 +137,9 @@ export default {
     name:'ClassCircle',
     data(){
         return{
+            ip:this.$ip.getIp(),
+            Url:this.$Url.geturl(),
+            device:this.$device.getDevice(),
             ClockList:[
                 {
                     img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
@@ -240,13 +243,19 @@ export default {
             pre_show:false,
             classId:this.$route.query.classId,
             ClassCircleHead:'',
-            studentClockNum:''
+            studentClockNum:'',
+            ClockRecod:'',
+            clockId:"",
+            studentId:''
         }
     },
     mounted(){
         // this.Bscroll()
         
         this.getClassCircleHead()
+        setTimeout(()=>{
+            this.getClockRecod(this.clockId)
+        },300)
     },
     methods:{
         getindex(index){
@@ -281,13 +290,61 @@ export default {
                 this.studentClockNum = this.studenList[0].beginningClockCount
                 this.clockId = ClassCircleHead.clockId
                 this.studentId = this.studenList[0].studentId
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 
             }).catch((err)=>{
                 console.log(err)
             })
         },
         toClock(){
-            this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId}})
+            let clockTheme = this.ClassCircleHead.title
+            //this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId}})
+            if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock"}');
+            }
+            if (this.device === 'ios') { 
+                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme+'"}')
+            }
+        },
+        getClockRecod(clockId){
+            let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+            let param = new URLSearchParams()
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("clockId", clockId)
+            param.append("pageNo", 1)
+            param.append("pageSize", 10)
+            axios.post(url,param).then((res)=>{
+                let ClockRecod = res.data.data
+                this.ClockRecod = ClockRecod.data
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
+                
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+        toClockPersonal(index){
+            
+            // let cuid = 
+            // let storeId = 
+            // let className = this.ClockRecod[index].className
+            const studentId = this.ClockRecod[index].studentId
+            if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+            }
+            if (this.device === 'ios') { 
+                
+                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+        　　　　//window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'&className='+className+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
+            }
         }
         
     }

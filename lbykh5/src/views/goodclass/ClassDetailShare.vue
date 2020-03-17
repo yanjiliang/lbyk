@@ -147,7 +147,7 @@
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
-                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr)">复制地址</a> 
+                                <a v-clipboard:copy="course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr" v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址</a> 
                             </div> 
                         </div> 
                         <!-- <p>{{center}}</p> -->
@@ -298,6 +298,12 @@ export default {
             }
     },
     methods: {
+        onCopy(){
+            this.$message.success("内容已复制到剪切板！")
+        },
+        onError(){
+            this.$message.error("抱歉，复制失败！")
+        },
         preClick(index){
                 this.pre_show=true;
                 this.pre_index=index;
@@ -412,7 +418,7 @@ export default {
                             //响应码success/error
                             this.resStatus = res.data
                             this.resMsg = res.data.msg
-
+                            
                             
                             
                             if(res.data.result == 'success'){

@@ -219,6 +219,9 @@ import { Toast,Dialog } from 'vant'
                 param.append("userToken", token)
                 axios.post(url,param).then((res) =>{
                     this.courseDetail = res.data.data
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     if(this.courseDetail.minAge == 0 && this.courseDetail.maxAge == 60){
                         this.order_age = '不限年龄'
                     }else if(this.courseDetail.minAge == 0 && this.courseDetail.maxAge != 60){
@@ -245,7 +248,9 @@ import { Toast,Dialog } from 'vant'
                 param.append("userToken", token)
                 axios.post(url,param).then((res) =>{
                     this.order_mana_data = res.data.data.data
-                    
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -265,8 +270,11 @@ import { Toast,Dialog } from 'vant'
                         param.append("storeId", storeId)
                         param.append("id", id)
                         param.append("userToken", token)
-                        axios.post(url,param).then(() =>{
+                        axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
+                            if(res.data.result == 'noLogin'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                             this.$nextTick(()=>{
                                 // this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
                                 if(this.activeitem == 0){
@@ -301,6 +309,9 @@ import { Toast,Dialog } from 'vant'
                 axios.post(url,param).then((res) =>{
                     //传入状态，以改变预约课程状态
                     // let result = res.data
+                    if(res.data.result == 'noLogin'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     if(this.activeitem == 0){
                         this.$nextTick(()=>{
                             this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',this.token)

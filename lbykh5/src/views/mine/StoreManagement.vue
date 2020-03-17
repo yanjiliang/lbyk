@@ -35,7 +35,7 @@
                             <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':base_time<=7}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
                         <!-- <p>{{base_time}}</p> -->
                         <div class="store_data_info">
@@ -80,10 +80,11 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(255, 71, 102, .2);" src="../../images/mine/skjl2xnew.png" alt=""></p>
                                     <p>上课记录</p>
                                 </div>
-                                <div class="list_item" @click.prevent="ClickTo('DK')">
+                                <!-- <div class="list_item" @click.prevent="ClickTo('DK')">
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
-                                </div>
+                                </div> -->
+                                <div class="list_item"></div>
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>
@@ -110,7 +111,7 @@
                                 <p>更懂教育的互联网营销</p>
                                 
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':market_time<=7}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -181,6 +182,8 @@ export default {
             base_time:'',
             market_time:'',
             token:'',
+            marketFunc:false,
+            baseFunc:false
         }
     },
     beforeMount() {
@@ -233,7 +236,15 @@ export default {
             
             
             if(qury == 'DK'){
-                this.$router.push({path:'/CreateClockMana'})
+                // this.$router.push({path:'/CreateClockMana'})
+                if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+                }
+                if (this.device === 'ios') { 
+                    //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'"}')
+                }
             }else{
                 if (this.device === 'android') {
                     window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.storeId+'","classId":"" }')
@@ -303,6 +314,8 @@ export default {
                             // dateSpan = Math.abs(dateSpan);
                             let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
                             this.base_time = iDays+1
+                            
+                            this.base_time <=7 ? this.baseFunc = true : this.baseFunc = false
                         }else if(funclist[i].functional == 'MarketingService'){
                             //营销服务功能
                             this.market_effective = funclist[i].effective
@@ -319,6 +332,7 @@ export default {
                             // dateSpan = Math.abs(dateSpan);
                             let iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
                             this.market_time = iDays+1
+                            this.market_time <=7 ? this.marketFunc = true : this.marketFunc = false
                         }
                     }
                     if(this.store_mana_data.prompt){

@@ -351,6 +351,9 @@ export default {
                 
                 this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
                 this.spans = this.orgindexData.teacherInfoDtoList
+                if(res.data.result == 'noLogin'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
                 // this.aa = this.imglist.length
                 this.Bscroll()
                 //orgindexData.qualityCourseList

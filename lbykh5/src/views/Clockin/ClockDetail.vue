@@ -94,6 +94,9 @@ export default {
   name: 'clockdetail',
   data(){
     return{
+      ip:this.$ip.getIp(),
+      Url:this.$Url.geturl(),
+      device:this.$device.getDevice(),
       clockId:this.$route.query.clockId,
       clockDetailInfo:'',
       ClockRecod:'',
@@ -116,7 +119,7 @@ export default {
   },
   methods:{
     getClockDetailInfo(){
-      let url = 'http://192.168.3.22:8091/clock/clockDetails';
+      let url = this.ip+'clock/clockDetails';
       let param = new URLSearchParams()
       param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
       param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
@@ -125,7 +128,11 @@ export default {
         let clockDetailInfo = res.data.data
         this.clockDetailInfo = clockDetailInfo
         if(res.data.result == 'noLogin'){
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
         }
       }).catch((err)=>{
         console.log(err)
@@ -136,18 +143,22 @@ export default {
     },
     getClockRecod(){
       //http://192.168.3.22:8091/class-clock-student/clockRecord?pageNo=1&pageSize=20&cuid=eYhjQznFDdvZiHz4oXt%20&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_JshGyp7BySa8s3TSYdA
-      let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+      let url = this.ip+'class-clock-student/clockRecord';
       let param = new URLSearchParams()
       param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
       param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       param.append("clockId", this.$route.query.clockId)
       param.append("pageNo", 1)
-      param.append("pageSize", 10)
+      param.append("pageSize", 100)
       axios.post(url,param).then((res)=>{
         let ClockRecod = res.data.data
         this.ClockRecod = ClockRecod.data
         if(res.data.result == 'noLogin'){
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
         }
         
       }).catch((err)=>{
@@ -156,7 +167,7 @@ export default {
     },
     getRankClockList(clockId){
         // /class-clock-student/rankingList
-        let url = 'http://192.168.3.22:8091/class-clock-student/rankingList';
+        let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
         param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
         param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
@@ -174,7 +185,7 @@ export default {
     },
     getRankPraiseList(clockId){
         // /class-clock-student/rankingList
-        let url = 'http://192.168.3.22:8091/class-clock-student/rankingList';
+        let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
         param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
         param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')

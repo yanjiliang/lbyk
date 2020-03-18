@@ -212,6 +212,22 @@
     display: block;
     margin-right: 4px;
 }
+.btn_clock_zaned{
+    border: 1px solid #FF444B;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    color: #FF444B;
+}
+.btn_clock_zaned img{
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 4px;
+}
 
 .clock_item_func {
     display: flex;

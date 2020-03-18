@@ -352,7 +352,11 @@ export default {
                 this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
                 this.spans = this.orgindexData.teacherInfoDtoList
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 // this.aa = this.imglist.length
                 this.Bscroll()

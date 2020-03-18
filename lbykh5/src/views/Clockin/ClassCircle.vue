@@ -1,7 +1,7 @@
 <template>
     <div class="ClassCircle">
         <div class="class_info_wrap">
-            <p style="text-align:center;margin-bottom:12px">舞蹈基础A班</p>
+            <p style="text-align:center;margin-bottom:12px">{{ClassCircleHead.className}}</p>
 
             <div class="class_student_info_list" ref="studentListBox">
                 <van-swipe class="my-swipe" :show-indicators='false' :change="getindex">
@@ -32,7 +32,7 @@
             </div>
 
             
-            <!-- <p>{{ClockRecod}}</p> -->
+            <!-- <p>{{ClassCircleHead}}</p> -->
 
             <div class="class_circle_clock" flex="main:justify cross:center">
                 <div class="class_circle_clock_tag" flex="main:justiry cross:center">
@@ -46,17 +46,18 @@
                 <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)" @click="toClock()">
                     <div flex="main:center cross:center" style="width:69px;height:69px;border-radius:50%;background:rgba(96,195,140,.4)">
                         <div flex="main:center cross:center" style="width:61px;height:61px;border-radius:50%;background:rgba(96,195,140,1)">
-                            <p class="font_12px color_FFFFFF">去打卡</p>
+                            <p><a class="font_12px color_FFFFFF" :href="aa">去打卡</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        
         <!-- 打卡用户列表 -->
         <div style="margin-top:8px;background:#FFFFFF">
             <div class="clock_list_wrap">
-                <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
+                <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index" @click="getRecodIndex(index)">
                     <div class="clock_item_userinfo" @click="toClockPersonal(index)">
                         <!-- 打卡头部用户信息 -->
                         <div class="clock_item_avatar">
@@ -77,20 +78,20 @@
                     </div>
                     <div class="clock_item_images" v-if="item.picUrls">
                         <!-- <p>这里是照片区域</p> -->
-                        <ul>
-                            <li v-for="(item, index) in item.picUrls" :key="index"><img :src="item" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                        <ul flex="main:left cross:center">
+                            <li v-for="(item, index) in item.picUrls" :key="index"><img :src="item.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                         </ul>
                         <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                     </div>
                     <!-- 图片预览 -->
-                    <van-image-preview v-model="pre_show" :images="item.picUrl" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                         <template v-slot:index>
                             
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                    <div class="clock_item_video" v-if="item.videoUrl">
-                        <H5Video :fileVideoSrc='fileVideoSrc'/>
+                    <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:9999;position:relative">
+                        <H5Video :fileVideoSrc='item.videoUrl'/>
                     </div>
                     <div class="clock_item_class_info">
                         <p>来自<span>{{item.className}}</span></p>
@@ -109,11 +110,11 @@
                                 <img src="../../images/CreateClock/share.png" alt="">
                                 <p>分享</p>
                             </div>
-                            <div class="btn_clock" v-if="item.isPraise == false">
+                            <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId)">
                                 <img src="../../images/CreateClock/zan.png" alt="">
                                 <p>点赞</p>
                             </div>
-                            <div class="btn_clock" v-if="item.isPraise == true">
+                            <div class="btn_clock_zaned" v-if="item.isPraise == true">
                                 <img src="../../images/CreateClock/zaned.png" alt="">
                                 <p>已赞</p>
                             </div>
@@ -125,13 +126,18 @@
             </div>
         </div>
         <!-- 打卡用户列表 -->
+
+        <p>{{aa}}</p>
+        <!-- <p>{{ClockRecod[0].picUrls}}</p> -->
     </div>
 </template>
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import '../../css/Clock/clocklist.css'
+import H5Video from '../../components/H5Video'
 const axios = require('axios')
+import {Toast} from 'vant'
 // import BScroll from 'better-scroll'
 export default {
     name:'ClassCircle',
@@ -204,11 +210,7 @@ export default {
                     num:'48'
                 },
             ],
-            preImage:[
-                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
-                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
-                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg'
-            ],
+            preImage:[],
             studenList:[
                 {
                     img:'http://img5.imgtn.bdimg.com/it/u=939331267,3271418350&fm=11&gp=0.jpg',
@@ -246,8 +248,13 @@ export default {
             studentClockNum:'',
             ClockRecod:'',
             clockId:"",
-            studentId:''
+            studentId:'',
+            selectRecod:'',
+            aa:''
         }
+    },
+    components:{
+        H5Video
     },
     mounted(){
         // this.Bscroll()
@@ -258,6 +265,16 @@ export default {
         },300)
     },
     methods:{
+        getRecodIndex(index){
+            this.selectRecod = index
+            let item = this.ClockRecod[index].picUrls;
+            let len = this.ClockRecod[index].picUrls.length;
+            this.preImage = [];
+            for(let i=0;i<len;i++){
+                //
+                this.preImage.push(item[i].url)
+            }
+        },
         getindex(index){
             
             this.studentClockNum = this.studenList[index].beginningClockCount
@@ -265,6 +282,9 @@ export default {
         preClick(index){
             this.pre_show=true;
             this.pre_index=index;
+            // Toast(this.selectRecod)
+            
+            // this.preImage = this.ClockRecod[0].picUrls
             // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "PREVIEW" ,"show": "false"}')
         },
         onClose(){
@@ -275,7 +295,7 @@ export default {
         },
         getClassCircleHead(){
             // /class-clock/getClassCircleHead
-            let url = 'http://192.168.3.22:8091/class-clock/getClassCircleHead';
+            let url = this.ip+'class-clock/getClassCircleHead';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
@@ -291,7 +311,11 @@ export default {
                 this.clockId = ClassCircleHead.clockId
                 this.studentId = this.studenList[0].studentId
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 
             }).catch((err)=>{
@@ -307,11 +331,14 @@ export default {
             }
             if (this.device === 'ios') { 
                 //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme+'"}')
+                // this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId,clockTheme:clockTheme}})
+                let url = this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme
+                this.aa = url
+        // 　　　　 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}')
             }
         },
         getClockRecod(clockId){
-            let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+            let url = this.ip+'class-clock-student/clockRecord';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
@@ -321,8 +348,13 @@ export default {
             axios.post(url,param).then((res)=>{
                 let ClockRecod = res.data.data
                 this.ClockRecod = ClockRecod.data
+                
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 
             }).catch((err)=>{
@@ -345,7 +377,23 @@ export default {
         　　　　//window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'&className='+className+'"}')
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
             }
-        }
+        },
+        toClockPraise(clockStudentId){
+            let url = this.ip+'clock-student-praise/clockPraise';
+            let param = new URLSearchParams()
+            param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
+            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("clockStudentId", clockStudentId)
+            axios.post(url,param).then((res)=>{
+                // Toast(res.data.result)
+                if(res.data.result == 'success'){
+                    window.location.reload()
+                }
+            
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
         
     }
 }

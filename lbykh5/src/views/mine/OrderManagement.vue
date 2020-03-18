@@ -220,7 +220,11 @@ import { Toast,Dialog } from 'vant'
                 axios.post(url,param).then((res) =>{
                     this.courseDetail = res.data.data
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     if(this.courseDetail.minAge == 0 && this.courseDetail.maxAge == 60){
                         this.order_age = '不限年龄'
@@ -249,7 +253,11 @@ import { Toast,Dialog } from 'vant'
                 axios.post(url,param).then((res) =>{
                     this.order_mana_data = res.data.data.data
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                 }).catch((err)=>{
                     console.log(err)
@@ -273,7 +281,11 @@ import { Toast,Dialog } from 'vant'
                         axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
                             if(res.data.result == 'noLogin'){
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
                             }
                             this.$nextTick(()=>{
                                 // this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
@@ -310,7 +322,11 @@ import { Toast,Dialog } from 'vant'
                     //传入状态，以改变预约课程状态
                     // let result = res.data
                     if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                     }
                     if(this.activeitem == 0){
                         this.$nextTick(()=>{

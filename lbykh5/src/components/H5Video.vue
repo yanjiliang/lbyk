@@ -5,7 +5,6 @@
             :playsinline="true" 
             :options="playerOptions">
         </video-player>
-        
     </div>
 </template>
 <script>

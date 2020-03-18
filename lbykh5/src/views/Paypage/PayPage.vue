@@ -87,7 +87,11 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 this.orderInfo = res.data.data
                 // Toast(res.data.msg)
@@ -169,7 +173,11 @@ export default {
                     const ress = res.data.data
                     const url = ress.parameterMap.mwebUrl
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     if(ress.parameterMap.mwebUrl){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')

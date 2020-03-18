@@ -89,9 +89,9 @@
                     </div>
                 </div>
             </div>
-
+            <p>{{course_detail_data}}</p>
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="false">
+            <div class="class_pre_video" >
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -99,7 +99,7 @@
                     </div>
                     <a href="" @click.prevent="pre_edit_page('VIDEO',cd_token)">编辑/添加</a>
                 </div>
-                <div class="noclass" v-if="course_detail_data.teacherInfoDtoList.length == 0">
+                <div class="noclass" v-if="course_detail_data.videoUrl.length == 0">
                     <div class="noclass_icon">
                         <img src="../../images/GoodClass/orgindex/通用-线2@2x.png" alt="icon图片">
                     </div>
@@ -107,6 +107,12 @@
                         <p>未添加视频展示</p>
                         <p>视频更容易吸引用户，并增加曝光机会</p>
                     </div>
+
+                    
+                </div>
+                <h1 style="border:1px solid red;text-align:center" @click="Qcshare()">二维码分享</h1>
+                <div v-if="course_detail_data.videoUrl">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
                 </div>
             </div>
             <!-- 授课老师 -->
@@ -247,6 +253,8 @@ let amapManager = new AMapManager();
 
 const axios = require('axios')
 
+import H5Video from '../../components/H5Video'
+
 import { Toast, Dialog  } from 'vant';
 
 import BScroll from 'better-scroll'
@@ -255,7 +263,8 @@ import Orderinfo from '../../components/OrderInfo'
     export default {
         name: 'classdetailOrg',
         components:{
-            Orderinfo
+            Orderinfo,
+            H5Video
         },
         data() {
             return {
@@ -302,10 +311,16 @@ import Orderinfo from '../../components/OrderInfo'
                 classTimeUnit:'',
                 spans:Object,
                 pre_index:0,
-                pre_show:false
+                pre_show:false,
+                fileVideoSrc:''
             }
         },
         methods: {
+            Qcshare(){
+                //http://192.168.3.26:8089/h5/ClassDetailShare?courseId=COURSE_ixQHyUfaqWR7DkZS4WT&from=singlemessage&isappinstalled=0
+                let url = this.Url + 'ClassDetailShare?courseId='+this.cd_courseid
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "QRCODE" ,"url": "'+url+'"}')
+            },
             preClick(index){
                 this.pre_show=true;
                 this.pre_index=index;
@@ -326,8 +341,9 @@ import Orderinfo from '../../components/OrderInfo'
                 // document.getElementById('tags')[i].style.width= width + 'px'
                 tags[i].style.width = width + 'px'
             }
+            var tagsbox = document.getElementById('tagsbox')
             this.$nextTick(()=>{
-                var tagsbox = document.getElementById('tagsbox')
+                
                 console.log(tagsbox)
                 this.scroll = new  BScroll(tagsbox,{
                     startX:0,
@@ -371,7 +387,14 @@ import Orderinfo from '../../components/OrderInfo'
 
                     this.course_detail_data.classHourUnit == 'section' ? this.classHourUnit = '节' : this.classHourUnit = '次'
                     if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    }
+                    if(res.data.result == 'error'){
+                        Toast(res.data.msg)
                     }
                     //this.classTimeUnit= this.course_detail_data.classTimeUnit
                     if(this.course_detail_data.classTimeUnit == 'minute'){
@@ -549,7 +572,11 @@ import Orderinfo from '../../components/OrderInfo'
                         let msg = res.data
                         this.res_result = msg.result
                         if(res.data.result == 'noLogin'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                         }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')
@@ -582,7 +609,11 @@ import Orderinfo from '../../components/OrderInfo'
                         let msg = res.data
                         this.res_result = msg.result
                         if(res.data.result == 'noLogin'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                         }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')

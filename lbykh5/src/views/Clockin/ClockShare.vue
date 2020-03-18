@@ -9,28 +9,29 @@
                 <p style="position:absolute;top:0;right:0;z-index:1001;width:53px;height:51px"><img style="width:53px;height:51px" src="../../images/CreateClock/clock_share_tag.png" alt=""></p>
                 <p class="clock_share_avatar" flex="main:center cross:center"><img class="img_60_round" src="http://pic1.zhimg.com/50/v2-e7d9a07b0c98851d443c60a81e90b6aa_hd.jpg" alt=""></p>
                 <div flex="dir:top main:center cross:center">
-                    <p class="font_18px font_weight_bold color_353239">学生名字</p>
-                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B">  </span>次</p>
-                    <p class="font_18px color_353239 font_weight_400">“打卡的主题”</p>
+                    <p class="font_18px font_weight_bold color_353239">{{ClockResult.studentName}}</p>
+                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B"> {{ClockResult.clockCount}} </span>次</p>
+                    <p class="font_18px color_353239 font_weight_400">“{{ClockResult.title}}”</p>
                 </div>
                 <div class="clock_content">
-                    <p class="font_14px color_9B9B9B">打卡的感想</p>
+                    <p class="font_16px color_9B9B9B">{{ClockResult.impression}}</p>
 
                 </div>
                 
                 <div class="clock_item_images" v-show="true">
                     <!-- <p>这里是照片区域</p> -->
-                    <ul>
+                    <ul flex="main:left cross:center">
                         <!-- <li v-for="(item, index) in preImage" :key="index"><img :src="item" alt="" @click="preClick(index)"></li> -->
-                        <li @click="preClick(0)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[0]" alt=""></li>
+                        <li v-for="(item1, index) in item.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                        <!-- <li @click="preClick(0)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[0]" alt=""></li>
                         <li @click="preClick(1)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[1]" alt=""></li>
                         <li @click="preClick(2)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[2]" alt=""></li>
-                        <li @click="preClick(3)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[3]" alt=""></li>
+                        <li @click="preClick(3)"><img style="width: 1.866666rem;height: 1.866666rem;" :src="preImage[3]" alt=""></li> -->
                     </ul>
-                    <p class="clock_img_count" v-if="preImage.length > 3">+{{preImage.length-3}}</p>
+                    <p class="clock_img_count" v-if="item.picUrls.length > 3">+{{preImage.length-3}}</p>
                 </div>
                 <!-- 图片预览 -->
-                <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                <van-image-preview v-model="pre_show" :images="item.picUrls" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                     <template v-slot:index></template>
                 </van-image-preview>
                 <!-- 图片预览 -->
@@ -145,6 +146,9 @@ export default {
     },
     data(){
         return{
+            ip:this.$ip.getIp(),
+            Url:this.$Url.geturl(),
+            device:this.$device.getDevice(),
             fileVideoSrc:'',
             pre_index:0,
             pre_show:false,
@@ -159,7 +163,7 @@ export default {
         }
     },
     mounted(){
-        // this.getClockResult()
+        this.getClockResult()
     },
     methods:{
         preClick(index){
@@ -175,7 +179,7 @@ export default {
         },
         getClockResult(){
             // /class-clock-student/detailedClock
-            let url = 'http://192.168.3.22:8091/class-clock-student/clockRecord';
+            let url = this.ip+'class-clock-student/detailedClock';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
@@ -186,7 +190,7 @@ export default {
             // param.append("courseId", 10)
             axios.post(url,param).then((res)=>{
                 let ClockResult = res.data.data
-                this.ClockResult = ClockResult.data
+                this.ClockResult = ClockResult
             }).catch((err)=>{
                 console.log(err)
             })

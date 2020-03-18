@@ -80,7 +80,12 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.resultinfo= res.data.data
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    
                 }
                 if(this.resultinfo.status == 'openingSuccess'){//这里只是下单成功
                     //const orderId = this.resultinfo.data.orderDto.orderId
@@ -136,7 +141,11 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.productInfo = res.data.data;
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
             }).catch((err)=>{
                 console.log(err)
@@ -159,7 +168,11 @@ export default {
                 this.effective = qury.data.effective //功能是否有效
                 this.getProductinfo(this.storeId,this.cuid,this.token)
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 if(qury.data.openStatus){
                     if(this.device === 'android'){

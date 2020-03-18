@@ -106,7 +106,7 @@ export default {
       }
     },
     getClockManaInfo(){
-      let url = 'http://192.168.3.22:8091/clock/clockManagePage';
+      let url = this.ip+'clock/clockManagePage';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
       param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')

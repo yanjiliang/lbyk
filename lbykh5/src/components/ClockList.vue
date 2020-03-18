@@ -3,7 +3,7 @@
         <van-tabs v-model="active" sticky swipeable lazy-render :border='false'>
             <van-tab title="打卡记录">
                 <div class="clock_list_wrap">
-                    <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
+                    <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index" @click="getRecodIndex(index)">
                         <div class="clock_item_userinfo" @click="toClockPersonal(index)">
                             <!-- 打卡头部用户信息 -->
                             <div class="clock_item_avatar">
@@ -30,13 +30,13 @@
                             <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                         </div>
                         <!-- 图片预览 -->
-                        <van-image-preview v-model="pre_show" :images="item.picUrls" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                        <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                             <template v-slot:index>
                                 
                             </template>
                         </van-image-preview>
                         <!-- 图片预览 -->
-                        <div class="clock_item_video" v-if="item.videoUrl">
+                        <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:9999;position:relative">
                             <H5Video :fileVideoSrc='item.videoUrl'/>
                         </div>
                         <div class="clock_item_class_info">
@@ -60,7 +60,7 @@
                                     <img src="../images/CreateClock/zan.png" alt="">
                                     <p>点赞</p>
                                 </div>
-                                <div class="btn_clock" v-if="item.isPraise == true">
+                                <div class="btn_clock_zaned" v-if="item.isPraise == true">
                                     <img src="../images/CreateClock/zaned.png" alt="">
                                     <p>已赞</p>
                                 </div>
@@ -107,7 +107,7 @@
                         <van-tab title="点赞榜" class="rank_list_zan">
                             <div class="rank_zan_list rank_list_comen">
                                 <ul>
-                                    <li v-for="(zan, index) in ZanList" :key="index">
+                                    <li v-for="(zan, index) in PraiseRank.data" :key="index">
                                         <div class="rank_item">
                                             <div class="rank_item_avatar">
                                                 <div class="avatar_pic">
@@ -118,14 +118,15 @@
                                                         <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
                                                         <span v-if="index > 2">{{index+1}}</span>
                                                     </p>
-                                                    <img :src="zan.img" alt="">
+                                                    <img v-if="zan.studentAvatar" :src="zan.studentAvatar" alt="">
+                                                    <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!zan.studentAvatar">{{zan.studentName.slice(0,2)}}</p>
                                                 </div>
                                                 <div class="rank_item_userinfo">
-                                                    <p>{{zan.name}}</p>
-                                                    <p>{{zan.class}}</p>
+                                                    <p>{{zan.studentName}}</p>
+                                                    <p>{{zan.className}}</p>
                                                 </div>
                                             </div>
-                                            <div class="rank_item_data">{{zan.num}}次</div>
+                                            <div class="rank_item_data">{{zan.clockOrPraiseCount}}次</div>
                                         </div>
                                     </li>
                                     
@@ -141,7 +142,7 @@
             <van-tab disabled></van-tab>
         </van-tabs>
 
-        <p>{{ClockRank}}</p>
+        <!-- <p>{{PraiseRank}}</p> -->
     </div>
 </template>
 <script>
@@ -186,6 +187,16 @@ export default {
         }
     },
     methods:{
+        getRecodIndex(index){
+            // this.selectRecod = index
+            let item = this.ClockRecod[index].picUrls;
+            let len = this.ClockRecod[index].picUrls.length;
+            this.preImage = [];
+            for(let i=0;i<len;i++){
+                //
+                this.preImage.push(item[i].url)
+            }
+        },
         preClick(index){
             this.pre_show=true;
             this.pre_index=index;

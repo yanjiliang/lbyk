@@ -109,7 +109,11 @@ export default {
                 axios.post(url,param).then((res)=>{
                     // this.tableData = res.data
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     this.enroll_mana_data = res.data.data
                     let arrdate = this.enroll_mana_data.expirationDate.split('-')
@@ -142,7 +146,11 @@ export default {
                         const indexdata = res.data.data
                         this.data = indexdata.data
                         if(res.data.result == 'noLogin'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                         }
                         this.$nextTick(()=>{
                             for(let i = 0; i< this.data.length;i++){
@@ -174,7 +182,11 @@ export default {
                         // let aa = res.data.data
                         const indexdata = res.data.data
                         if(res.data.result == 'noLogin'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
                         }
                         this.data = indexdata.data
                         for(let i = 0; i< this.data.length;i++){
@@ -294,7 +306,11 @@ export default {
                         axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
                             if(res.data.result == 'noLogin'){
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
                             }
                             this.$nextTick(()=>{
                                  this.getData(this.emroll_cuid,this.enroll_storeId,this.token) //更新删除之后的列表数据
@@ -320,7 +336,11 @@ export default {
                 axios.post(url,param).then((res) =>{
                     //
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     this.$nextTick(()=>{
                         // this.getData(this.emroll_cuid,this.enroll_storeId)

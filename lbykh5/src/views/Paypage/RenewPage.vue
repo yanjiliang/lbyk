@@ -96,7 +96,11 @@ import { Toast } from 'vant'
           // Toast(res_data.msg)
           this.productInfo = res_data.data.goodsList
           if(res.data.result == 'noLogin'){
-              window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              if(this.device == 'android'){
+                  window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }else if(this.device == 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }
           }
         }).catch((err) => {
           console.log(err)
@@ -124,7 +128,11 @@ import { Toast } from 'vant'
           let res_data = res.data.data
           let orderId = res_data.orderDto.orderId
           if(res.data.result == 'noLogin'){
-              window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              if(this.device == 'android'){
+                  window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }else if(this.device == 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }
           }
           if(res_data.status == 'orderSuccess'){
               if(this.device === 'android'){

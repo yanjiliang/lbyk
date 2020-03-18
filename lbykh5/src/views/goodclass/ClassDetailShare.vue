@@ -424,7 +424,11 @@ export default {
                             if(res.data.result == 'success'){
                                 this.$router.push({path:'/AppointmentSuccess'})
                             }else if(res.data.result == 'noLogin'){ 
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
                             }else if(res.data.result == 'error'){
                                 if(res.data.msg === '课程已下架'){
                                     this.$router.push({ name:'AppointmentFail',params:{ resmsg: this.resMsg }})

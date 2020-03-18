@@ -333,7 +333,11 @@ export default {
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
                     },1500)
                 }else if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }else if(res.data.result == 'success'){
                     this.orgindexData = res.data.data
                     this.org_index_phone = this.orgindexData.servicePhone
@@ -436,7 +440,11 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 let qury = res.data
                 this.openStatus = qury.data.openStatus //功能是否开启

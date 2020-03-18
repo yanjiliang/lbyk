@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <!-- <div class="navitem">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -28,12 +28,12 @@
                             <p>课时记录</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem">
+                    <div class="navitem">
                         <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>圈子/打卡</p>
                         </a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
 
@@ -177,7 +177,11 @@ export default {
                 this.msg_studentid = this.Asistlist.parameter.studentId
                 this.msg_classid = this.Asistlist.parameter.classId
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 // msgLinkDtoList
             }).catch((err)=>{
@@ -198,7 +202,11 @@ export default {
                 this.isManager = this.msg_staffinfo_data.manager
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 if(this.type == 'classStudent'){
                     this.msg_identity = 'student'
@@ -229,7 +237,11 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 this.staffId = res.data.data.staffId
             })
@@ -245,7 +257,11 @@ export default {
                 this.msgorg_data = res.data.data
                 this.phone = this.msgorg_data.servicePhone
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
             }).catch((err)=>{
                 console.log(err)

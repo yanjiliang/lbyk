@@ -385,7 +385,11 @@ export default {
             axios.post(url).then((res)=>{
                 this.vercode = res.data
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
             }).catch((err)=>{
                 console.log(err)
@@ -415,13 +419,15 @@ export default {
                         axios.post(url,param).then((res)=>{
                             //响应码success/error
                             this.resMsg = res.data.msg
-                            if(res.data.result == 'noLogin'){
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                            }
+                            
                             if(res.data.result == 'success'){
                                 this.$router.push({path:'/OrderSuccessApp'})
                             }else if(res.data.result == 'noLogin'){ 
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
                             }else if(res.data.result == 'error'){
                                 if(res.data.msg === '课程已下架'){
                                     this.$router.push({ name:'OrderFaileApp',params:{ resmsg: this.resMsg }})
@@ -452,9 +458,7 @@ export default {
             
             let url = this.ip + 'course/details';
             axios.post(url,param).then((res)=>{
-                if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                }
+                
                 if(res.data.result == 'noPrivileges'){
                     Toast({
                         message: res.data.msg,
@@ -466,7 +470,11 @@ export default {
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
                     },1500)
                 }else if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }else if(res.data.result == 'success'){
                     this.course_detail_data = res.data.data
                    this.res_result = res.data.result //课程已下架的返回结果为false

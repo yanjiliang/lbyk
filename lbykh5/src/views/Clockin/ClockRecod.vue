@@ -54,7 +54,7 @@
         <!-- 打卡用户列表 -->
         <div style="margin-top:8px;background:#FFFFFF">
             <div class="clock_list_wrap">
-                <div class="clock_list_item" v-for="(item, index) in personalInfo.data.clockRecordDtos.data" :key="index">
+                <div class="clock_list_item" v-for="(item, index) in personalInfo.data.clockRecordDtos.data" :key="index" @click="getRecodIndex(index)">
                     <div class="clock_item_userinfo">
                         <!-- 打卡头部用户信息 -->
                         
@@ -73,14 +73,14 @@
                         <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                     </div>
                     <!-- 图片预览 -->
-                    <van-image-preview v-model="pre_show" :images="item.picUrls" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                         <template v-slot:index>
                             
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                    <div class="clock_item_video" v-show="false">
-                        <H5Video :fileVideoSrc='fileVideoSrc'/>
+                    <div class="clock_item_video" v-if="item.videoUrl">
+                        <H5Video :fileVideoSrc='item.videoUrl'/>
                     </div>
                     <div class="clock_item_class_info">
                         <p>来自<span>2020届舞蹈基础B班</span></p>
@@ -99,9 +99,13 @@
                                 <img src="../../images/CreateClock/share.png" alt="">
                                 <p>分享</p>
                             </div>
-                            <div class="btn_clock">
+                            <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId)">
                                 <img src="../../images/CreateClock/zan.png" alt="">
                                 <p>点赞</p>
+                            </div>
+                            <div class="btn_clock_zaned" v-if="item.isPraise == true">
+                                <img src="../../images/CreateClock/zaned.png" alt="">
+                                <p>已赞</p>
                             </div>
                         </div>
                     </div>
@@ -123,6 +127,9 @@ export default {
     name:'ClockRecod',
     data(){
         return{
+            ip:this.$ip.getIp(),
+            Url:this.$Url.geturl(),
+            device:this.$device.getDevice(),
             ClockList:[
                 {
                     img:'http://img2.imgtn.bdimg.com/it/u=335857360,1626370546&fm=26&gp=0.jpg',
@@ -187,11 +194,7 @@ export default {
                     num:'48'
                 },
             ],
-            preImage:[
-                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
-                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
-                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg'
-            ],
+            preImage:[],
             pre_index:0,
             pre_show:false,
             cuid:'',
@@ -205,6 +208,17 @@ export default {
         this.getPersonalInfo()
     },
     methods:{
+        getRecodIndex(index){
+            // this.selectRecod = index
+            let clockRecod = this.personalInfo.data.clockRecordDtos.data
+            let item = clockRecod[index].picUrls;
+            let len = clockRecod[index].picUrls.length;
+            this.preImage = [];
+            for(let i=0;i<len;i++){
+                //
+                this.preImage.push(item[i].url)
+            }
+        },
         preClick(index){
             this.pre_show=true;
             this.pre_index=index;
@@ -220,16 +234,20 @@ export default {
             //获取打卡个人主页
             // /class-clock-student/clockRecord
             // /class-clock-student/clockPersonalPage
-            let url = 'http://192.168.3.22:8091/class-clock-student/clockPersonalPage';
+            let url = this.ip+'class-clock-student/clockPersonalPage';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
             param.append("pageNo", 1)
-            param.append("pageSize", 20)
+            param.append("pageSize", 100)
             param.append("studentId", this.$route.query.studentId)
             axios.post(url,param).then((res)=>{
                 if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }
                 let personalInfo = res.data
                 this.personalInfo = personalInfo

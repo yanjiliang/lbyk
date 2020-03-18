@@ -200,7 +200,7 @@ export default {
       })
     },
     getStoreCoureList(){
-      let url = 'http://192.168.3.22:8091/course/pageLsit';
+      let url = this.ip+'course/pageLsit';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
@@ -220,7 +220,7 @@ export default {
     },
     getStoreClass(){
       //http://192.168.3.22:8091/class/selectStoreClass?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r%20
-      let url = 'http://192.168.3.22:8091/class-clock/getUnClockClass';
+      let url = this.ip+'class-clock/getUnClockClass';
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
       param.append("storeId", this.storeId)
@@ -240,7 +240,7 @@ export default {
       })
     },
     toClock(classIds,title,endDate,courseId,introduce){
-      let url = 'http://192.168.3.22:8091/clock/addClock';
+      let url = this.ip+'clock/addClock';
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
       param.append("storeId", this.storeId)

@@ -17,7 +17,7 @@
       <van-uploader v-model="videoList" v-if="!isUpload && typeOfFile != 'image'" upload-text="视频+" accept="video/*" :after-read="afterVideoRead" multiple :max-count='1' />
       <van-uploader v-if="typeOfFile != 'video' || typeOfFile == 'image'" v-model="imageList" :after-read="afterImageRead" accept="image/*" upload-text="图片+" multiple :max-count='9' />
     </div>
-    <div class="colock_video_box" v-if="isUpload">
+    <div class="colock_video_box" v-if="isUpload" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:999;position:relative">
       <H5Video :fileVideoSrc='fileVideoSrc' />
     </div>
 
@@ -28,8 +28,8 @@
           <p>请选择打卡班级</p>
         </div>
         <div class="selected_pick_left" v-if="hasSelected == true">
-          <img v-if="false" :src="selectedClass[0].studentAvatar" alt="">
-          <!-- <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.slice(0,2)}}</p> -->
+          <img v-if="selectedClass[0].studentAvatar" :src="selectedClass[0].studentAvatar" alt="">
+          <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center;margin-right:8px" v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.slice(0,2)}}</p>
           <div class="select_info">
             <p>{{selectedClass[0].className}}</p>
             <p>{{selectedClass[0].studentName}}</p>
@@ -57,7 +57,8 @@
             <li @click="quick_clock_select_class($event,index)" v-for="(item,index) in userClassList" :key="index">
               <div class="quick_clock_select_class_item">
                 <div class="user_avtar">
-                  <img :src="item.studentAvatar" alt="">
+                  <img v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
+                  <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center;margin-right:8px" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
                 </div>
 
                 <div class="class_info">
@@ -73,13 +74,9 @@
         </div>
       </div>
     </van-popup>
-    <!-- <p>{{userClassList}}</p>
-    <p>{{fileList}}</p>
-    <p>{{clockId}}</p> -->
-    <!-- <p>{{studentId}}</p>
-    <p>{{classId}}</p> -->
-    <!-- <p>{{imgfile}}</p>
-    <p>{{clock_content}}</p> -->
+    
+    <p>{{bb}}</p>
+    
 
   </div>
   <div style="height:90px"></div>
@@ -103,6 +100,9 @@ export default {
   name: 'QuickToClock',
   data() {
     return {
+      ip:this.$ip.getIp(),
+      Url:this.$Url.geturl(),
+      device:this.$device.getDevice(),
       fileList: [],
       imageList: [],
       videoList: [],
@@ -122,7 +122,9 @@ export default {
       clockId:this.$route.query.clockId,
       imgfile:[],
       coverFile:'',
-      clockTheme:this.$route.query.clockTheme
+      clockTheme:this.$route.query.clockTheme,
+      aa:'',
+      bb:''
 
     }
   },
@@ -186,20 +188,23 @@ export default {
     quickToClock(picFile,impression,videoFile){
       
       let self = this
-      let url = 'http://192.168.3.22:8091/class-clock-student/rapidClock';
+      let url = this.ip+'class-clock-student/rapidClock';
       let paramimg = new FormData()
       paramimg.append("cuid", 'eYhjQznFDdvZiHz4oXt')
       paramimg.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       paramimg.append("clockId", self.$route.query.clockId)
-      paramimg.append("picFile1", picFile[0])
-      paramimg.append("picFile2", picFile[1])
-      paramimg.append("picFile3", picFile[2])
-      paramimg.append("picFile4", picFile[3])
-      paramimg.append("picFile5", picFile[4])
-      paramimg.append("picFile6", picFile[5])
-      paramimg.append("picFile7", picFile[6])
-      paramimg.append("picFile8", picFile[7])
-      paramimg.append("picFile9", picFile[8])
+      // paramimg.append("picFile1", picFile[0])
+      // paramimg.append("picFile2", picFile[1])
+      // paramimg.append("picFile3", picFile[2])
+      // paramimg.append("picFile4", picFile[3])
+      // paramimg.append("picFile5", picFile[4])
+      // paramimg.append("picFile6", picFile[5])
+      // paramimg.append("picFile7", picFile[6])
+      // paramimg.append("picFile8", picFile[7])
+      // paramimg.append("picFile9", picFile[8])
+      for(let i=0;i<picFile.length;i++){
+        paramimg.append("picFile"+i,picFile[i])
+      }
       paramimg.append("classId", self.$route.query.classId)
       paramimg.append("studentId", self.$route.query.studentId)
       paramimg.append("impression", impression)
@@ -218,10 +223,13 @@ export default {
           }
       }
       if(self.typeOfFile == 'image'){
+        this.aa = paramimg
         axios.post(url,paramimg,config).then((res)=>{
           // Toast(res.data.result)
           if(res.data.result == 'success'){
-            this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+            // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+            let url = this.Url + '/ClockShare?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+            window.open(url)
           }else{
             Toast(res.data.msg)
           }
@@ -234,7 +242,14 @@ export default {
         axios.post(url,paramvideo,config).then((res)=>{
           // Toast(res.data.result)
           if(res.data.result == 'success'){
-            this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+            setTimeout(()=>{
+              // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+              let url = this.Url + '/ClockShare?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+              window.open(url,'_blank')
+              // this.bb = url
+              
+              // window.location.href = url
+            },200)
           }else{
             Toast(res.data.msg)
           }
@@ -246,7 +261,7 @@ export default {
     },
     getUserClass(){
       // /class-clock/getClockClass
-      let url = 'http://192.168.3.22:8091/class-clock/getClockClass';
+      let url = this.ip+'class-clock/getClockClass';
       let param = new URLSearchParams()
       param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
       param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')

@@ -109,7 +109,11 @@ const axios = require('axios')
                     const indexdata = res.data.data
                     this.data = indexdata.data
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     for(let i = 0; i< this.data.length;i++){
                         if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
@@ -145,7 +149,11 @@ const axios = require('axios')
                     console.log(indexdata.data)
                     // let page = indexdata.pageNo
                     if(res.data.result == 'noLogin'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
                     }
                     if(indexdata.data.length == 0){
                         // this.data = indexdata.data

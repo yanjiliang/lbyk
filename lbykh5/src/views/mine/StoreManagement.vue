@@ -80,11 +80,11 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(255, 71, 102, .2);" src="../../images/mine/skjl2xnew.png" alt=""></p>
                                     <p>上课记录</p>
                                 </div>
-                                <!-- <div class="list_item" @click.prevent="ClickTo('DK')">
+                                <div class="list_item" @click.prevent="ClickTo('DK')">
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
-                                </div> -->
-                                <div class="list_item"></div>
+                                </div>
+                                
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>
@@ -296,7 +296,11 @@ export default {
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
                     },1500)
                 }else if(res.data.result == 'noLogin'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
                 }else if(res.data.result == 'success'){
                     this.store_mana_data = res.data.data
                     let funclist = this.store_mana_data.functionalList

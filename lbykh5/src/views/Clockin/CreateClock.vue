@@ -49,7 +49,7 @@
 
         <div class="noclassdata" v-if="storeClass.count === 0">
           <div flex="dir:top cross:center" style="margin:60px auto">
-            <img style="width:150px;height:150px;display:block" src="../../assets/images/无数据@2x.png" alt="">
+            <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
             <p class="font_12px color_C6C6C6">暂无可发布打卡活动的班级</p>
           </div>
         </div>
@@ -89,7 +89,6 @@
     <van-field v-model="clock_content" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
     <van-divider />
     <!-- 打卡介绍 end -->
-    
     <!-- <p>{{storeClass}}</p> -->
     <div style="height:60px"></div>
     <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
@@ -114,7 +113,7 @@ export default {
       device:this.$device.getDevice(),
       clock_theme: '',
       clock_content:'',
-      columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+      columns: [],
       value:'',
       showClassPicker: false,
       showDatePicker: false,
@@ -132,8 +131,8 @@ export default {
       selectedClassId:[],
       selectedCourseId:[],
       selectedDate:'',
-      cuid:'eYhjQznFDdvZiHz4oXt',
-      storeId:'STORE_Sh8YinETjSwngmo2szC'
+      cuid:this.$route.query.cuid,
+      storeId:this.$route.query.storeId
 
     }
   },
@@ -201,7 +200,6 @@ export default {
     },
     getStoreCoureList(){
       let url = this.ip+'course/pageLsit';
-      //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
       param.append("storeId", this.storeId)
@@ -219,7 +217,6 @@ export default {
       })
     },
     getStoreClass(){
-      //http://192.168.3.22:8091/class/selectStoreClass?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r%20
       let url = this.ip+'class-clock/getUnClockClass';
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
@@ -260,7 +257,7 @@ export default {
             }
             if (this.device === 'ios') { 
                 //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}')
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?cuid='+this.cuid+'&storeId='+this.storeId+'"}')
             }
           },1200)
         }else if(res.data.result == 'error'){

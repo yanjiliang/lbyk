@@ -2,7 +2,7 @@
     <div class="clocklist">
         <van-tabs v-model="active" sticky swipeable lazy-render :border='false'>
             <van-tab title="打卡记录">
-                <div class="clock_list_wrap">
+                <div class="clock_list_wrap" v-if="ClockRecod.length != 0">
                     <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index" @click="getRecodIndex(index)">
                         <div class="clock_item_userinfo" @click="toClockPersonal(index)">
                             <!-- 打卡头部用户信息 -->
@@ -24,7 +24,7 @@
                         </div>
                         <div class="clock_item_images" v-if="item.picUrls">
                             <!-- <p>这里是照片区域</p> -->
-                            <ul>
+                            <ul flex="main:left cross:center">
                                 <li v-for="(item1, index) in item.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                             </ul>
                             <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
@@ -36,17 +36,21 @@
                             </template>
                         </van-image-preview>
                         <!-- 图片预览 -->
-                        <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:9999;position:relative">
+                        <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:29;position:relative">
                             <H5Video :fileVideoSrc='item.videoUrl'/>
                         </div>
+
                         <div class="clock_item_class_info">
                             <p>来自<span>{{item.className}}</span></p>
                         </div>
                         <div class="clock_item_func">
                             <div class="clock_item_zan_user">
-                                <div class="clock_item_info_list">
+                                <div class="clock_item_info_list" >
                                     <ul>
-                                        <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index"><img :src="item2.avatar" alt=""></li>
+                                        <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index">
+                                            <img style="border:0" v-if="item2.avatar" :src="item2.avatar" alt="">
+                                            <p class="font_10px" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:28px;text-align:center;color:#ffffff;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
+                                        </li>
                                     </ul>
                                 </div>
                                 <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
@@ -56,7 +60,7 @@
                                     <img src="../images/CreateClock/share.png" alt="">
                                     <p>分享</p>
                                 </div>
-                                <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId)">
+                                <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId,index)">
                                     <img src="../images/CreateClock/zan.png" alt="">
                                     <p>点赞</p>
                                 </div>
@@ -71,12 +75,18 @@
 
                     <van-divider />
                 </div>
+                <div class="nodata" style="margin-bottom:55px;margin-top:20px" v-if="ClockRecod.length == 0">
+                    <div flex="dir:top cross:center">
+                        <img style="width:150px;height:150px;display:block" src="../assets/images/nodata2x.png" alt="">
+                        <p style="color:#9B9B9B">暂无相关数据</p>
+                    </div>
+                </div>
             </van-tab>
             <van-tab title="排行榜">
                 <div class="rankList_wrap">
                     <van-tabs v-model="activeOrder" sticky swipeable lazy-render :border='false'>
                         <van-tab title="打卡榜" class="rank_list_clock">
-                            <div class="rank_clock_list rank_list_comen">
+                            <div class="rank_clock_list rank_list_comen" v-if="ClockRank.data.length != 0">
                                 <ul>
                                     <li v-for="(clock, index) in ClockRank.data" :key="index">
                                         <div class="rank_item">
@@ -103,9 +113,15 @@
                                     
                                 </ul>
                             </div>
+                            <div class="nodata" style="margin-bottom:55px" v-if="ClockRank.data.length == 0">
+                                <div flex="dir:top cross:center">
+                                    <img style="width:150px;height:150px;display:block" src="../assets/images/nodata2x.png" alt="">
+                                    <p style="color:#9B9B9B">暂无相关数据</p>
+                                </div>
+                            </div>
                         </van-tab>
                         <van-tab title="点赞榜" class="rank_list_zan">
-                            <div class="rank_zan_list rank_list_comen">
+                            <div class="rank_zan_list rank_list_comen" v-if="PraiseRank.data.length != 0">
                                 <ul>
                                     <li v-for="(zan, index) in PraiseRank.data" :key="index">
                                         <div class="rank_item">
@@ -132,22 +148,31 @@
                                     
                                 </ul>
                             </div>
+                            <div class="nodata" style="margin-bottom:55px" v-if="PraiseRank.data.length == 0">
+                                <div flex="dir:top cross:center">
+                                    <img style="width:150px;height:150px;display:block" src="../assets/images/nodata2x.png" alt="">
+                                    <p style="color:#9B9B9B">暂无相关数据</p>
+                                </div>
+                            </div>
                         </van-tab>
                         <van-tab disabled></van-tab>
                         <van-tab disabled></van-tab>
                     </van-tabs>
                 </div>
+                
             </van-tab>
             <van-tab disabled></van-tab>
             <van-tab disabled></van-tab>
         </van-tabs>
 
-        <!-- <p>{{PraiseRank}}</p> -->
+        
     </div>
 </template>
 <script>
 import H5Video from '../components/H5Video'
-import { Toast } from 'vant'
+import 'flex.css'
+// import { Toast } from 'vant'
+import '../css/Clock/clockPublic.css'
 const axios = require('axios')
 export default {
     name:'clocklist',
@@ -209,14 +234,20 @@ export default {
             this.pre_index = index;
         },
         // /clock-student-praise/clockPraise
-        toClockPraise(clockStudentId){
-            let url = 'http://192.168.3.22:8091/clock-student-praise/clockPraise';
+        toClockPraise(clockStudentId,index){
+            let url = this.ip+'clock-student-praise/clockPraise';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
             param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
             param.append("clockStudentId", clockStudentId)
             axios.post(url,param).then((res)=>{
-                Toast(res.data.result)
+                if(res.data.result == 'success'){
+                    this.ClockRecod[index].isPraise = !this.ClockRecod[index].isPraise
+                    this.ClockRecod[index].praiseCustomerNum +=1
+                    //praiseCustomerDtos
+                    this.ClockRecod[index].praiseCustomerDtos.push(res.data.data)
+                    
+                }
             
             }).catch((err)=>{
                 console.log(err)
@@ -233,7 +264,7 @@ export default {
                 window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
             }
             if (this.device === 'ios') { 
-                Toast(index)
+                // Toast(index)
                 //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
         　　　　//window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'&className='+className+'"}')
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')

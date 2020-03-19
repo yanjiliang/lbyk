@@ -432,133 +432,28 @@
 /* 预约须知 */
 
 
-/* .classdetailOrg .classinfo .orderinfo{
-    margin-bottom: 30px;
-} */
-
-/* .classdetailOrg .classinfo .orderinfo .ordertitle {
-    margin-top: 0.8rem;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.classdetailOrg .classinfo .orderinfo .ordertitle p {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 25px;
-    color: rgba(53, 50, 57, 1);
-    opacity: 1;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent {
-    padding: 0.42666rem 0.32rem 0.42666rem 0.90666rem;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
-    opacity: 1;
-    border-radius: 8px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(1) {
-    margin-bottom: 16px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(2) {
-    margin-bottom: 16px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(1) p:nth-child(1) {
-    color: #353239;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(1) p:nth-child(2) {
-    color: #9B9B9B;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: 400;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(2) p:nth-child(1) {
-    color: #353239;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(2) p:nth-child(2) {
-    color: #9B9B9B;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: 400;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(3) p:nth-child(1) {
-    color: #353239;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(3) p:nth-child(2) {
-    color: #9B9B9B;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: 400;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(1) p:nth-child(1) i {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    position: absolute;
-    left: 0.74666rem;
-    background: url(../../images/GoodClass/zffy2x.png);
-    background-size: cover;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(2) p:nth-child(1) i {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    position: absolute;
-    left: 0.74666rem;
-    background: url(../../images/GoodClass/fp2x.png);
-    background-size: cover;
-}
-
-.classdetailOrg .classinfo .orderinfo .infocontent div:nth-child(3) p:nth-child(1) i {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    position: absolute;
-    left: 0.74666rem;
-    background: url(../../images/GoodClass/wxts2x.png);
-    background-size: cover;
-} */
 
 
 /* 立即预约 */
+.bottom_button{
+    width: 10rem;
+    height: 157px;
+    position: fixed;
+    z-index: 9999;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    box-sizing: border-box;
+}
 
 .classdetailOrg .orderbtn {
     height: 1.17333rem;
     width: 9.14666rem;
     opacity: 1;
     text-align: center;
-    position: fixed;
+    /* position: fixed;
     bottom: 35px;
-    left: 0.42666rem;
+    left: 0.42666rem; */
     margin: 0 auto;
     z-index: 999;
     display: flex;
@@ -576,7 +471,7 @@
     border: 1px solid rgba(255, 68, 75, 1);
     opacity: 1;
     color: rgba(255, 68, 75, 1);
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 .classdetailOrg .orderbtn p:nth-child(2) {
@@ -585,7 +480,7 @@
     line-height: 1.173333rem;
     background: rgba(255, 68, 75, 1);
     opacity: 1;
-    border-radius: 5px;
+    border-radius: 30px;
     color: #FFFFFF;
 }
 

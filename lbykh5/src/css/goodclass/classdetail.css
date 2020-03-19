@@ -841,3 +841,51 @@
     top: 90%!important;
     
 }
+
+
+.class_pre_video .title {
+    margin-top: 0.8rem;
+    margin-bottom: 0.5333rem;
+    display: flex;
+    align-items: center;
+}
+.class_pre_video .title .class_video {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.class_pre_video .title .class_video_img{
+    box-sizing: border-box;
+    padding-right: 12px;
+    border-right: 1px solid #E8E8E8;
+    margin-right: 12px;
+}
+.class_pre_video .title .class_video_img img{
+    width: 45px;
+    height: 17px;
+    display: block;
+}
+
+.class_pre_video .title p {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+.class_pre_video .title a {
+    font-size: 14px;
+    line-height: 24px;
+    color: #FF444B;
+    position: absolute;
+    right: 0.4rem;
+}
+
+.class_pre_video .title a:after {
+    content: '';
+    width: 0.37333rem;
+    height: 0.37333rem;
+    display: inline-block;
+    background: url('../../images/GoodClass/返回橙色2x.png');
+    background-size: cover;
+    margin: -0.05333rem 0;
+}

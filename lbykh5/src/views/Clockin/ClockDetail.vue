@@ -67,6 +67,7 @@
                 <p class="font_16px color_60C38C">进行中</p>
             </div>
         </div> -->
+        
 
         <div v-if="clockDetailInfo.clockStatus == 'Finished'" flex="main:center cross:center" style="margin: 16px 0" >
             <div flex="dir:top main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:#F6F6F6;border:1px dashed #9B9B9B">
@@ -81,8 +82,7 @@
       <ClockList :ClockRecod='ClockRecod' :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
     </div>
 
-    <!-- <p>{{PraiseRank}}</p>
-    <p>{{ClockRank}}</p> -->
+    
 </div>
 </template>
 <script>
@@ -105,7 +105,8 @@ export default {
       },
       PraiseRank:'',
       ClockRank:'',
-      
+      cuid:this.$route.query.cuid,
+      storeId:this.$route.query.storeId
     }
   },
   components: {
@@ -121,8 +122,8 @@ export default {
     getClockDetailInfo(){
       let url = this.ip+'clock/clockDetails';
       let param = new URLSearchParams()
-      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
       param.append("clockId", this.$route.query.clockId)
       axios.post(url,param).then((res)=>{
         let clockDetailInfo = res.data.data
@@ -145,8 +146,8 @@ export default {
       //http://192.168.3.22:8091/class-clock-student/clockRecord?pageNo=1&pageSize=20&cuid=eYhjQznFDdvZiHz4oXt%20&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_JshGyp7BySa8s3TSYdA
       let url = this.ip+'class-clock-student/clockRecord';
       let param = new URLSearchParams()
-      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
       param.append("clockId", this.$route.query.clockId)
       param.append("pageNo", 1)
       param.append("pageSize", 100)
@@ -155,10 +156,10 @@ export default {
         this.ClockRecod = ClockRecod.data
         if(res.data.result == 'noLogin'){
             if(this.device == 'android'){
-                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                    }else if(this.device == 'ios'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                    }
+                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }else if(this.device == 'ios'){
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
         }
         
       }).catch((err)=>{
@@ -169,8 +170,8 @@ export default {
         // /class-clock-student/rankingList
         let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
-        param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-        param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+        param.append("cuid", this.$route.query.cuid)
+        param.append("storeId", this.$route.query.storeId)
         param.append("clockId", clockId)
         param.append("type", 'clock')
         param.append("pageNo", 1)
@@ -187,8 +188,8 @@ export default {
         // /class-clock-student/rankingList
         let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
-        param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-        param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+        param.append("cuid", this.$route.query.cuid)
+        param.append("storeId", this.$route.query.storeId)
         param.append("clockId", clockId)
         param.append("type", 'praise')
         param.append("pageNo", 1)

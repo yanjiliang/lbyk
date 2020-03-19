@@ -69,18 +69,21 @@
             </div>
 
             
-            <!-- 课程介绍 -->
-            <div class="bandstory" v-if="course_detail_data.introduce.length != 0">
-                <div class="bandtitle">
-                    <p>课程介绍</p>
+            
+
+            <!-- 视课 -->
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0">
+                <div class="title">
+                    <div class="class_video">
+                        <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
+                        <p>好课程 一“视”便知</p>
+                    </div>
                 </div>
-                <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
-                    <!-- <p>{{orgindex_data.introduce}}</p> -->
-                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                
+                <div v-if="course_detail_data.videoUrl">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
                 </div>
             </div>
-
             
             <!-- 授课老师 -->
             <div class="classteacher" v-if="course_detail_data.teacherInfoDtoList.length != 0">
@@ -167,6 +170,18 @@
                             </el-amap>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 课程介绍 -->
+            <div class="bandstory" v-if="course_detail_data.introduce.length != 0">
+                <div class="bandtitle">
+                    <p>课程介绍</p>
+                </div>
+                <div class="bandinfo">
+                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
+                    <!-- <p>{{orgindex_data.introduce}}</p> -->
+                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
                 </div>
             </div>
         </div>
@@ -454,7 +469,7 @@ export default {
                 this.urls.push(qurylist[i].split("=")[1])
             }
             this.courseId = this.urls[0]
-            var url1 = this.ip + 'course/details?courseId=' +this.urls[0] ;
+            var url1 = this.ip + 'course/details?courseId=' +this.urls[0]+'&clientType=h5' ;
             axios.post(url1).then((res)=>{
                 // Dialog({ message: res.data.result });
                 

@@ -250,7 +250,7 @@
     align-items: center;
 }
 .clock_item_func .clock_item_zan_user .clock_item_info_list ul li{
-    border: 1px solid #E8E8E8;
+    /* border: 1px solid #E8E8E8; */
     border-radius: 50%;
 }
 .clock_item_func .clock_item_zan_user .clock_item_info_list ul li:not(:first-child){

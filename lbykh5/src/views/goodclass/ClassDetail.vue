@@ -77,20 +77,19 @@
                 </div>
             </div>
 
-            
-            <!-- 课程介绍 -->
-            <div class="bandstory" v-if="course_detail_data.introduce.length">
-                <div class="bandtitle">
-                    <p>课程介绍</p>
+            <!-- 视课 -->
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0">
+                <div class="title">
+                    <div class="class_video">
+                        <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
+                        <p>好课程 一“视”便知</p>
+                    </div>
                 </div>
                 
-                <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
-                    <!-- <p>{{orgindex_data.introduce}}</p> -->
-                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                <div v-if="course_detail_data.videoUrl">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
                 </div>
             </div>
-            
             <!-- 授课老师 -->
             <div class="classteacher" v-if="course_detail_data.teacherInfoDtoList.length != 0">
                 <div class="title">
@@ -170,6 +169,18 @@
                 </div>
             </div>
 
+            <!-- 课程介绍 -->
+            <div class="bandstory" v-if="course_detail_data.introduce.length">
+                <div class="bandtitle">
+                    <p>课程介绍</p>
+                </div>
+                
+                <div class="bandinfo">
+                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
+                    <!-- <p>{{orgindex_data.introduce}}</p> -->
+                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                </div>
+            </div>
         </div>
         <!-- 预约须知 start -->
         <Orderinfo/>
@@ -233,10 +244,12 @@ import {Toast,Notify } from 'vant';
 import BScroll from 'better-scroll'
 // import {store} from '../../../store/index'
 import Orderinfo from '../../components/OrderInfo'
+import H5Video from '../../components/H5Video'
 export default {
     name:'classdetail',
     components:{
-        Orderinfo
+        Orderinfo,
+        H5Video
     },
     data (){
         return{
@@ -455,7 +468,8 @@ export default {
             param.append("latitude", lat)
             param.append("cuid", cuid)
             param.append("userToken", token)
-            
+            // clientType 
+            param.append("clientType", 'app')
             let url = this.ip + 'course/details';
             axios.post(url,param).then((res)=>{
                 

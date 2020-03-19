@@ -243,7 +243,11 @@ export default {
                 }
                 if (this.device === 'ios') { 
                     //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'"}')
+            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?cuid='+this.cuid+'&storeId='+this.storeId+'"}')
+                    // let url = this.Url+'/CreateClockMana?cuid='+this.cuid+'&storeId='+this.storeId
+                    // let a = document.createElement("a")
+                    // a.href = url
+                    // setTimeout(()=>{a.click()},200)
                 }
             }else{
                 if (this.device === 'android') {

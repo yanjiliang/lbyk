@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <p>{{course_detail_data}}</p>
+            <!-- <p>{{course_detail_data}}</p> -->
             <!-- 视课 -->
             <div class="class_pre_video" >
                 <div class="title">
@@ -110,7 +110,7 @@
 
                     
                 </div>
-                <h1 style="border:1px solid red;text-align:center" @click="Qcshare()">二维码分享</h1>
+                <!-- <h1 style="border:1px solid red;text-align:center" @click="Qcshare()">二维码分享</h1> -->
                 <div v-if="course_detail_data.videoUrl">
                     <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
                 </div>
@@ -223,11 +223,31 @@
         <Orderinfo/>
         <!-- 预约须知 end-->
 
-        <div style="height:95px"></div>
-        <div class="orderbtn">
-            <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
-            <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
-            <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+        <div style="height:165px"></div>
+        <div class="bottom_button">
+            <div flex="main:justify cross:center" style="height:78px;text-align:center">
+                <div style="min-width:90px;">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.exposureCount}}</p>
+                    <p class="font_12px color_9B9B9B">查看过</p>
+                </div>
+                <div style="min-width:90px">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.shareExposureCount}}</p>
+                    <p class="font_12px color_9B9B9B">分享查看</p>
+                </div>
+                <div style="min-width:90px">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.appointmentCount}}</p>
+                    <p class="font_12px color_9B9B9B">预约报名</p>
+                </div>
+                <div flex="dir:top cross:center" style="min-width:90px;" @click="Qcshare()">
+                    <p style="margin-bottom:10px"><img style="width:20px;height:20px;display:block;" src="../../images/GoodClass/qccode.png" alt=""></p>
+                    <p class="font_12px color_9B9B9B">课程二维码</p>
+                </div>
+            </div>
+            <div class="orderbtn">
+                <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
+                <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
+                <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+            </div>
         </div>
 
         
@@ -258,6 +278,9 @@ import H5Video from '../../components/H5Video'
 import { Toast, Dialog  } from 'vant';
 
 import BScroll from 'better-scroll'
+
+import 'flex.css'
+import '../../css/Clock/clockPublic.css'
 
 import Orderinfo from '../../components/OrderInfo'
     export default {
@@ -318,8 +341,8 @@ import Orderinfo from '../../components/OrderInfo'
         methods: {
             Qcshare(){
                 //http://192.168.3.26:8089/h5/ClassDetailShare?courseId=COURSE_ixQHyUfaqWR7DkZS4WT&from=singlemessage&isappinstalled=0
-                let url = this.Url + 'ClassDetailShare?courseId='+this.cd_courseid
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "QRCODE" ,"url": "'+url+'"}')
+                let url = this.Url + '/ClassDetailShare?courseId='+this.cd_courseid
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "QRCODE" ,"url": "'+url+'","logo":"'+this.course_detail_data.storeAddrInfoDto.logo+'"}')
             },
             preClick(index){
                 this.pre_show=true;

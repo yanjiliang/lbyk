@@ -265,15 +265,15 @@ const axios = require('axios')
             clicktoActivity(index){
                 // if(this.index_cuid){
                     
-                        if(this.imagelist[index].jumpPage == 'StoreEntryPage'){
+                        if(this.imagelist[index].jumpPage){
+                            let url = this.imagelist[index].jumpPage
                             
                             if (this.device === 'android') {
-                                window.android.SkipPage('{"scheme":"JoiningStoreApplicationPage","url": "'+this.Url+'/Addorganize"}');
-                                
+                                window.android.SkipPage('{"scheme":"JoiningStoreApplicationPage","url": "'+url+'"}');
                             }
                             if (this.device === 'ios') { 
                                 //jump  取值为true为跳新页面打开，false为当前页面打开
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"JGRZ","url": "'+this.Url+'/Addorganize","title":"机构入驻"}')
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"JGRZ","url": "'+url+'","title":"机构入驻"}')
                             }
                         }
                     

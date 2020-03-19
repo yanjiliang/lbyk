@@ -40,7 +40,7 @@
                     <p class="font_10px color_FFFFFF">进行中</p>
                 </div>
                 <div style="box-sizing:border-box;padding-top:12px">
-                    <p class="font_16px color_353239">{{ClassCircleHead.title}}</p>
+                    <p class="font_16px color_353239" style="margin-bottom:5px">{{ClassCircleHead.title}}</p>
                     <p class="font_14px color_9B9B9B">我已打卡<span class="color_FF444B"> {{ studentClockNum }} </span>次</p>
                 </div>
                 <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)" @click="toClock()">
@@ -55,7 +55,7 @@
 
         
         <!-- 打卡用户列表 -->
-        <div style="margin-top:8px;background:#FFFFFF">
+        <div style="margin-top:8px;background:#FFFFFF" v-if="ClockRecod.length != 0">
             <div class="clock_list_wrap">
                 <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index" @click="getRecodIndex(index)">
                     <div class="clock_item_userinfo" @click="toClockPersonal(index)">
@@ -79,7 +79,8 @@
                     <div class="clock_item_images" v-if="item.picUrls">
                         <!-- <p>这里是照片区域</p> -->
                         <ul flex="main:left cross:center">
-                            <li v-for="(item, index) in item.picUrls" :key="index"><img :src="item.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                            <li v-for="(item, index) in item.picUrls" :key="index">
+                                <img :src="item.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                         </ul>
                         <p class="clock_img_count" v-if="item.picUrls.length >3">+ {{item.picUrls.length-3}}</p>
                     </div>
@@ -90,7 +91,7 @@
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                    <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:9999;position:relative">
+                    <div class="clock_item_video" v-if="item.videoUrl" style="border:1px solid black;border-radius:15px;overflow:hidden!important;z-index:29;position:relative">
                         <H5Video :fileVideoSrc='item.videoUrl'/>
                     </div>
                     <div class="clock_item_class_info">
@@ -100,7 +101,10 @@
                         <div class="clock_item_zan_user">
                             <div class="clock_item_info_list">
                                 <ul>
-                                    <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index"><img :src="item2.avatar" alt=""></li>
+                                    <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index">
+                                        <img v-if="item2.avatar" :src="item2.avatar" alt="">
+                                        <p class="font_10px0" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:28px;text-align:center;color:#ffffff;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
+                                    </li>
                                 </ul>
                             </div>
                             <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
@@ -110,7 +114,7 @@
                                 <img src="../../images/CreateClock/share.png" alt="">
                                 <p>分享</p>
                             </div>
-                            <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId)">
+                            <div class="btn_clock" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId,index)">
                                 <img src="../../images/CreateClock/zan.png" alt="">
                                 <p>点赞</p>
                             </div>
@@ -127,8 +131,13 @@
         </div>
         <!-- 打卡用户列表 -->
 
-        <p>{{aa}}</p>
-        <!-- <p>{{ClockRecod[0].picUrls}}</p> -->
+        <div style="margin-top:8px;background:#FFFFFF;box-sizing:border-box;padding-top:20px" v-if="ClockRecod.length == 0">
+            <div flex="dir:top cross:center">
+                <img style="width:180px;height:180px;display:block" src="../../assets/images/nodata2x.png" alt="">
+                <p class="font_12px color_9B9B9B">暂无打卡数据</p>
+            </div>
+        </div>
+        
     </div>
 </template>
 <script>
@@ -378,7 +387,7 @@ export default {
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
             }
         },
-        toClockPraise(clockStudentId){
+        toClockPraise(clockStudentId,index){
             let url = this.ip+'clock-student-praise/clockPraise';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
@@ -387,7 +396,10 @@ export default {
             axios.post(url,param).then((res)=>{
                 // Toast(res.data.result)
                 if(res.data.result == 'success'){
-                    window.location.reload()
+                    this.ClockRecod[index].isPraise = !this.ClockRecod[index].isPraise
+                    this.ClockRecod[index].praiseCustomerNum +=1
+                    //praiseCustomerDtos
+                    this.ClockRecod[index].praiseCustomerDtos.push(res.data.data)
                 }
             
             }).catch((err)=>{

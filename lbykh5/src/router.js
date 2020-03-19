@@ -349,6 +349,15 @@ const router = new Router({
                 title: '打卡-分享页面'
             },
             component: () => import('./views/Clockin/ClockShare.vue')
+        }, 
+        
+        {
+            path: '/ClockSuccess',
+            name: 'ClockSuccess',
+            meta: {
+                title: '打卡成功'
+            },
+            component: () => import('./views/Clockin/ClockSuccess.vue')
         },
         
         {

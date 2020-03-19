@@ -193,18 +193,16 @@ export default {
       paramimg.append("cuid", 'eYhjQznFDdvZiHz4oXt')
       paramimg.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       paramimg.append("clockId", self.$route.query.clockId)
-      // paramimg.append("picFile1", picFile[0])
-      // paramimg.append("picFile2", picFile[1])
-      // paramimg.append("picFile3", picFile[2])
-      // paramimg.append("picFile4", picFile[3])
-      // paramimg.append("picFile5", picFile[4])
-      // paramimg.append("picFile6", picFile[5])
-      // paramimg.append("picFile7", picFile[6])
-      // paramimg.append("picFile8", picFile[7])
-      // paramimg.append("picFile9", picFile[8])
-      for(let i=0;i<picFile.length;i++){
-        paramimg.append("picFile"+i,picFile[i])
-      }
+      
+      if (picFile.length == 1) {paramimg.append("picFile1", picFile[0])}
+      if (picFile.length == 2) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1])}
+      if (picFile.length == 3) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);}
+      if (picFile.length == 4) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);}
+      if (picFile.length == 5) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);}
+      if (picFile.length == 6) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);}
+      if (picFile.length == 7) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);}
+      if (picFile.length == 8) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);paramimg.append("picFile8", picFile[7]);}
+      if (picFile.length == 9) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);paramimg.append("picFile8", picFile[7]);paramimg.append("picFile9", picFile[8]);}
       paramimg.append("classId", self.$route.query.classId)
       paramimg.append("studentId", self.$route.query.studentId)
       paramimg.append("impression", impression)
@@ -228,8 +226,12 @@ export default {
           // Toast(res.data.result)
           if(res.data.result == 'success'){
             // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-            let url = this.Url + '/ClockShare?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
-            window.open(url)
+            let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+            // document.createElement("a").href = url
+            let a = document.createElement("a")
+            a.href = url
+            Toast.success('打卡成功')
+            setTimeout(()=>{a.click()},200)
           }else{
             Toast(res.data.msg)
           }
@@ -244,7 +246,7 @@ export default {
           if(res.data.result == 'success'){
             setTimeout(()=>{
               // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-              let url = this.Url + '/ClockShare?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+              let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
               window.open(url,'_blank')
               // this.bb = url
               

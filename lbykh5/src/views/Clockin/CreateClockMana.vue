@@ -32,31 +32,32 @@
     </div>
 
     <!-- 打卡活动列表  start -->
-    <div class="clock_mana_list" v-if="clockList.count != 0">
-      <div class="clock_mana_list_item" v-for="(item, index) in clockList.data" :key="index" @click="goToClockDetail(index)">
-        <div class="clock_list_item_top">
-          <div class="clock_list_item_top_left">
-            <p style="margin-bottom:8px">{{item.title}}</p>
-            <p>{{item.startDate.slice(0,10)}}——{{item.endDate.slice(0,10)}}</p>
-          </div>
-          <div class="clock_list_item_top_right">
-            <p>{{item.status}}</p>
+    <van-list v-model="loading" :finished="finished" :offset='10' finished-text="没有更多了" @load="lazyLoading">
+        <div class="clock_mana_list" v-if="clockList.count != 0">
+          <div class="clock_mana_list_item" v-for="(item, index) in clockList.data" :key="index" @click="goToClockDetail(index)">
+            <div class="clock_list_item_top">
+              <div class="clock_list_item_top_left">
+                <p style="margin-bottom:8px">{{item.title}}</p>
+                <p>{{item.startDate.slice(0,10)}}——{{item.endDate.slice(0,10)}}</p>
+              </div>
+              <div class="clock_list_item_top_right">
+                <p>{{item.status}}</p>
+              </div>
+            </div>
+            <van-divider />
+            <div class="clock_list_item_bottom">
+              <div class="clock_list_bottom_item">
+                <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
+                <p>参与人数：{{item.attendNum}}</p>
+              </div>
+              <div class="clock_list_bottom_item">
+                <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
+                <p>累计打卡次数：{{item.totalNum}}</p>
+              </div>
+            </div>
           </div>
         </div>
-        <van-divider />
-        <div class="clock_list_item_bottom">
-          <div class="clock_list_bottom_item">
-            <p><img src="../../images/CreateClock/clock_mana_people.png" alt=""></p>
-            <p>参与人数：{{item.attendNum}}</p>
-          </div>
-          <div class="clock_list_bottom_item">
-            <p><img src="../../images/CreateClock/clock_mana_num.png" alt=""></p>
-            <p>累计打卡次数：{{item.totalNum}}</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </van-list>
     <!-- 打卡活动列表  end -->
 
     <!-- <p>{{clockManaInfo}}</p> -->
@@ -65,6 +66,7 @@
 </div>
 </template>
 <script>
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
   name: 'CreateClockMana',
@@ -74,23 +76,35 @@ export default {
       Url:this.$Url.geturl(),
       device:this.$device.getDevice(),
       clockManaInfo:'',
-      clockList:{}
+      clockList:{},
+      page:1,
+      loading:false,
+      finished:false
     }
   },
   mounted(){
-    this.getClockManaInfo()
+    this.getClockManaInfo(1)
   },
   methods:{
     // /clock/clockManagePage
+    lazyLoading(){
+      let page = this.page +1;
+      if(this.finished){
+        return this.loading = false
+      }else{
+        this.getClockManaInfo(page)
+      }
+    },
+    
     createClock(){
       // this.$router.push({path:'/CreateClock'})
       if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}');
       }
       if (this.device === 'ios') { 
           //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'"}')
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}')
       }
     },
     goToClockDetail(index){
@@ -102,21 +116,33 @@ export default {
       }
       if (this.device === 'ios') { 
           //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'"}')
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}')
       }
     },
-    getClockManaInfo(){
+    getClockManaInfo(page){
+      
       let url = this.ip+'clock/clockManagePage';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()
-      param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
-      param.append("pageNo", 1)
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
+      param.append("pageNo", page)
       param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
         let clockManaInfo = res.data.data
         this.clockManaInfo = clockManaInfo
-        this.clockList = clockManaInfo.clockList
+        if(page == 1){
+          this.clockList = clockManaInfo.clockList
+        }else{
+          if(clockManaInfo.clockList.count == 0){
+            this.finished = true
+            this.clockList.push()
+          }else{
+            this.finished = true
+            this.clockList.push(clockManaInfo.clockList)
+            // setTimeout(()=>{this.finished = true},1000)
+          }
+        }
         
       }).catch((err)=>{
         console.log(err)

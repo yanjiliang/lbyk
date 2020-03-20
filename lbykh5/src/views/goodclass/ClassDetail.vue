@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <!-- <p>{{imagelist}}</p> -->
+        <!-- <p>{{course_detail_data}}</p> -->
 
         <div class="classinfo"> 
             <p class="classtitle">{{course_detail_data.courseTitle}}</p>
@@ -336,8 +336,9 @@ export default {
                 // document.getElementById('tags')[i].style.width= width + 'px'
                 tags[i].style.width = width + 'px'
             }
+            var tagsbox = document.getElementById('tagsbox')
             this.$nextTick(()=>{
-                var tagsbox = document.getElementById('tagsbox')
+                
                 console.log(tagsbox)
                 this.scroll = new  BScroll(tagsbox,{
                     startX:0,
@@ -491,8 +492,8 @@ export default {
                     }
                 }else if(res.data.result == 'success'){
                     this.course_detail_data = res.data.data
-                   this.res_result = res.data.result //课程已下架的返回结果为false
-                   this.res_msg = res.data.msg
+                    this.res_result = res.data.result //课程已下架的返回结果为false
+                    this.res_msg = res.data.msg
                    if(this.res_result == 'error'){
                         this.$router.push({ name:'ClassSoldOutApp',params:{ resmsg: this.res_msg }})
                     }
@@ -659,7 +660,6 @@ export default {
         window.getParams = this.getParams 
         window.getShareParams = this.getShareParams
         this.isApp()
-        this.getCourseId()
     },
     
 }

@@ -25,6 +25,7 @@
       </div>
     </div>
     <!-- 打卡统计数据  end -->
+    
 
     <div class="no_clock_recod" v-if="clockList.count == 0">
       <img src="../../images/CreateClock/no_clock_recod.png" alt="">
@@ -59,8 +60,8 @@
         </div>
     </van-list>
     <!-- 打卡活动列表  end -->
-
     <!-- <p>{{clockManaInfo}}</p> -->
+    
     
   </div>
 </div>
@@ -79,7 +80,9 @@ export default {
       clockList:{},
       page:1,
       loading:false,
-      finished:false
+      finished:false,
+      cuid:this.$route.query.cuid,
+      storeId:this.$route.query.storeId
     }
   },
   mounted(){
@@ -100,11 +103,11 @@ export default {
       // this.$router.push({path:'/CreateClock'})
       if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}');
+          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}');
       }
       if (this.device === 'ios') { 
           //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}')
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}')
       }
     },
     goToClockDetail(index){
@@ -112,7 +115,7 @@ export default {
       // this.$router.push({path:'/ClockDetail',query:{clockId:clockId}})
       if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'"}');
       }
       if (this.device === 'ios') { 
           //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB

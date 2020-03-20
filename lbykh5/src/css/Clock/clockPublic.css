@@ -63,6 +63,9 @@
 .color_FF9F1B{
     color: #FF9F1B;
 }
+.color_7F7F89{
+    color: #7F7F89;
+}
 /* color */
 
 /* font-weight */
@@ -187,6 +190,24 @@
     border-radius: 50%;
 }
 /* img  */
+
+
+/* 限制单行 */
+.line_1{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+/* 限制双行 */
+.line_2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
 
  .clock_btn{

@@ -8,7 +8,7 @@
                             <!-- 打卡头部用户信息 -->
                             <div class="clock_item_avatar">
                                 <img v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
-                                <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
+                                <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
                             </div>
                             <div class="clock_item_user_info">
                                 <p class="user_name">{{item.studentName}}</p>
@@ -49,7 +49,7 @@
                                     <ul>
                                         <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index">
                                             <img style="border:0" v-if="item2.avatar" :src="item2.avatar" alt="">
-                                            <p class="font_10px" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:28px;text-align:center;color:#ffffff;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
+                                            <p style="font-size:10px;border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:28px;text-align:center;color:#7F7F89;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -99,7 +99,7 @@
                                                         <span v-if="index > 2">{{index+1}}</span>
                                                     </p>
                                                     <img v-if="clock.studentAvatar" :src="clock.studentAvatar" alt="">
-                                                    <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
+                                                    <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
                                                 </div>
                                                 <div class="rank_item_userinfo">
                                                     <p>{{clock.studentName}}</p>
@@ -135,7 +135,7 @@
                                                         <span v-if="index > 2">{{index+1}}</span>
                                                     </p>
                                                     <img v-if="zan.studentAvatar" :src="zan.studentAvatar" alt="">
-                                                    <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!zan.studentAvatar">{{zan.studentName.slice(0,2)}}</p>
+                                                    <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!zan.studentAvatar">{{zan.studentName.slice(0,2)}}</p>
                                                 </div>
                                                 <div class="rank_item_userinfo">
                                                     <p>{{zan.studentName}}</p>

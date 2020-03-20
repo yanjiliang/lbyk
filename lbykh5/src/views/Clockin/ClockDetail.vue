@@ -7,7 +7,7 @@
               <p><img class="img_16" style="margin-right:4px" src="../../images/CreateClock/clock_store.png" alt=""></p>
               <p class="font_14px color_F6F6F6">{{clockDetailInfo.storeName}}</p>
             </div>
-            <p v-if="clockDetailInfo.isManager == true"><img class="img_20" src="../../images/CreateClock/edit.png" alt=""></p>
+            <p v-if="clockDetailInfo.isManager == true" @click="toClockEdit()"><img class="img_20" src="../../images/CreateClock/edit.png" alt=""></p>
           </div>
           <p class="font_20px color_FFFFFF font_weight_bold" style="">{{clockDetailInfo.title}}</p>
         </div>
@@ -55,7 +55,7 @@
             <div flex="main:center cross:center" style="width:104px;height:104px;border-radius:50%;background:rgba(96,195,140,.1)">
                 <div flex="main:center cross:center" style="width:94px;height:94px;border-radius:50%;background:rgba(96,195,140,.4)">
                     <div flex="main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:rgba(96,195,140,1)">
-                        <p class="font_16px color_FFFFFF">立即打卡</p>
+                        <p class="font_16px color_FFFFFF"><a style="color:#FFFFFF" :href="quickUrl">立即打卡</a></p>
                     </div>
                 </div>
             </div>
@@ -67,6 +67,7 @@
                 <p class="font_16px color_60C38C">进行中</p>
             </div>
         </div> -->
+        
         
 
         <div v-if="clockDetailInfo.clockStatus == 'Finished'" flex="main:center cross:center" style="margin: 16px 0" >
@@ -89,6 +90,7 @@
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import ClockList from '../../components/ClockList'
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
   name: 'clockdetail',
@@ -106,7 +108,8 @@ export default {
       PraiseRank:'',
       ClockRank:'',
       cuid:this.$route.query.cuid,
-      storeId:this.$route.query.storeId
+      storeId:this.$route.query.storeId,
+      quickUrl:""
     }
   },
   components: {
@@ -140,10 +143,12 @@ export default {
       })
     },
     quickToClock(){
-      this.$router.push({path:'/QuickToClock'})
+      // this.$router.push({path:'/QuickToClock'})
+      let clockTheme = this.clockDetailInfo.title
+      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme
+      this.quickUrl = url
     },
     getClockRecod(){
-      //http://192.168.3.22:8091/class-clock-student/clockRecord?pageNo=1&pageSize=20&cuid=eYhjQznFDdvZiHz4oXt%20&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_JshGyp7BySa8s3TSYdA
       let url = this.ip+'class-clock-student/clockRecord';
       let param = new URLSearchParams()
       param.append("cuid", this.$route.query.cuid)
@@ -202,6 +207,12 @@ export default {
             console.log(err)
         })
     },
+    toClockEdit(){
+      // /clock/edit  this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"
+      let url = this.Url +'/CreateClock?cuid=' + this.$route.query.cuid + '&storeId=' +this.$route.query.storeId+'&clockId='+this.$route.query.clockId+'&type=edit'
+      window.location.href = url
+      
+    }
     
   }
 }

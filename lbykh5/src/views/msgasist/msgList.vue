@@ -62,7 +62,7 @@
             </ul>
 
             
-        <!-- <p>{{msglist_data}}</p>     -->
+        
     </div>
 
 </template>
@@ -118,6 +118,7 @@ export default {
             this.msg_userInfo = qury
             this.mcid = qury.data.mcid
             this.type = qury.data.type
+            this.msg_cuid = qury.data.cuid
             this.msg_storeid = qury.data.storeId
             this.msg_classid = qury.data.classId
             this.msg_studentid = qury.data.studentId
@@ -136,6 +137,7 @@ export default {
             this.msg_userInfo = msg
             this.mcid = msg.mcid
             this.type = msg.type
+            this.msg_cuid = msg.cuid
             this.msg_storeid = msg.storeId
             this.msg_classid = msg.classId
             this.msg_studentid = msg.studentId
@@ -360,13 +362,14 @@ export default {
                 // let className = 
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock"}');
+                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClassCircle?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'&cuid='+this.msg_cuid+'&storeId='+this.msg_storeid+'"}');
                 }
                 if (this.device === 'ios') { 
+                    // <p>{{msg_cuid}}</p>    
+                    // <p>{{msg_storeid}}</p>
                     //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClassCircle?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'"}')
+            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClassCircle?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'&cuid='+this.msg_cuid+'&storeId='+this.msg_storeid+'"}')
                 }
-                // this.$router.push({path:'/ClassCircle',query:{studentId:this.msg_studentid,classId:this.msg_classid}})
 
             },
 

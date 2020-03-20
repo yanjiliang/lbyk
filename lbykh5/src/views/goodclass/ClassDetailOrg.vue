@@ -110,7 +110,6 @@
 
                     
                 </div>
-                <!-- <h1 style="border:1px solid red;text-align:center" @click="Qcshare()">二维码分享</h1> -->
                 <div v-if="course_detail_data.videoUrl">
                     <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
                 </div>
@@ -555,10 +554,17 @@ import Orderinfo from '../../components/OrderInfo'
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}');
                 }
                 if (this.device === 'ios') { 
+                    
                     if(token == ''){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                     }else{
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                        if(qury === 'VIDEO'){
+                        // course_detail_data.videoUrl
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'","videoUrl":"'+this.course_detail_data.videoUrl+'","videoRemarks":"'+this.course_detail_data.videoRemarks+'","videoCoverUrl":"'+this.course_detail_data.videoCoverUrl+'"}')
+                        }else{
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                        }
+                        
                     }
             　　　　
 

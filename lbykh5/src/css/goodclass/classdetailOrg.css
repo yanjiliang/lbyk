@@ -439,7 +439,7 @@
     width: 10rem;
     height: 157px;
     position: fixed;
-    z-index: 9999;
+    z-index: 199;
     bottom: 0;
     left: 0;
     background-color: #fff;

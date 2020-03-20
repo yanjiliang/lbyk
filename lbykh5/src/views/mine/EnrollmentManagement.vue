@@ -386,8 +386,10 @@ export default {
                 this.lat = msg.latitude
                 this.$nextTick(()=>{
                     // this.getData(msg.cuid,msg.storeId)
+                    if(this.selectedItem === 0) this.showAll()
+                    if(this.selectedItem === 1) this.showEnrollmenting()
+                    if(this.selectedItem === 2) this.showSoldOut()
                     this.getData(msg.cuid,msg.storeId,msg.token)
-                    this.getGoodCourseData(msg.cuid,msg.storeId,'',msg.token)
                 })
                 
             },

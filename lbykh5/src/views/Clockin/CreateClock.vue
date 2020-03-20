@@ -89,6 +89,7 @@
     <van-field v-model="clock_content" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
     <van-divider />
     <!-- 打卡介绍 end -->
+    <p>{{clockInfo}}</p>
     <!-- <p>{{storeClass}}</p> -->
     <div style="height:60px"></div>
     <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
@@ -132,13 +133,17 @@ export default {
       selectedCourseId:[],
       selectedDate:'',
       cuid:this.$route.query.cuid,
-      storeId:this.$route.query.storeId
+      storeId:this.$route.query.storeId,
+      type :this.$route.query.type
 
     }
   },
   mounted() {
     this.getStoreCoureList()
     this.getStoreClass()
+    if(this.$route.query.type == 'edit'){
+      this.getClockInfo()
+    }
   },
   methods: {
     
@@ -237,33 +242,95 @@ export default {
       })
     },
     toClock(classIds,title,endDate,courseId,introduce){
-      let url = this.ip+'clock/addClock';
-      let param = new URLSearchParams()
-      param.append("cuid", this.cuid)
-      param.append("storeId", this.storeId)
-      param.append("classIds", classIds)
-      param.append("title", title)
-      param.append("endDate", endDate)
-      param.append("courseId", courseId)
-      param.append("introduce", introduce)
-      axios.post(url,param).then((res)=>{
-        if(res.data.result == 'success'){
-          Toast.success('发布成功！')
-          setTimeout(()=>{
-            // this.$router.push({path:'/CreateClockMana',params:'121'})
-            if (this.device === 'android') {
-                    //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
-            }
-            if (this.device === 'ios') { 
-                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?cuid='+this.cuid+'&storeId='+this.storeId+'"}')
-            }
-          },1200)
-        }else if(res.data.result == 'error'){
-          Toast(res.msg)
-        }
+      if(this.$route.query.type == 'new'){
+        let url = this.ip+'clock/addClock';
+        let param = new URLSearchParams()
+        param.append("cuid", this.cuid)
+        param.append("storeId", this.storeId)
+        param.append("classIds", classIds)
+        param.append("title", title)
+        param.append("endDate", endDate)
+        param.append("courseId", courseId)
+        param.append("introduce", introduce)
         
+        axios.post(url,param).then((res)=>{
+          if(res.data.result == 'success'){
+            Toast.success('发布成功！')
+            setTimeout(()=>{
+              // this.$router.push({path:'/CreateClockMana',params:'121'})
+              if (this.device === 'android') {
+                      //安卓每个页面方法名不一样
+                  window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+              }
+              if (this.device === 'ios') { 
+                  //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+          　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+res.data.data+'&classId='+classIds+'"}') 
+              }
+            },1200)
+          }else if(res.data.result == 'error'){
+            Toast(res.msg)
+          }
+          
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
+
+      if(this.$route.query.type == 'edit'){
+        let url = this.ip+'clock/edit';
+        let param = new URLSearchParams()
+        param.append("cuid", this.cuid)
+        param.append("storeId", this.storeId)
+        param.append("classIds", classIds)
+        param.append("title", title)
+        param.append("endDate", endDate)
+        param.append("courseId", courseId)
+        param.append("introduce", introduce)
+        param.append("clockId",this.clockInfo.clockId)
+        axios.post(url,param).then((res)=>{
+          if(res.data.result == 'success'){
+            Toast.success('发布成功！')
+            setTimeout(()=>{
+              // this.$router.push({path:'/CreateClockMana',params:'121'})
+              if (this.device === 'android') {
+                      //安卓每个页面方法名不一样
+                  window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+              }
+              if (this.device === 'ios') { 
+                  //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+          　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+this.clockInfo.clockId+'&classId='+classIds+'"}') 
+              }
+            },1200)
+          }else if(res.data.result == 'error'){
+            Toast(res.msg)
+          }
+          
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
+    },
+    getClockInfo(){
+      //http://192.168.3.22:8081/clock/clockInfo?cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r&clockId=CLOCK_U8wj1wBiMFSMdpswL7I
+      let url = this.ip+'clock/clockInfo';
+      let param = new URLSearchParams()
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
+      param.append("clockId", this.$route.query.clockId)
+      axios.post(url,param).then((res)=>{
+        //
+        if(res.data.result == 'success'){
+          let clockInfo = res.data.data
+          this.clockInfo = clockInfo
+          this.clock_theme = clockInfo.title
+          this.clock_content = clockInfo.introduce
+          this.selectCourse = clockInfo.courseTitle
+          this.currentDate = clockInfo.endDate.slice(0,10)
+          this.selectedDate = clockInfo.endDate
+          this.selectedClass = clockInfo.clockClassList[0].className
+          this.selectedClassId = clockInfo.clockClassList[0].classId
+          this.selectedCourseId.push(clockInfo.courseId)
+        }
       }).catch((err)=>{
         console.log(err)
       })

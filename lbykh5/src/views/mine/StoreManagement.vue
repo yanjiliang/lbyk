@@ -239,7 +239,7 @@ export default {
                 // this.$router.push({path:'/CreateClockMana'})
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana?cuid='+this.cuid+'&storeId='+this.storeId+'"}')
                 }
                 if (this.device === 'ios') { 
                     //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB

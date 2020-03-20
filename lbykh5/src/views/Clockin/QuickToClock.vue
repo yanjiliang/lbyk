@@ -28,7 +28,7 @@
           <p>请选择打卡班级</p>
         </div>
         <div class="selected_pick_left" v-if="hasSelected == true">
-          <img v-if="selectedClass[0].studentAvatar" :src="selectedClass[0].studentAvatar" alt="">
+          <img style="object-fit:fill" v-if="selectedClass[0].studentAvatar" :src="selectedClass[0].studentAvatar" alt="">
           <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center;margin-right:8px" v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.slice(0,2)}}</p>
           <div class="select_info">
             <p>{{selectedClass[0].className}}</p>
@@ -75,12 +75,12 @@
       </div>
     </van-popup>
     
-    <p>{{bb}}</p>
+    
     
 
   </div>
   <div style="height:90px"></div>
-  <div class="quick_clock_btn_wrap" @click="quickToClock(imgfile,clock_content,videofile)">
+  <div class="quick_clock_btn_wrap" @click="quickToClock(imgfile,clock_content,videofile,selectedClass[0].classId,selectedClass[0].studentId)">
     <div class="quick_colock_btn">
       <p>立即发布</p>
     </div>
@@ -116,8 +116,6 @@ export default {
       selectedClass: [],
       hasSelectIndex: '',
       hasSelected: false,
-      studentId:this.$route.query.studentId,
-      classId:this.$route.query.classId,
       userClass:'',
       clockId:this.$route.query.clockId,
       imgfile:[],
@@ -185,7 +183,7 @@ export default {
       this.hasSelected = true
 
     },
-    quickToClock(picFile,impression,videoFile){
+    quickToClock(picFile,impression,videoFile,classId,studentId){
       
       let self = this
       let url = this.ip+'class-clock-student/rapidClock';
@@ -203,16 +201,16 @@ export default {
       if (picFile.length == 7) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);}
       if (picFile.length == 8) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);paramimg.append("picFile8", picFile[7]);}
       if (picFile.length == 9) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);paramimg.append("picFile4", picFile[3]);paramimg.append("picFile5", picFile[4]);paramimg.append("picFile6", picFile[5]);paramimg.append("picFile7", picFile[6]);paramimg.append("picFile8", picFile[7]);paramimg.append("picFile9", picFile[8]);}
-      paramimg.append("classId", self.$route.query.classId)
-      paramimg.append("studentId", self.$route.query.studentId)
+      paramimg.append("classId", classId)
+      paramimg.append("studentId", studentId)
       paramimg.append("impression", impression)
 
       let paramvideo = new FormData()
       paramvideo.append("cuid", 'eYhjQznFDdvZiHz4oXt')
       paramvideo.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
       paramvideo.append("clockId", self.$route.query.clockId)
-      paramvideo.append("classId", self.$route.query.classId)
-      paramvideo.append("studentId", self.$route.query.studentId)
+      paramvideo.append("classId", classId)
+      paramvideo.append("studentId", studentId)
       paramvideo.append("impression", impression)
       paramvideo.append("videoFile", videoFile)
       let config = {
@@ -226,7 +224,7 @@ export default {
           // Toast(res.data.result)
           if(res.data.result == 'success'){
             // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-            let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+            let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data
             // document.createElement("a").href = url
             let a = document.createElement("a")
             a.href = url
@@ -246,7 +244,7 @@ export default {
           if(res.data.result == 'success'){
             setTimeout(()=>{
               // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-              let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+this.$route.query.studentId+'&classId='+this.$route.query.classId+'&clockStudentId='+res.data.data
+              let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data
               window.open(url,'_blank')
               // this.bb = url
               

@@ -18,10 +18,12 @@
                                 <p class="font_18px color_FFFFFF">{{item.clockCount}}</p>
                                 <p class="font_12px color_F6F6F6">累计打卡</p>
                             </div>
+                            <span style="color:#FFFFFF">|</span>
                             <div style="min-width:30%">
                                 <p class="font_18px color_FFFFFF">{{item.praiseTotalNum}}</p>
                                 <p class="font_12px color_F6F6F6">累计获赞</p>
                             </div>
+                            <span style="color:#FFFFFF">|</span>
                             <div style="min-width:30%">
                                 <p class="font_18px color_FFFFFF">{{item.attendTitleNum}}</p>
                                 <p class="font_12px color_F6F6F6">参与主题</p>
@@ -40,7 +42,7 @@
                     <p class="font_10px color_FFFFFF">进行中</p>
                 </div>
                 <div style="box-sizing:border-box;padding-top:12px">
-                    <p class="font_16px color_353239" style="margin-bottom:5px">{{ClassCircleHead.title}}</p>
+                    <p class="font_16px color_353239 line_1" style="margin-bottom:5px;width:15em">{{ClassCircleHead.title}}</p>
                     <p class="font_14px color_9B9B9B">我已打卡<span class="color_FF444B"> {{ studentClockNum }} </span>次</p>
                 </div>
                 <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)" @click="toClock()">
@@ -62,7 +64,7 @@
                         <!-- 打卡头部用户信息 -->
                         <div class="clock_item_avatar">
                             <img  v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
-                            <p class="img_48_round font_12px color_FFFFFF" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
+                            <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!item.studentAvatar">{{item.studentName.slice(0,2)}}</p>
                         </div>
                         <div class="clock_item_user_info">
                             <p class="user_name">{{item.studentName}}</p>
@@ -103,7 +105,7 @@
                                 <ul>
                                     <li v-for="(item2, index) in item.praiseCustomerDtos" :key="index">
                                         <img v-if="item2.avatar" :src="item2.avatar" alt="">
-                                        <p class="font_10px0" style="border:0.8px solid #60C38C;background:rgba(96,195,140,.3);line-height:28px;text-align:center;color:#ffffff;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
+                                            <p style="font-size:10px;border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:28px;text-align:center;color:#7F7F89;border-radius:50%;width:28px;height:28px" v-if="!item2.avatar">{{item2.name.slice(0,1)}}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -137,9 +139,12 @@
                 <p class="font_12px color_9B9B9B">暂无打卡数据</p>
             </div>
         </div>
+
+        <p>{{ClockRecod}}</p>
         
     </div>
 </template>
+<script src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
@@ -306,8 +311,8 @@ export default {
             // /class-clock/getClassCircleHead
             let url = this.ip+'class-clock/getClassCircleHead';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("cuid", this.$route.query.cuid)
+            param.append("storeId", this.$route.query.storeId)
             param.append("classId", this.$route.query.classId)
             param.append("pageNo", 1)
             param.append("pageSize", 10)
@@ -333,24 +338,14 @@ export default {
         },
         toClock(){
             let clockTheme = this.ClassCircleHead.title
-            //this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId}})
-            if (this.device === 'android') {
-                    //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/QuickToClock"}');
-            }
-            if (this.device === 'ios') { 
-                //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-                // this.$router.push({path:'/QuickToClock',query:{clockId:this.clockId,studentId:this.studentId,classId:this.$route.query.classId,clockTheme:clockTheme}})
-                let url = this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme
-                this.aa = url
-        // 　　　　 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}')
-            }
+            let url = this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme
+            this.aa = url
         },
         getClockRecod(clockId){
             let url = this.ip+'class-clock-student/clockRecord';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("cuid", this.$route.query.cuid)
+            param.append("storeId", this.$route.query.storeId)
             param.append("clockId", clockId)
             param.append("pageNo", 1)
             param.append("pageSize", 10)
@@ -378,7 +373,7 @@ export default {
             const studentId = this.ClockRecod[index].studentId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClockMana"}');
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}');
             }
             if (this.device === 'ios') { 
                 
@@ -390,8 +385,8 @@ export default {
         toClockPraise(clockStudentId,index){
             let url = this.ip+'clock-student-praise/clockPraise';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("cuid", this.$route.query.cuid)
+            param.append("storeId", this.$route.query.storeId)
             param.append("clockStudentId", clockStudentId)
             axios.post(url,param).then((res)=>{
                 // Toast(res.data.result)
@@ -406,6 +401,9 @@ export default {
                 console.log(err)
             })
         },
+        getWechatShare(){//微信分享
+            // let avatar =
+        }
         
     }
 }

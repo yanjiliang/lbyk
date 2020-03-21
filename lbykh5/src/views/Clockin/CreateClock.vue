@@ -89,7 +89,7 @@
     <van-field v-model="clock_content" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
     <van-divider />
     <!-- 打卡介绍 end -->
-    <p>{{clockInfo}}</p>
+    
     <!-- <p>{{storeClass}}</p> -->
     <div style="height:60px"></div>
     <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
@@ -119,7 +119,7 @@ export default {
       showClassPicker: false,
       showDatePicker: false,
       showCoursePicker: false,
-      minDate: new Date(2020, 0, 1),
+      minDate: new Date(),
       maxDate: new Date(2025, 10, 1),
       currentDate: '',
       selectCourse: '',
@@ -214,6 +214,9 @@ export default {
         let storCourse = res.data.data
         this.storCourse = storCourse.data
         // this.storeCourseTile = 
+        if(storCourse.data.length == 0){
+          Toast('暂无可发布打卡的班级')
+        }
         for(let i=0;i<storCourse.data.length;i++){
           this.storeCourseTile.push(storCourse.data[i].courseTitle)
         }

@@ -269,7 +269,7 @@ const axios = require('axios')
                             let url = this.imagelist[index].jumpPage
                             
                             if (this.device === 'android') {
-                                window.android.SkipPage('{"scheme":"JoiningStoreApplicationPage","url": "'+url+'"}');
+                                window.android.SkipPage('{"scheme":"IndexJGRZ","url": "'+url+'"}');
                             }
                             if (this.device === 'ios') { 
                                 //jump  取值为true为跳新页面打开，false为当前页面打开

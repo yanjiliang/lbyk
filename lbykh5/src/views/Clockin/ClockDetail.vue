@@ -145,7 +145,8 @@ export default {
     quickToClock(){
       // this.$router.push({path:'/QuickToClock'})
       let clockTheme = this.clockDetailInfo.title
-      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme
+      //let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId
+      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
       this.quickUrl = url
     },
     getClockRecod(){

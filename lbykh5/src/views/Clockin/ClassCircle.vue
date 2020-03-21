@@ -70,7 +70,7 @@
                             <p class="user_name">{{item.studentName}}</p>
                             <div class="clock_info">
                                 <p>已打卡 {{item.clockCount}} 次</p>
-                                <p>{{item.clockDate}}</p>
+                                <p>{{item.clockDate.slice(0,16)}}</p>
                             </div>
                         </div>
                         <!-- 打卡头部用户信息 -->
@@ -112,7 +112,7 @@
                             <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
                         </div>
                         <div class="clock_btn">
-                            <div class="clock_btn01 btn_clock">
+                            <div class="clock_btn01 btn_clock" @click="getWechatShare(index)">
                                 <img src="../../images/CreateClock/share.png" alt="">
                                 <p>分享</p>
                             </div>
@@ -140,7 +140,7 @@
             </div>
         </div>
 
-        <p>{{ClockRecod}}</p>
+        
         
     </div>
 </template>
@@ -338,7 +338,7 @@ export default {
         },
         toClock(){
             let clockTheme = this.ClassCircleHead.title
-            let url = this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme
+            let url = this.Url+'/QuickToClock?studentId='+this.studentId+'&classId='+this.$route.query.classId+'&clockId='+this.clockId+'&clockTheme='+clockTheme+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
             this.aa = url
         },
         getClockRecod(clockId){
@@ -401,8 +401,32 @@ export default {
                 console.log(err)
             })
         },
-        getWechatShare(){//微信分享
-            // let avatar =
+        getWechatShare(index){//微信分享
+            // let avatar = this.ClockRecod[index]
+            
+            let cuid = this.$route.query.cuid
+            
+            let storeId = this.ClockRecod[index].storeId
+            
+            let classId = this.ClockRecod[index].classId
+            
+            let studentId = this.ClockRecod[index].studentId
+            
+            let clockStudentId = this.ClockRecod[index].clockStudentId
+            //Toast(clockStudentId)
+            let impression = this.ClockRecod[index].impression
+            
+            let str = impression.substring(0,35)
+            let content = str.replace(/[\r\n]/g, "")
+            
+            let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
+            
+            // if(this.ClockRecod[index].studentAvatar){let logo = this.ClockRecod[index].studentAvatar}else{let logo = this.ClockRecod[index].logo}
+            let logo =''
+            this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
+            
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            
         }
         
     }

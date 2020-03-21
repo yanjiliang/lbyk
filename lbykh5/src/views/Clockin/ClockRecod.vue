@@ -65,7 +65,7 @@
                     <div class="clock_item_content">
                         <p>{{item.impression}}</p>
                     </div>
-                    <div class="clock_item_images">
+                    <div class="clock_item_images" v-if="item.picUrls">
                         <!-- <p>这里是照片区域</p> -->
                         <ul flex="main:left cross:center">
                             <li v-for="(item1, index) in item.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
@@ -123,6 +123,7 @@ import '../../css/Clock/clockPublic.css'
 import '../../css/Clock/clocklist.css'
 import {Toast} from 'vant'
 const axios = require('axios')
+import H5Video from '../../components/H5Video'
 export default {
     name:'ClockRecod',
     data(){
@@ -203,6 +204,9 @@ export default {
             personalInfo:'',
             className:this.$route.query.className
         }
+    },
+    components:{
+        H5Video
     },
     mounted(){
         this.getPersonalInfo()

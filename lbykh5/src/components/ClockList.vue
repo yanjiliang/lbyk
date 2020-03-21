@@ -14,7 +14,7 @@
                                 <p class="user_name">{{item.studentName}}</p>
                                 <div class="clock_info">
                                     <p>已打卡 {{item.clockCount}} 次</p>
-                                    <p>{{item.clockDate}}</p>
+                                    <p>{{item.clockDate.slice(0,16)}}</p>
                                 </div>
                             </div>
                             <!-- 打卡头部用户信息 -->
@@ -56,7 +56,7 @@
                                 <p>{{item.praiseCustomerNum}} 人觉得很赞</p>
                             </div>
                             <div class="clock_btn">
-                                <div class="clock_btn01 btn_clock">
+                                <div class="clock_btn01 btn_clock" @click="getWechatShare(index)">
                                     <img src="../images/CreateClock/share.png" alt="">
                                     <p>分享</p>
                                 </div>
@@ -73,7 +73,7 @@
                         <van-divider />
                     </div>
 
-                    <van-divider />
+                    
                 </div>
                 <div class="nodata" style="margin-bottom:55px;margin-top:20px" v-if="ClockRecod.length == 0">
                     <div flex="dir:top cross:center">
@@ -173,6 +173,7 @@ import H5Video from '../components/H5Video'
 import 'flex.css'
 // import { Toast } from 'vant'
 import '../css/Clock/clockPublic.css'
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
     name:'clocklist',
@@ -269,6 +270,24 @@ export default {
         　　　　//window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'&className='+className+'"}')
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
             }
+        },
+        getWechatShare(index){//微信分享
+            // let avatar = this.ClockRecod[index]
+            Toast('触发了分享的办法')
+            let cuid = this.$route.query.cuid
+            let storeId = this.ClockRecod[index].storeId
+            let classId = this.ClockRecod[index].classId
+            let studentId = this.ClockRecod[index].studentId
+            let clockStudentId = this.ClockRecod[index].clockStudentId
+            let impression = this.ClockRecod[index].impression
+            let str = impression.substring(0,35)
+            let content = str.replace(/[\r\n]/g, "")
+            let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
+            let logo =''
+            this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
+            Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            
         }
         
     }

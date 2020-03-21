@@ -17,7 +17,7 @@
                     <p class="font_18px color_353239 font_weight_400">“{{ClockResult.title}}”</p>
                 </div>
                 <div class="clock_content">
-                    <p class="font_16px color_9B9B9B">{{ClockResult.impression}}</p>
+                    <div class="font_16px color_9B9B9B">{{ClockResult.impression}}</div>
 
                 </div>
                 
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <p>{{ClockResult}}</p>
+            
         </div>
 
         
@@ -119,7 +119,7 @@
         <!-- 分享的课程 -->
 
         <!-- 分享按钮 -->
-        <div class="clock_share_btn">
+        <div class="clock_share_btn" @click="getWechatShare()">
             <div style="background:#D2B9A8;height:56px;border-radius:30px;">
                 <div flex="main:center cross:center" style="background:#FAEADE;height:50px;border-radius:30px;">
                     <p class="font_16px color_60C38C">分享</p>
@@ -129,7 +129,7 @@
         <!-- 分享按钮 -->
 
         <div class="clock_share_bottom">
-            <img style="width:100%" src="../../images/CreateClock/clock_share_bottombg.png" alt="">
+            <img style="width:100%;height:100%" src="../../images/CreateClock/clock_share_bottombg.png" alt="">
         </div>
         
     </div>
@@ -138,6 +138,7 @@
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import H5Video from '../../components/H5Video'
+import { Toast } from 'vant'
 const axios = require('axios')
 export default {
     name:'ClockSuccess',
@@ -189,8 +190,8 @@ export default {
             // /class-clock-student/detailedClock
             let url = this.ip+'class-clock-student/detailedClock';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("cuid", this.$route.query.cuid)
+            param.append("storeId", this.$route.query.storeId)
             param.append("clockId", this.$route.query.clockId)
             param.append("classId", this.$route.query.classId)
             param.append("studentId", this.$route.query.studentId)
@@ -202,6 +203,22 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             })
+        },
+        getWechatShare(){//微信分享
+            Toast('触发了分享办法')
+            let cuid = this.$route.query.cuid
+            let storeId = this.$route.query.storeId
+            let classId = this.$route.query.classId
+            let studentId = this.$route.query.studentId
+            let clockStudentId = this.$route.query.clockStudentId
+            let impression = this.ClockResult.impression
+            let str = impression.substring(0,35)
+            let content = str.replace(/[\r\n]/g, "")
+            let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
+            let logo = this.ClockResult.storeAddrInfoDto.logo
+            Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            
         }
     }
 }
@@ -210,12 +227,14 @@ export default {
 .ClockSuccess
     background #F6F6F6
     box-sizing border-box
+    height 100vh
     
     .clock_share_bottom
         background #F6F6F6
-        transform translateY(-50%)
-        height 190px
-
+        // transform translateY(-50%)
+        position fixed
+        bottom 0
+        height 230px
     .clock_share_btn
         position fixed
         bottom 35px

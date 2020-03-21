@@ -50,7 +50,7 @@
         <p class="pop_title">选择打卡班级</p>
         <p class="select_btn" @click="onClassConfirm()">确认</p>
       </div>
-      <div class="quick_clock_select_class_wrap">
+      <div class="quick_clock_select_class_wrap" v-if="userClassList.length != 0">
 
         <div class="quick_clock_select_class_content" ref="class_list_wrap">
           <ul class="quick_clock_select_class_list" ref="class_list">
@@ -71,6 +71,12 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+      <div class="noclassdata" v-if="userClassList.length == 0">
+        <div flex="dir:top cross:center" style="margin:60px auto;width:150px">
+          <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
+          <p class="font_12px color_C6C6C6">暂无可发布打卡活动的班级</p>
         </div>
       </div>
     </van-popup>
@@ -188,8 +194,8 @@ export default {
       let self = this
       let url = this.ip+'class-clock-student/rapidClock';
       let paramimg = new FormData()
-      paramimg.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-      paramimg.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      paramimg.append("cuid", self.$route.query.cuid)
+      paramimg.append("storeId", self.$route.query.storeId)
       paramimg.append("clockId", self.$route.query.clockId)
       
       if (picFile.length == 1) {paramimg.append("picFile1", picFile[0])}
@@ -206,13 +212,22 @@ export default {
       paramimg.append("impression", impression)
 
       let paramvideo = new FormData()
-      paramvideo.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-      paramvideo.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      paramvideo.append("cuid", self.$route.query.cuid)
+      paramvideo.append("storeId", self.$route.query.storeId)
       paramvideo.append("clockId", self.$route.query.clockId)
       paramvideo.append("classId", classId)
       paramvideo.append("studentId", studentId)
       paramvideo.append("impression", impression)
       paramvideo.append("videoFile", videoFile)
+
+      let params = new FormData()
+      params.append("cuid", self.$route.query.cuid)
+      params.append("storeId", self.$route.query.storeId)
+      params.append("clockId", self.$route.query.clockId)
+      params.append("classId", classId)
+      params.append("studentId", studentId)
+      params.append("impression", impression)
+
       let config = {
           headers: { //添加请求头
               'Content-Type': 'multipart/form-data'
@@ -224,7 +239,7 @@ export default {
           // Toast(res.data.result)
           if(res.data.result == 'success'){
             // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-            let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data
+            let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
             // document.createElement("a").href = url
             let a = document.createElement("a")
             a.href = url
@@ -237,15 +252,41 @@ export default {
         }).catch((err)=>{
           console.log(err)
         })
-      }
-      if(self.typeOfFile == 'video'){
+      }else if(self.typeOfFile == 'video'){
         axios.post(url,paramvideo,config).then((res)=>{
           // Toast(res.data.result)
           if(res.data.result == 'success'){
             setTimeout(()=>{
               // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
-              let url = this.Url + '/ClockSuccess?clockId='+this.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data
-              window.open(url,'_blank')
+              let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
+              let a = document.createElement("a")
+              a.href = url
+              Toast.success('打卡成功')
+              setTimeout(()=>{a.click()},200)
+              // this.bb = url
+              
+              // window.location.href = url
+            },200)
+          }else{
+            Toast(res.data.msg)
+          }
+          
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }else{
+        //
+        
+        axios.post(url,params,config).then((res)=>{
+          // Toast(res.data.result)
+          if(res.data.result == 'success'){
+            setTimeout(()=>{
+              // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
+              let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
+              let a = document.createElement("a")
+              a.href = url
+              Toast.success('打卡成功')
+              setTimeout(()=>{a.click()},200)
               // this.bb = url
               
               // window.location.href = url
@@ -263,8 +304,8 @@ export default {
       // /class-clock/getClockClass
       let url = this.ip+'class-clock/getClockClass';
       let param = new URLSearchParams()
-      param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-      param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
       param.append("clockId", this.$route.query.clockId)
       param.append("pageNo", 1)
       param.append("pageSize", 10)

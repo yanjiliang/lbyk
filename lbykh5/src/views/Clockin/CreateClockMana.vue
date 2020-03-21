@@ -42,7 +42,8 @@
                 <p>{{item.startDate.slice(0,10)}}——{{item.endDate.slice(0,10)}}</p>
               </div>
               <div class="clock_list_item_top_right">
-                <p>{{item.status}}</p>
+                <p v-if="item.status == '进行中'">进行中</p>
+                <p style="border-color:#C6C6C6;color:#C6C6C6" v-if="item.status == '已结束'">已结束</p>
               </div>
             </div>
             <van-divider />
@@ -123,7 +124,6 @@ export default {
       }
     },
     getClockManaInfo(page){
-      
       let url = this.ip+'clock/clockManagePage';
       //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
       let param = new URLSearchParams()

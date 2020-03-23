@@ -38,10 +38,10 @@
                     <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
                 </div>
 
-                <div class="clock_item_class_info" v-if="false">
+                <!-- <div class="clock_item_class_info" v-if="false">
                     <p>来自<span>2020届舞蹈基础B班</span></p>
-                </div>
-                <div class="clock_item_func" v-if="false">
+                </div> -->
+                <!-- <div class="clock_item_func" v-if="false">
                     <div class="clock_item_zan_user">
                         <div class="clock_item_info_list">
                             <ul>
@@ -64,7 +64,7 @@
                             <p>点赞</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             
         </div>
@@ -137,6 +137,7 @@
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
+import '../../css/Clock/clocklist.css'
 import H5Video from '../../components/H5Video'
 import { Toast } from 'vant'
 const axios = require('axios')

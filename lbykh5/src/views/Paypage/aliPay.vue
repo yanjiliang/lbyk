@@ -1,23 +1,32 @@
 <template>
-  <div>
-    <H5Video/>
-  </div>
+    <div>
+        <VideoPlayer :options ='videoInfo' />
+    </div>
 </template>
+
 <script>
-import H5Video from '../../components/H5Video'
+import VideoPlayer from '../../components/VideoPlayer'
+
 export default {
-  components:{
-    H5Video
-  },
-  data () {
-    return {
-      
-    }
-  },
-  created () {
-    
+    name: "aliPay",
+    components:{
+      VideoPlayer
     },
-  mounted () {
-    
-  }}
+    data() {
+        return {
+            videoInfo:{
+              
+            }
+        }
+    },
+    mounted() {
+        
+    },
+    beforeDestroy() {
+        
+    }
+}
 </script>
+<style lang="stylus" scoped>
+  
+</style>

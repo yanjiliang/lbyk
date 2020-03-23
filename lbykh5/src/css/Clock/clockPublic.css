@@ -27,47 +27,77 @@
     font-size: 20px;
     line-height: 28px;
 }
-/* fontsize */
-
 /* color */
-.color_F6F6F6{
-    color: #F6F6F6;
+.color_white{
+    color:#fff;
 }
-.color_F4DCBC{
-    color: #F4DCBC
+.color_green{
+    color: #2ac688;
 }
-.color_60C38C{
-    color: #60C38C;
+.color_green_light{
+    color: #EAFFF6;
 }
-.color_FF444B{
-    color: #FF444B;
+.color_gray{
+    color: #78849e;
 }
-.color_FFFFFF{
-    color: #FFFFFF;
+.color_gray_light{
+    color: #A9B1C3;
 }
-.color_3E3E3E{
-    color: #3E3E3E;
+.color_black{
+    color:#353239;
 }
-.color_181818{
-    color: #181818;
+.color_gold{
+    color: #F4DCBC;
 }
-.color_353239{
-    color: #353239;
-}
-.color_9B9B9B{
-    color: #9B9B9B;
-}
-.color_C6C6C6{
-    color: #C6C6C6;
-}
-.color_FF9F1B{
-    color: #FF9F1B;
-}
-.color_7F7F89{
-    color: #7F7F89;
-}
-/* color */
 
+/* margin */
+.margin_top_4{
+    margin-top: 4px;
+}
+.margin_top_8{
+    margin-top: 8px;
+}
+.margin_top_12{
+    margin-top: 12px;
+}
+.margin_top_16{
+    margin-top: 16px;
+}
+.margin_left_4{
+    margin-left: 4px;
+}
+.margin_left_6{
+    margin-left: 6px;
+}
+.margin_left_12{
+    margin-left: 12px;
+}
+/* avator */
+.avator{
+    font-size: 0;
+    line-height: 0;
+}
+.avator img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.avator_48{
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    margin-right: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.avator_48 p{
+    width: 48px;
+    line-height: 48px;
+    text-align: center;
+    background: #f6f6f6;
+    color: #78849e;
+    display: inline-block;
+}
 /* font-weight */
 .font_weight_bold{
     font-weight: bold;
@@ -81,17 +111,15 @@
 .font_weight_700{
     font-weight: 700;
 }
-.font_weight_800{
-    font-weight: 800;
-}
-.font_weight_900{
-    font-weight: 900;
-}
 /* font-weight */
 
 .btn_clock_theme{
     background: #60C38C;
     color: #FFFFFF;
+}
+
+.ellipsis img{
+    width: 20px;
 }
 
 
@@ -102,13 +130,12 @@
     color: #FFFFFF;
     border-radius: 15px;
 }
-/* btn */
-
 
 /* img */
 .img_10{
     width: 10px;
     height: 10px;
+    margin-right: 4px;
     display: block;
 }
 .img_14{
@@ -207,153 +234,4 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     overflow: hidden;
-}
-
-
- .clock_btn{
-    display: flex;
-    align-items: center;
-}
- .clock_btn .clock_btn01 {
-    margin-right: 8px;
-}
- .clock_btn .btn_clock {
-    border: 1px solid #C6C6C6;
-    background: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 15px;
-    padding: 4px 8px;
-    display: flex;
-    align-items: center;
-    color: #C6C6C6;
-}
- .clock_btn .btn_clock img{
-    width: 12px;
-    height: 12px;
-    display: block;
-    margin-right: 4px;
-}
-.btn_clock_zaned{
-    border: 1px solid #FF444B;
-    background: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 15px;
-    padding: 4px 8px;
-    display: flex;
-    align-items: center;
-    color: #FF444B;
-}
-.btn_clock_zaned img{
-    width: 12px;
-    height: 12px;
-    display: block;
-    margin-right: 4px;
-}
-
-.clock_item_func {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.clock_item_func .clock_item_zan_user{
-    display: flex;
-    align-items: center;
-}
-.clock_item_func .clock_item_zan_user p{
-    color: #353239;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    margin-left: 8px;
-}
-.clock_item_func .clock_item_zan_user .clock_item_info_list ul{
-    display: flex;
-    align-items: center;
-}
-.clock_item_func .clock_item_zan_user .clock_item_info_list ul li{
-    /* border: 1px solid #E8E8E8; */
-    border-radius: 50%;
-}
-.clock_item_func .clock_item_zan_user .clock_item_info_list ul li:not(:first-child){
-    margin-left: -22px;
-}
-.clock_item_func .clock_item_zan_user .clock_item_info_list ul li img{
-    width: 28px;
-    height: 28px;
-    display: block;
-    border-radius: 50%;
-}
-.clock_item_func .clock_list_btn{
-    display: flex;
-    align-items: center;
-}
-.clock_item_func .clock_list_btn .clock_list_btn01 {
-    margin-right: 8px;
-}
-.clock_item_func .clock_list_btn .btn_clock {
-    border: 1px solid #C6C6C6;
-    background: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 15px;
-    padding: 4px 8px;
-    display: flex;
-    align-items: center;
-    color: #C6C6C6;
-}
-.clock_item_func .clock_list_btn .btn_clock img{
-    width: 12px;
-    height: 12px;
-    display: block;
-    margin-right: 4px;
-}
-
-.clock_item_video{
-    box-sizing: border-box;
-}
-
-.clock_item_class_info{
-    margin: 16px 0 12px 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-}
-.clock_item_class_info p{
-    color: #C6C6C6;
-}
-.clock_item_class_info p span{
-    color: #60C38C;
-    margin-left: 8px;
-}
-
-
-.clock_item_images{
-    position: relative;
-}
-.clock_item_images .clock_img_count{
-    width: 22px;
-    height: 22px;
-    border-radius: 10px 0 10px 0;
-    box-sizing: border-box;
-    position: absolute;
-    background: rgba(6, 6, 6, .3);
-    bottom: 0;
-    right: 0;
-    color: #FFFFFF;
-    padding: 2px 4px 2px 4px;
-}
-/* .clock_item_images ul{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-} */
-.clock_item_images ul li{
-    margin-right: 0.32rem;
-}
-.clock_item_images ul li:last-child{
-    margin-right: 0;
-}
-.clock_item_images ul li img{
-    display: block;
-    border-radius: 10px;
-    object-fit: cover;
 }

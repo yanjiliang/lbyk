@@ -99,9 +99,7 @@ import '../../../public/resetVant.css'
 import '../../css/Clock/clockPublic.css'
 import H5Video from '../../components/H5Video'
 const axios = require('axios')
-import {
-  Toast
-} from 'vant'
+import {Toast} from 'vant'
 export default {
   name: 'QuickToClock',
   data() {
@@ -149,9 +147,27 @@ export default {
     },
     afterImageRead(file) {
        // postData是一个数组
-      this.imgfile.push(file.file)
-      console.log(this.imgfile)
       this.typeOfFile = 'image'
+
+
+      console.log(file)
+      let filetype = Object.prototype.toString.call(file)
+      console.log(filetype)
+      if(filetype == '[object Object]'){
+        this.imgfile.push(file.file)
+        console.log(this.imgfile)
+        console.log(this.imgfile[1])
+      }
+      
+      if(filetype == '[object Array]'){
+        let len = file.length
+        console.log(len)
+        for(let i = 0;i<len;i++){
+          console.log(file[i].file)
+          this.imgfile.push(file[i].file)
+        }
+        console.log(this.imgfile)
+      }
     },
     toSelectClass() {
       this.showClassPicker = true
@@ -197,7 +213,9 @@ export default {
       paramimg.append("cuid", self.$route.query.cuid)
       paramimg.append("storeId", self.$route.query.storeId)
       paramimg.append("clockId", self.$route.query.clockId)
-      
+      // picFile.forEach(item =>{
+      //   paramimg.append("picFile1",item)
+      // })
       if (picFile.length == 1) {paramimg.append("picFile1", picFile[0])}
       if (picFile.length == 2) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1])}
       if (picFile.length == 3) {paramimg.append("picFile1", picFile[0]);paramimg.append("picFile2", picFile[1]);paramimg.append("picFile3", picFile[2]);}

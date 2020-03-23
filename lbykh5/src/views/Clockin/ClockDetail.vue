@@ -5,31 +5,31 @@
           <div flex="main:justify cross:center">
             <div flex="main:left cross:center" style="margin-bottom:8px">
               <p><img class="img_16" style="margin-right:4px" src="../../images/CreateClock/clock_store.png" alt=""></p>
-              <p class="font_14px color_F6F6F6">{{clockDetailInfo.storeName}}</p>
+              <p class="font_14px color_white">{{clockDetailInfo.storeName}}</p>
             </div>
             <p v-if="clockDetailInfo.isManager == true" @click="toClockEdit()"><img class="img_20" src="../../images/CreateClock/edit.png" alt=""></p>
           </div>
-          <p class="font_20px color_FFFFFF font_weight_bold" style="">{{clockDetailInfo.title}}</p>
+          <p class="font_20px color_white font_weight_bold" style="">{{clockDetailInfo.title}}</p>
         </div>
 
         <!-- 打卡的数据详情 -->
         <div flex="main:justify cross:center" style="text-align:center;margin-bottom:19px">
           <div style="min-width:30%">
-            <p class="color_FFFFFF font_20px" style="margin-bottom:4px">{{clockDetailInfo.attendNum}}</p>
-            <p class="color_F6F6F6 font_12px">参与人数</p>
+            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.attendNum}}</p>
+            <p class="color_green_light font_12px">参与人数</p>
           </div>
           <div style="min-width:30%">
-            <p class="color_FFFFFF font_20px" style="margin-bottom:4px">{{clockDetailInfo.totalNum}}</p>
-            <p class="color_F6F6F6 font_12px">累计打卡</p>
+            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.totalNum}}</p>
+            <p class="color_green_light font_12px">累计打卡</p>
           </div>
           <div style="min-width:30%">
-            <p class="color_FFFFFF font_20px" style="margin-bottom:4px">{{clockDetailInfo.todayNum}}</p>
-            <p class="color_F6F6F6 font_12px">今日打卡</p>
+            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.todayNum}}</p>
+            <p class="color_green_light font_12px">今日打卡</p>
           </div>
         </div>
         <!-- 打卡的数据详情 -->
         <!-- 推广课程 -->
-        <div class="clock_detail_course color_F4DCBC"  style="padding:16px;box-sizing:border-box">
+        <div class="clock_detail_course color_gold"  style="padding:16px;box-sizing:border-box">
             <div class="font_16px" style="margin-bottom:4px">{{clockDetailInfo.courseTitle}}</div>
             <div flex="main:left cross:center" class="font_12px">
               <p class="font_12px"><span style="font-size:10px">￥</span>{{clockDetailInfo.sellingPrice}}</p>
@@ -40,7 +40,7 @@
               <p v-if="clockDetailInfo.coureStaus == 'lowerShelf'">该课程已下架，请及时更换</p>
               <p v-if="clockDetailInfo.coureStaus == 'haveRecruitStudents'">课程招生中</p>
             </div>
-            <p class="course_tag font_10px color_3E3E3E font_weight_bold">推广课程</p>
+            <p class="course_tag font_10px color_black font_weight_bold">推广课程</p>
         </div>
         <!-- 推广课程 -->
     </div>
@@ -61,12 +61,7 @@
             </div>
         </div>
 
-        <!-- <div v-if="clockDetailInfo.isManager == true" flex="main:center cross:center" style="margin: 16px 0">
-            <div flex="dir:top main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:#EBFFF4;border:1px dashed #60C38C">
-                <p><img class="img_28" src="../../images/CreateClock/enrolling.png" alt=""></p>
-                <p class="font_16px color_60C38C">进行中</p>
-            </div>
-        </div> -->
+        
         
         
 
@@ -78,9 +73,20 @@
         </div>
         <p class="font_14px color_9B9B9B" style="text-align:center">{{clockDetailInfo.startDate.slice(0,10)}} —— {{clockDetailInfo.endDate.slice(0,10)}}</p>
     </div>
-    <!-- 打卡介绍 -->
-    <div class="clock_detail_list">
-      <ClockList :ClockRecod='ClockRecod' :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
+    
+    <div class="clockDataInfo" style="border:1px solid red;background:white;box-sizing:border-box;padding:0 16px">
+      <div>
+        <p>打卡记录</p>
+        <p>排行榜</p>
+      </div>
+      <!-- 打卡介绍 -->
+      <div class="clock_detail_list">
+        <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
+      </div>
+      <!-- 排行榜 -->
+      <div class="clock_detail_list" v-if="false">
+        <RankList :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
+      </div>
     </div>
 
     
@@ -89,7 +95,8 @@
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
-import ClockList from '../../components/ClockList'
+import RankList from '../../components/RankList'
+import ClockList from '../Clockin/ClockList'
 import { Toast } from 'vant'
 const axios = require('axios')
 export default {
@@ -113,6 +120,7 @@ export default {
     }
   },
   components: {
+    RankList,
     ClockList
   },
   mounted(){

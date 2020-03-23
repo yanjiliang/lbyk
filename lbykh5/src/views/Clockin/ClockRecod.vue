@@ -28,29 +28,72 @@
                     </li>
                 </ul>
             </div>
-
-
-            <!-- <div class="class_circle_clock" flex="main:justify cross:center">
-                <div class="class_circle_clock_tag" flex="main:justiry cross:center">
-                    <img class="img_10" src="../../images/CreateClock/time.png" alt="">
-                    <p class="font_10px color_FFFFFF">进行中</p>
-                </div>
-                <div style="box-sizing:border-box;padding-top:12px">
-                    <p class="font_16px color_353239">这一周,很难忘这一周这这这这...</p>
-                    <p class="font_14px color_9B9B9B">我已打卡<span class="color_FF444B">3</span>次</p>
-                </div>
-                <div flex="main:center cross:center" style="width:77px;height:77px;border-radius:50%;background:rgba(96,195,140,.1)">
-                    <div flex="main:center cross:center" style="width:69px;height:69px;border-radius:50%;background:rgba(96,195,140,.4)">
-                        <div flex="main:center cross:center" style="width:61px;height:61px;border-radius:50%;background:rgba(96,195,140,1)">
-                            <p class="font_12px color_FFFFFF">去打卡</p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <p>{{personalInfo.data.attendTitleNum}}</p> -->
         </div>
 
         
+        <!-- 打卡用户列表 -->
+        <div>
+            <div class="clock_list_wrap">
+                <div class="clock_list_item" v-for="(item, index) in personalInfo.data.clockRecordDtos.data" :key="index" @click="getRecodIndex(index)">
+                    <!-- 打卡头部用户信息开始 -->
+                    <div flex="main:justify cross:center">
+                        <!-- 用户信息开始 -->
+                        <p class="font_14px color_gray_light margin_top_4">{{item.clockDate.slice(0,16)}}</p>
+                        <!-- 用户信息结束 -->
+                        <!-- 操作区开始 -->
+                        <div class="ellipsis">
+                            <img src="../../images/CreateClock/ellipsis.png">
+                        </div>
+                        <!-- 操作区结束 -->
+                    </div>
+                    <!-- 打卡头部用户信息结束 -->
+                    <div class="clock_item_content">
+                            <p>wdwew的凯撒将很快sad那是的卡仕达时间到了我渴望奇货可居签完了情为何物情节而另外可千万 而且为客户无情刻进去闻鸡起舞二级维护就我去问问丘吉尔立刻前往吉尔两千万{{item.impression}}</p>
+                    </div>
+                    <div class="clock_item_images" v-if="item.picUrls">
+                        <!-- <p>这里是照片区域</p> -->
+                        <ul flex="main:justify cross:center">
+                            <li v-for="(item, index) in item.picUrls" :key="index"><img :src="item.url" alt="" @click="preClick(index)"></li>
+                        </ul>
+                        <p class="clock_img_count" v-if="item.picUrls.length >3">+{{item.picUrls.length-3}}</p>
+                    </div>
+                    <!-- 图片预览 -->
+                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                        <template v-slot:index>
+                            
+                        </template>
+                    </van-image-preview>
+                    <!-- 图片预览 -->
+                    <div class="clock_item_video" v-if="item.videoUrl">
+                        <H5Video :fileVideoSrc='item.videoUrl'/>
+                    </div>
+                    <div>
+                        <p class="color_green margin_top_12">
+                            <span class="clockin_title_ellipsis"># {{item.title}}</span>
+                        </p>
+                    </div>
+                    <div class="margin_top_16 color_gray_light font_14px">
+                        <div flex="main:justify cross:center">
+                            <div flex="main:left cross:center" class="clock_fun_icon" v-if="item.isPraise == false" @click="toClockPraise(item.clockStudentId,index)">
+                                <img src="../../images/CreateClock/zan.png" alt="">
+                                <p>{{item.praiseCustomerNum}}人觉得很赞</p>
+                            </div>
+                            <div flex="main:left cross:center" class="clock_fun_icon" v-if="item.isPraise == true">
+                                <img src="../../images/CreateClock/zaned.png" alt="">
+                                <p>{{item.praiseCustomerNum}}人觉得很赞</p>
+                            </div>
+                            <div class="clock_fun_icon" flex="main:left cross:center" @click="getWechatShare(index)">
+                                <img src="../../images/CreateClock/share.png" alt="">
+                                <p>分享</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- 打卡用户列表 -->
+
         <!-- 打卡用户列表 -->
         <div style="margin-top:8px;background:#FFFFFF">
             <div class="clock_list_wrap">
@@ -267,7 +310,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .ClockRecod
-    background #FAF8F8
+    background #fff
+    padding 16px
     .class_info_wrap
         background #FFFFFF
         box-sizing border-box

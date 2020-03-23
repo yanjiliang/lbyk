@@ -9,7 +9,7 @@
                 <p style="position:absolute;top:0;right:0;z-index:1001;width:53px;height:51px"><img style="width:56px;height:54px" src="../../images/CreateClock/clock_share_tag.png" alt=""></p>
                 <div class="clock_share_avatar" flex="main:center cross:center">
                     <img v-if="ClockResult.studentAvatar" class="img_60_round" :src="ClockResult.studentAvatar" alt="">
-                    <p class="img_60_round font_12px color_FFFFFF" style="background:rgba(96,195,140,.3);line-height:60px;text-align:center" v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.slice(0,2)}}</p>
+                    <p class="img_60_round font_12px color_FFFFFF" style="background:rgba(96,195,140,.3);line-height:60px;text-align:center" v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.substring(0,2)}}</p>
                 </div>
                 <div flex="dir:top main:center cross:center">
                     <p class="font_18px font_weight_bold color_353239">{{ClockResult.studentName}}</p>
@@ -102,9 +102,9 @@
             <div flex="main:left cross:center">
                 <div style="margin-right:12px"><img class="img_48" style="border-radius:10px" src="http://pic1.zhimg.com/50/v2-b7bd451b0bda3c36fa8a7f07d9ac4ffe_hd.jpg" alt=""></div>
                 <div style="width:100%">
-                    <p class="font_16px color_181818" style="margin-bottom:6px">{{ClockResult.course.courseTitle}}</p>
+                    <p class="font_16px color_181818" style="margin-bottom:6px">{{ClockResult.clockCourseDto.courseTitle}}</p>
                     <div flex="main:justify cross:center">
-                        <p class="font_14px color_FF444B">￥{{ClockResult.course.sellingPrice}}/{{ClockResult.course.classHourNum}}节课</p>
+                        <p class="font_14px color_FF444B">￥{{ClockResult.clockCourseDto.sellingPrice}}/{{ClockResult.clockCourseDto.classHourNum}}节课</p>
                         <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
                             <p style="margin-right:4px">立即报名</p>
                             <img class="img_14" src="../../images/CreateClock/next.png" alt="">
@@ -150,13 +150,7 @@ export default {
             fileVideoSrc:'',
             pre_index:0,
             pre_show:false,
-            preImage:[
-                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
-                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
-                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg',
-                'https://drscdn.500px.org/photo/1012172270/q%3D80_m%3D2000/v2?sig=2942fdc49d6607fe66ffe11adf35d02b0dd1e2df11be3474cf617d925b09dcea',
-                'https://drscdn.500px.org/photo/1012172160/q%3D80_m%3D1500/v2?sig=914c45ce0790b4849834e2d1ab9b465957575b95e8c6c17b55ad4d72eab9d3f0'
-            ],
+            preImage:[],
             ClockResult:'',
         }
     },

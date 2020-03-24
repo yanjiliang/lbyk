@@ -179,9 +179,9 @@
                     <p>课程介绍</p>
                 </div>
                 <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
+                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
                     <!-- <p>{{orgindex_data.introduce}}</p> -->
-                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                    <!-- <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p> -->
                 </div>
             </div>
         </div>
@@ -261,10 +261,12 @@ import { Toast } from 'vant';
 
 import BScroll from 'better-scroll'
 import Orderinfo from '../../components/OrderInfo'
+import H5Video from '../../components/H5Video'
 export default {
     name:'classdetail',
     components:{
-        Orderinfo
+        Orderinfo,
+        H5Video
     },
     data (){
         return {
@@ -309,7 +311,8 @@ export default {
                 wechatSharedata:'',
                 infoHeight:'',
                 pre_index:0,
-                pre_show:false
+                pre_show:false,
+                introduce:''
             }
     },
     methods: {
@@ -513,16 +516,35 @@ export default {
                     this.age = this.course_detail_data.minAge  +'岁以上'
                 }
 
+                // 处理富文本
+                    
+                try {
+                    if (typeof JSON.parse(this.course_detail_data.introduce) == "object") {
+                        // Toast('JSON')
+                        let introduce = JSON.parse(this.course_detail_data.introduce)
+                        var richText =''
+                        for(let i =0;i<introduce.length;i++){
+                            //
+                            if(introduce[i].richContentType ==  2){
+                                richText += '<p>'
+                                richText += introduce[i].textContent
+                                richText += '</p>'
+                            }else if(introduce[i].richContentType ==  1){
+                                richText += "<img "
+                                richText += "src='" 
+                                richText += introduce[i].remoteImageUrlString
+                                richText += "'/>" 
+                            }
+                        }
+                        this.introduce = richText
+                    }
+                } catch(e) {
+                    // Toast('字符春')
+                    this.introduce = this.course_detail_data.introduce
+                }
+
             })
         },
-        
-        
-        clickTofold(){
-            this.$refs.bandinfo.classList.remove('fold')
-            this.showFold = false
-
-        },
-        
         
         isApp(){
                 //this.h5orapp = navigator.userAgent.toLowerCase()

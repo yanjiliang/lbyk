@@ -268,6 +268,7 @@ export default {
                 tags[i].style.width = width + 'px'
                 
             }
+            
             this.$nextTick(()=>{
                 var tagsbox = document.getElementById('tagsbox')
                 console.log(tagsbox)

@@ -145,6 +145,9 @@
     position: relative;
     /* margin-bottom: 0.90666rem; */
 }
+.classdetailOrg .classinfo .bandstory .bandinfo img{
+    width: 100%;
+}
 
 .classdetailOrg .classinfo .bandstory .bandinfo span {
     display: inline-block;

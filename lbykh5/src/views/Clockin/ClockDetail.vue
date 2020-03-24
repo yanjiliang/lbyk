@@ -74,17 +74,17 @@
         <p class="font_14px color_9B9B9B" style="text-align:center">{{clockDetailInfo.startDate.slice(0,10)}} —— {{clockDetailInfo.endDate.slice(0,10)}}</p>
     </div>
     
-    <div class="clockDataInfo" style="border:1px solid red;background:white;box-sizing:border-box;padding:0 16px">
-      <div>
-        <p>打卡记录</p>
-        <p>排行榜</p>
+    <div class="clockDataInfo" style="background:white;box-sizing:border-box;padding:20px 16px">
+      <div flex="main:left cross:center" class=" font_18px color_black font_weight_bold">
+        <p style="margin-right:16px" :class="{'font_16px':!RecodTags,'color_C6C6C6':!RecodTags}" @click="changeTags()">打卡记录</p>
+        <p @click="changeTags()" :class="{'font_16px':RecodTags,'color_C6C6C6':RecodTags}">排行榜</p>
       </div>
       <!-- 打卡介绍 -->
-      <div class="clock_detail_list">
+      <div class="clock_detail_list" v-if="RecodTags">
         <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
       </div>
       <!-- 排行榜 -->
-      <div class="clock_detail_list" v-if="false">
+      <div class="clock_detail_list" v-if="!RecodTags">
         <RankList :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
       </div>
     </div>
@@ -116,7 +116,8 @@ export default {
       ClockRank:'',
       cuid:this.$route.query.cuid,
       storeId:this.$route.query.storeId,
-      quickUrl:""
+      quickUrl:"",
+      RecodTags:true
     }
   },
   components: {
@@ -221,6 +222,9 @@ export default {
       let url = this.Url +'/CreateClock?cuid=' + this.$route.query.cuid + '&storeId=' +this.$route.query.storeId+'&clockId='+this.$route.query.clockId+'&type=edit'
       window.location.href = url
       
+    },
+    changeTags(){
+      this.RecodTags = !this.RecodTags
     }
     
   }

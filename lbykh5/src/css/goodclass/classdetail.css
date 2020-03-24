@@ -242,9 +242,7 @@
 
 /* 品牌故事 */
 
-.classdetail .classinfo .bandstory {
-    /* width: 9.14666rem; */
-}
+
 
 .classdetail .classinfo .bandstory .bandtitle {
     font-size: 18px;
@@ -266,6 +264,9 @@
     padding: 16px 12px 12px 12px;
     position: relative;
     margin-bottom: 0.90666rem;
+}
+.classdetail .classinfo .bandstory .bandinfo img{
+    width: 100%;
 }
 
 .classdetail .classinfo .bandstory .bandinfo span {

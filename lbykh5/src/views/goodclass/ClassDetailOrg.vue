@@ -213,8 +213,8 @@
                     <a href="" @click.prevent="pre_edit_page('KCJSBJ',cd_token)">编辑</a>
                 </div>
                 <div class="bandinfo">
-                    <p  ref="bandinfo">{{course_detail_data.introduce}}</p>
-
+                    <!-- <p  ref="bandinfo" >{{course_detail_data.introduce}}</p> -->
+                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
                 </div>
             </div>
         </div>
@@ -334,7 +334,8 @@ import Orderinfo from '../../components/OrderInfo'
                 spans:Object,
                 pre_index:0,
                 pre_show:false,
-                fileVideoSrc:''
+                fileVideoSrc:'',
+                introduce:''
             }
         },
         methods: {
@@ -443,14 +444,35 @@ import Orderinfo from '../../components/OrderInfo'
                         this.age = this.course_detail_data.minAge  +'岁以上'
                     }
                     
+
+                    try {
+                        if (typeof JSON.parse(this.course_detail_data.introduce) == "object") {
+                            // Toast('JSON')
+                            let introduce = JSON.parse(this.course_detail_data.introduce)
+                            var richText =''
+                            for(let i =0;i<introduce.length;i++){
+                                //
+                                if(introduce[i].richContentType ==  2){
+                                    richText += '<p>'
+                                    richText += introduce[i].textContent
+                                    richText += '</p>'
+                                }else if(introduce[i].richContentType ==  1){
+                                    richText += "<img "
+                                    richText += "src='" 
+                                    richText += introduce[i].remoteImageUrlString
+                                    richText += "'/>" 
+                                }
+                            }
+                            this.introduce = richText
+                        }
+                    } catch(e) {
+                        // Toast('字符春')
+                        this.introduce = this.course_detail_data.introduce
+                    }
                 })
             },
             
-            clickTofold(){
-                this.$refs.bandinfo.classList.remove('fold')
-                this.showFold = false
-
-            },
+            
             initBandinfo(){
                 // console.log(this.$refs.bandinfo.offsetHeight)
                 let height = this.$refs.bandinfo.offsetHeight
@@ -461,11 +483,10 @@ import Orderinfo from '../../components/OrderInfo'
             },
             getShareParams(msg){
                 if(msg.type == 'share'){
-                    const str = this.course_detail_data.introduce.substring(0,35)
-                    // const strr = JSON.stringify(str)
-                    const content = str.replace(/[\r\n]/g, "")
-                    // const bb = content.replace(" ","")
-                    // Toast(content)
+                    let categoryName = this.course_detail_data.categoryName
+                    let classHourNum = this.course_detail_data.classHourNum
+                    let area = this.course_detail_data.area
+                    let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                     const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                     window.android.SkipPage(aa)
                 }
@@ -487,8 +508,10 @@ import Orderinfo from '../../components/OrderInfo'
             McDispatcher (qury){
                     //iOS获取APP传过来的参数的方法
                 if(qury.type == 'share'){
-                    const str = this.course_detail_data.introduce.substring(0,35)
-                    const content = str.replace(/[\r\n]/g, "")
+                    let categoryName = this.course_detail_data.categoryName
+                    let classHourNum = this.course_detail_data.classHourNum
+                    let area = this.course_detail_data.area
+                    let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                     const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'"}'
                     window.webkit.messageHandlers.skipPage.postMessage(aa)
                 }

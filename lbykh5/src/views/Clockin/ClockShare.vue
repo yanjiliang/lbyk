@@ -87,7 +87,7 @@
                         </p>
                         <p class="font_12px color_C6C6C6">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</p>
                     </div>
-                    <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
+                    <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px" @click="toStore()">
                         <p style="margin-right:4px">进店逛逛</p>
                         <img class="img_14" src="../../images/CreateClock/next.png" alt="">
                     </div>
@@ -105,7 +105,7 @@
                     <p class="font_16px color_181818" style="margin-bottom:6px">{{ClockResult.clockCourseDto.courseTitle}}</p>
                     <div flex="main:justify cross:center">
                         <p class="font_14px color_FF444B">￥{{ClockResult.clockCourseDto.sellingPrice}}/{{ClockResult.clockCourseDto.classHourNum}}节课</p>
-                        <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
+                        <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px" @click="toCourse()">
                             <p style="margin-right:4px">立即报名</p>
                             <img class="img_14" src="../../images/CreateClock/next.png" alt="">
                         </div>
@@ -194,6 +194,23 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             })
+        },
+        toStore(){
+            //去机构
+            let storeId = this.ClockResult.storeAddrInfoDto.storeId
+            let url = this.Url +'/OrgIndexShare?storeId=' +storeId
+            let alink = document.createElement("a")
+            alink.href = url
+            setTimeout(()=>{alink.click()},200)
+
+        },
+        toCourse(){
+            //去该课程
+            let courseId = this.ClockResult.clockCourseDto.courseId
+            let url = this.Url +'/ClassDetailShare?courseId='+courseId
+            let alink = document.createElement("a")
+            alink.href = url
+            setTimeout(()=>{alink.click()},200)
         }
     }
 }

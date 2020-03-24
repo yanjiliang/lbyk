@@ -5,7 +5,7 @@
                 <div>
                     <p flex="main:left cross:center"><img class="img_10" src="../../images/CreateClock/time.png" alt=""><span class="color_green">进行中的打卡</span></p>
                     <p class="font_20px color_green font_weight_700 line_1 margin_top_8">{{ClassCircleHead.title}}</p>
-                    <p class="font_14px color_gray margin_top_8">我已打卡<span> {{ ClassCircleHead.studentCount }} </span>次</p>
+                    <p class="font_14px color_gray margin_top_8">{{ClassCircleHead.studentCount}}名学员共打卡<span> {{ ClassCircleHead.clockCount }} </span>次</p>
                 </div>
                 <div flex="main:center cross:center" style="width:72px;height:72px;border-radius:50%;background:rgba(42,198,136,.2);flex-shrink: 0; margin-left:12px" @click="toClockTheme()">
                     <div flex="main:center cross:center" style="width:64px;height:64px;border-radius:50%;background:rgba(42,198,136)">
@@ -14,8 +14,8 @@
                 </div>
             </div>
         </div>
-        <!-- <p>{{ClassCircleHead}}</p> -->
-        <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
+        
+        <ClockList :clockId='ClassCircleHead.clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
     </div>
 </template>
 <script src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>

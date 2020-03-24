@@ -213,12 +213,12 @@ export default {
             let studentId = this.$route.query.studentId
             let clockStudentId = this.$route.query.clockStudentId
             let impression = this.ClockResult.impression
+            let title = this.ClockResult.title
             let str = impression.substring(0,35)
             let content = str.replace(/[\r\n]/g, "")
             let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
             let logo = this.ClockResult.storeAddrInfoDto.logo
-            Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'"}')
             
         }
     }

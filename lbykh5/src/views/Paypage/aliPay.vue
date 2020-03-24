@@ -1,21 +1,25 @@
 <template>
     <div>
-        <VideoPlayer :options ='videoInfo' />
+        <H5Video :fileVideoSrc ='fileVideoSrc' />
     </div>
 </template>
 
 <script>
-import VideoPlayer from '../../components/VideoPlayer'
+import H5Video from '../../components/H5Video'
 
 export default {
     name: "aliPay",
     components:{
-      VideoPlayer
+      H5Video
     },
     data() {
         return {
-            videoInfo:{
-              
+            fileVideoSrc:{
+              src:'../assets/cat.mp4',
+              autoplay:true,
+              preload:'auto',
+              muted:true,
+              controls:true
             }
         }
     },

@@ -259,10 +259,10 @@ export default {
             // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
             let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
             // document.createElement("a").href = url
-            let a = document.createElement("a")
-            a.href = url
+            let alink = document.createElement("a")
+            alink.href = url
             Toast.success('打卡成功')
-            setTimeout(()=>{a.click()},200)
+            setTimeout(()=>{alink.click()},200)
           }else{
             Toast(res.data.msg)
           }
@@ -277,10 +277,10 @@ export default {
             setTimeout(()=>{
               // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
               let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
-              let a = document.createElement("a")
-              a.href = url
+              let alink = document.createElement("a")
+              alink.href = url
               Toast.success('打卡成功')
-              setTimeout(()=>{a.click()},200)
+              setTimeout(()=>{alink.click()},200)
               // this.bb = url
               
               // window.location.href = url
@@ -301,10 +301,10 @@ export default {
             setTimeout(()=>{
               // this.$router.push({path:'/ClockShare',query:{'clockId':this.$route.query.clockId,'studentId':this.$route.query.studentId,'classId':this.$route.query.classId,'clockStudentId':res.data.data}})
               let url = self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
-              let a = document.createElement("a")
-              a.href = url
+              let alink = document.createElement("a")
+              alink.href = url
               Toast.success('打卡成功')
-              setTimeout(()=>{a.click()},200)
+              setTimeout(()=>{alink.click()},200)
               // this.bb = url
               
               // window.location.href = url

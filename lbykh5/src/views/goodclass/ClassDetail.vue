@@ -77,6 +77,7 @@
                 </div>
             </div>
 
+            
             <!-- 视课 -->
             <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0">
                 <div class="title">
@@ -87,7 +88,7 @@
                 </div>
                 
                 <div v-if="course_detail_data.videoUrl">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :videoCover="course_detail_data.videoCoverUrl"/>
                 </div>
             </div>
             <!-- 授课老师 -->
@@ -176,9 +177,9 @@
                 </div>
                 
                 <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
+                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
                     <!-- <p>{{orgindex_data.introduce}}</p> -->
-                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                    <!-- <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p> -->
                 </div>
             </div>
         </div>
@@ -245,12 +246,9 @@ import BScroll from 'better-scroll'
 // import {store} from '../../../store/index'
 import Orderinfo from '../../components/OrderInfo'
 import H5Video from '../../components/H5Video'
+
 export default {
     name:'classdetail',
-    components:{
-        Orderinfo,
-        H5Video
-    },
     data (){
         return{
             ip:this.$ip.getIp(),
@@ -297,10 +295,14 @@ export default {
             infoHeight:'',
             spans:Object,
             pre_index:0,
-            pre_show:false
+            pre_show:false,
+            introduce:''
         }
     },
-    
+    components:{
+        Orderinfo,
+        H5Video
+    },
     methods:{
         
         indicateIndex(index){
@@ -522,15 +524,38 @@ export default {
                     }else if(this.course_detail_data.minAge != 0 && this.course_detail_data.maxAge == 60){
                         this.age = this.course_detail_data.minAge  +'岁以上'
                     }
+
+                    // 处理富文本
+                    
+                    try {
+                        if (typeof JSON.parse(this.course_detail_data.introduce) == "object") {
+                            // Toast('JSON')
+                            let introduce = JSON.parse(this.course_detail_data.introduce)
+                            var richText =''
+                            for(let i =0;i<introduce.length;i++){
+                                //
+                                if(introduce[i].richContentType ==  2){
+                                    richText += '<p>'
+                                    richText += introduce[i].textContent
+                                    richText += '</p>'
+                                }else if(introduce[i].richContentType ==  1){
+                                    richText += "<img "
+                                    richText += "src='" 
+                                    richText += introduce[i].remoteImageUrlString
+                                    richText += "'/>" 
+                                }
+                            }
+                            this.introduce = richText
+                        }
+                    } catch(e) {
+                        // Toast('字符春')
+                        this.introduce = this.course_detail_data.introduce
+                    }
                 }
             })
         },
         
-        clickTofold(){
-            this.$refs.bandinfo.classList.remove('fold')
-            this.showFold = false
-
-        },
+        
         initBandinfo(){
             // console.log(this.$refs.bandinfo.offsetHeight)
             let height = this.$refs.bandinfo.offsetHeight
@@ -541,8 +566,12 @@ export default {
         },
         getShareParams(msg){
             if(msg.type == 'share'){
-                const str = this.course_detail_data.introduce.substring(0,35)
-                const content = str.replace(/[\r\n]/g, "")
+                // const str = this.course_detail_data.introduce.substring(0,35)
+                // const content = str.replace(/[\r\n]/g, "")
+                let categoryName = this.course_detail_data.categoryName
+                let classHourNum = this.course_detail_data.classHourNum
+                let area = this.course_detail_data.area
+                let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                 const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                 window.android.SkipPage(aa)
             }
@@ -562,8 +591,10 @@ export default {
         McDispatcher (qury){
                 //iOS获取APP传过来的参数的方法
             if(qury.type == 'share'){
-                const str = this.course_detail_data.introduce.substring(0,35)
-                const content = str.replace(/[\r\n]/g, "")
+                let categoryName = this.course_detail_data.categoryName
+                let classHourNum = this.course_detail_data.classHourNum
+                let area = this.course_detail_data.area
+                let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                 const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'"}'
                 window.webkit.messageHandlers.skipPage.postMessage(aa)
             }

@@ -337,7 +337,7 @@ const router = new Router({
             path: '/ClockDetail',
             name: 'ClockDetail',
             meta: {
-                title: '打卡详情'
+                title: '主题详情'
             },
             component: () => import('./views/Clockin/ClockDetail.vue')
         },
@@ -376,6 +376,15 @@ const router = new Router({
                 title: '打卡记录'
             },
             component: () => import('./views/Clockin/ClockRecod.vue')
+        },
+        
+        {
+            path: '/Clockinfo',
+            name: 'Clockinfo',
+            meta: {
+                title: '打卡详情'
+            },
+            component: () => import('./views/Clockin/Clockinfo.vue')
         },
     ]
 })

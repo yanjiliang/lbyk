@@ -1,9 +1,9 @@
 <template>
     <div class="ClockRecod">
-        
         <!-- 打卡用户列表 -->
+        
         <div>
-            <ClockList :storeId='storeId' :studentId='studentId' />
+            <ClockList :storeId='storeId' :cuid='cuid' :studentId='studentId' :pageType='pageType' :isManager='isManager' />
         </div>
         <!-- 打卡用户列表 -->
     </div>
@@ -23,27 +23,33 @@ export default {
             ip:this.$ip.getIp(),
             Url:this.$Url.geturl(),
             device:this.$device.getDevice(),
+            pageType:'ClockRecod',
             ClockList:[],
             ZanList:[],
             preImage:[],
             pre_index:0,
             pre_show:false,
-            cuid:'',
+            cuid:this.$route.query.cuid,
             storeId:this.$route.query.storeId,
             personalInfo:'',
             className:this.$route.query.className,
             studentId:this.$route.query.studentId,
-            clockId:this.$route.query.clockId
+            clockId:this.$route.query.clockId,
+            isManager:this.$route.query.isManager,
         }
     },
     components:{
         ClockList
     },
     mounted(){
+        
+    },
+    beforeMount(){
         this.getPersonalInfo()
-        setTimeout(()=>{
-            document.title = this.personalInfo.data.studentName+'的打卡记录'
-        },100)
+        // setTimeout(()=>{
+        //     document.title = this.personalInfo.data.studentName+'的打卡记录'
+        // },100)
+        document.title = this.personalInfo.data.studentName+'的打卡记录'
     },
     methods:{
         getRecodIndex(index){
@@ -75,7 +81,7 @@ export default {
             let url = this.ip+'class-clock-student/clockPersonalPage';
             let param = new URLSearchParams()
             param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("storeId", this.$route.query.storeId)
             param.append("pageNo", 1)
             param.append("pageSize", 100)
             param.append("studentId", this.$route.query.studentId)

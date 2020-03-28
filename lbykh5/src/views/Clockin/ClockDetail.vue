@@ -1,90 +1,75 @@
 <template>
 <div class="clock_detail">
     <div class="clock_detail_navinfo_box">
-        <div style="padding:0 16px;margin-bottom:12px">
-          <div flex="main:justify cross:center">
-            <div flex="main:left cross:center" style="margin-bottom:8px">
-              <p><img class="img_16" style="margin-right:4px" src="../../images/CreateClock/clock_store.png" alt=""></p>
-              <p class="font_14px color_white">{{clockDetailInfo.storeName}}</p>
+        <div>
+            <div flex="main:left cross:center" @click="toStore">
+              <p><img class="img_14" style="margin-top:-3px" src="../../images/CreateClock/clock_store.png" alt=""></p>
+              <p class="font_14px color_yellow_light margin_left_6">{{clockDetailInfo.storeName}}</p>
+              <p><img class="img_10 margin_left_6" style="margin-top:-1px" src="../../images/CreateClock/arrow_right.png" alt=""></p>
             </div>
-            <p v-if="clockDetailInfo.isManager == true" @click="toClockEdit()"><img class="img_20" src="../../images/CreateClock/edit.png" alt=""></p>
+          <div flex="main:justify cross:center" class="margin_top_30">
+            <div flex="main:left cross:center">
+              <p v-if="clockDetailInfo.clockStatus == 'Beginning'" flex="main:left cross:center" class="margin_top_12">
+                <img class="img_14" style="margin-top:-2px" src="../../images/CreateClock/timeing.png" alt="">
+                <span class="color_yellow_light font_16px margin_left_6">进行中的打卡</span>
+              </p>
+              <p v-if="clockDetailInfo.clockStatus == 'Finished'"  flex="main:left cross:center" class="margin_top_12">
+                <img class="img_14" style="margin-top:-2px" src="../../images/CreateClock/time_end.png" alt="">
+                <span class="color_gray_lighter font_16px margin_left_6">打卡已结束</span>
+              </p>
+            </div>
+            <p v-if="clockDetailInfo.isManager == true && clockDetailInfo.clockStatus == 'Beginning'" @click="toClockEdit()"><img class="img_16" src="../../images/CreateClock/edit.png" alt=""></p>
           </div>
-          <p class="font_20px color_white font_weight_bold" style="">{{clockDetailInfo.title}}</p>
-        </div>
-
-        <!-- 打卡的数据详情 -->
-        <div flex="main:justify cross:center" style="text-align:center;margin-bottom:19px">
-          <div style="min-width:30%">
-            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.attendNum}}</p>
-            <p class="color_green_light font_12px">参与人数</p>
-          </div>
-          <div style="min-width:30%">
-            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.totalNum}}</p>
-            <p class="color_green_light font_12px">累计打卡</p>
-          </div>
-          <div style="min-width:30%">
-            <p class="color_white font_20px" style="margin-bottom:4px">{{clockDetailInfo.todayNum}}</p>
-            <p class="color_green_light font_12px">今日打卡</p>
-          </div>
+          <p class="font_24px color_white font_weight_bold margin_top_8" style="">{{clockDetailInfo.title}}</p>
         </div>
         <!-- 打卡的数据详情 -->
-        <!-- 推广课程 -->
-        <div class="clock_detail_course color_gold"  style="padding:16px;box-sizing:border-box">
-            <div class="font_16px" style="margin-bottom:4px">{{clockDetailInfo.courseTitle}}</div>
-            <div flex="main:left cross:center" class="font_12px">
-              <p class="font_12px"><span style="font-size:10px">￥</span>{{clockDetailInfo.sellingPrice}}</p>
-              <img class="img_14" v-if="clockDetailInfo.coureStaus == 'overRecruitStudents'" style="margin:0 2px 0 4px" src="../../images/CreateClock/warning.png" alt="">
-              <img class="img_14" v-if="clockDetailInfo.coureStaus == 'haveRecruitStudents'" style="margin:0 2px 0 4px" src="../../images/CreateClock/enrolling02.png" alt="">
-              <img class="img_14" v-if="clockDetailInfo.coureStaus == 'lowerShelf'" style="margin:0 2px 0 4px" src="../../images/CreateClock/offshelf.png" alt="">
-              <p v-if="clockDetailInfo.coureStaus == 'overRecruitStudents'">招生服务已过期，课程推广将失效</p>
-              <p v-if="clockDetailInfo.coureStaus == 'lowerShelf'">该课程已下架，请及时更换</p>
-              <p v-if="clockDetailInfo.coureStaus == 'haveRecruitStudents'">课程招生中</p>
-            </div>
-            <p class="course_tag font_10px color_black font_weight_bold">推广课程</p>
+        <div flex="main:justify cross:center" class="txt_center margin_top_16" style="padding:0 8px">
+          <div>
+            <p class="color_yellow_light font_20px font_weight_700">{{clockDetailInfo.attendNum}}</p>
+            <p class="color_yellow_light font_14px">参与人数</p>
+          </div>
+          <div>
+            <p class="color_yellow_light font_20px font_weight_700">{{clockDetailInfo.totalNum}}</p>
+            <p class="color_yellow_light font_14px">累计打卡</p>
+          </div>
+          <div>
+            <p class="color_yellow_light font_20px font_weight_700">{{clockDetailInfo.todayNum}}</p>
+            <p class="color_yellow_light font_14px">今日打卡</p>
+          </div>
         </div>
-        <!-- 推广课程 -->
+        <!-- 打卡的数据详情 -->
     </div>
 
     
     <!-- 打卡介绍 -->
     <div class="clock_introduce">
-        <p class="font_16px color_181818" style="margin-bottom:12px">打卡介绍</p>
         <!-- <p>{{clockId}}</p> -->
-        <p class="font_16px color_353239">{{clockDetailInfo.introduce}}</p>
-        <div flex="main:center cross:center" style="margin: 16px 0" v-if="clockDetailInfo.clockStatus == 'Beginning' && clockDetailInfo.isManager == true" @click="quickToClock">
-            <div flex="main:center cross:center" style="width:104px;height:104px;border-radius:50%;background:rgba(96,195,140,.1)">
-                <div flex="main:center cross:center" style="width:94px;height:94px;border-radius:50%;background:rgba(96,195,140,.4)">
-                    <div flex="main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:rgba(96,195,140,1)">
-                        <p class="font_16px color_FFFFFF"><a style="color:#FFFFFF" :href="quickUrl">立即打卡</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-        
-        
-
-        <div v-if="clockDetailInfo.clockStatus == 'Finished'" flex="main:center cross:center" style="margin: 16px 0" >
-            <div flex="dir:top main:center cross:center" style="width:86px;height:86px;border-radius:50%;background:#F6F6F6;border:1px dashed #9B9B9B">
-                <p><img class="img_28" src="../../images/CreateClock/hasend.png" alt=""></p>
-                <p class="font_16px color_C6C6C6">已结束</p>
-            </div>
-        </div>
-        <p class="font_14px color_9B9B9B" style="text-align:center">{{clockDetailInfo.startDate.slice(0,10)}} —— {{clockDetailInfo.endDate.slice(0,10)}}</p>
+        <p class="expansion">{{introduce}}<span v-show="showMore" @click="showAll()">...<span class="color_green">查看更多</span></span></p>
     </div>
-    
-    <div class="clockDataInfo" style="background:white;box-sizing:border-box;padding:20px 16px">
-      <div flex="main:left cross:center" class=" font_18px color_black font_weight_bold">
-        <p style="margin-right:16px" :class="{'font_16px':!RecodTags,'color_C6C6C6':!RecodTags}" @click="changeTags()">打卡记录</p>
-        <p @click="changeTags()" :class="{'font_16px':RecodTags,'color_C6C6C6':RecodTags}">排行榜</p>
+    <div flex="main:center cross:center">
+      <div flex="main:center dir:top cross:center" class="toClockin" v-if="clockDetailInfo.clockStatus == 'Beginning' && clockDetailInfo.showClock == true" @click="quickToClock">
+          <img class="img_16" src="../../images/CreateClock/clockin.png" alt="">
+          <p class="color_yellow_light font_weight_700">立即打卡</p>
       </div>
+    </div>
+    <div class="clockDataInfo" style="padding:0 16px">
+      <div flex="main:left  cross:top">
+        <div class="clock_tab" :class="{'clock_tab_active':RecodTags}" @click="changeTags()">
+        <p>打卡记录</p>
+        <div class="active_bar"></div>
+        </div>
+        <div class="clock_tab margin_left_12" :class="{'clock_tab_active':!RecodTags}" @click="changeTags()">
+        <p>排行榜</p>
+        <div class="active_bar"></div>
+        </div>
+      </div>
+      <!-- <p>{{clockDetailInfo.isManager}}</p> -->
       <!-- 打卡介绍 -->
-      <div class="clock_detail_list" v-if="RecodTags">
-        <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
+      <div class="clock_detail_list" v-show="RecodTags">
+        <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :pageType='pageType' :isManager="clockDetailInfo.isManager" :token ='token'/>
       </div>
       <!-- 排行榜 -->
-      <div class="clock_detail_list" v-if="!RecodTags">
+      <div v-show="!RecodTags">
         <RankList :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
       </div>
     </div>
@@ -106,6 +91,7 @@ export default {
       ip:this.$ip.getIp(),
       Url:this.$Url.geturl(),
       device:this.$device.getDevice(),
+      pageType:'ClockDetail',
       clockId:this.$route.query.clockId,
       clockDetailInfo:'',
       ClockRecod:'',
@@ -117,7 +103,12 @@ export default {
       cuid:this.$route.query.cuid,
       storeId:this.$route.query.storeId,
       quickUrl:"",
-      RecodTags:true
+      RecodTags:true,
+      startDate:'',
+      endDate:'',
+      token:'',
+      showMore:false,
+      introduce:''
     }
   },
   components: {
@@ -125,12 +116,30 @@ export default {
     ClockList
   },
   mounted(){
-    this.getClockDetailInfo()
-    this.getClockRecod()
-    this.getRankClockList(this.$route.query.clockId)
-    this.getRankPraiseList(this.$route.query.clockId)
+    
+    this.linkIos()
+    
+  },
+  beforeMount(){
+      window.McDispatcher = this.McDispatcher
+      window.getParams = this.getParams
   },
   methods:{
+
+    init(){
+      let a=this.clockDetailInfo.introduce
+      if(a.length > 70){
+        this.introduce=a.substring(0,70)
+        this.showMore=true
+      }else{
+        this.introduce=a
+        this.showMore=false
+      }
+    },
+    showAll(){
+      this.showMore = false;
+      this.introduce=this.clockDetailInfo.introduce
+    },
     getClockDetailInfo(){
       let url = this.ip+'clock/clockDetails';
       let param = new URLSearchParams()
@@ -140,35 +149,14 @@ export default {
       axios.post(url,param).then((res)=>{
         let clockDetailInfo = res.data.data
         this.clockDetailInfo = clockDetailInfo
-        if(res.data.result == 'noLogin'){
-            if(this.device == 'android'){
-                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                    }else if(this.device == 'ios'){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-                    }
-        }
-      }).catch((err)=>{
-        console.log(err)
-      })
-    },
-    quickToClock(){
-      // this.$router.push({path:'/QuickToClock'})
-      let clockTheme = this.clockDetailInfo.title
-      //let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId
-      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&clockTheme='+clockTheme+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
-      this.quickUrl = url
-    },
-    getClockRecod(){
-      let url = this.ip+'class-clock-student/clockRecord';
-      let param = new URLSearchParams()
-      param.append("cuid", this.$route.query.cuid)
-      param.append("storeId", this.$route.query.storeId)
-      param.append("clockId", this.$route.query.clockId)
-      param.append("pageNo", 1)
-      param.append("pageSize", 100)
-      axios.post(url,param).then((res)=>{
-        let ClockRecod = res.data.data
-        this.ClockRecod = ClockRecod.data
+        let sdate = clockDetailInfo.startDate.split(' ')
+        let sdataStr = sdate[0].split('-')
+        this.startDate = sdataStr[0]+'年'+sdataStr[1]+'月'+sdataStr[2]+'日'
+
+        let edate = clockDetailInfo.endDate.split(' ')
+        let edataStr = edate[0].split('-')
+        this.endDate = edataStr[0]+'年'+edataStr[1]+'月'+edataStr[2]+'日'
+       
         if(res.data.result == 'noLogin'){
             if(this.device == 'android'){
                 window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
@@ -176,18 +164,32 @@ export default {
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
         }
-        
       }).catch((err)=>{
         console.log(err)
       })
     },
-    getRankClockList(clockId){
+    quickToClock(){
+      
+      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
+      // window.open(url,'_blank')
+      
+      if (this.device === 'android') {
+          //安卓每个页面方法名不一样
+          window.android.SkipPage('{"linkType": "h5","url": "'+url+'"}');
+      }
+      if (this.device === 'ios') { 
+          
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}');
+      }
+    },
+    
+    getRankClockList(){
         // /class-clock-student/rankingList
         let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
         param.append("cuid", this.$route.query.cuid)
         param.append("storeId", this.$route.query.storeId)
-        param.append("clockId", clockId)
+        param.append("clockId", this.$route.query.clockId)
         param.append("type", 'clock')
         param.append("pageNo", 1)
         param.append("pageSize", 20)
@@ -199,13 +201,13 @@ export default {
             console.log(err)
         })
     },
-    getRankPraiseList(clockId){
+    getRankPraiseList(){
         // /class-clock-student/rankingList
         let url = this.ip+'class-clock-student/rankingList';
         let param = new URLSearchParams()
         param.append("cuid", this.$route.query.cuid)
         param.append("storeId", this.$route.query.storeId)
-        param.append("clockId", clockId)
+        param.append("clockId", this.$route.query.clockId)
         param.append("type", 'praise')
         param.append("pageNo", 1)
         param.append("pageSize", 20)
@@ -220,11 +222,64 @@ export default {
     toClockEdit(){
       // /clock/edit  this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"
       let url = this.Url +'/CreateClock?cuid=' + this.$route.query.cuid + '&storeId=' +this.$route.query.storeId+'&clockId='+this.$route.query.clockId+'&type=edit'
-      window.location.href = url
+      // window.location.href = url
+      if (this.device === 'android') {
+          //安卓每个页面方法名不一样
+          window.android.SkipPage('{"linkType": "h5","url": "'+url+'"}');
+      }
+      if (this.device === 'ios') { 
+          
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}');
+      }
       
     },
     changeTags(){
       this.RecodTags = !this.RecodTags
+    },
+    McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+        this.token = qury.data.token
+        if(!qury.data.token){
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+        }
+        setTimeout(()=>{
+          this.init()
+          this.getRankClockList()
+          this.getRankPraiseList()
+          
+        },200)
+        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
+        this.getClockDetailInfo()
+        
+        this.getClockRecod()
+    },
+    getParams(msg){
+        this.token = msg.token
+        if(!msg.token){
+          window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+        }
+        setTimeout(()=>{
+          this.getRankClockList()
+          this.getRankPraiseList()
+          this.init()
+        },200)
+        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
+        this.getClockDetailInfo()
+        
+        this.getClockRecod()
+    },
+    linkIos (){
+            //给iOS APP传参
+        window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+    },
+    toStore(){
+      if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+          window.android.SkipPage('{"linkType": "app","scheme":"JGZY","url": "'+this.Url+'/orgindex","title":"机构主页","storeId":"'+this.$route.query.storeId+'"}');
+      }
+      if (this.device === 'ios') { 
+  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"JGZY","url": "'+this.Url+'/orgindex","title":"机构主页","jump":"true","storeId":"'+this.$route.query.storeId+'"}')
+      }
     }
     
   }
@@ -232,44 +287,22 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .clock_detail
-    background #FAF8F8
+    background #FFFFFF
     max-width 540px
     margin 0 auto
     .clock_detail_navinfo_box
-        padding 80px 16px 0 16px
-        width 10rem
-        height 330px
-        background #60C38C
+        padding 100px 32px 50px 32px
+        background #2ac688
         box-sizing border-box
         position relative
-        .clock_detail_course
-            background-image  url('../../images/CreateClock/clock_detail_coursebg.png')
-            background-size 100% 100%
-            height 69px
-            width 91.5%
-            position absolute
-            left 0.4266666rem
-            bottom 0.49rem
-            .course_tag
-                text-align center
-                padding 1px 2px 4px 5px
-                box-sizing border-box
-                position absolute
-                top -0.08rem 
-                right 0.373333rem
-                width 47.21px;
-                height 18.98px
-                background-image url('../../images/CreateClock/clock_detail_tag.png')
-                background-size 100% 100%
-
-    .clock_detail_list
-        box-sizing border-box
+        background #2ac688 url(../../images/CreateClock/box_bg.png) no-repeat 0 0
+        background-size auto 100%
     
     .clock_introduce
         box-sizing border-box
-        border-radius 20px 20px 0 0 
-        padding 28px 16px 20px 16px
+        border-radius 16px 16px 0 0 
+        padding 16px 16px 0 16px
         position relative
-        top -20px
-        background #FFFFFF
+        top -15px
+        background rgba(255,255,255,1)
 </style>

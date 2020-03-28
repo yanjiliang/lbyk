@@ -310,7 +310,7 @@ const router = new Router({
             path: '/CreateClock',
             name: 'CreateClock',
             meta: {
-                title: '创建/编辑打卡'
+                title: ' '
             },
             component: () => import('./views/Clockin/CreateClock.vue')
         },
@@ -346,19 +346,11 @@ const router = new Router({
             path: '/ClockShare',
             name: 'ClockShare',
             meta: {
-                title: '打卡-分享页面'
+                title: '打卡详情'
             },
             component: () => import('./views/Clockin/ClockShare.vue')
         }, 
         
-        {
-            path: '/ClockSuccess',
-            name: 'ClockSuccess',
-            meta: {
-                title: '打卡成功'
-            },
-            component: () => import('./views/Clockin/ClockSuccess.vue')
-        },
         
         {
             path: '/ClassCircle',

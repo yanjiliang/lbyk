@@ -1,140 +1,85 @@
 <template>
     <div class="ClockShare">
-        <div class="clock_share_top">
-            <img style="width:100%" src="../../images/CreateClock/clock_share_topbg.png" alt="">
-        </div>
         
-        <div class="share_content_wrap">
-            <div class="clock_share_content">
-                <p style="position:absolute;top:0;right:0;z-index:1001;width:53px;height:51px"><img style="width:56px;height:54px" src="../../images/CreateClock/clock_share_tag.png" alt=""></p>
-                <div class="clock_share_avatar" flex="main:center cross:center">
-                    <img v-if="ClockResult.studentAvatar" class="img_60_round" :src="ClockResult.studentAvatar" alt="">
-                    <p class="img_60_round font_12px color_FFFFFF" style="background:rgba(96,195,140,.3);line-height:60px;text-align:center" v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.substring(0,2)}}</p>
-                </div>
-                <div flex="dir:top main:center cross:center">
-                    <p class="font_18px font_weight_bold color_353239">{{ClockResult.studentName}}</p>
-                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B"> {{ClockResult.clockCount}} </span>次</p>
-                    <p class="font_18px color_353239 font_weight_400">“{{ClockResult.title}}”</p>
-                </div>
-                <div class="clock_content">
-                    <p class="font_16px color_9B9B9B">{{ClockResult.impression}}</p>
-
-                </div>
-                
-                <div class="clock_item_images" v-show="ClockResult.picUrls">
-                    <!-- <p>这里是照片区域</p> -->
-                    <ul flex="main:left cross:center">
-                        <li v-for="(item1, index) in ClockResult.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
-                    </ul>
-                    <p class="clock_img_count" v-if="ClockResult.picUrls.length > 3">+{{ClockResult.picUrls.length-3}}</p>
-                </div>
-                <!-- 图片预览 -->
-                <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
-                    <template v-slot:index></template>
-                </van-image-preview>
-                <!-- 图片预览 -->
-                <div class="clock_item_video" v-show="ClockResult.videoUrl">
-                    <!-- 这里是视频区域 -->
-                    <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
-                </div>
-
-                <div class="clock_item_class_info" v-if="false">
-                    <p>来自<span>2020届舞蹈基础B班</span></p>
-                </div>
-                <div class="clock_item_func" v-if="false">
-                    <div class="clock_item_zan_user">
-                        <div class="clock_item_info_list">
-                            <ul>
-                                <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
-                            </ul>
+        <div class="clock_list_wrap">
+                <div class="clock_list_item">
+                    <!-- 打卡头部用户信息开始 -->
+                    <div flex="main:justify cross:center">
+                        <!-- 用户信息开始 -->
+                        <div flex="main:left cross:center">
+                            <div class="avator avator_48">
+                                <img  v-if="ClockResult.studentAvatar" :src="ClockResult.studentAvatar" alt="">
+                                <p v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.slice(-1,-3)}}</p>
+                            </div>
+                            <div>
+                                <p class="font_17px font_weight_700">{{ClockResult.studentName}}</p>
+                                <p class="font_14px color_gray_light margin_top_4">2020/3/25</p>
+                            </div>
                         </div>
-                        <p>1.2w人觉得很赞</p>
+                        <!-- 用户信息结束 -->
                     </div>
-                    <div class="clock_btn">
-                        <div class="clock_btn01 btn_clock">
-                            <img src="../../images/CreateClock/share.png" alt="">
-                            <p>分享</p>
-                        </div>
-                        <div class="btn_clock">
-                            <img src="../../images/CreateClock/zan.png" alt="">
-                            <p>点赞</p>
-                        </div>
+                    <!-- 打卡头部用户信息结束 -->
+                    <div>
+                        <p class="color_green margin_top_12" @click="toThemedetail(index)">
+                            <span class="clockin_title_ellipsis" style="line-height:36px;border-radius:18px;"><span class="color_gray font_16px">第{{ClockResult.clockCount}}次打卡</span><span class="font_16px"> # {{ClockResult.title}}</span></span>
+                        </p>
+                    </div>
+                    <div class="clock_item_content">
+                            <p class="font_18px">{{ClockResult.impression}}</p>
+                    </div>
+                    <div class="clock_item_images" v-if="ClockResult.picUrls">
+                        <!-- <p>这里是照片区域</p> -->
+                        <ul>
+                            <li v-for="(item1, index1) in ClockResult.picUrls" :key="index1"  @click="preClick(index1,index)"><img :src="item1" alt=""></li>
+                        </ul>
+                    </div>
+                    <!-- 图片预览 -->
+                    <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
+                        <template v-slot:index>
+                            
+                        </template>
+                    </van-image-preview>
+                    <!-- 图片预览 -->
+                    <div class="clock_item_video" v-if="ClockResult.videoUrl">
+                        <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
                     </div>
                 </div>
+
             </div>
-        </div>
         <!-- <p>{{ClockResult}}</p> -->
         <!-- 机构信息 -->
-        <div style="margin:16px 0;position:relative;z-index:999;padding:0 16px;box-sizing:border-box" >
-            <div style="background:#FFFFFF;box-sizing:border-box;padding:16px 16px 12px 16px;border-radius:15px">
-                <div flex="main:left cross:center">
-                    <img class="img_48" style="margin-right:8px;border-radius:15px" :src="ClockResult.storeAddrInfoDto.logo" alt="">
-                    <div>
-                        <p class="font_16px color_181818">{{ClockResult.storeAddrInfoDto.storeName}}</p>
-                        <p class="font_13px color_C6C6C6">{{ClockResult.storeAddrInfoDto.categoryList.join('/')}}</p>
+        <div>
+            <div>
+                <div flex="main:justify cross:center">
+                    <div flex="main:left cross:center">
+                        <img class="img_48" style="margin-right:12px;border-radius:5px;flex-shrink:0" :src="ClockResult.storeAddrInfoDto.logo" alt="">
+                        <div>
+                            <p class="font_17px color_black font_weight_700 line_1">{{ClockResult.storeAddrInfoDto.storeName}}</p>
+                            <p class="font_14px color_gray margin_top_4 line_1">{{ClockResult.storeAddrInfoDto.categoryList.join('/')}}</p>
+                        </div>
                     </div>
+                    <div @click="toStore()" style="line-height:30px;padding:0 12px; margin-left:8px; background:#2ac688; color:#fff;border-radius:15px;flex-shrink:0">进店逛逛</div>
                 </div>
-                <van-divider />
                 <div flex="main:justify cross:center">
                     <div flex="dir:top main:left">
-                        <p flex="main:left cross:center" style="margin-bottom:4px">
-                            <img class="img_16" src="../../images/CreateClock/location.png" alt="">
-                            <span class="font_14px color_181818">{{ClockResult.storeAddrInfoDto.area}}</span>
+                        <p flex="main:left cross:top" class="margin_top_16">
+                            <img class="img_14" style="margin-top:2px" src="../../images/CreateClock/location.png" alt="">
+                            <span class="font_14px margin_left_6 color_gray">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</span>
                         </p>
-                        <p class="font_12px color_C6C6C6">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</p>
-                    </div>
-                    <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px" @click="toStore()">
-                        <p style="margin-right:4px">进店逛逛</p>
-                        <img class="img_14" src="../../images/CreateClock/next.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
         <!-- 机构信息 -->
         
-        <!-- 分享的课程 -->
-        <div class="share_course">
-            <p class="font_14px color_9B9B9B" style="margin-bottom:8px">赶快报名，跟我一起学习成长吧！</p>
-            <div flex="main:left cross:center">
-                <div style="margin-right:12px"><img class="img_48" style="border-radius:10px" src="http://pic1.zhimg.com/50/v2-b7bd451b0bda3c36fa8a7f07d9ac4ffe_hd.jpg" alt=""></div>
-                <div style="width:100%">
-                    <p class="font_16px color_181818" style="margin-bottom:6px">{{ClockResult.clockCourseDto.courseTitle}}</p>
-                    <div flex="main:justify cross:center">
-                        <p class="font_14px color_FF444B">￥{{ClockResult.clockCourseDto.sellingPrice}}/{{ClockResult.clockCourseDto.classHourNum}}节课</p>
-                        <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px" @click="toCourse()">
-                            <p style="margin-right:4px">立即报名</p>
-                            <img class="img_14" src="../../images/CreateClock/next.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        <!-- 分享的课程 -->
-
-        <!-- 分享按钮 -->
-        <div class="clock_share_btn" v-show="false">
-            <div style="background:#D2B9A8;height:56px;border-radius:30px;">
-                <div flex="main:center cross:center" style="background:#FAEADE;height:50px;border-radius:30px;">
-                    <p class="font_16px color_60C38C">分享</p>
-                </div>
-            </div>
-        </div>
-        <!-- 分享按钮 -->
-
-        <div class="clock_share_bottom">
-            <img style="width:100%" src="../../images/CreateClock/clock_share_bottombg.png" alt="">
-        </div>
         
     </div>
 </template>
+<script  src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
+import '../../css/Clock/clocklist.css'
 import H5Video from '../../components/H5Video'
 const axios = require('axios')
 export default {
@@ -156,6 +101,7 @@ export default {
     },
     mounted(){
         this.getClockResult()
+        
     },
     methods:{
         preClick(index){
@@ -167,7 +113,7 @@ export default {
             this.preImage = [];
             for(let i=0;i<len;i++){
                 //
-                this.preImage.push(item[i].url)
+                this.preImage.push(item[i])
             }
             // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "PREVIEW" ,"show": "false"}')
         },
@@ -191,6 +137,13 @@ export default {
             axios.post(url,param).then((res)=>{
                 let ClockResult = res.data.data
                 this.ClockResult = ClockResult
+                let logo = ClockResult.storeAddrInfoDto.logo
+                let impression = ClockResult.impression.substring(0,30)
+                let title = ClockResult.title
+
+                setTimeout(()=>{
+                    this.getWechatShare(title,logo,impression)
+                },800)
             }).catch((err)=>{
                 console.log(err)
             })
@@ -211,64 +164,77 @@ export default {
             let alink = document.createElement("a")
             alink.href = url
             setTimeout(()=>{alink.click()},200)
+        },
+        getWechatShare(title,logo,impression){
+                setTimeout(()=>{
+                    let location = window.location.href
+                    
+                    let url = this.ip +'weChat/share-public-parameter'
+                    let param = new URLSearchParams()
+                    param.append("url", location)
+                    axios.post(url,param).then((res)=>{
+                        let wechatSharedata = res.data.data
+                        wx.config({
+                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: wechatSharedata.appId, // 必填，公众号的唯一标识
+                            timestamp: wechatSharedata.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: wechatSharedata.nonceStr, // 必填，生成签名的随机串
+                            signature: wechatSharedata.signature,// 必填，签名，见附录1
+                            jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                            // jsApiList: ['updateAppMessageShareData','updateTimelineShareData']
+                            
+                        });
+                        
+                        // window.share_config = {
+                        //     'share': {
+                        //         'imgUrl': logo, // 这里是需要展示的图标
+                        //         'desc': impression, // 这是分享展示的摘要
+                        //         'title': title, // 这是分享展示卡片的标题
+                        //         'link': window.location.href, // 这里是分享的网址
+                        //         'success': function(rr) {
+                        //             //console.log('成功' + JSON.stringify(rr))
+                        //         },
+                        //         'cancel': function(tt) {
+                        //             //console.log('失败' + JSON.stringify(tt));
+                        //         }
+                        //     }
+                        // };
+                        wx.ready(function() {
+                            wx.onMenuShareAppMessage(
+                                {
+                                    'imgUrl': logo, // 这里是需要展示的图标
+                                    'desc': impression, // 这是分享展示的摘要
+                                    'title': title, // 这是分享展示卡片的标题
+                                    'link': window.location.href, // 这里是分享的网址
+                                }
+                            ); // 微信好友
+                            wx.onMenuShareTimeline(
+                                {
+                                    'imgUrl': logo, // 这里是需要展示的图标
+                                    'desc': impression, // 这是分享展示的摘要
+                                    'title': title, // 这是分享展示卡片的标题
+                                    'link': window.location.href, // 这里是分享的网址
+                                }
+                            ); // 微信朋友圈
+                        });
+                    
+                    })
+                },100)
+            
+            
+            
+
         }
     }
 }
 </script>
 <style lang="stylus" scoped>
 .ClockShare
-    background #F6F6F6
+    background #Ffff
     box-sizing border-box
-    
-    .clock_share_bottom
-        background #F6F6F6
-        transform translateY(-50%)
-        height 190px
-
-    .clock_share_btn
-        position fixed
-        bottom 35px
-        z-index 1000
-        width 10rem
-        box-sizing border-box
-        padding 0 16px
-
-    .share_course
-        margin 16px 0
-        width 10rem
-        position relative
-        z-index 999
-        padding 0 16px
-        box-sizing border-box
-        background #FFFFFF
-        box-sizing border-box
-        padding 12px 16px 35px 16px
-        border-radius 15px 15px 0 0
-        position fixed
-        bottom -15px
-
-    .share_content_wrap
-        position relative
-        z-index 999
-        box-sizing border-box
-        padding 0 16px
-        margin-top 33px
-        .clock_share_content
-            padding 41px 16px 24px 16px
-            box-sizing border-box
-            position relative
-            border-radius 15px
-            background #FFFFFF
-            .clock_content
-                margin 16px 0
-            .clock_share_avatar
-                background rgba(255,255,255,1)
-                border-radius 50%
-                width 66px
-                height 66px
-                position absolute
-                top -33px
-                left 50%
-                transform translateX(-50%)
+    padding 0px 16px 60px 16px
+    .clock_list_wrap{
+        margin-bottom 20px
+    }
 </style>
 

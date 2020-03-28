@@ -76,14 +76,10 @@ export default {
     },
     methods:{
         McDispatcher (qury){
-            if(!qury.data.token){
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-            }
+            this.token = qury.data.token
         },
         getParams(msg){
-            if(!msg.token){
-                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-            }
+            this.token = msg.token
         },
         linkIos (){
                 //给iOS APP传参
@@ -95,10 +91,20 @@ export default {
         gotoEnter(){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "JGRZ"}');
+                if(!this.token){
+                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else{
+                    window.android.SkipPage('{"linkType": "app","scheme": "JGRZ"}');
+                }
+                
             }
             if (this.device === 'ios') {
-        　　　　window.webkit.messageHandlers.Addorganize.postMessage('')
+                if(!this.token){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else{
+                    window.webkit.messageHandlers.Addorganize.postMessage('')
+                }
+        　　　　
             }
         }
     }

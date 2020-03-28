@@ -81,7 +81,7 @@
                 </div>
                 
                 <div v-if="course_detail_data.videoUrl">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             

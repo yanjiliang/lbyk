@@ -1,89 +1,69 @@
 <template>
     <div class="RankList">
-        <van-tabs v-model="active" sticky swipeable lazy-render :border='false'>
-            
-            <div class="rankList_wrap">
-                <van-tabs v-model="activeOrder" sticky swipeable lazy-render :border='false'>
-                    <van-tab title="打卡榜" class="rank_list_clock">
-                        <div class="rank_clock_list rank_list_comen" v-if="ClockRank.data.length != 0">
-                            <ul>
-                                <li v-for="(clock, index) in ClockRank.data" :key="index">
-                                    <div class="rank_item">
-                                        <div class="rank_item_avatar">
-                                            <div class="avatar_pic">
-                                                <p class="rank_num">
-                                                    <img v-if="index == 0" src="../images/CreateClock/first.png" alt="">
-                                                    <img v-if="index == 1" src="../images/CreateClock/second.png" alt="">
-                                                    <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
-                                                    <span v-if="index > 2">{{index+1}}</span>
-                                                </p>
-                                                <img v-if="clock.studentAvatar" :src="clock.studentAvatar" alt="">
-                                                <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
-                                            </div>
-                                            <div class="rank_item_userinfo">
-                                                <p>{{clock.studentName}}</p>
-                                                <p>{{clock.className}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="rank_item_data">{{clock.clockOrPraiseCount}}次</div>
-                                    </div>
-                                </li>
-                                
-                                
-                            </ul>
-                        </div>
-                        <div class="nodata" style="margin-bottom:55px" v-if="ClockRank.data.length == 0">
-                            <div flex="dir:top cross:center">
-                                <img style="width:150px;height:150px;display:block" src="../assets/images/nodata2x.png" alt="">
-                                <p style="color:#9B9B9B">暂无相关数据</p>
+        <div class="rankList_wrap">
+            <div class="margin_top_16 font_16px font_weight_400 color_black">打卡榜</div>
+            <div class="rank_clock_list rank_list_comen" v-if="ClockRank.data.length != 0">
+                <ul>
+                    <li v-for="(clock, index) in ClockRank.data" :key="index">
+                        <div class="rank_item">
+                            <div class="rank_item_avatar">
+                                <div class="avatar_pic">
+                                    <p class="rank_num">
+                                        <img v-if="index == 0" src="../images/CreateClock/first.png" alt="">
+                                        <img v-if="index == 1" src="../images/CreateClock/second.png" alt="">
+                                        <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
+                                        <span v-if="index > 2">{{index+1}}</span>
+                                    </p>
+                                    <img v-if="clock.studentAvatar" :src="clock.studentAvatar" alt="">
+                                    <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
+                                </div>
+                                <div class="rank_item_userinfo">
+                                    <p>{{clock.studentName}}</p>
+                                    <p>{{clock.className}}</p>
+                                </div>
                             </div>
+                            <div class="rank_item_data color_gray">共打卡{{clock.clockOrPraiseCount}}次</div>
                         </div>
-                    </van-tab> 
-                    <van-tab title="点赞榜" class="rank_list_zan">
-                        <div class="rank_zan_list rank_list_comen" v-if="PraiseRank.data.length != 0">
-                            <ul>
-                                <li v-for="(zan, index) in PraiseRank.data" :key="index">
-                                    <div class="rank_item">
-                                        <div class="rank_item_avatar">
-                                            <div class="avatar_pic">
-                                                <p class="rank_num">
-                                                    
-                                                    <img v-if="index == 0" src="../images/CreateClock/first.png" alt="">
-                                                    <img v-if="index == 1" src="../images/CreateClock/second.png" alt="">
-                                                    <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
-                                                    <span v-if="index > 2">{{index+1}}</span>
-                                                </p>
-                                                <img v-if="zan.studentAvatar" :src="zan.studentAvatar" alt="">
-                                                <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!zan.studentAvatar">{{zan.studentName.slice(0,2)}}</p>
-                                            </div>
-                                            <div class="rank_item_userinfo">
-                                                <p>{{zan.studentName}}</p>
-                                                <p>{{zan.className}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="rank_item_data">{{zan.clockOrPraiseCount}}次</div>
-                                    </div>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                        <div class="nodata" style="margin-bottom:55px" v-if="PraiseRank.data.length == 0">
-                            <div flex="dir:top cross:center">
-                                <img style="width:150px;height:150px;display:block" src="../assets/images/nodata2x.png" alt="">
-                                <p style="color:#9B9B9B">暂无相关数据</p>
-                            </div>
-                        </div>
-                    </van-tab>
-                    <van-tab disabled></van-tab>
-                    <van-tab disabled></van-tab>
-                </van-tabs>
-                <van-tab disabled></van-tab>
-                <van-tab disabled></van-tab>
+                    </li>
+                </ul>
             </div>
-            
-        </van-tabs>
+            <div class="color_gray_light font_16px" style="margin:20px 0" v-if="ClockRank.data.length == 0">
+                <p>还没有人发布打卡哦~</p>
+            </div>
 
-        
+            <div class="font_16px font_weight_400 color_black margin_top_30">获赞榜</div>
+            <div class="rank_zan_list rank_list_comen" v-if="PraiseRank.data.length != 0">
+                <ul>
+                    <li v-for="(zan, index) in PraiseRank.data" :key="index">
+                        <div class="rank_item">
+                            <div class="rank_item_avatar">
+                                <div class="avatar_pic">
+                                    <p class="rank_num">
+                                        
+                                        <img v-if="index == 0" src="../images/CreateClock/first.png" alt="">
+                                        <img v-if="index == 1" src="../images/CreateClock/second.png" alt="">
+                                        <img v-if="index == 2" src="../images/CreateClock/third.png" alt="">
+                                        <span v-if="index > 2">{{index+1}}</span>
+                                    </p>
+                                    <img v-if="zan.studentAvatar" :src="zan.studentAvatar" alt="">
+                                    <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!zan.studentAvatar">{{zan.studentName.slice(0,2)}}</p>
+                                </div>
+                                <div class="rank_item_userinfo">
+                                    <p>{{zan.studentName}}</p>
+                                    <p>{{zan.className}}</p>
+                                </div>
+                            </div>
+                            <div class="rank_item_data color_gray">共获赞{{zan.clockOrPraiseCount}}次</div>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="color_gray_light font_16px" style="margin:20px 0" v-if="PraiseRank.data.length == 0">
+                <p>还没有人获赞哦~</p>
+            </div>
+            <div style="width:10rem;height:45px"></div>
+        </div>
     </div>
 </template>
 <script>
@@ -104,7 +84,7 @@ export default {
             device:this.$device.getDevice(),
             active: 0,
             activeOrder:0,
-            fileVideoSrc:'https://vdept.bdstatic.com/77696852377266345341337669366b6b/7062674832625375/9aac19ae0281f09130144bb37e732d6282613949c34bdb4998d63e97f0b75a70dd6477a6df20576c5b37e3f4e6b38df7.mp4?auth_key=1583998702-0-0-9fadfaac7bcd7a1e8b61cb42773079b0',
+            fileVideoSrc:'',
             ClockList:[],
             ZanList:[],
             preImage:[],

@@ -96,7 +96,8 @@ export default {
             working:'',
             servicePhone:'',
             hasData:Boolean,
-            aa:''
+            aa:'',
+            staffId:''
         }
     },
     methods:{
@@ -119,7 +120,7 @@ export default {
             
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
-                this.aa = res.data.data
+                
                 if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
                         window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
@@ -155,7 +156,7 @@ export default {
             param.append("classScheduleId", classScheduleId)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
-                this.aa = res.data.data
+            
                 if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
                         window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
@@ -191,7 +192,8 @@ export default {
             this.storeId =msg.storeId;
             this.studentId =msg.studentId;
             this.classScheduleId =msg.classScheduleId;
-            this.working = msg.employStatus
+            this.working = msg.employStatus;
+            this.staffId = msg.staffId
             this.getData(this.cuid,this.classId,this.storeId,this.studentId,this.classScheduleId,this.ident,msg.token)
             this.getphone(this.storeId,msg.cuid,msg.token)
             
@@ -200,7 +202,7 @@ export default {
         ClickTo : function (qury){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');
+                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'","staffId":"'+this.staffId+'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');
             }
             if (this.device === 'ios') {
         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+ this.storeId +'","classId":"'+ this.classId +'" ,"cuid":"'+ this.cuid +'","studentId":"'+ this.studentId +'","classScheduleId":"'+ this.classScheduleId +'","identity":"'+ this.ident +'","Phonenumber":"'+this.servicePhone+'","employStatus":"'+this.working+'"}');

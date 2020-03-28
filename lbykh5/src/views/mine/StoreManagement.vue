@@ -84,7 +84,6 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div>
-                                
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>

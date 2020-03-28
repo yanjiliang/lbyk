@@ -111,7 +111,7 @@
                     
                 </div>
                 <div v-if="course_detail_data.videoUrl">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl"/>
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             <!-- 授课老师 -->
@@ -214,7 +214,7 @@
                 </div>
                 <div class="bandinfo">
                     <!-- <p  ref="bandinfo" >{{course_detail_data.introduce}}</p> -->
-                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
+                    <p ref="bandinfo" id="info" v-html="introduce"></p>
                 </div>
             </div>
         </div>
@@ -487,7 +487,7 @@ import Orderinfo from '../../components/OrderInfo'
                     let classHourNum = this.course_detail_data.classHourNum
                     let area = this.course_detail_data.area
                     let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
-                    const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
+                    const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","typeId":"'+this.cd_courseid+'","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                     window.android.SkipPage(aa)
                 }
             },
@@ -512,7 +512,7 @@ import Orderinfo from '../../components/OrderInfo'
                     let classHourNum = this.course_detail_data.classHourNum
                     let area = this.course_detail_data.area
                     let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
-                    const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'"}'
+                    const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","type":"course","typeId":"'+this.cd_courseid+'"}'
                     window.webkit.messageHandlers.skipPage.postMessage(aa)
                 }
                 this.classdetail_userInfo = qury

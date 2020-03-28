@@ -5,7 +5,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js']
 
 module.exports = {
-    publicPath: '/', // 根域上下文目录
+    publicPath: '/h5/', // 根域上下文目录
     devServer: { // 环境配置
         host: '0.0.0.0',
         port: 8089,

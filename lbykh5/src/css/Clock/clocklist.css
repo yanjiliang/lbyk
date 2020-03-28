@@ -3,6 +3,7 @@
 }
 .clock_list_wrap{
     box-sizing: border-box;
+    margin-bottom: 44px;
 }
 .clock_list_wrap .clock_list_item{
     box-sizing: inherit;
@@ -17,8 +18,8 @@
     box-sizing: border-box;
     margin: 12px 0;
     font-size: 16px;
+    line-height: 1.7;
     font-weight: 400;
-    line-height: 26px;
 }
 
 .clock_item_images{
@@ -33,7 +34,12 @@
     border-radius: 5px;
     overflow: hidden;
     flex-shrink: 0;
-    margin-right: 1.2%;
+    margin-right: 1.25%;
+    margin-bottom: 1.25%;
+    float:left
+}
+.clock_item_images ul li:nth-child(3n){
+    margin-right: 0;
 }
 .clock_item_images ul li img{
     max-width: 100%;
@@ -41,14 +47,14 @@
     object-fit: cover;
 }
 .clock_item_images .clock_img_count{
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     font-size: 14px;
     border-radius: 3px 0 5px 0;
     box-sizing: border-box;
     position: absolute;
     background: rgba(53, 50, 57, .7);
-    bottom: 0;
+    bottom: 0.15rem;
     right: 0;
     color: #FFFFFF;
     text-align: center;
@@ -93,40 +99,28 @@
 /* 排行榜 */
 .rankList_wrap{
     box-sizing: border-box;
-    padding: 20px 0;
-}
-.rankList_wrap .van-tab--active{
-    color: #353239;
-    font-size: 14px;
+    padding: 0 8px;
 }
 
-.rankList_wrap .van-tab{
-    font-size: 12px;
-}
-
-.rankList_wrap .van-tabs__line{
-    display: none;
-}
 
 .rankList_wrap .rank_list_comen{
     box-sizing: border-box;
-    padding: 0 24px;
 }
 
 .rankList_wrap .rank_list_comen ul li{
     box-sizing: border-box;
     padding: 12px 0;
-    border-bottom: 1px solid #E8E8E8;
+    border-bottom: 0.6px solid #E8E8E8;
 }
-.rankList_wrap .rank_list_comen ul li:last-child{
-    border: 0 solid #FFFFFF;
+.rankList_wrap .rank_list_comen ul li:nth-last-child(1){
+    border-bottom: none;
 }
 .rankList_wrap .rank_list_comen ul li .rank_item{
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: #353239;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 400;
     line-height: 22px;
 }
@@ -135,9 +129,10 @@
     align-items: center;
 }
 .rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .rank_item_userinfo p:nth-child(2){
-    color: #9B9B9B;
-    font-size: 12px;
+    color: #b0b3ba;
+    font-size: 14px;
     line-height: 17px;
+    margin-top: 4px;
 }
 .rankList_wrap .rank_list_comen ul li .rank_item .rank_item_avatar .avatar_pic{
     margin-right: 12px;

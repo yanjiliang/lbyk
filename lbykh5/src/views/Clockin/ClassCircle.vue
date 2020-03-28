@@ -15,7 +15,8 @@
             </div>
         </div>
         
-        <ClockList :clockId='ClassCircleHead.clockId' :cuid='cuid' :storeId='storeId' :classId='classId' />
+        <ClockList  :cuid='cuid' :storeId='storeId' :clockId='ClassCircleHead.clockId' :classId='classId' :pageType='pageType' :isManager='ClassCircleHead.isManager' :token ='token'/>
+        <!-- :clockId='ClassCircleHead.clockId' -->
     </div>
 </template>
 <script src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -31,6 +32,7 @@ export default {
     name:'ClassCircle',
     data(){
         return{
+            pageType:'ClassCircle',
             ip:this.$ip.getIp(),
             Url:this.$Url.geturl(),
             device:this.$device.getDevice(),
@@ -44,14 +46,20 @@ export default {
             ClockRecod:'',
             clockId:'',
             studentId:'',
-            skipUrl:''
+            skipUrl:'',
+            token:''
         }
     },
     components:{
         ClockList
     },
     mounted(){
-        this.getClassCircleHead()
+        
+        this.linkIos()
+    },
+    beforeMount(){
+        window.McDispatcher = this.McDispatcher
+        window.getParams = this.getParams
     },
     methods:{
         getClassCircleHead(){
@@ -60,6 +68,7 @@ export default {
             let param = new URLSearchParams()
             param.append("cuid", this.$route.query.cuid)
             param.append("classId", this.$route.query.classId)
+            param.append("storeId", this.$route.query.storeId)
             param.append("pageNo", 1)
             param.append("pageSize", 10)
             axios.post(url,param).then((res)=>{
@@ -85,9 +94,39 @@ export default {
         },
         toClockTheme(){
             let skipUrl = this.Url + '/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+this.ClassCircleHead.clockId
-            window.location.href = skipUrl
+            if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                window.android.SkipPage('{"linkType": "h5","url": "'+skipUrl+'"}');
+            }
+            if (this.device === 'ios') { 
+                
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","url": "'+skipUrl+'"}')
+            }
             
-        }
+        },
+        McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+            this.token = qury.data.token
+            
+            if(!qury.data.token){
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
+            this.getClassCircleHead()
+            
+        },
+        getParams(msg){
+            this.token = msg.token
+            
+            if(!msg.token){
+            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
+            this.getClassCircleHead()
+            
+        },
+        linkIos (){
+                //给iOS APP传参
+            window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+        },
         
     }
 }

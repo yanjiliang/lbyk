@@ -17,15 +17,30 @@
 }
 .font_16px{
     font-size: 16px;
-    line-height: 22px;
+    line-height: 1.7;
+}
+.font_17px{
+    font-size: 17px;
+    line-height: 1.7;
 }
 .font_18px{
     font-size: 18px;
-    line-height: 25px;
+    line-height: 1.7;
 }
 .font_20px{
     font-size: 20px;
-    line-height: 28px;
+    line-height: 30px;
+}
+.font_24px{
+    font-size: 24px;
+    line-height: 36px;
+}
+/* 对齐 */
+.txt_center{
+    text-align: center;
+}
+.txt_article{
+
 }
 /* color */
 .color_white{
@@ -37,20 +52,26 @@
 .color_green_light{
     color: #EAFFF6;
 }
+.color_yellow{
+    color:#ef8733;
+}
+.color_yellow_light{
+    color:#fdf5e4;
+}
 .color_gray{
     color: #78849e;
 }
 .color_gray_light{
-    color: #A9B1C3;
+    color: #b0b3ba;
+}
+.color_gray_lighter{
+    color: #D2D7E2;
 }
 .color_black{
     color:#353239;
 }
 .color_gold{
     color: #F4DCBC;
-}
-.color_C6C6C6{
-    color: #C6C6C6;
 }
 
 /* margin */
@@ -65,6 +86,12 @@
 }
 .margin_top_16{
     margin-top: 16px;
+}
+.margin_top_20{
+    margin-top: 20px;
+}
+.margin_top_30{
+    margin-top: 30px;
 }
 .margin_left_4{
     margin-left: 4px;
@@ -136,23 +163,19 @@
 
 /* img */
 .img_10{
-    width: 10px;
     height: 10px;
     margin-right: 4px;
     display: block;
 }
 .img_14{
-    width: 14px;
     height: 14px;
     display: block;
 }
 .img_16{
-    width: 16px;
     height: 16px;
     display: block;
 }
 .img_20{
-    width: 20px;
     height: 20px;
     display: block;
 }
@@ -237,4 +260,179 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+/* 编辑页面标题 */
+.edit_page_title{
+    margin: 30px 0 20px 0;
+}
+.edit_page_title p:nth-child(1){
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+}
+.edit_page_title p:nth-child(2){
+    font-size: 16px;
+    line-height: 20px;
+    color:#78849e;
+    margin-top: 8px;
+    font-weight: 300;
+}
+.field_title{
+    margin: 24px 0 0 0;
+}
+.field_title p:nth-child(1){
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+}
+.field_title p:nth-child(2){
+    font-size: 12px;
+    color:#A9B1C3;
+    font-weight: 300;
+    line-height: 17px;
+    margin-top: 4px;
+}
+/* 提交按钮 */
+.create_colock_btn{
+    height:50px;
+    background:#2ac688;
+    border-radius:25px;
+    text-align:center;
+    line-height:50px;
+}
+.create_colock_btn p{
+    font-size:16px;
+    font-weight:400;
+    color:#FFF;
+} 
+.btn_end{
+    font-size: 12px;
+    line-height: 30px;
+    border: 1px solid #A9B1C3;
+    color: #A9B1C3;
+    border-radius: 15px;
+    width: 72px;
+    flex-shrink: 0;
+    text-align: center;
+    margin-left: 12px;
+}
+.btn_ing{
+    font-size: 12px;
+    line-height: 30px;
+    border: 1px solid #2ac688;
+    color: #2ac688;
+    border-radius: 15px;
+    width: 72px;
+    flex-shrink: 0;
+    text-align: center;
+    margin-left: 12px;
+}
+/*弹出框*/
+.van-popup .clock_pop_nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:16px;
+    font-weight:400;
+    line-height:20px;
+    border-radius:16px 16px 0 0;
+    background:#FFFFFF;
+    opacity:1;
+    box-sizing:border-box;
+    padding:30px 16px 20px 16px;
+    position:fixed;
+    width:10rem;
+    z-index: 100;
+}
+.van-popup .clock_pop_nav .pop_title{
+    color:#78849e;
+    font-size:16px;
+    line-height:22px;
+    font-weight:700;
+}
+.van-popup .clock_pop_nav .cancel_btn{
+    color:#C6C6C6;
+    padding-left: 12px;
+}
+.van-popup .clock_pop_nav .select_btn{
+    color:#FF444B;
+    padding-right: 12px;
+}       
+.clock_pop_content_wrap {
+    margin-top: 72px;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+  .clock_select_list li {
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    background: #f7fafc;
+    border: 0.6px solid #e8e8e8;
+    padding: 16px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 0;
+  }
+  .clock_select_list li.clock_select_list_item_active {
+    border: none;
+    background: #EAFFF6;
+    border: 0.6px solid #2ac688;
+  }
+  .clock_select_list li .arrow_selected{
+      display: none;
+  }
+  .clock_select_list li.clock_select_list_item_active .arrow_selected{
+      display: block;
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      font-size: 0;
+      line-height: 0;
+  }
+  .clock_select_list li .arrow_selected img{
+    width: 18px;
+    height: 18px;
+}
+.expansion{
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 700;
+    text-align: left;
+    white-space: pre-line;
+}
+.show_all{
+    -webkit-line-clamp:100;
+    }
+.hide{
+    display: none;
+}
+.toClockin{
+    width: 72px;
+    height: 72px;
+    border-radius: 36px;
+    background: #2ac688;
+    font-size: 12px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(42,198,136,0.6);
+    margin-bottom: 30px;
+}
+.clock_tab{
+    font-size: 18px;
+    color: #b0b3ba;
+    font-weight: 500;
+}
+.active_bar{
+    display: none;
+    width: 36px;
+    height: 4px;
+    margin-top: 4px;
+    background: #2ac688;
+    border-radius: 2px;
+}
+.clock_tab_active{
+    color: #2ac688;
+}
+.clock_tab_active .active_bar{
+    display: block;
 }

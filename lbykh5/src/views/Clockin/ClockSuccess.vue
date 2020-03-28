@@ -24,7 +24,7 @@
                 <div class="clock_item_images" v-show="ClockResult.picUrls">
                     <!-- <p>这里是照片区域</p> -->
                     <ul flex="main:left cross:center">
-                        <li v-for="(item1, index) in ClockResult.picUrls" :key="index"><img :src="item1.url" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
+                        <li v-for="(item1, index) in ClockResult.picUrls" :key="index"><img :src="item1" style="width: 2.773333rem;height: 2.773333rem;" alt="" @click="preClick(index)"></li>
                     </ul>
                     <p class="clock_img_count" v-if="ClockResult.picUrls.length > 3">+{{ClockResult.picUrls.length-3}}</p>
                 </div>
@@ -38,87 +38,13 @@
                     <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
                 </div>
 
-                <!-- <div class="clock_item_class_info" v-if="false">
-                    <p>来自<span>2020届舞蹈基础B班</span></p>
-                </div> -->
-                <!-- <div class="clock_item_func" v-if="false">
-                    <div class="clock_item_zan_user">
-                        <div class="clock_item_info_list">
-                            <ul>
-                                <li><img src="http://img1.imgtn.bdimg.com/it/u=3011024659,3918111814&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img5.imgtn.bdimg.com/it/u=1013062358,2295738855&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img2.imgtn.bdimg.com/it/u=1602610465,750348961&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img4.imgtn.bdimg.com/it/u=335183132,539509064&fm=26&gp=0.jpg" alt=""></li>
-                                <li><img src="http://img2.imgtn.bdimg.com/it/u=1473741299,1011020019&fm=26&gp=0.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                        <p>1.2w人觉得很赞</p>
-                    </div>
-                    <div class="clock_btn">
-                        <div class="clock_btn01 btn_clock">
-                            <img src="../../images/CreateClock/share.png" alt="">
-                            <p>分享</p>
-                        </div>
-                        <div class="btn_clock">
-                            <img src="../../images/CreateClock/zan.png" alt="">
-                            <p>点赞</p>
-                        </div>
-                    </div>
-                </div> -->
+                
             </div>
             
         </div>
 
+        <div style="width:10rem;height:300px;"></div>
         
-        <!-- 机构信息 -->
-        <!-- <div style="margin:16px 0;position:relative;z-index:999;padding:0 16px;box-sizing:border-box" v-if="false">
-            <div style="background:#FFFFFF;box-sizing:border-box;padding:16px 16px 12px 16px;border-radius:15px">
-                <div flex="main:left cross:center">
-                    <img class="img_48" style="margin-right:8px;border-radius:15px" :src="ClockResult.storeAddrInfoDto.logo" alt="">
-                    <div>
-                        <p class="font_16px color_181818">{{ClockResult.storeAddrInfoDto.storeName}}</p>
-                        <p class="font_13px color_C6C6C6">{{ClockResult.storeAddrInfoDto.categoryList.join('/')}}</p>
-                    </div>
-                </div>
-                <van-divider />
-                <div flex="main:justify cross:center">
-                    <div flex="dir:top main:left">
-                        <p flex="main:left cross:center" style="margin-bottom:4px">
-                            <img class="img_16" src="../../images/CreateClock/location.png" alt="">
-                            <span class="font_14px color_181818">{{ClockResult.storeAddrInfoDto.area}}</span>
-                        </p>
-                        <p class="font_12px color_C6C6C6">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</p>
-                    </div>
-                    <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
-                        <p style="margin-right:4px">进店逛逛</p>
-                        <img class="img_14" src="../../images/CreateClock/next.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- 机构信息 -->
-        
-        <!-- 分享的课程 -->
-        <!-- <div class="share_course" v-if="false">
-            <p class="font_14px color_9B9B9B" style="margin-bottom:8px">赶快报名，跟我一起学习成长吧！</p>
-            <div flex="main:left cross:center">
-                <div style="margin-right:12px"><img class="img_48" style="border-radius:10px" src="http://pic1.zhimg.com/50/v2-b7bd451b0bda3c36fa8a7f07d9ac4ffe_hd.jpg" alt=""></div>
-                <div style="width:100%">
-                    <p class="font_16px color_181818" style="margin-bottom:6px">{{ClockResult.course.courseTitle}}</p>
-                    <div flex="main:justify cross:center">
-                        <p class="font_14px color_FF444B">￥{{ClockResult.course.sellingPrice}}/{{ClockResult.course.classHourNum}}节课</p>
-                        <div class="btn_60C38C" flex="main:justify cross:center" style="box-sizing:border-box;padding:6px 8px">
-                            <p style="margin-right:4px">立即报名</p>
-                            <img class="img_14" src="../../images/CreateClock/next.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div> -->
-        <!-- 分享的课程 -->
-
-        <!-- 分享按钮 -->
         <div class="clock_share_btn" @click="getWechatShare()">
             <div style="background:#D2B9A8;height:56px;border-radius:30px;">
                 <div flex="main:center cross:center" style="background:#FAEADE;height:50px;border-radius:30px;">
@@ -154,13 +80,7 @@ export default {
             fileVideoSrc:'',
             pre_index:0,
             pre_show:false,
-            preImage:[
-                'http://img3.imgtn.bdimg.com/it/u=2792090559,2900667538&fm=26&gp=0.jpg',
-                'http://img1.imgtn.bdimg.com/it/u=1728307612,3498260071&fm=26&gp=0.jpg',
-                'http://img4.imgtn.bdimg.com/it/u=4042650250,4000697206&fm=26&gp=0.jpg',
-                'https://drscdn.500px.org/photo/1012172270/q%3D80_m%3D2000/v2?sig=2942fdc49d6607fe66ffe11adf35d02b0dd1e2df11be3474cf617d925b09dcea',
-                'https://drscdn.500px.org/photo/1012172160/q%3D80_m%3D1500/v2?sig=914c45ce0790b4849834e2d1ab9b465957575b95e8c6c17b55ad4d72eab9d3f0'
-            ],
+            preImage:[],
             ClockResult:'',
         }
     },
@@ -206,7 +126,7 @@ export default {
             })
         },
         getWechatShare(){//微信分享
-            Toast('触发了分享办法')
+            
             let cuid = this.$route.query.cuid
             let storeId = this.$route.query.storeId
             let classId = this.$route.query.classId
@@ -239,7 +159,7 @@ export default {
     .clock_share_btn
         position fixed
         bottom 35px
-        z-index 299
+        z-index 999
         width 10rem
         box-sizing border-box
         padding 0 16px

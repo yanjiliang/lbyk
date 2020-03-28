@@ -1,108 +1,96 @@
 <template>
 <div class="createclock">
   <div class="createclock_wrap">
-    <div class="create_clock_title">
-      <p>创建/编辑打卡</p>
-      <p>打卡不仅能活跃老用户，还能推广课程哦</p>
+    <div class="edit_page_title">
+      <p v-if="type == 'new'">创建打卡</p>
+      <p v-if="type == 'edit'">编辑打卡</p>
+      <p>打卡不仅能活跃老用户，还能推广机构哦</p>
     </div>
     <!-- 主题start -->
-    <van-field v-model="clock_theme" rows="1" autosize type="textarea" maxlength="30" placeholder="请输打卡主题（5-30个字）" />
+    <van-field v-model="clock_theme" rows="1" autosize type="textarea" clickable @blur="iptBlur" maxlength="30" placeholder="请输打卡主题（5-30个字）" />
     <!-- 主题end -->
     <van-divider />
 
     <!-- 选择班级 start -->
-    <div class="create_clock_second_title">
+    <div class="field_title">
       <p>适用班级</p>
       <p>每个班级同时只能发布一个打卡活动</p>
     </div>
-    <van-field readonly clickable :value="selectedClass" placeholder="请选择" @click="showClassPicker = true" />
+    <van-field readonly clickable :value="selectedClass" right-icon="arrow" placeholder="请选择" :disabled="type == 'edit' || classList ==[]"  @click="pickClass" />
     <van-popup v-model="showClassPicker" :safe-area-inset-bottom='true' round :style="{height:'50%'}" position="bottom">
       
-        <div class="create_clock_pop_nav">
+        <div class="clock_pop_nav">
           <p class="cancel_btn" @click="showClassPicker = false">取消</p>
           <p class="pop_title">选择班级</p>
           <p class="select_btn" @click="onClassConfirm()">确认</p>
         </div>
-        <div class="create_clock_select_class_wrap"  v-if="storeClass.count != 0">
-
-          <div class="create_clock_select_class_content" ref="class_list_wrap">
-            <ul class="create_clock_select_class_list" ref="class_list">
-              <li @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index" >
-                <div class="create_clock_select_class_item">
-                  <div class="top">
+        <div class="clock_pop_content_wrap"  v-if="storeClass.count != 0">
+          <div ref="class_list_wrap">
+            <ul class="clock_select_list" ref="class_list">
+              <li class="clock_select_list_item" @click="clock_select_class($event,index)" v-for="(item,index) in classList" :key="index" >
+                  <div class="font_16px font_weight_400">
                     <p>{{item.className}}</p>
+                    <p class="font_12px color_gray margin_top_8"><span class="color_gray_light">科目：</span><span>{{item.categoryName}}</span><span class="color_gray_light margin_left_12">班级模式：</span><span>{{item.teachMethod}}</span></p>
                   </div>
-                  <div class="down">
-                    <div class="down_left">
-                      <p>{{item.categoryName}}</p>
-                      <p ref="class_type" class="class_type">{{item.teachMethod}}</p>
-                    </div>
-                    <div class="down_right" v-show="classList[index].hasSelect">
-                      <img src="../../images/CreateClock/selected.png" alt="">
-                    </div>
+                  <div class="arrow_selected" v-show="classList[index].hasSelect">
+                    <img src="../../images/CreateClock/selected.png" alt="">
                   </div>
-                </div>
               </li>
             </ul>
           </div>
         </div>
 
         <div class="noclassdata" v-if="storeClass.count === 0">
-          <div flex="dir:top cross:center" style="margin:60px auto">
+          <div flex="dir:top cross:center" style="margin:100px auto">
             <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
-            <p class="font_12px color_C6C6C6">暂无可发布打卡活动的班级</p>
+            <p class="font_14px color_gray_light">当前无可选班级</p>
           </div>
         </div>
-      
-
-      
     </van-popup>
     <van-divider />
     <!-- 选择班级 end -->
     <!-- 打卡结束时间 start -->
-    <div class="create_clock_second_title">
+    <div class="field_title">
       <p>打卡结束时间</p>
     </div>
-    <van-field readonly clickable :value="currentDate" placeholder="请选择结束日期" @click="showDatePicker = true" />
+    <van-field readonly clickable :value="currentDate" right-icon="arrow" placeholder="请选择结束日期" @click="showDatePicker = true" />
     <van-popup v-model="showDatePicker" round position="bottom">
-      <van-datetime-picker type="date" :min-date="minDate" :max-date="maxDate" @confirm="onDateConfirm" @cancel="showDatePicker = false" />
+      <van-datetime-picker type="date" :min-date="minDate" title="请选择结束日期" :max-date="maxDate" @confirm="onDateConfirm" @cancel="showDatePicker = false" />
     </van-popup>
     <van-divider />
     <!-- 打卡结束时间 end -->
 
-    <!-- 推广课程 start -->
-    <div class="create_clock_second_title">
-      <p>推广课程(可选)</p>
-      <p>只能选择一个，学员分享的打卡页面可同步展示招生课程</p>
-    </div>
-    <van-field readonly clickable :value="selectCourse" placeholder="选择课程" @click="select_Course" />
-    <van-popup v-model="showCoursePicker" round position="bottom">
-      <van-picker show-toolbar :columns="storeCourseTile" @cancel="showCoursePicker = false" @confirm="onCourseConfirm" />
-    </van-popup>
-    <van-divider />
-    <!-- 推广课程 end -->
 
     <!-- 打卡介绍 start -->
-    <div class="create_clock_second_title">
+    <div class="field_title">
       <p>打卡介绍</p>
     </div>
-    <van-field v-model="clock_content" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
+    <van-field v-model="clock_content" class="clock_more_field" rows="1" autosize type="textarea" maxlength="500" placeholder="请填写打卡介绍（500字以内）" show-word-limit />
     <van-divider />
     <!-- 打卡介绍 end -->
     
-    <!-- <p>{{storeClass}}</p> -->
-    <div style="height:60px"></div>
-    <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,selectedCourseId[0],clock_content)">
+    <!-- <p>{{token}}</p> -->
+    <div style="height:30px"></div>
+    <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,clock_content)">
       <p>立即发布</p>
     </div>
 
   </div>
+
+  <!-- <van-loading color="#60C38C" /> -->
+    <van-overlay :show="hasDone" >
+        <div class="wrapper">
+            <van-loading size="48px" type="spinner" color="#b0b3ba" v-show="hasDone" vertical></van-loading>
+        </div>
+    </van-overlay>
+    
+  
 </div>
 </template>
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
-import {Toast} from 'vant'
+import {Toast,Notify} from 'vant'
 import '../../../public/resetVant.css'
 const axios = require('axios')
 export default {
@@ -134,19 +122,40 @@ export default {
       selectedDate:'',
       cuid:this.$route.query.cuid,
       storeId:this.$route.query.storeId,
-      type :this.$route.query.type
+      type :this.$route.query.type,
+      token:'',
+      hasDone:false
 
     }
   },
   mounted() {
-    this.getStoreCoureList()
-    this.getStoreClass()
+    
+    
     if(this.$route.query.type == 'edit'){
       this.getClockInfo()
     }
+    this.linkIos()
+  },
+  beforeMount(){
+      window.McDispatcher = this.McDispatcher
+      window.getParams = this.getParams
   },
   methods: {
-    
+    pickClass(){
+      if(this.classList != [] && this.type == 'new'){
+        this.showClassPicker = true
+      }
+    },
+    iptBlur(){
+      if(this.clock_theme.length < 5){
+        // Toast('打卡主题最少5个字！')
+        // Notify({ type: 'danger', message: '打卡主题最少5个字！' });
+        Toast('打卡主题最少5个字！')
+        this.showClassPicker= false
+        this.showDatePicker= false
+        this.showCoursePicker= false
+      }
+    },
     onClassConfirm() {
       console.log(this.selectedClass)
       this.showClassPicker = false
@@ -181,8 +190,7 @@ export default {
       //控制班级选择
       this.$nextTick(() => {
         if (this.classList[index].hasSelect) {
-          document.getElementsByClassName('create_clock_select_class_item')[index].classList.remove('create_clock_isSelected')
-          this.$refs.class_type[index].style.background = '#F6F6F6'
+          document.getElementsByClassName('clock_select_list_item')[index].classList.remove('clock_select_list_item_active')
           // this.selectedClass.splice(index,1)
           for(let i = 0;i<this.selectedClass.length;i++){
             if(this.selectedClass[i] == this.classList[index].className){
@@ -193,8 +201,7 @@ export default {
           console.log(this.selectedClassId)
           this.classList[index].hasSelect = false
         } else {
-          document.getElementsByClassName('create_clock_select_class_item')[index].classList.add('create_clock_isSelected')
-          this.$refs.class_type[index].style.background = '#FFFFFF'
+          document.getElementsByClassName('clock_select_list_item')[index].classList.add('clock_select_list_item_active')
           this.classList[index].hasSelect = true
           this.selectedClass.push(this.classList[index].className)
           this.selectedClassId.push(this.classList[index].classId)
@@ -214,9 +221,7 @@ export default {
         let storCourse = res.data.data
         this.storCourse = storCourse.data
         // this.storeCourseTile = 
-        if(storCourse.data.length == 0){
-          Toast('暂无可发布打卡的班级')
-        }
+        
         for(let i=0;i<storCourse.data.length;i++){
           this.storeCourseTile.push(storCourse.data[i].courseTitle)
         }
@@ -224,11 +229,12 @@ export default {
         console.log(err)
       })
     },
-    getStoreClass(){
+    getStoreClass(token){
       let url = this.ip+'class-clock/getUnClockClass';
       let param = new URLSearchParams()
       param.append("cuid", this.cuid)
       param.append("storeId", this.storeId)
+      param.append("userToken", token)
       param.append("pageNo", 1)
       param.append("pageSize", 10)
       axios.post(url,param).then((res)=>{
@@ -238,79 +244,127 @@ export default {
         for(let i=0;i<storeClass.length;i++){
           this.classList[i].hasSelect = false
         }
-        
+        if(storeClass.data == []){
+          Toast('暂无可发布打卡的班级')
+        }
+        if(res.data.result == 'noLogin'){
+            if(this.device == 'android'){
+                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }else if(this.device == 'ios'){
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
+            
+        }
         
       }).catch((err)=>{
         console.log(err)
       })
     },
-    toClock(classIds,title,endDate,courseId,introduce){
-      if(this.$route.query.type == 'new'){
-        let url = this.ip+'clock/addClock';
-        let param = new URLSearchParams()
-        param.append("cuid", this.cuid)
-        param.append("storeId", this.storeId)
-        param.append("classIds", classIds)
-        param.append("title", title)
-        param.append("endDate", endDate)
-        param.append("courseId", courseId)
-        param.append("introduce", introduce)
-        
-        axios.post(url,param).then((res)=>{
-          if(res.data.result == 'success'){
-            Toast.success('发布成功！')
-            setTimeout(()=>{
-              // this.$router.push({path:'/CreateClockMana',params:'121'})
-              if (this.device === 'android') {
-                      //安卓每个页面方法名不一样
-                  window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+    toClock(classIds,title,endDate,introduce){
+      if(title.length >=5){
+        if(classIds.length != 0){
+          if(endDate){
+            if(introduce.length != 0){
+              //
+              if(this.$route.query.type == 'new'){
+                let url = this.ip+'clock/addClock';
+                let param = new URLSearchParams()
+                param.append("cuid", this.cuid)
+                param.append("storeId", this.storeId)
+                param.append("userToken", this.token)
+                param.append("classIds", classIds)
+                param.append("title", title)
+                param.append("endDate", endDate)
+                param.append("introduce", introduce)
+                this.hasDone = true
+                axios.post(url,param).then((res)=>{
+                  
+                  if(res.data.result == 'noLogin'){
+                      if(this.device == 'android'){
+                          window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                      }else if(this.device == 'ios'){
+                          window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                      }
+                      
+                  }
+                  if(res.data.result == 'success'){
+                    this.hasDone = false
+                    
+                    Toast.success('发布成功！')
+                    setTimeout(()=>{
+                      // this.$router.push({path:'/CreateClockMana',params:'121'})
+                      if (this.device === 'android') {
+                              //安卓每个页面方法名不一样
+                          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+                      }
+                      if (this.device === 'ios') { 
+                          //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+                  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","isBlackItem":"false","url": "'+this.Url+'/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+res.data.data+'&classId='+classIds+'"}') 
+                      }
+                    },1200)
+                  }else if(res.data.result == 'error'){
+                    Toast(res.data.msg)
+                  }
+                  
+                }).catch((err)=>{
+                  console.log(err)
+                })
               }
-              if (this.device === 'ios') { 
-                  //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-          　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+res.data.data+'&classId='+classIds+'"}') 
-              }
-            },1200)
-          }else if(res.data.result == 'error'){
-            Toast(res.msg)
-          }
-          
-        }).catch((err)=>{
-          console.log(err)
-        })
-      }
 
-      if(this.$route.query.type == 'edit'){
-        let url = this.ip+'clock/edit';
-        let param = new URLSearchParams()
-        param.append("cuid", this.cuid)
-        param.append("storeId", this.storeId)
-        param.append("classIds", classIds)
-        param.append("title", title)
-        param.append("endDate", endDate)
-        param.append("courseId", courseId)
-        param.append("introduce", introduce)
-        param.append("clockId",this.clockInfo.clockId)
-        axios.post(url,param).then((res)=>{
-          if(res.data.result == 'success'){
-            Toast.success('发布成功！')
-            setTimeout(()=>{
-              // this.$router.push({path:'/CreateClockMana',params:'121'})
-              if (this.device === 'android') {
-                      //安卓每个页面方法名不一样
-                  window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+              if(this.$route.query.type == 'edit'){
+                let url = this.ip+'clock/edit';
+                let param = new URLSearchParams()
+                param.append("cuid", this.cuid)
+                param.append("storeId", this.storeId)
+                param.append("classIds", classIds)
+                param.append("title", title)
+                param.append("endDate", endDate)
+                param.append("introduce", introduce)
+                param.append("clockId",this.clockInfo.clockId)
+                this.hasDone = true
+                axios.post(url,param).then((res)=>{
+                  
+                  if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                        
+                    }
+                  if(res.data.result == 'success'){
+                    this.hasDone = false
+                    Toast.success('发布成功！')
+                    setTimeout(()=>{
+                      // this.$router.push({path:'/CreateClockMana',params:'121'})
+                      if (this.device === 'android') {
+                              //安卓每个页面方法名不一样
+                          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail"}');
+                      }
+                      if (this.device === 'ios') { 
+                          //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+                  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+                      }
+                    },1200)
+                  }else if(res.data.result == 'error'){
+                    Toast(res.data.msg)
+                  }
+                  
+                }).catch((err)=>{
+                  console.log(err)
+                })
               }
-              if (this.device === 'ios') { 
-                  //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-          　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+this.clockInfo.clockId+'&classId='+classIds+'"}') 
-              }
-            },1200)
-          }else if(res.data.result == 'error'){
-            Toast(res.msg)
+            }else{
+              Toast({  message: '好的打卡介绍，更能调动客户积极性，快去填写吧！' });
+            }
+          }else{
+            Toast('请选择结束日期！')
           }
-          
-        }).catch((err)=>{
-          console.log(err)
-        })
+        }else{
+          Toast('请至少选择一个班级')
+        }
+      }else{
+        Toast({ message: '打卡主题最少5个字！' });
       }
     },
     getClockInfo(){
@@ -337,7 +391,28 @@ export default {
       }).catch((err)=>{
         console.log(err)
       })
-    }
+    },
+    McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+        this.token = qury.data.token
+        this.getStoreClass(qury.data.token)
+        if(!qury.data.token){
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+        }
+        this.getStoreCoureList()
+    },
+    getParams(msg){
+        this.token = msg.token
+        this.getStoreClass(msg.token)
+        if(!msg.token){
+          window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+        }
+        this.getStoreCoureList()
+    },
+    linkIos (){
+            //给iOS APP传参
+        window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+    },
 
   }
 }
@@ -347,130 +422,16 @@ export default {
         max-width 540px
         margin 0 auto
         .createclock_wrap
-            padding 0 24px
-            .create_clock_title
-                margin-bottom 10px
-                margin-top 26px
-                p
-                    &:nth-child(1)
-                        font-size 24px
-                        font-weight bold
-                        line-height 33px
-                        color #353239
-                    &:nth-child(2)
-                        font-size 14px
-                        font-weight 400
-                        color #9B9B9B
+            padding 0 24px 44px
             .van-cell
                 padding 10px 0 !important
                 &:not(:last-child)::after
                     display none
             .van-divider
                 margin 0
-            .create_clock_second_title
-                margin-top 20px
-                p
-                    &:nth-child(1)
-                        font-size 14px
-                        font-weight 400
-                        line-height 20px
-                        color #353239
-                    &:nth-child(2)
-                        font-size 12px
-                        line-height 17px
-                        font-weight 400
-                        color #C6C6C6
-                        margin 5px 0
-            .create_colock_btn
-                height 56px
-                background #FF444B
-                box-shadow 0px 4px 6px rgba(255,68,75,0.2)
-                border-radius 28px
-                text-align center
-                line-height 56px
-                p
-                    font-size 16px
-                    font-weight 400
-                    color #FFF
             .van-picker__confirm
                 color #FF444B!important
             .van-picker__cancel
                 color #C6C6C6!important
-
-            .van-popup
-                .create_clock_pop_nav
-                        display flex
-                        align-items center
-                        justify-content space-between
-                        font-size 14px
-                        font-weight 400
-                        line-height 20px
-                        border-radius 20px 20px 0 0
-                        background #FFFFFF
-                        opacity 1
-                        box-sizing border-box
-                        padding 10px 16px
-                        position fixed
-                        width 10rem
-                        // position fixed
-                        .pop_title
-                            color #353239
-                            font-size 16px
-                            line-height 22px
-                            font-weight 500
-                        .cancel_btn
-                            color #C6C6C6
-                        .select_btn
-                            color #FF444B
-                .create_clock_select_class_wrap
-                    margin-top 10px
-                    padding 20px 16px
-                    box-sizing border-box
-
-                    .create_clock_select_class_content
-                        .create_clock_select_class_list
-                            box-sizing border-box
-                            padding 20px 0
-                            li
-                                margin-bottom 16px
-                            .create_clock_select_class_item
-                                box-sizing border-box
-                                border 1px solid #E8E8E8
-                                height 80px
-                                padding 17px 16px 15px 16px
-                                border-radius 15px
-                                .top
-                                    color #181818
-                                    font-size 16px
-                                    font-weight 500
-                                    line-height 22px
-                                    margin-bottom 8px
-                                .down
-                                    display flex
-                                    align-items center
-                                    justify-content space-between
-                                    .down_left
-                                        display flex
-                                        align-items center
-                                        p
-                                            border-radius 10px
-                                            background #FFFFFF
-                                            box-sizing border-box
-                                            padding 2px 6px
-                                            &:nth-child(1)
-                                                background #EAFEFC
-                                                color #4DC9BD
-                                                margin-right 12px
-                                        .class_type
-                                            color #9B9B9B
-                                            background #F6F6F6
-                                    .down_right
-                                        img
-                                            width 18px
-                                            height 18px
-                                            display block
-                            .create_clock_isSelected
-                                border 1px solid #FF444B
-                                background #FCF0F1
 
 </style>

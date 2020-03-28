@@ -1,67 +1,72 @@
 <template>
     <div class="Clockinfo">
-        <div class="clock_share_top">
-            <img style="width:100%" src="../../images/CreateClock/clock_share_topbg.png" alt="">
-        </div>
-        
-        <div class="share_content_wrap">
-            <div class="clock_share_content">
-                <p style="position:absolute;top:0;right:0;z-index:1001;width:53px;height:51px"><img style="width:56px;height:54px" src="../../images/CreateClock/clock_share_tag.png" alt=""></p>
-                <div class="clock_share_avatar" flex="main:center cross:center">
-                    <img v-if="ClockResult.studentAvatar" class="img_60_round" :src="ClockResult.studentAvatar" alt="">
-                    <p class="img_60_round font_12px color_FFFFFF" style="background:rgba(96,195,140,.3);line-height:60px;text-align:center" v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.slice(0,2)}}</p>
-                </div>
-                <div flex="dir:top main:center cross:center">
-                    <p class="font_18px font_weight_bold color_353239">{{ClockResult.studentName}}</p>
-                    <p class="font_14px color_9B9B9B" style="margin:8px 0 4px 0">主题打卡 第<span class="color_FF9F1B"> {{ClockResult.clockCount}} </span>次</p>
-                    <p class="font_18px color_353239 font_weight_400">“{{ClockResult.title}}”</p>
-                </div>
-                <div class="clock_content">
-                    <div class="font_16px color_9B9B9B">{{ClockResult.impression}}</div>
-
-                </div>
-                
-                <div class="clock_item_images" v-show="ClockResult.picUrls">
-                    <!-- <p>这里是照片区域</p> -->
-                    <ul flex="main:left cross:center">
-                        <li v-for="(item1, index1) in ClockResult.picUrls" :key="index1"  @click="preClick(index1)"><img :src="item1" style="width: 2.773333rem;height: 2.773333rem;" alt=""></li>
-                    </ul>
-                    <p class="clock_img_count" v-if="ClockResult.picUrls.length > 3">+{{ClockResult.picUrls.length-3}}</p>
-                </div>
-                <!-- 图片预览 -->
+        <div class="clock_list_wrap">
+                <div class="clock_list_item">
+                    <!-- 打卡头部用户信息开始 -->
+                    <div flex="main:justify cross:center">
+                        <!-- 用户信息开始 -->
+                        <div flex="main:left cross:center">
+                            <div class="avator avator_48">
+                                <img  v-if="ClockResult.studentAvatar" :src="ClockResult.studentAvatar" alt="">
+                                <p v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.slice(-1,-3)}}</p>
+                            </div>
+                            <div>
+                                <p class="font_17px font_weight_700">{{ClockResult.studentName}}</p>
+                                <p class="font_14px color_gray_light margin_top_4">{{ClockResult.clockDate.substring(0,10)}}</p>
+                            </div>
+                        </div>
+                        <!-- 用户信息结束 -->
+                        <!-- 操作区开始 -->
+                        <div class="ellipsis" @click="toMoreHandle()">
+                            <img src="../../images/CreateClock/ellipsis.png">
+                        </div>
+                        <!-- 操作区结束 -->
+                    </div>
+                    <!-- 打卡头部用户信息结束 -->
+                    <div class="clock_item_content">
+                            <p class="font_18px">{{ClockResult.impression}}</p>
+                    </div>
+                    <div class="clock_item_images" v-if="ClockResult.picUrls">
+                        <!-- <p>这里是照片区域</p> -->
+                        <ul>
+                            <li v-for="(item1, index1) in ClockResult.picUrls" :key="index1"  @click="preClick(index1,index)"><img :src="item1" alt=""></li>
+                        </ul>
+                    </div>
+                    <!-- 图片预览 -->
                     <van-image-preview v-model="pre_show" :images="preImage" @change="onChange(pre_index)" @close="onClose" :start-position='pre_index'>
                         <template v-slot:index>
                             
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                <div class="clock_item_video" v-show="ClockResult.videoUrl">
-                    <!-- 这里是视频区域 -->
-                    <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
+                    <div class="clock_item_video" v-if="ClockResult.videoUrl">
+                        <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
+                    </div>
+                    <div>
+                        <p class="color_green margin_top_12" @click="toThemedetail(index)">
+                            <span class="clockin_title_ellipsis"># {{ClockResult.title}}</span>
+                        </p>
+                    </div>
+                    <div class="margin_top_16 color_gray_light font_14px">
+                        <div flex="main:justify cross:center">
+                            <div flex="main:left cross:center" class="clock_fun_icon" v-if="ClockResult.isPraise == false" @click="toClockPraise(ClockResult.clockStudentId,index)">
+                                <img src="../../images/CreateClock/zan.png" alt="">
+                                <p>{{ClockResult.praiseCount}}人觉得很赞</p>
+                            </div>
+                            <div flex="main:left cross:center" class="clock_fun_icon" v-if="ClockResult.isPraise == true">
+                                <img src="../../images/CreateClock/zaned.png" alt="">
+                                <p>{{ClockResult.praiseCount}}人觉得很赞</p>
+                            </div>
+                            <div class="clock_fun_icon" flex="main:left cross:center" @click="getWechatShare()">
+                                <img src="../../images/CreateClock/share.png" alt="">
+                                <p>分享</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                
             </div>
-            
-        </div>
-
-        
-        
-
-        <!-- 分享按钮 -->
-        <!-- <div class="clock_share_btn" @click="getWechatShare()">
-            <div style="background:#D2B9A8;height:56px;border-radius:30px;">
-                <div flex="main:center cross:center" style="background:#FAEADE;height:50px;border-radius:30px;">
-                    <p class="font_16px color_60C38C">分享</p>
-                </div>
-            </div>
-        </div> -->
-        <!-- 分享按钮 -->
-
-        <div class="clock_share_bottom">
-            <img style="width:100%;height:100%" src="../../images/CreateClock/clock_share_bottombg.png" alt="">
-        </div>
-        
+            <van-action-sheet v-model="MoreControl" :actions="actions" @select="moreHandle" cancel-text="取消" @cancel="onCancel" />
     </div>
 </template>
 <script>
@@ -69,7 +74,7 @@ import 'flex.css'
 import '../../css/Clock/clockPublic.css'
 import '../../css/Clock/clocklist.css'
 import H5Video from '../../components/H5Video'
-import { Toast } from 'vant'
+import {Toast,Dialog} from 'vant'
 const axios = require('axios')
 export default {
     name:'ClockSuccess',
@@ -86,10 +91,13 @@ export default {
             pre_show:false,
             preImage:[],
             ClockResult:'',
+            MoreControl:false,
+            actions:[{name:'设置优质打卡'},{name:'删除'}],
         }
     },
     mounted(){
         this.getClockResult()
+        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/ClockDetail"}')
     },
     methods:{
         preClick(index){
@@ -137,69 +145,71 @@ export default {
             let content = str.replace(/[\r\n]/g, "")
             let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
             let logo = this.ClockResult.storeAddrInfoDto.logo
-            Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'"}')
             
-        }
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+this.$route.query.clockId+'"}')
+            
+        },
+        toMoreHandle(){
+            this.MoreControl = true
+        },
+        moreHandle(item){
+            
+            if(item.name == '删除') {
+                //删除快速打卡操作
+                Dialog.confirm({
+                    message: '确定删除该打卡吗？',
+                    confirmButtonColor:'#60C38C'
+                }).then(() => {
+                // on confirm
+                    let url = this.ip +'/class-clock-student/removeRapidClock'
+                    let clockStudentId  = this.ClockResult.clockStudentId
+                    let param = new URLSearchParams()
+                    param.append("cuid", this.$route.query.cuid)
+                    param.append("userToken", this.token)
+                    param.append("storeId", this.ClockResult.storeId)
+                    param.append("clockStudentId", clockStudentId)
+                    axios.post(url,param).then((res)=>{
+                        // if(res.data.result == 'success') window.location.reload()
+                        if(res.data.result == 'success') this.getClockRecod()
+                        
+                        else Toast(res.data.msg)
+                    })
+                    this.MoreControl = false
+                }).catch(() => {
+                    // on cancel
+                    this.MoreControl = false
+                    return
+                });
+                
+            }
+            if(item.name == '设置优质打卡') {
+                // 设置为优质打卡的操作
+                let url = this.ip +'/class-clock-student/setHighQuality'
+                let clockStudentId  = this.ClockResult.clockStudentId
+                let param = new URLSearchParams()
+                param.append("cuid", this.$route.query.cuid)
+                param.append("userToken", this.token)
+                param.append("storeId", this.ClockResult.storeId)
+                param.append("clockStudentId", clockStudentId)
+                axios.post(url,param).then((res)=>{
+                    this.MoreControl = false
+                    
+                    if(res.data.result == 'success') {
+                        Toast.success('设置成功')
+                    }else{
+                        Toast(res.data.msg)
+                    }
+                })
+            }
+        },
     }
 }
 </script>
 <style lang="stylus" scoped>
 .Clockinfo
-    background #F6F6F6
+    background #fff
     box-sizing border-box
-    height 100vh
+    padding 0 16px
     
-    .clock_share_bottom
-        background #F6F6F6
-        // transform translateY(-50%)
-        position fixed
-        bottom 0
-        height 230px
-    .clock_share_btn
-        position fixed
-        bottom 35px
-        z-index 299
-        width 10rem
-        box-sizing border-box
-        padding 0 16px
-
-    .share_course
-        margin 16px 0
-        width 10rem
-        position relative
-        z-index 999
-        padding 0 16px
-        box-sizing border-box
-        background #FFFFFF
-        box-sizing border-box
-        padding 12px 16px 35px 16px
-        border-radius 15px 15px 0 0
-        position fixed
-        bottom -15px
-
-    .share_content_wrap
-        position relative
-        z-index 999
-        box-sizing border-box
-        padding 0 16px
-        margin-top 33px
-        .clock_share_content
-            padding 41px 16px 24px 16px
-            box-sizing border-box
-            position relative
-            border-radius 15px
-            background #FFFFFF
-            .clock_content
-                margin 16px 0
-            .clock_share_avatar
-                background rgba(255,255,255,1)
-                border-radius 50%
-                width 66px
-                height 66px
-                position absolute
-                top -33px
-                left 50%
-                transform translateX(-50%)
 </style>
 

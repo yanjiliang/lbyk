@@ -15,7 +15,7 @@
                                         <span v-if="index > 2">{{index+1}}</span>
                                     </p>
                                     <img v-if="clock.studentAvatar" :src="clock.studentAvatar" alt="">
-                                    <p class="img_48_round font_16px color_7F7F89" style="border:0.8px solid rgba(255,255,255,.5);background:#F4F4F4;line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.slice(0,2)}}</p>
+                                    <p class="img_48_round font_16px color_7F7F89" style="color:#78849e;background:#f6f6f6;line-height:48px;text-align:center" v-if="!clock.studentAvatar">{{clock.studentName.substring(clock.studentName.length-2,clock.studentName.length)}}</p>
                                 </div>
                                 <div class="rank_item_userinfo">
                                     <p>{{clock.studentName}}</p>
@@ -107,6 +107,12 @@ export default {
         ClockRank:{
             type:Array,
             required:true
+        },
+        cuid:{
+            type:String
+        },
+        storeId:{
+            type:String
         }
     },
     methods:{
@@ -135,8 +141,8 @@ export default {
         toClockPraise(clockStudentId,index){
             let url = this.ip+'clock-student-praise/clockPraise';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
+            param.append("cuid", this.cuid)
+            param.append("storeId", this.storeId)
             param.append("clockStudentId", clockStudentId)
             axios.post(url,param).then((res)=>{
                 if(res.data.result == 'success'){
@@ -144,7 +150,7 @@ export default {
                     this.ClockRecod[index].praiseCustomerNum +=1
                     //praiseCustomerDtos
                     this.ClockRecod[index].praiseCustomerDtos.push(res.data.data)
-                    
+                    window.location.reload()
                 }
             
             }).catch((err)=>{
@@ -168,24 +174,24 @@ export default {
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClockRecod?studentId='+studentId+'"}')
             }
         },
-        getWechatShare(index){//微信分享
-            // let avatar = this.ClockRecod[index]
-            Toast('触发了分享的办法')
-            let cuid = this.$route.query.cuid
-            let storeId = this.ClockRecod[index].storeId
-            let classId = this.ClockRecod[index].classId
-            let studentId = this.ClockRecod[index].studentId
-            let clockStudentId = this.ClockRecod[index].clockStudentId
-            let impression = this.ClockRecod[index].impression
-            let str = impression.substring(0,35)
-            let content = str.replace(/[\r\n]/g, "")
-            let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
-            let logo =''
-            this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
-            Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+        // getWechatShare(index){//微信分享
+        //     // let avatar = this.ClockRecod[index]
+        //     Toast('触发了分享的办法')
+        //     let cuid = this.$route.query.cuid
+        //     let storeId = this.ClockRecod[index].storeId
+        //     let classId = this.ClockRecod[index].classId
+        //     let studentId = this.ClockRecod[index].studentId
+        //     let clockStudentId = this.ClockRecod[index].clockStudentId
+        //     let impression = this.ClockRecod[index].impression
+        //     let str = impression.substring(0,35)
+        //     let content = str.replace(/[\r\n]/g, "")
+        //     let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
+        //     let logo =''
+        //     this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
+        //     Toast('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
+        //     window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'"}')
             
-        }
+        // }
         
     }
 }

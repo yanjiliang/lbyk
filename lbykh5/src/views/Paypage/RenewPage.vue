@@ -59,8 +59,9 @@ import { Toast } from 'vant'
         renew_cuid:''
       }
     },
-    created() {
+    beforeMount() {
       window.McDispatcher = this.McDispatcher
+      window.getParams = this.getParams
     },
     mounted() {
       this.linkIos()
@@ -68,7 +69,11 @@ import { Toast } from 'vant'
     methods: {
       // :href="Url+'/lbykServiceAgreement'"
       toService(){
-                      window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+        if(this.device == 'android'){
+            window.android.SkipPage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+        }else if(this.device == 'ios'){
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+        }
       },
       McDispatcher(qury) {
         //接受数据
@@ -81,6 +86,14 @@ import { Toast } from 'vant'
       },
       linkIos: function () {
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+      },
+      getParams(msg){
+          this.userInfo = msg
+          this.renew_cuid = msg.cuid
+          this.renew_storeId = msg.storeId
+          this.renew_token = msg.token
+          this.renew_type = msg.renewType
+          this.getProductinfo(msg.storeId,msg.renewType,msg.cuid,msg.token)
       },
       getProductinfo(storeId, func, cuid, token) {
         let url = this.ip + 'goods/functionServiceRenewalGoods'

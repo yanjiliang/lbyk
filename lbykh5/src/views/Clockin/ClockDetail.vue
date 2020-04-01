@@ -18,7 +18,8 @@
                 <span class="color_gray_lighter font_16px margin_left_6">打卡已结束</span>
               </p>
             </div>
-            <p v-if="clockDetailInfo.isManager == true && clockDetailInfo.clockStatus == 'Beginning'" @click="toClockEdit()"><img class="img_16" src="../../images/CreateClock/edit.png" alt=""></p>
+            <!-- <p v-if="clockDetailInfo.isManager == true && clockDetailInfo.clockStatus == 'Beginning'" @click="toClockEdit()"><img class="img_16" src="../../images/CreateClock/edit.png" alt=""></p> -->
+            <p v-if="clockDetailInfo.isManager == true " @click="toClockEdit()"><img class="img_16" src="../../images/CreateClock/edit.png" alt=""></p>
           </div>
           <p class="font_24px color_white font_weight_bold margin_top_8" style="">{{clockDetailInfo.title}}</p>
         </div>
@@ -52,25 +53,25 @@
           <p class="color_yellow_light font_weight_700">立即打卡</p>
       </div>
     </div>
-    <div class="clockDataInfo" style="padding:0 16px">
+    <div class="clockDataInfo" style="padding:0 16px;box-sizing:border-box;overflow:hidden">
       <div flex="main:left  cross:top">
         <div class="clock_tab" :class="{'clock_tab_active':RecodTags}" @click="changeTags()">
-        <p>打卡记录</p>
+        <p @click="freshPage(true)">打卡记录</p>
         <div class="active_bar"></div>
         </div>
         <div class="clock_tab margin_left_12" :class="{'clock_tab_active':!RecodTags}" @click="changeTags()">
-        <p>排行榜</p>
+        <p @click="freshPage(true)">排行榜</p>
         <div class="active_bar"></div>
         </div>
       </div>
       <!-- <p>{{clockDetailInfo.isManager}}</p> -->
       <!-- 打卡介绍 -->
       <div class="clock_detail_list" v-show="RecodTags">
-        <ClockList :clockId='clockId' :cuid='cuid' :storeId='storeId' :pageType='pageType' :isManager="clockDetailInfo.isManager" :token ='token'/>
+        <ClockList :clockId='clockId' ref="ClockList" :cuid='cuid' :storeId='storeId' :pageType='pageType' :isManager="clockDetailInfo.isManager" :token ='token' @freshPage='freshPage'/>
       </div>
       <!-- 排行榜 -->
       <div v-show="!RecodTags">
-        <RankList :PraiseRank='PraiseRank' :ClockRank='ClockRank' />
+        <RankList :PraiseRank='PraiseRank' :cuid='cuid' :storeId='storeId' ref="RankList" :ClockRank='ClockRank' />
       </div>
     </div>
 
@@ -108,7 +109,7 @@ export default {
       endDate:'',
       token:'',
       showMore:false,
-      introduce:''
+      introduce:'',
     }
   },
   components: {
@@ -118,7 +119,6 @@ export default {
   mounted(){
     
     this.linkIos()
-    
   },
   beforeMount(){
       window.McDispatcher = this.McDispatcher
@@ -147,15 +147,24 @@ export default {
       param.append("storeId", this.$route.query.storeId)
       param.append("clockId", this.$route.query.clockId)
       axios.post(url,param).then((res)=>{
-        let clockDetailInfo = res.data.data
-        this.clockDetailInfo = clockDetailInfo
-        let sdate = clockDetailInfo.startDate.split(' ')
-        let sdataStr = sdate[0].split('-')
-        this.startDate = sdataStr[0]+'年'+sdataStr[1]+'月'+sdataStr[2]+'日'
-
-        let edate = clockDetailInfo.endDate.split(' ')
-        let edataStr = edate[0].split('-')
-        this.endDate = edataStr[0]+'年'+edataStr[1]+'月'+edataStr[2]+'日'
+        setTimeout(()=>{
+          this.getRankClockList()
+          this.getRankPraiseList()
+          this.init()
+        },200)
+        
+        if(res.data.rusult == 'error'){
+          Toast({
+            message:res.data.msg,
+            duration:1000
+          })
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+        }
+        if(res.data.result == 'success'){
+          let clockDetailInfo = res.data.data
+          this.clockDetailInfo = clockDetailInfo
+          
+        }
        
         if(res.data.result == 'noLogin'){
             if(this.device == 'android'){
@@ -164,6 +173,7 @@ export default {
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
         }
+        
       }).catch((err)=>{
         console.log(err)
       })
@@ -179,7 +189,11 @@ export default {
       }
       if (this.device === 'ios') { 
           
-          window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}');
+          // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}');
+          let aa = this.clockDetailInfo.title
+          // const content = str.replace(/[\r\n]/g, "")
+          let title = aa.replace(/[\r\n]/g, "")
+          window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"CLOCK","clockId":"'+this.clockId+'","storeId":"'+this.$route.query.storeId+'","title":"'+title+'"}')
       }
     },
     
@@ -221,7 +235,7 @@ export default {
     },
     toClockEdit(){
       // /clock/edit  this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"
-      let url = this.Url +'/CreateClock?cuid=' + this.$route.query.cuid + '&storeId=' +this.$route.query.storeId+'&clockId='+this.$route.query.clockId+'&type=edit'
+      let url = this.Url +'/CreateClock?cuid=' + this.$route.query.cuid + '&storeId=' +this.$route.query.storeId+'&clockId='+this.$route.query.clockId+'&type=edit&status='+this.clockDetailInfo.clockStatus
       // window.location.href = url
       if (this.device === 'android') {
           //安卓每个页面方法名不一样
@@ -238,39 +252,35 @@ export default {
     },
     McDispatcher (qury){
                 //iOS获取APP传过来的参数的方法
+        
         this.token = qury.data.token
         if(!qury.data.token){
           window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
         }
-        setTimeout(()=>{
-          this.init()
-          this.getRankClockList()
-          this.getRankPraiseList()
-          
-        },200)
-        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
         this.getClockDetailInfo()
+        this.$refs.ClockList.getClockRecod();
+        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
         
-        this.getClockRecod()
     },
     getParams(msg){
         this.token = msg.token
         if(!msg.token){
           window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
         }
-        setTimeout(()=>{
-          this.getRankClockList()
-          this.getRankPraiseList()
-          this.init()
-        },200)
-        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
         this.getClockDetailInfo()
+        this.$refs.ClockList.getClockRecod();
+        this.$forceUpdate()
         
-        this.getClockRecod()
     },
     linkIos (){
             //给iOS APP传参
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+    },
+    freshPage(msg){
+        if(msg){
+          this.getClockDetailInfo()
+          this.getRankPraiseList()
+        }
     },
     toStore(){
       if (this.device === 'android') {

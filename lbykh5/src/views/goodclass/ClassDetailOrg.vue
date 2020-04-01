@@ -24,7 +24,7 @@
                     <div class="locationinfo">
                         <div class="location">
                             <p><img src="../../images/GoodClass/locayellow.png" alt=""></p>
-                            <p>{{course_detail_data.area}}</p>
+                            <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                         </div>
                         <p>{{course_detail_data.distance}}</p>
                     </div>
@@ -89,9 +89,9 @@
                     </div>
                 </div>
             </div>
-            <!-- <p>{{course_detail_data}}</p> -->
+            
             <!-- 视课 -->
-            <div class="class_pre_video" >
+            <div class="class_pre_video" v-if="device == 'ios' && version == 104">
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -110,8 +110,8 @@
 
                     
                 </div>
-                <div v-if="course_detail_data.videoUrl">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
+                <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :key="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             <!-- 授课老师 -->
@@ -178,7 +178,7 @@
                     <div class="orglocatin">
                         <div class="locainfo">
                             <div>
-                                <p>{{course_detail_data.area}}</p>
+                                <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                                 <!-- <p>{{course_detail_data.detailedAddr}}</p> -->
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}-{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
@@ -223,7 +223,7 @@
         <!-- 预约须知 end-->
 
         <div style="height:165px"></div>
-        <div class="bottom_button">
+        <div class="bottom_button" v-if="version == 104">
             <div flex="main:justify cross:center" style="height:78px;text-align:center">
                 <div style="min-width:90px;">
                     <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.exposureCount}}</p>
@@ -242,6 +242,15 @@
                     <p class="font_12px color_9B9B9B">课程二维码</p>
                 </div>
             </div>
+            <div class="orderbtn">
+                <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
+                <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
+                <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+            </div>
+        </div>
+
+        <div class="bottom_button1" v-if="version != 104">
+            
             <div class="orderbtn">
                 <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
                 <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
@@ -335,7 +344,8 @@ import Orderinfo from '../../components/OrderInfo'
                 pre_index:0,
                 pre_show:false,
                 fileVideoSrc:'',
-                introduce:''
+                introduce:'',
+                version:Number
             }
         },
         methods: {
@@ -501,6 +511,7 @@ import Orderinfo from '../../components/OrderInfo'
                     this.cd_cuid = msg.cuid
                     this.cd_token = msg.token
                     this.cd_storeid = msg.storeId
+                    this.version = Number(msg.version)
                     this.getCourseData(msg.courseId,msg.cuid,msg.storeId,msg.token)
                     
                 },
@@ -523,6 +534,7 @@ import Orderinfo from '../../components/OrderInfo'
                 this.cd_courseid = qury.data.courseId
                 this.cd_token = qury.data.token
                 this.cd_storeid = qury.data.storeId
+                this.version = Number(qury.data.version)
                 this.getCourseData(qury.data.courseId,qury.data.cuid,qury.data.storeId,qury.data.token)
                     //解析传进来的json
                     //给本地变量赋值，并判断经纬度是否为空，为空显示

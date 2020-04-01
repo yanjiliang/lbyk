@@ -449,7 +449,7 @@
     box-sizing: border-box;
 }
 
-.classdetailOrg .orderbtn {
+.bottom_button .orderbtn {
     height: 1.17333rem;
     width: 9.14666rem;
     opacity: 1;
@@ -466,7 +466,7 @@
     font-weight: 400;
 }
 
-.classdetailOrg .orderbtn p:nth-child(1) {
+.bottom_button .orderbtn p:nth-child(1) {
     width: 3.493333rem;
     height: 1.173333rem;
     line-height: 1.173333rem;
@@ -477,7 +477,7 @@
     border-radius: 30px;
 }
 
-.classdetailOrg .orderbtn p:nth-child(2) {
+.bottom_button .orderbtn p:nth-child(2) {
     width: 5.333333rem;
     height: 1.173333rem;
     line-height: 1.173333rem;
@@ -487,6 +487,51 @@
     color: #FFFFFF;
 }
 
+.bottom_button1{
+    width: 10rem;
+    height: 100px;
+    position: fixed;
+    z-index: 199;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+}
+
+.bottom_button1 .orderbtn {
+    height: 1.17333rem;
+    width: 9.14666rem;
+    opacity: 1;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.426666rem;
+    font-weight: 400;
+}
+
+.bottom_button1 .orderbtn p:nth-child(1) {
+    width: 3.493333rem;
+    height: 1.173333rem;
+    line-height: 1.173333rem;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 68, 75, 1);
+    opacity: 1;
+    color: rgba(255, 68, 75, 1);
+    border-radius: 30px;
+}
+
+.bottom_button1 .orderbtn p:nth-child(2) {
+    width: 5.333333rem;
+    height: 1.173333rem;
+    line-height: 1.173333rem;
+    background: rgba(255, 68, 75, 1);
+    opacity: 1;
+    border-radius: 30px;
+    color: #FFFFFF;
+}
 
 /* 详情列表 */
 

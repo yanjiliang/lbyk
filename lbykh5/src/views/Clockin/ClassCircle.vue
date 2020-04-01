@@ -1,6 +1,6 @@
 <template>
     <div class="ClassCircle">
-        <div class="class_info_wrap">
+        <div class="class_info_wrap"  v-if="ClassCircleHead.clockId != '' && LoadingDone == true">
             <div class="class_circle_clock" flex="main:justify cross:center">
                 <div>
                     <p flex="main:left cross:center"><img class="img_10" src="../../images/CreateClock/time.png" alt=""><span class="color_green">进行中的打卡</span></p>
@@ -15,7 +15,7 @@
             </div>
         </div>
         
-        <ClockList  :cuid='cuid' :storeId='storeId' :clockId='ClassCircleHead.clockId' :classId='classId' :pageType='pageType' :isManager='ClassCircleHead.isManager' :token ='token'/>
+        <ClockList  :cuid='cuid' :storeId='storeId' ref="ClockList" :clockId='ClassCircleHead.clockId' :classId='classId' :pageType='pageType' :isManager='ClassCircleHead.isManager' :token ='token' @freshPage='freshPage'/>
         <!-- :clockId='ClassCircleHead.clockId' -->
     </div>
 </template>
@@ -47,14 +47,17 @@ export default {
             clockId:'',
             studentId:'',
             skipUrl:'',
-            token:''
+            token:'',
+            LoadingDone:false
         }
     },
     components:{
         ClockList
     },
     mounted(){
-        
+        setTimeout(()=>{
+            this.LoadingDone = true
+        },200)
         this.linkIos()
     },
     beforeMount(){
@@ -94,13 +97,20 @@ export default {
         },
         toClockTheme(){
             let skipUrl = this.Url + '/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+this.ClassCircleHead.clockId
-            if (this.device === 'android') {
+            if(this.ClassCircleHead.clockId != ''){
+                if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+skipUrl+'"}');
-            }
-            if (this.device === 'ios') { 
-                
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","url": "'+skipUrl+'"}')
+                    window.android.SkipPage('{"linkType": "h5","url": "'+skipUrl+'"}');
+                }
+                if (this.device === 'ios') { 
+                    
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","url": "'+skipUrl+'"}')
+                }
+            }else{
+                Toast({
+                    message:'当前无进行中的打卡活动',
+                    duration:2000
+                })
             }
             
         },
@@ -112,7 +122,7 @@ export default {
             window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
             this.getClassCircleHead()
-            
+            this.$refs.ClockList.getClockRecod();
         },
         getParams(msg){
             this.token = msg.token
@@ -121,11 +131,16 @@ export default {
             window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
             this.getClassCircleHead()
-            
+            this.$refs.ClockList.getClockRecod();
         },
         linkIos (){
                 //给iOS APP传参
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+        },
+        freshPage(msg){
+            if(msg){
+                this.getClassCircleHead()
+            }
         },
         
     }

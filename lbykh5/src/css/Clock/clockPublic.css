@@ -104,8 +104,8 @@
 }
 /* avator */
 .avator{
-    font-size: 0;
-    line-height: 0;
+    /* font-size: 0;
+    line-height: 0; */
 }
 .avator img{
     width: 100%;
@@ -122,8 +122,12 @@
 }
 .avator_48 p{
     width: 48px;
+    height: 48px;
+    border-radius: 50%;
     line-height: 48px;
     text-align: center;
+    /* border: 1px solid red; */
+    font-size: 16px;
     background: #f6f6f6;
     color: #78849e;
     display: inline-block;
@@ -398,7 +402,8 @@
     font-size: 16px;
     line-height: 1.7;
     font-weight: 700;
-    text-align: left;
+    text-align: center;
+    padding: 0 16px;
     white-space: pre-line;
 }
 .show_all{

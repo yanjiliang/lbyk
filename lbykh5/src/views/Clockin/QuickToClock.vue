@@ -22,14 +22,14 @@
       <p @click="afterVideoDelete" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px" ><img style="width:18px;height:18px;display:block" src="../../images/CreateClock/delete.png" alt=""></p>
     </div>
 
-    <div class="margin_top_16" @click="toSelectClass()">
-      <div class="pick_clock_class">
+    <div class="margin_top_16">
+      <div class="pick_clock_class"  @click="showClassPicker = true">
         <van-field readonly clickable right-icon="arrow" placeholder="请选择打卡班级" v-if="hasSelected == false"  />
 
         <div flex="main:left cross:center" v-if="hasSelected == true">
             <div class="avator avator_48">
                 <img v-if="selectedClass[0].studentAvatar" :src="selectedClass[0].studentAvatar" alt="">
-                <p v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.slice(-1,-3)}}</p>
+                <p v-if="!selectedClass[0].studentAvatar">{{selectedClass[0].studentName.substring(selectedClass[0].studentName.length-2,selectedClass[0].studentName.length)}}</p>
             </div>
             <div>
                 <p class="font_17px font_weight_700">{{selectedClass[0].studentName}}</p>
@@ -56,7 +56,7 @@
               <div flex="main:left cross:center">
                   <div class="avator avator_48">
                       <img  v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
-                      <p v-if="!item.studentAvatar">{{item.studentName.slice(-1,-3)}}</p>
+                      <p v-if="!item.studentAvatar">{{item.studentName.substring(item.studentName.length-2,item.studentName.length)}}</p>
                   </div>
                   <div>
                       <p class="font_17px font_weight_700">{{item.studentName}}</p>
@@ -78,7 +78,7 @@
       </div>
     </van-popup>
     
-    <div id="showCover"></div>
+    
     
 
   </div>
@@ -190,13 +190,8 @@ export default {
         ctx.getContext('2d').drawImage(video, 0, 0, ctx.width, ctx.height)
 
         let src = ctx.toDataURL("image/png");
-        let img = document.createElement('img')
-        img.src = src
-        document.getElementById('showCover').appendChild(img)
-        this.coverSrc = src
-        console.log(src)
+        
         this.videoCover = this.translateBase64ImgToFile(src,"videoCover.png","image/png")
-        console.log(this.videoCover)
       },1000)
     },
     afterImageRead(file) {
@@ -223,9 +218,9 @@ export default {
         console.log(this.imgfile)
       }
     },
-    toSelectClass() {
-      this.showClassPicker = true
-    },
+    // toSelectClass() {
+    //   this.showClassPicker = true
+    // },
     quick_clock_select_class(e, index) {
       //控制班级选择
       this.$nextTick(() => {

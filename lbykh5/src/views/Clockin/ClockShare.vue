@@ -1,7 +1,8 @@
 <template>
     <div class="ClockShare">
         
-        <div class="clock_list_wrap">
+        <div v-if="!errResult">
+            <div class="clock_list_wrap">
                 <div class="clock_list_item">
                     <!-- 打卡头部用户信息开始 -->
                     <div flex="main:justify cross:center">
@@ -9,7 +10,7 @@
                         <div flex="main:left cross:center">
                             <div class="avator avator_48">
                                 <img  v-if="ClockResult.studentAvatar" :src="ClockResult.studentAvatar" alt="">
-                                <p v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.slice(-1,-3)}}</p>
+                                <p v-if="!ClockResult.studentAvatar">{{ClockResult.studentName.substring(ClockResult.studentName.length-2,ClockResult.studentName.length)}}</p>
                             </div>
                             <div>
                                 <p class="font_17px font_weight_700">{{ClockResult.studentName}}</p>
@@ -25,7 +26,7 @@
                         </p>
                     </div>
                     <div class="clock_item_content">
-                            <p class="font_18px">{{ClockResult.impression}}</p>
+                            <p class="font_18px" style="white-space: pre-line;">{{ClockResult.impression}}</p>
                     </div>
                     <div class="clock_item_images" v-if="ClockResult.picUrls">
                         <!-- <p>这里是照片区域</p> -->
@@ -41,38 +42,44 @@
                     </van-image-preview>
                     <!-- 图片预览 -->
                     <div class="clock_item_video" v-if="ClockResult.videoUrl">
-                        <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
+                        <H5Video :fileVideoSrc='ClockResult.videoUrl' :videoCover='ClockResult.coverPicUrl' :videoId='ClockResult.videoId'/>
                     </div>
                 </div>
 
             </div>
-        <!-- <p>{{ClockResult}}</p> -->
-        <!-- 机构信息 -->
-        <div>
+            <!-- <p>{{ClockResult}}</p> -->
+            <!-- 机构信息 -->
             <div>
-                <div flex="main:justify cross:center">
-                    <div flex="main:left cross:center">
-                        <img class="img_48" style="margin-right:12px;border-radius:5px;flex-shrink:0" :src="ClockResult.storeAddrInfoDto.logo" alt="">
-                        <div>
-                            <p class="font_17px color_black font_weight_700 line_1">{{ClockResult.storeAddrInfoDto.storeName}}</p>
-                            <p class="font_14px color_gray margin_top_4 line_1">{{ClockResult.storeAddrInfoDto.categoryList.join('/')}}</p>
+                <div>
+                    <div flex="main:justify cross:center">
+                        <div flex="main:left cross:center">
+                            <img class="img_48" style="margin-right:12px;border-radius:5px;flex-shrink:0" :src="ClockResult.storeAddrInfoDto.logo" alt="">
+                            <div>
+                                <p class="font_17px color_black font_weight_700 line_1">{{ClockResult.storeAddrInfoDto.storeName}}</p>
+                                <p class="font_14px color_gray margin_top_4 line_1">{{ClockResult.storeAddrInfoDto.categoryList.join('/')}}</p>
+                            </div>
                         </div>
+                        <div @click="toStore()" style="line-height:30px;padding:0 12px; margin-left:8px; background:#2ac688; color:#fff;border-radius:15px;flex-shrink:0">进店逛逛</div>
                     </div>
-                    <div @click="toStore()" style="line-height:30px;padding:0 12px; margin-left:8px; background:#2ac688; color:#fff;border-radius:15px;flex-shrink:0">进店逛逛</div>
-                </div>
-                <div flex="main:justify cross:center">
-                    <div flex="dir:top main:left">
-                        <p flex="main:left cross:top" class="margin_top_16">
-                            <img class="img_14" style="margin-top:2px" src="../../images/CreateClock/location.png" alt="">
-                            <span class="font_14px margin_left_6 color_gray">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</span>
-                        </p>
+                    <div flex="main:justify cross:center">
+                        <div flex="dir:top main:left">
+                            <p flex="main:left cross:top" class="margin_top_16">
+                                <img class="img_14" style="margin-top:2px" src="../../images/CreateClock/location.png" alt="">
+                                <span class="font_14px margin_left_6 color_gray">{{ClockResult.storeAddrInfoDto.addrInfo}}-{{ClockResult.storeAddrInfoDto.buildingName}}</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- 机构信息 -->
         </div>
-        <!-- 机构信息 -->
         
-        
+        <div v-if="errResult">
+            <div flex="dir:top cross:center" style="margin:66px 0">
+                <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
+                <p class="color_gray font_14px">{{errMsg}}</p>
+            </div>
+        </div>
     </div>
 </template>
 <script  src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -97,6 +104,8 @@ export default {
             pre_show:false,
             preImage:[],
             ClockResult:'',
+            errResult:false,
+            errMsg:''
         }
     },
     mounted(){
@@ -127,19 +136,24 @@ export default {
             // /class-clock-student/detailedClock
             let url = this.ip+'class-clock-student/detailedClock';
             let param = new URLSearchParams()
-            param.append("cuid", 'eYhjQznFDdvZiHz4oXt ')
-            param.append("storeId", 'STORE_Sh8YinETjSwngmo2szC')
-            param.append("clockId", this.$route.query.clockId)
+            param.append("cuid", this.$route.query.cuid)
+            param.append("storeId", this.$route.query.storeId)
+            // param.append("clockId", this.$route.query.clockId)
             param.append("classId", this.$route.query.classId)
             param.append("studentId", this.$route.query.studentId)
             param.append("clockStudentId", this.$route.query.clockStudentId)
             // param.append("courseId", 10)
             axios.post(url,param).then((res)=>{
-                let ClockResult = res.data.data
-                this.ClockResult = ClockResult
-                let logo = ClockResult.storeAddrInfoDto.logo
-                let impression = ClockResult.impression.substring(0,30)
-                let title = ClockResult.title
+                if(res.data.result == 'success'){
+                    let ClockResult = res.data.data
+                    this.ClockResult = ClockResult
+                    let logo = ClockResult.storeAddrInfoDto.logo
+                    let impression = ClockResult.impression.substring(0,30)
+                    let title = ClockResult.title
+                }else{
+                    this.errResult = true
+                    this.errMsg = res.data.msg
+                }
 
                 setTimeout(()=>{
                     this.getWechatShare(title,logo,impression)

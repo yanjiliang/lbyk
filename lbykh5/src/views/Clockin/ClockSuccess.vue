@@ -113,7 +113,7 @@ export default {
             let param = new URLSearchParams()
             param.append("cuid", this.$route.query.cuid)
             param.append("storeId", this.$route.query.storeId)
-            param.append("clockId", this.$route.query.clockId)
+            // param.append("clockId", this.$route.query.clockId)
             param.append("classId", this.$route.query.classId)
             param.append("studentId", this.$route.query.studentId)
             param.append("clockStudentId", this.$route.query.clockStudentId)
@@ -138,7 +138,7 @@ export default {
             let content = str.replace(/[\r\n]/g, "")
             let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
             let logo = this.ClockResult.storeAddrInfoDto.logo
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
             
         }
     }

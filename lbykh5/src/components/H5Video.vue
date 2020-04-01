@@ -7,10 +7,11 @@
             @ended="onPlayerEnded()"
             :options="playerOptions">
         </video-player>
+        
         <div class="videoTitle" v-if="videoTitle" v-show="showTitle"><p>{{videoRemarks}}</p></div>
         <div class="videoBottom" v-show="showNum" flex="main:justify cross:center">
             <p>{{videoDuration}}</p>
-            <p v-if="playCount != 0">{{playCount}}次播放</p>
+            <p v-if="playCount != undefind">{{playCount+'次播放'}}</p>
         </div>
         <div class="videoPlayBtn" v-show="showPlayBtn" flex="main:center cross:center">
             <img class="img_60" @click="onPlayerPlay()" src="../images/CreateClock/play.png" alt="">
@@ -59,7 +60,7 @@ export default {
                 autoplay: false, // 如果为true,浏览器准备好时开始回放。
                 muted: false, // 默认情况下将会消除任何音频。
                 loop: false, // 是否视频一结束就重新开始。
-                preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+                preload: 'none', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
                 language: 'zh-CN',
                 aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
                 fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
@@ -80,6 +81,17 @@ export default {
             },
             videoTitle:true,
             hasCounted:true
+        }
+    },
+    watch:{
+        fileVideoSrc:{
+            deep:true,
+            change(newVal,oldVal){
+                
+                if(newVal != oldVal){
+                    this.$forceUpdate()
+                }
+            }
         }
     },
     methods:{
@@ -126,18 +138,26 @@ export default {
         }
     },
     mounted(){
-        var videoTime = setInterval(()=>{
-            let videoDuration = this.$refs.videoPlayer.player.duration()
+        
+        setTimeout(()=>{
+            var videoTime = setInterval(()=>{
+                let videoDuration = this.$refs.videoPlayer.player.duration()
+                
+                if(videoDuration){
+                    let min = parseInt(videoDuration /60)
+                    let sec = parseInt((videoDuration /60 -min)*60)
+                    min < 10 ? min = '0'+min : min
+                    sec < 10 ? sec = '0'+sec : sec
+                    this.videoDuration = min+':'+sec 
+                    clearInterval(videoTime)
+                }else{
+                    // this.videoDuration = this.$refs.videoPlayer.player
+                    // console.log(this.$refs.videoPlayer.player.cache_)
+                    // clearInterval(videoTime)
+                }
+            },100)
             
-            if(videoDuration){
-                let min = parseInt(videoDuration /60)
-                let sec = parseInt((videoDuration /60 -min)*60)
-                min < 10 ? min = '0'+min : min
-                sec < 10 ? sec = '0'+sec : sec
-                this.videoDuration = min+':'+sec 
-                clearInterval(videoTime)
-            }
-        },300)
+        },200)
         
     }
 }

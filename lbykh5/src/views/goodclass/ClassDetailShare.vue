@@ -25,7 +25,7 @@
                     <div class="locationinfo">
                         <div class="location">
                             <p><img src="../../images/GoodClass/locayellow.png" alt=""></p>
-                            <p>{{course_detail_data.area}}</p>
+                            <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                         </div>
                         <p v-show="course_detail_data.distance">{{course_detail_data.distance}}</p>
                     </div>
@@ -72,7 +72,7 @@
             
 
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0">
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios'">
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 
-                <div v-if="course_detail_data.videoUrl">
+                <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
                     <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
@@ -146,7 +146,7 @@
                     <div class="orglocatin">
                         <div class="locainfo">
                             <div>
-                                <p>{{course_detail_data.area}}</p>
+                                <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
@@ -179,7 +179,7 @@
                     <p>课程介绍</p>
                 </div>
                 <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
+                    <p ref="bandinfo" id="info" v-html="introduce"></p>
                     <!-- <p>{{orgindex_data.introduce}}</p> -->
                     <!-- <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p> -->
                 </div>
@@ -312,7 +312,7 @@ export default {
                 infoHeight:'',
                 pre_index:0,
                 pre_show:false,
-                introduce:''
+                introduce:'',
             }
     },
     methods: {

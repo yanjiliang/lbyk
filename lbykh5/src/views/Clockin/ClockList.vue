@@ -1,17 +1,29 @@
 <template>
     <div class="ClockList">
         <!-- 打卡用户列表 -->
-        <!-- <p>{{pageType}}</p> -->
+        <!-- <p>{{isManager}}</p> -->
         <div v-if="ClockRecod.length != 0">
             <div class="clock_list_wrap">
-                <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="index">
+                <div class="clock_list_item" v-for="(item, index) in ClockRecod" :key="item.clockStudentId">
                     <!-- 打卡头部用户信息开始 -->
                     <div flex="main:justify cross:center">
                         <!-- 用户信息开始 -->
-                        <div flex="main:left cross:center" @click="toClockPersonal(index)">
+                        <div flex="main:left cross:center" v-if="pageType != 'ClockRecod'" @click="toClockPersonal(index)">
                             <div class="avator avator_48">
                                 <img  v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
-                                <p v-if="!item.studentAvatar">{{item.studentName.slice(-1,-3)}}</p>
+                                <p v-if="!item.studentAvatar">{{item.studentName.substring(item.studentName.length-2,item.studentName.length)}}</p>
+                                
+                            </div>
+                            <div>
+                                <p class="font_17px font_weight_700">{{item.studentName}}</p>
+                                <p class="font_14px color_gray_light margin_top_4">{{item.clockDate.slice(0,16)}}</p>
+                            </div>
+                        </div>
+                        <div flex="main:left cross:center" v-if="pageType == 'ClockRecod'">
+                            <div class="avator avator_48">
+                                <img  v-if="item.studentAvatar" :src="item.studentAvatar" alt="">
+                                <p v-if="!item.studentAvatar">{{item.studentName.substring(item.studentName.length-2,item.studentName.length)}}</p>
+                                
                             </div>
                             <div>
                                 <p class="font_17px font_weight_700">{{item.studentName}}</p>
@@ -20,20 +32,18 @@
                         </div>
                         <!-- 用户信息结束 -->
                         <!-- 操作区开始 -->
-                        <div class="ellipsis" @click="toMoreHandle(index)">
+                        <div class="ellipsis" v-if="isManager || item.isShowDel" @click="toMoreHandle(index)">
                             <img src="../../images/CreateClock/ellipsis.png">
                         </div>
                         <!-- 操作区结束 -->
                     </div>
                     <!-- 打卡头部用户信息结束 -->
-                    <div class="clock_item_content" @click="ToclockSuccess(index)">
-                            <p style="white-space: pre-line;" >{{item.impression}}</p>
+                    <div class="clock_item_content">
+                            <p style="white-space: pre-line;"  @click="ToclockSuccess(index)">{{item.impression}}</p>
                     </div>
                     <div class="clock_item_images" v-if="item.picUrls">
                         <!-- <p>这里是照片区域</p> -->
-                        <!-- <ul flex="main:left cross:center" >
-                            <li v-for="(item1, index1) in item.picUrls" :key="index1"  @click="preClick(index1,index)"><img :src="item1" alt=""></li>
-                        </ul> -->
+                        
                         <ul flex="main:left cross:center" v-if="item.picUrls.length ==1">
                             <li @click="preClick(0,index)"><img :src="item.picUrls[0]" alt=""></li>
                         </ul>
@@ -56,14 +66,17 @@
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
-                    <div class="clock_item_video" v-if="item.videoUrl">
-                        <H5Video :fileVideoSrc='item.videoUrl' :playCount='item.playCount' :videoCover="item.videoCoverUrl" :videoRemarks="item.videoRemarks" :videoId="item.videoId"/>
+
+                    <!-- 视频区域 -->
+                    <div class="clock_item_video" v-if="item.videoUrl" style="margin:12px 0">
+                        <H5Video :fileVideoSrc='item.videoUrl' :playCount='item.playCount' :videoCover="item.coverPicUrl" :videoRemarks="item.videoRemarks" :videoId="item.videoId"/>
                     </div>
+                    <!-- 视频区域 -->
                     <div>
-                        <p class="color_green margin_top_12" @click="toThemedetail(index)">
+                        <p  v-if="pageType == 'ClassCircle'" class="color_green margin_top_12" @click="toThemedetail(index)">
                             <span class="clockin_title_ellipsis"># {{item.title}}</span>
                         </p>
-                        <p>{{}}</p>
+                        <p v-if="pageType == 'ClockDetail'" class="font_14px color_gray_light margin_top_12">来自<span class="color_green "> {{item.className}}</span></p>
                     </div>
                     <div class="margin_top_16 color_gray_light font_14px">
                         <div flex="main:justify cross:center">
@@ -84,6 +97,7 @@
                 </div>
 
             </div>
+            <!-- <p>{{ClockRecod}}</p> -->
         </div>
         <!-- 打卡用户列表 -->
         
@@ -91,7 +105,7 @@
         <div style="margin-top:8px;background:#FFFFFF;box-sizing:border-box;padding-top:20px" v-if="ClockRecod.length == 0 && isLoadDom == true">
             <div flex="dir:top cross:center">
                 <img style="width:180px;height:180px;display:block" src="../../assets/images/nodata2x.png" alt="">
-                <p class="font_14px color_gray_light">暂无打卡数据</p>
+                <p class="font_14px color_gray_light">暂无打卡记录</p>
             </div>
         </div>
 
@@ -133,7 +147,7 @@ export default {
         },
         token:{
             type:String
-        }
+        },
     },
     data(){
         return{
@@ -148,7 +162,7 @@ export default {
             MoreControl:false,
             selectRecod:'',
             aa:'',
-            actions:[{name:'设置优质打卡'},{name:'删除'}],
+            actions:[{name:'设为优质打卡'},{name:'删除'}],
             morehandleindex:Number
         }
     },
@@ -156,16 +170,18 @@ export default {
         H5Video
     },
     mounted(){
-        
+        // this.getClockRecod()
         this.isLoadDom = true
-        setTimeout(()=>{
-            this.getClockRecod()
-            
-            if(this.isManager == false) this.actions=[{name:'删除'}]
-        },100)
-        
+        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+    },
+    watch(){
+
     },
     methods:{
+        reLoad(){
+            // this.$forceUpdate()
+            Toast('更新了')
+        },
         getClockRecod(){
             let url = this.ip+'class-clock-student/clockRecord';
             let param = new URLSearchParams()
@@ -186,15 +202,14 @@ export default {
             }
             // param.append("storeId", this.storeId)
             
-            param.append("textLength", 300)
+            param.append("textLength", 100)
             param.append("pageNo", 1)
-            param.append("pageSize", 10)
+            param.append("pageSize", 100)
             axios.post(url,param).then((res)=>{
                 let ClockRecod = res.data.data
-                // for(let i=0;i<ClockRecod.data.length;i++){
-                //     ClockRecod.data[i].impression = ClockRecod.data[i].impression.replace(/\r/g,"<br/>")
-                // }
                 this.ClockRecod = ClockRecod.data
+                
+                // this.$forceUpdate()
                 
                 if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
@@ -247,6 +262,7 @@ export default {
             param.append("cuid", this.$route.query.cuid)
             param.append("storeId", this.$route.query.storeId)
             param.append("clockStudentId", clockStudentId)
+            param.append("userToken", this.token)
             axios.post(url,param).then((res)=>{
                 // Toast(res.data.result)
                 if(res.data.result == 'success'){
@@ -254,6 +270,7 @@ export default {
                     this.ClockRecod[index].praiseCustomerNum = Number(this.ClockRecod[index].praiseCustomerNum) + 1
                     //praiseCustomerDtos
                     this.ClockRecod[index].praiseCustomerDtos.push(res.data.data)
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
                 }
             
             }).catch((err)=>{
@@ -286,12 +303,53 @@ export default {
             let logo =''
             this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
             
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+this.clockId+'"}')
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
             
         },
         toMoreHandle(index){
             this.morehandleindex = index
-            this.MoreControl = true
+            
+            if(this.pageType == 'ClockRecod'){
+                if(this.isManager == 'true'){
+                // Toast('我是管理员')
+                    if(this.ClockRecod[index].highQuality){
+                // Toast('已经是优质打卡了')
+                        this.actions = [{name:'取消优质打卡'},{name:'删除'}]
+                    }else{
+                        this.actions = [{name:'设为优质打卡'},{name:'删除'}]
+                    }
+                    this.MoreControl = true
+                }else{
+                    if(this.ClockRecod[index].isShowDel){
+                        this.actions=[{name:'删除'}]
+                        this.MoreControl = true
+                    }else{
+                        
+                        this.MoreControl = false
+                    }
+                }
+            }else{
+                if(this.isManager == true){
+                // Toast('我是管理员')
+                    if(this.ClockRecod[index].highQuality){
+                // Toast('已经是优质打卡了')
+                        this.actions = [{name:'取消优质打卡'},{name:'删除'}]
+                    }else{
+                        this.actions = [{name:'设为优质打卡'},{name:'删除'}]
+                    }
+                    this.MoreControl = true
+                }else{
+                    if(this.ClockRecod[index].isShowDel){
+                        this.actions=[{name:'删除'}]
+                        this.MoreControl = true
+                    }else{
+                        this.MoreControl = false
+                    }
+                }
+            }
+            
+            
+            
         },
         moreHandle(item,index){
             
@@ -311,9 +369,14 @@ export default {
                     param.append("clockStudentId", clockStudentId)
                     axios.post(url,param).then((res)=>{
                         // if(res.data.result == 'success') window.location.reload()
-                        if(res.data.result == 'success') this.getClockRecod()
+                        if(res.data.result == 'success') {
+                            this.getClockRecod()
+                            this.$emit('freshPage',true)
+                        }else{
+                            Toast(res.data.msg)
+                        }
                         
-                        else Toast(res.data.msg)
+                        // else Toast(res.data.msg)
                     })
                     this.MoreControl = false
                 }).catch(() => {
@@ -323,7 +386,7 @@ export default {
                 });
                 
             }
-            if(item.name == '设置优质打卡') {
+            if(item.name == '设为优质打卡') {
                 // 设置为优质打卡的操作
                 let url = this.ip +'/class-clock-student/setHighQuality'
                 let clockStudentId  = this.ClockRecod[this.morehandleindex].clockStudentId
@@ -332,11 +395,41 @@ export default {
                 param.append("userToken", this.token)
                 param.append("storeId", this.ClockRecod[index].storeId)
                 param.append("clockStudentId", clockStudentId)
+                param.append("isHighQuality", true)
                 axios.post(url,param).then((res)=>{
                     this.MoreControl = false
                     
                     if(res.data.result == 'success') {
                         Toast.success('设置成功')
+                        setTimeout(()=>{
+                            this.getClockRecod()
+                            this.$emit('freshPage',true)
+                        },800)
+                    }else{
+                        Toast(res.data.msg)
+                    }
+                })
+            }
+            if(item.name == '取消优质打卡') {
+                // 设置为优质打卡的操作
+                let url = this.ip +'/class-clock-student/setHighQuality'
+                let clockStudentId  = this.ClockRecod[this.morehandleindex].clockStudentId
+                let param = new URLSearchParams()
+                param.append("cuid", this.$route.query.cuid)
+                param.append("userToken", this.token)
+                param.append("storeId", this.ClockRecod[index].storeId)
+                param.append("clockStudentId", clockStudentId)
+                 
+                param.append("isHighQuality", false)
+                axios.post(url,param).then((res)=>{
+                    this.MoreControl = false
+                    
+                    if(res.data.result == 'success') {
+                        Toast.success('设置成功')
+                        setTimeout(()=>{ 
+                            this.getClockRecod()
+                            this.$emit('freshPage',true)
+                        },800)
                     }else{
                         Toast(res.data.msg)
                     }
@@ -354,23 +447,24 @@ export default {
             let clockStudentId = this.ClockRecod[index].clockStudentId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/Clockinfo?clockId='+this.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+clockStudentId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/Clockinfo?clockId='+this.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+clockStudentId+'&cuid='+this.cuid+'&storeId='+storeId+'&isManager='+this.isManager+'"}');
             }
             if (this.device === 'ios') { 
                 //self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/Clockinfo?clockId='+this.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+clockStudentId+'&cuid='+this.cuid+'&storeId='+storeId+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/Clockinfo?clockId='+this.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+clockStudentId+'&cuid='+this.cuid+'&storeId='+storeId+'&isManager='+this.isManager+'"}')
             }
         },
         toThemedetail(index){
             //
             let storeId = this.ClockRecod[index].storeId
+            let clockId = this.ClockRecod[index].clockId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                 window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
             }
             if (this.device === 'ios') { 
                 //self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","isBlackItem":"false","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","isBlackItem":"false","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}')
             }
         }
         

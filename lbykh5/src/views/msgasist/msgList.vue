@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem">
+                    <div class="navitem" v-if="version != 104">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div> -->
+                    </div>
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -28,7 +28,13 @@
                             <p>课时记录</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <!-- <div class="navitem" v-if="device == 'ios'">
+                        <a @click.prevent="toClock()" href="">
+                            <img src="../../images/msgasist/dk2x.png" alt="">
+                            <p>圈子/打卡</p>
+                        </a>
+                    </div> -->
+                    <div class="navitem" v-if="version == 104">
                         <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>圈子/打卡</p>
@@ -37,7 +43,7 @@
                 </div>
             </div>
 
-            
+            <!-- <p>{{version}}</p> -->
 
             <ul>
                 <li class="msglistli" v-for="(item,index) in Asistlist" :key="index">
@@ -97,7 +103,8 @@ export default {
             msg_identity:'',
             employStatus:'',
             staffId:'',
-            isManager:Boolean
+            isManager:Boolean,
+            version:Number
         }
     },
     
@@ -122,6 +129,7 @@ export default {
             this.msg_storeid = qury.data.storeId
             this.msg_classid = qury.data.classId
             this.msg_studentid = qury.data.studentId
+            this.version = Number(qury.data.version)
 
             this.$nextTick(()=>{
                 this.getData(qury.data.mcid,qury.data.storeId,qury.data.cuid,qury.data.token)
@@ -143,6 +151,7 @@ export default {
             this.msg_studentid = msg.studentId
             this.lng = msg.longitude
             this.lat = msg.latitude
+            this.version = Number(msg.version)
             
             this.getData(msg.mcid,msg.storeId,msg.cuid,msg.token)
             

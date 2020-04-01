@@ -35,7 +35,7 @@
                             <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300 && device == 'ios'" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
                         <!-- <p>{{base_time}}</p> -->
                         <div class="store_data_info">
@@ -80,10 +80,15 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(255, 71, 102, .2);" src="../../images/mine/skjl2xnew.png" alt=""></p>
                                     <p>上课记录</p>
                                 </div>
-                                <div class="list_item" @click.prevent="ClickTo('DK')">
+                                <!-- <div class="list_item" @click.prevent="ClickTo('DK')">
+                                    <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
+                                    <p>打卡</p>
+                                </div> -->
+                                <div class="list_item" v-if="device == 'ios' && version == 104" @click.prevent="ClickTo('DK')">
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div>
+                                <div v-if="device == 'android'" class="list_item"></div>
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>
@@ -110,7 +115,7 @@
                                 <p>更懂教育的互联网营销</p>
                                 
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300 && device == 'ios'" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -182,7 +187,8 @@ export default {
             market_time:'',
             token:'',
             marketFunc:false,
-            baseFunc:false
+            baseFunc:false,
+            version:Number
         }
     },
     beforeMount() {
@@ -216,7 +222,13 @@ export default {
                 }
             },
         toRenew(func){
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW","renewType":"'+func+'" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
+            if (this.device === 'android') {
+                window.android.SkipPage('{"linkType": "h5","scheme": "RENEW","renewType":"'+func+'" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
+            }
+            if (this.device === 'ios') { 
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW","renewType":"'+func+'" ,"url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.storeId+'"}')
+            }
+            
         },
         McDispatcher (qury){
             //接受数据
@@ -224,6 +236,7 @@ export default {
             this.cuid =qury.data.cuid
             this.storeId = qury.data.storeId
             this.token = qury.data.token
+            this.version = Number(qury.data.version)
             this.getStoreManaData(qury.data.cuid,qury.data.storeId,qury.data.token)
             // this.getFuctionInfo(this.cuid,this.storeId,qury.data.token)
         },
@@ -360,6 +373,7 @@ export default {
             this.cuid =msg.cuid;
             this.storeId =msg.storeId;
             this.token = msg.token
+            this.version = Number(msg.version)
             this.getStoreManaData(msg.cuid,msg.storeId,msg.token)
         },
         store_mana_skipe_orgindex (qury){

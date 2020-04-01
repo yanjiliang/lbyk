@@ -34,7 +34,7 @@
     </div>
 
     <!-- 打卡活动列表  start -->
-    <van-list v-model="loading" :finished="finished" :offset='10' @load="lazyLoading">
+    <!-- <van-list v-model="loading" :finished="finished" :offset='10' @load="lazyLoading"> -->
         <div class="clock_mana_list" v-if="clockList.count != 0">
           <div class="clock_mana_list_item" v-for="(item, index) in clockList.data" :key="index" @click="goToClockDetail(index)">
             <div flex="main:justify cross:center">
@@ -54,9 +54,9 @@
             </div>
           </div>
         </div>
-    </van-list>
+    <!-- </van-list> -->
     <!-- 打卡活动列表  end -->
-    <!-- <p>{{clockManaInfo}}</p> -->
+    <!-- <p>{{funcStatus}}</p> -->
     
     
   </div>
@@ -81,11 +81,14 @@ export default {
       finished:false,
       cuid:this.$route.query.cuid,
       storeId:this.$route.query.storeId,
-      token:''
+      token:'',
+      funcStatus:'',
+      funcEffective:Boolean,
+      funcOpen:Boolean
     }
   },
   mounted(){
-    this.getClockManaInfo(1)
+    this.linkIos()
   },
   beforeMount(){
     window.McDispatcher = this.McDispatcher
@@ -93,24 +96,47 @@ export default {
   },
   methods:{
     // /clock/clockManagePage
-    lazyLoading(){
-      let page = this.page +1;
-      if(this.finished){
-        return this.loading = false
-      }else{
-        this.getClockManaInfo(page)
-      }
-    },
+    // lazyLoading(){
+    //   let page = this.page +1;
+    //   if(this.finished){
+    //     return this.loading = false
+    //   }else{
+    //     this.getClockManaInfo(page)
+    //   }
+    // },
     
     createClock(){
       // this.$router.push({path:'/CreateClock'})
-      if (this.device === 'android') {
-                    //安卓每个页面方法名不一样
-          window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}');
-      }
-      if (this.device === 'ios') { 
-          //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
-  　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}')
+      if(this.funcOpen){
+        if(this.funcEffective){
+          if(this.clockManaInfo.clockId != ''){
+            if (this.device === 'android') {
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}');
+            }
+            if (this.device === 'ios') { 
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/CreateClock?cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId+'&type=new"}')
+            }
+          }else{
+            Toast({
+              message:'本班级暂无打卡主题活动，等发布后再来吧',
+              duration:0,
+              forbidClick:true
+            })
+          }
+        }else{
+          // Toast('教务服务已到期，请续费后使用本功能')
+          Toast({
+            message:'教务服务已到期，请续费后使用本功能',
+            duration:0,
+            forbidClick:true
+          })
+        }
+      }else{
+        Toast({
+          message:'请开通教务服务后，使用本功能',
+          duration:0,
+          forbidClick:true
+        })
       }
     },
     goToClockDetail(index){
@@ -165,6 +191,8 @@ export default {
     McDispatcher (qury){
                 //iOS获取APP传过来的参数的方法
         this.token = qury.data.token
+        this.getClockManaInfo(1)
+        this.checkFunc()
         if(!qury.data.token){
           window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
         }
@@ -172,6 +200,8 @@ export default {
     },
     getParams(msg){
         this.token = msg.token
+        this.getClockManaInfo(1)
+        this.checkFunc()
         if(!msg.token){
           window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
         }
@@ -181,7 +211,22 @@ export default {
             //给iOS APP传参
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
     },
-    
+    checkFunc(){
+      // /storeFunctional/checkOpening
+      let url = this.ip+'storeFunctional/checkOpening';
+      //http://192.168.3.22:8091/course/pageLsit?pageNo=1&pageSize=100&cuid=grRF653ZPCGg2RCHNRl&storeId=STORE_7j2L9E9Znrx1pi3zE1r
+      let param = new URLSearchParams()
+      param.append("cuid", this.$route.query.cuid)
+      param.append("storeId", this.$route.query.storeId)
+      param.append("functional", 'BaseFunctional')
+      param.append("userToken", this.token)
+      axios.post(url,param).then((res)=>{
+        let funcStatus = res.data.data
+        this.funcStatus = funcStatus
+        this.funcEffective = funcStatus.effective
+        this.funcOpen = funcStatus.openStatus
+      })
+    }
   }
 }
 </script>
@@ -189,7 +234,8 @@ export default {
 .create_clock_mana
     max-width 540px
     margin 0 auto
-    
+    height 100vh
+    background #FAF8F8
     .clock_mana_wrap
         padding 30px 16px 35px 16px
         background #FAF8F8

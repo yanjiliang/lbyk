@@ -17,8 +17,9 @@
         </div>
         <!-- //logo -->
         <div class="download">
-            <p v-if="device == 'android'" style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://apps.apple.com/cn/app/id1498163739?l=zh&ls=1">下载APP</a></p>
-            <p v-if="device == 'ios'" style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://lbyk.oss-cn-shenzhen.aliyuncs.com/apk/labiyouke.apk">下载APP</a></p>
+            <!-- <p v-if="device == 'android'" style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://apps.apple.com/cn/app/id1498163739?l=zh&ls=1">下载APP</a></p>
+            <p v-if="device == 'ios'" style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://lbyk.oss-cn-shenzhen.aliyuncs.com/apk/labiyouke.apk">下载APP</a></p> -->
+            <p style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk">下载APP</a></p>
         </div>
     </div>
 </template>

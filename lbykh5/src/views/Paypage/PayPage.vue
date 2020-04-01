@@ -38,7 +38,7 @@
                 </p>
                 
             </div> -->
-
+            
            
 
         </div>
@@ -147,14 +147,36 @@ export default {
         linkIos : function (){
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
         },
+        getParams(msg){
+            this.userInfo = msg
+            this.cuid = msg.cuid
+            this.storeId = msg.storeId
+            this.token = msg.token
+            this.orderId = msg.orderId
+            this.clientIp = msg.clientIp
+            this.getOrderinfo(msg.orderId,msg.cuid,msg.token)
+        },
         
         toPay(){
-            if(this.selected == 1){
+            
+            if(this.device == 'android'){
+                if(this.selected == 1){
                 // Toast('微信支付')
-                this.paying(this.cuid,this.orderId,'wx','h5',this.clientIp,'H5',this.token)
-            }else if(this.selected == 2){
-                // Toast('支付宝支付')
-                this.paying(this.cuid,this.orderId,'ali','app',this.clientIp,'iOS',this.token)
+                    // this.paying(this.cuid,this.orderId,'wx','app',this.clientIp,'Android',this.token)
+                   
+                    window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","orderId":"'+this.orderId+'"}')
+                }else if(this.selected == 2){
+                    // Toast('支付宝支付')
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ALIPAY","orderId":"'+this.orderId+'"}')
+                }
+            }else if(this.device == 'ios'){
+                if(this.selected == 1){
+                // Toast('微信支付')
+                    this.paying(this.cuid,this.orderId,'wx','h5',this.clientIp,'H5',this.token)
+                }else if(this.selected == 2){
+                    // Toast('支付宝支付')
+                    this.paying(this.cuid,this.orderId,'ali','app',this.clientIp,'iOS',this.token)
+                }
             }
         },
         paying(cuid,orderId,payMethod,payType,clientIp,clientType,token){
@@ -172,6 +194,7 @@ export default {
                 axios.post(url,param).then((res)=>{
                     const ress = res.data.data
                     const url = ress.parameterMap.mwebUrl
+                    
                     if(res.data.result == 'noLogin'){
                         if(this.device == 'android'){
                             window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
@@ -180,7 +203,12 @@ export default {
                         }
                     }
                     if(ress.parameterMap.mwebUrl){
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        }
                         // window.location.href = url
                         // window.open(url)
                     }
@@ -203,13 +231,10 @@ export default {
         // this.timingCut(new Date())
         this.linkIos()
         
-        
-        
-
     },
     beforeMount(){
         window.McDispatcher = this.McDispatcher
-        
+        window.getParams = this.getParams
     }
 }
 </script>

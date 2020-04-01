@@ -3,7 +3,7 @@
         <!-- 打卡用户列表 -->
         
         <div>
-            <ClockList :storeId='storeId' :cuid='cuid' :studentId='studentId' :pageType='pageType' :isManager='isManager' />
+            <ClockList :storeId='storeId' :cuid='cuid' ref="ClockList" :studentId='studentId' :pageType='pageType' :token ='token' :isManager='isManager' />
         </div>
         <!-- 打卡用户列表 -->
     </div>
@@ -36,6 +36,7 @@ export default {
             studentId:this.$route.query.studentId,
             clockId:this.$route.query.clockId,
             isManager:this.$route.query.isManager,
+            token:''
         }
     },
     components:{
@@ -43,9 +44,12 @@ export default {
     },
     mounted(){
         
+        this.linkIos()
     },
     beforeMount(){
-        this.getPersonalInfo()
+        window.McDispatcher = this.McDispatcher
+        window.getParams = this.getParams
+        
         // setTimeout(()=>{
         //     document.title = this.personalInfo.data.studentName+'的打卡记录'
         // },100)
@@ -102,7 +106,30 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             })
-        }
+        },
+        McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+            this.token = qury.data.token
+            if(!qury.data.token){
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
+            this.getPersonalInfo()
+            this.$refs.ClockList.getClockRecod()
+        },
+        getParams(msg){
+            this.token = msg.token
+            if(!msg.token){
+            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+            }
+            this.getPersonalInfo()
+            this.$refs.ClockList.getClockRecod()
+            // window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
+            
+        },
+        linkIos (){
+                //给iOS APP传参
+            window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+        },
     }
 }
 </script>

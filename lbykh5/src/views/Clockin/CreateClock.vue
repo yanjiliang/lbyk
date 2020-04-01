@@ -69,10 +69,16 @@
     <van-divider />
     <!-- 打卡介绍 end -->
     
+    <!-- <p>{{status}}</p> -->
     <!-- <p>{{token}}</p> -->
     <div style="height:30px"></div>
-    <div class="create_colock_btn" @click="toClock(selectedClassId,clock_theme,selectedDate,clock_content)">
+    <div class="create_colock_btn" v-if="type == 'new' || status == 'Finished'" @click="toClock(selectedClassId,clock_theme,selectedDate,clock_content)">
       <p>立即发布</p>
+    </div>
+
+    <div flex="main:justify cross:center" style="text-align:center" v-if="type == 'edit' && status == 'Beginning'">
+      <p class="font_16px color_gray_light" style="width:35%;border:1px solid #b0b3ba;padding:14px 0;border-radius:28px" @click="finishClock()">结束打卡</p>
+      <p class="font_16px color_white" style="width:60%;padding:14px 0;border-radius:28px;background:#2ac688" @click="toClock(selectedClassId,clock_theme,selectedDate,clock_content)">立即发布</p>
     </div>
 
   </div>
@@ -90,7 +96,7 @@
 <script>
 import 'flex.css'
 import '../../css/Clock/clockPublic.css'
-import {Toast,Notify} from 'vant'
+import {Toast,Notify, Dialog} from 'vant'
 import '../../../public/resetVant.css'
 const axios = require('axios')
 export default {
@@ -123,9 +129,10 @@ export default {
       cuid:this.$route.query.cuid,
       storeId:this.$route.query.storeId,
       type :this.$route.query.type,
+      status:this.$route.query.status,
       token:'',
-      hasDone:false
-
+      hasDone:false,
+      
     }
   },
   mounted() {
@@ -321,6 +328,7 @@ export default {
                 param.append("endDate", endDate)
                 param.append("introduce", introduce)
                 param.append("clockId",this.clockInfo.clockId)
+                param.append("userToken", this.token)
                 this.hasDone = true
                 axios.post(url,param).then((res)=>{
                   
@@ -333,8 +341,9 @@ export default {
                         
                     }
                   if(res.data.result == 'success'){
-                    this.hasDone = false
+                    
                     Toast.success('发布成功！')
+                    this.hasDone = false
                     setTimeout(()=>{
                       // this.$router.push({path:'/CreateClockMana',params:'121'})
                       if (this.device === 'android') {
@@ -347,6 +356,7 @@ export default {
                       }
                     },1200)
                   }else if(res.data.result == 'error'){
+                    this.hasDone = false
                     Toast(res.data.msg)
                   }
                   
@@ -382,7 +392,10 @@ export default {
           this.clock_theme = clockInfo.title
           this.clock_content = clockInfo.introduce
           this.selectCourse = clockInfo.courseTitle
-          this.currentDate = clockInfo.endDate.slice(0,10)
+          // this.currentDate = clockInfo.endDate.slice(0,10)
+          let data = clockInfo.endDate.slice(0,10)
+          let handleDate = data.split('-')
+          this.currentDate = handleDate[0] +'年'+handleDate[1]+'月'+handleDate[2]+'日'
           this.selectedDate = clockInfo.endDate
           this.selectedClass = clockInfo.clockClassList[0].className
           this.selectedClassId = clockInfo.clockClassList[0].classId
@@ -390,6 +403,31 @@ export default {
         }
       }).catch((err)=>{
         console.log(err)
+      })
+    },
+    finishClock(){
+      // /clock/finishClock
+      Dialog.confirm({
+        message:'确定结束吗？',
+        confirmButtonColor:'#2ac688'
+      }).then(()=>{
+        let url = this.ip+'clock/finishClock';
+        let param = new URLSearchParams()
+        param.append("isHandFinish", true)
+        param.append("cuid", this.$route.query.cuid)
+        param.append("storeId", this.$route.query.storeId)
+        param.append("clockId", this.$route.query.clockId)
+        param.append("userToken", this.token)
+        axios.post(url,param).then((res)=>{
+          if(res.data.result == 'success'){
+            //
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+          }else{
+            Toast(res.data.msg)
+          }
+        })
+      }).catch(()=>{
+        //
       })
     },
     McDispatcher (qury){

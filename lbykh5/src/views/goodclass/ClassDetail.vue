@@ -30,7 +30,7 @@
                     <div class="locationinfo">
                         <div class="location">
                             <p><img src="../../images/GoodClass/locayellow.png" alt=""></p>
-                            <p>{{course_detail_data.area}}</p>
+                            <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                         </div>
                         <p>{{course_detail_data.distance}}</p>
                     
@@ -79,7 +79,7 @@
 
             
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0">
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios' && version == 104">
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -87,10 +87,11 @@
                     </div>
                 </div>
                 
-                <div v-if="course_detail_data.videoUrl">
+                <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
                     <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
+            
             <!-- 授课老师 -->
             <div class="classteacher" v-if="course_detail_data.teacherInfoDtoList.length != 0">
                 <div class="title">
@@ -143,7 +144,7 @@
                     <div class="orglocatin">
                         <div class="locainfo">
                             <div>
-                                <p>{{course_detail_data.area}}</p>
+                                <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
@@ -177,7 +178,7 @@
                 </div>
                 
                 <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info" v-html="introduce"></p>
+                    <p ref="bandinfo" id="info" v-html="introduce"></p>
                     <!-- <p>{{orgindex_data.introduce}}</p> -->
                     <!-- <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p> -->
                 </div>
@@ -296,7 +297,8 @@ export default {
             spans:Object,
             pre_index:0,
             pre_show:false,
-            introduce:''
+            introduce:'',
+            version:Number
         }
     },
     components:{
@@ -584,6 +586,7 @@ export default {
                 this.cd_courseid = msg.courseId
                 this.token = msg.token
                 this.cd_cuid = msg.cuid
+                this.version = Number(msg.version)
                 this.$nextTick(()=>{
                     this.getCourseData(msg.courseId,msg.longitude,msg.latitude,msg.cuid,msg.token)
                 })
@@ -605,6 +608,7 @@ export default {
             this.cd_cuid = qury.data.cuid
             this.cd_courseid = qury.data.courseId
             this.token = qury.data.token
+            this.version = Number(qury.data.version)
             this.center = '['+this.lng+','+this.lat+']'
             this.$nextTick(()=>{
                 this.getCourseData(qury.data.courseId,qury.data.longitude,qury.data.latitude,qury.data.cuid,qury.data.token)

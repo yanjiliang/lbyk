@@ -112,6 +112,10 @@ export default {
         this.getClockResult()
         
     },
+    destroyed(){
+        let vidoes = document.getElementsByTagName('video')
+        console.log(vidoes)
+    },
     methods:{
         preClick(index){
             this.pre_show=true;

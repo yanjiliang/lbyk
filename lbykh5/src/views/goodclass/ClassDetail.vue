@@ -80,6 +80,7 @@
             
             <!-- 视课 -->
             <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios' && version == 104">
+            <!-- <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios' "> -->
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -88,7 +89,7 @@
                 </div>
                 
                 <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
+                    <H5Video ref="h5video" :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             
@@ -342,7 +343,7 @@ export default {
             }
             var tagsbox = document.getElementById('tagsbox')
             this.$nextTick(()=>{
-                
+                let tagsbox = document.getElementById('tagsbox')
                 console.log(tagsbox)
                 this.scroll = new  BScroll(tagsbox,{
                     startX:0,
@@ -370,12 +371,14 @@ export default {
         
         showPopup : function (token){
             //控制弹出页面的显示隐藏
+            this.$refs.h5video.onPlayerPause()
             if(token == ''){
                 if(this.device == 'android'){
                     Toast('未登陆，请登录后再预约！')
                 }
                 if(this.device == 'ios'){
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    this.$refs.h5video.onPlayerPause()
                 }
             }else{
                 this.ordershow = true
@@ -405,8 +408,10 @@ export default {
                 if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
                         window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        this.$refs.h5video.onPlayerPause()
                     }else if(this.device == 'ios'){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        this.$refs.h5video.onPlayerPause()
                     }
                 }
             }).catch((err)=>{
@@ -443,8 +448,10 @@ export default {
                             }else if(res.data.result == 'noLogin'){ 
                                 if(this.device == 'android'){
                                     window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                    this.$refs.h5video.onPlayerPause()
                                 }else if(this.device == 'ios'){
                                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                    this.$refs.h5video.onPlayerPause()
                                 }
                             }else if(res.data.result == 'error'){
                                 if(res.data.msg === '课程已下架'){
@@ -491,16 +498,16 @@ export default {
                 }else if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
                         window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        this.$refs.h5video.onPlayerPause()
                     }else if(this.device == 'ios'){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        this.$refs.h5video.onPlayerPause()
                     }
                 }else if(res.data.result == 'success'){
                     this.course_detail_data = res.data.data
                     this.res_result = res.data.result //课程已下架的返回结果为false
                     this.res_msg = res.data.msg
-                   if(this.res_result == 'error'){
-                        this.$router.push({ name:'ClassSoldOutApp',params:{ resmsg: this.res_msg }})
-                    }
+                   
                    this.imagelist = this.course_detail_data.picList
                    let loca = this.course_detail_data.storeAddrInfoDto
                    this.center = [loca.longitude,loca.latitude]
@@ -553,6 +560,8 @@ export default {
                         // Toast('字符春')
                         this.introduce = this.course_detail_data.introduce
                     }
+                }else if(res.data.result == 'error'){
+                    this.$router.push({ name:'ClassSoldOutApp',params:{ resmsg: this.res_msg }})
                 }
             })
         },
@@ -572,7 +581,7 @@ export default {
                 // const content = str.replace(/[\r\n]/g, "")
                 let categoryName = this.course_detail_data.categoryName
                 let classHourNum = this.course_detail_data.classHourNum
-                let area = this.course_detail_data.area
+                let area = this.course_detail_data.storeAddrInfoDto.area
                 let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                 const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","typeId":"'+this.cd_courseid+'","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                 window.android.SkipPage(aa)
@@ -596,10 +605,11 @@ export default {
             if(qury.type == 'share'){
                 let categoryName = this.course_detail_data.categoryName
                 let classHourNum = this.course_detail_data.classHourNum
-                let area = this.course_detail_data.area
+                let area = this.course_detail_data.storeAddrInfoDto.area
                 let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                 const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","type":"course","typeId":"'+this.cd_courseid+'"}'
                 window.webkit.messageHandlers.skipPage.postMessage(aa)
+                this.$refs.h5video.onPlayerPause()
             }
             this.classdetail_userInfo = qury
             // this.lat = Object.prototype.toString.call(this.userInfo)
@@ -637,9 +647,11 @@ export default {
             
             if (this.device === 'android') {
                 window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'","content":"'+addrInfo+'"}');
+                this.$refs.h5video.onPlayerPause()
             }
             if (this.device === 'ios') { 
         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'","content":"'+addrInfo+'"}')
+                this.$refs.h5video.onPlayerPause()
             }
         
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
@@ -650,9 +662,11 @@ export default {
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","storeId":"'+this.cd_storeid+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
+                    this.$refs.h5video.onPlayerPause()
                 }
                 if (this.device === 'ios') { 
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","jump":"true","storeId":"'+this.cd_storeid+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
+                    this.$refs.h5video.onPlayerPause()
                 }
             },
         cd_skipe_teacher (){
@@ -660,10 +674,12 @@ export default {
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/teacher","title":"授课老师","scheme":"SKLS","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}');
+                    this.$refs.h5video.onPlayerPause()
                 }
                 if (this.device === 'ios') { 
                     
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/teacher","title":"授课老师","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                    this.$refs.h5video.onPlayerPause()
                 }
             },
             reCover(){

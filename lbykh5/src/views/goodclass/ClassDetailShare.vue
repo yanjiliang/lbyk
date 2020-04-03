@@ -72,7 +72,7 @@
             
 
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios'">
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 ">
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -81,7 +81,7 @@
                 </div>
                 
                 <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
+                    <H5Video ref="h5video" :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             
@@ -356,7 +356,7 @@ export default {
                 })
             })
             for(var j =0;j<this.spans.length;j++){
-                const aa = tagsbox[j]
+                let aa = tagsbox[j]
                 this.scroll = new  BScroll(aa,{
                     startX:0,
                     click:true,
@@ -667,33 +667,38 @@ export default {
         },
         getWechatShare(){
                 setTimeout(()=>{
-                    const location = window.location.href
-                    console.log(location)
-                    const bandinfo  = this.course_detail_data.introduce.substring(0,30)
-                    const introduce = bandinfo.replace(/[\r\n]/g, "")
-                    console.log(introduce)
+                    let categoryName = this.course_detail_data.categoryName
+                    let classHourNum = this.course_detail_data.classHourNum
+                    let area = this.course_detail_data.storeAddrInfoDto.area
+                    let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
+                    let location = window.location.href
+                    console.log(content)
                     let url = this.ip +'weChat/share-public-parameter'
                     let param = new URLSearchParams()
                     param.append("url", location)
                     axios.post(url,param).then((res)=>{
-                        this.wechatSharedata = res.data.data
+                        let wechatSharedata = res.data.data
                         wx.config({
                             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                            appId: this.wechatSharedata.appId, // 必填，公众号的唯一标识
-                            timestamp: this.wechatSharedata.timestamp, // 必填，生成签名的时间戳
-                            nonceStr: this.wechatSharedata.nonceStr, // 必填，生成签名的随机串
-                            signature: this.wechatSharedata.signature,// 必填，签名，见附录1
+                            appId: wechatSharedata.appId, // 必填，公众号的唯一标识
+                            timestamp: wechatSharedata.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: wechatSharedata.nonceStr, // 必填，生成签名的随机串
+                            signature: wechatSharedata.signature,// 必填，签名，见附录1
                             jsApiList: ['onMenuShareAppMessage','onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                             
                         });
-                        
-                        
-
+                        let categoryName = this.course_detail_data.categoryName
+                        let classHourNum = this.course_detail_data.classHourNum
+                        let area = this.course_detail_data.storeAddrInfoDto.area
+                        let logo = this.imagelist[0]
+                        let title = this.course_detail_data.courseTitle
+                        let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
+                        console.log(title)
                         window.share_config = {
                             'share': {
-                                'imgUrl': this.course_detail_data.storeAddrInfoDto.logo, // 这里是需要展示的图标
-                                'desc': introduce, // 这是分享展示的摘要
-                                'title': this.course_detail_data.courseTitle, // 这是分享展示卡片的标题
+                                'imgUrl': logo, // 这里是需要展示的图标
+                                'desc': content, // 这是分享展示的摘要
+                                'title': title, // 这是分享展示卡片的标题
                                 'link': window.location.href, // 这里是分享的网址
                                 'success': function(rr) {
                                     //console.log('成功' + JSON.stringify(rr))
@@ -709,7 +714,7 @@ export default {
                         });
                     
                     })
-                },100)
+                },800)
             
             
             
@@ -731,7 +736,6 @@ export default {
             }
         },100)
         
-        
     },
     beforeMount(){
         this.getCourseData()
@@ -742,6 +746,9 @@ export default {
         
         this.isApp()
 
+    },
+    beforeDestroy(){
+        this.$refs.h5video.onPlayerPause()
     }
 }
 

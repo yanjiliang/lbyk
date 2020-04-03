@@ -1,5 +1,5 @@
 <template>
-    <div class="ClassSoldOutApp">
+    <div class="ClassSoldOutApp" style="padding-top:200px">
         <div style="margin-top:108px;margin-bottom:12px">
             <img style="width:129px;height:129px" src="../../images/GoodClass/classsoldout/offshelforder.png" alt="">
         </div>

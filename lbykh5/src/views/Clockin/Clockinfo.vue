@@ -18,7 +18,7 @@
                         </div>
                         <!-- 用户信息结束 -->
                         <!-- 操作区开始 -->
-                        <div class="ellipsis" @click="toMoreHandle()">
+                        <div class="ellipsis" v-if="ClockResult.isManager || ClockResult.isShowDel" @click="toMoreHandle()">
                             <img src="../../images/CreateClock/ellipsis.png">
                         </div>
                         <!-- 操作区结束 -->
@@ -40,9 +40,12 @@
                         </template>
                     </van-image-preview>
                     <!-- 图片预览 -->
+
+                    <!-- 视频 -->
                     <div class="clock_item_video" v-if="ClockResult.videoUrl">
-                        <H5Video :fileVideoSrc='ClockResult.videoUrl'/>
+                        <H5Video ref="h5video" :fileVideoSrc='ClockResult.videoUrl' :videoCover='ClockResult.coverPicUrl' :videoId='ClockResult.videoId' :playCount='ClockResult.playCount'/>
                     </div>
+                    <!-- 视频 -->
                     <div>
                         <p class="color_green margin_top_12" @click="toThemedetail(index)">
                             <span class="clockin_title_ellipsis"># {{ClockResult.title}}</span>
@@ -158,7 +161,7 @@ export default {
             let logo = this.ClockResult.storeAddrInfoDto.logo
             
             window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
-            
+            this.$refs.h5video.onPlayerPause()
         },
         toMoreHandle(){
             
@@ -185,15 +188,18 @@ export default {
         },
         toThemedetail(){
             //
+            
             let storeId = this.ClockResult.storeId
-            let clockId = this.ClockResult.clockId
+            let clockId = this.$route.query.clockId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                 window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
+                this.$refs.h5video.onPlayerPause()
             }
             if (this.device === 'ios') { 
                 //self.Url + '/ClockSuccess?clockId='+self.$route.query.clockId+'&studentId='+studentId+'&classId='+classId+'&clockStudentId='+res.data.data+'&cuid='+self.$route.query.cuid+'&storeId='+self.$route.query.storeId;
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","isBlackItem":"false","url": "'+this.Url+'/ClockDetail?clockId='+clockId+'&cuid='+this.$route.query.cuid+'&storeId='+storeId+'"}')
+                this.$refs.h5video.onPlayerPause()
             }
         },
         moreHandle(item){

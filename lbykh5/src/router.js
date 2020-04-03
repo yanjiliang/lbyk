@@ -378,6 +378,78 @@ const router = new Router({
             },
             component: () => import('./views/Clockin/Clockinfo.vue')
         },
+
+        {
+            path: '/AgentIndex',
+            name: 'AgentIndex',
+            meta: {
+                title: '代理服务'
+            },
+            component: () => import('./views/Agent/AgentIndex.vue')
+        },
+
+        {
+            path: '/AgentRules',
+            name: 'AgentRules',
+            meta: {
+                title: '代理政策及规则'
+            },
+            component: () => import('./views/Agent/AgentRules.vue')
+        },
+
+        {
+            path: '/AgentInviteRecod',
+            name: 'AgentInviteRecod',
+            meta: {
+                title: '邀请记录'
+            },
+            component: () => import('./views/Agent/AgentInviteRecod.vue')
+        },
+
+        {
+            path: '/AgentSchool',
+            name: 'AgentSchool',
+            meta: {
+                title: '营销学院'
+            },
+            component: () => import('./views/Agent/AgentSchool.vue')
+        },
+
+        {
+            path: '/Brands',
+            name: 'Brands',
+            meta: {
+                title: '品牌介绍'
+            },
+            component: () => import('./views/Agent/Brands.vue')
+        },
+
+        {
+            path: '/ServiceIndex',
+            name: 'ServiceIndex',
+            meta: {
+                title: '服务及价格介绍'
+            },
+            component: () => import('./views/Agent/ServiceIndex.vue')
+        },
+
+        {
+            path: '/FundsDetail',
+            name: 'FundsDetail',
+            meta: {
+                title: '资金明细'
+            },
+            component: () => import('./views/Agent/FundsDetail.vue')
+        },
+
+        {
+            path: '/StoreDetail',
+            name: 'StoreDetail',
+            meta: {
+                title: '门店详情'
+            },
+            component: () => import('./views/Agent/StoreDetail.vue')
+        },
     ]
 })
 

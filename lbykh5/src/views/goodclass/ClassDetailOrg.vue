@@ -92,6 +92,7 @@
             
             <!-- 视课 -->
             <div class="class_pre_video" v-if="device == 'ios' && version == 104">
+            <!-- <div class="class_pre_video" v-if="device == 'ios'"> -->
                 <div class="title">
                     <div class="class_video">
                         <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
@@ -111,7 +112,7 @@
                     
                 </div>
                 <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
-                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :key="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
+                    <H5Video ref="h5video" :fileVideoSrc="course_detail_data.videoUrl" :key="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
             <!-- 授课老师 -->
@@ -353,6 +354,7 @@ import Orderinfo from '../../components/OrderInfo'
                 //http://192.168.3.26:8089/h5/ClassDetailShare?courseId=COURSE_ixQHyUfaqWR7DkZS4WT&from=singlemessage&isappinstalled=0
                 let url = this.Url + '/ClassDetailShare?courseId='+this.cd_courseid
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "QRCODE" ,"url": "'+url+'","logo":"'+this.course_detail_data.storeAddrInfoDto.logo+'"}')
+                this.$refs.h5video.onPlayerPause()
             },
             preClick(index){
                 this.pre_show=true;
@@ -367,36 +369,35 @@ import Orderinfo from '../../components/OrderInfo'
             },
             swipSpan(){
                 const tags = this.$refs.tags
-            console.log(tagsbox)
-            for(var i =0;i<this.spans.length;i++){
-                let width = this.spans[i].labelList.length * 66  
-                console.log(width)
-                // document.getElementById('tags')[i].style.width= width + 'px'
-                tags[i].style.width = width + 'px'
-            }
-            var tagsbox = document.getElementById('tagsbox')
-            this.$nextTick(()=>{
-                
-                console.log(tagsbox)
-                this.scroll = new  BScroll(tagsbox,{
-                    startX:0,
-                    click:true,
-                    scrollX:true,
-                    scrollY:false,
-                    eventPassthrough:'vertical',
+                for(var i =0;i<this.spans.length;i++){
+                    let width = this.spans[i].labelList.length * 66  
+                    console.log(width)
+                    // document.getElementById('tags')[i].style.width= width + 'px'
+                    tags[i].style.width = width + 'px'
+                }
+                var tagsbox = document.getElementById('tagsbox')
+                this.$nextTick(()=>{
+                    var tagsbox = document.getElementById('tagsbox')
+                    console.log(tagsbox)
+                    this.scroll = new  BScroll(tagsbox,{
+                        startX:0,
+                        click:true,
+                        scrollX:true,
+                        scrollY:false,
+                        eventPassthrough:'vertical',
+                    })
                 })
-            })
-            for(var j =0;j<this.spans.length;j++){
-                const aa = tagsbox[j]
-                this.scroll = new  BScroll(aa,{
-                    startX:0,
-                    click:true,
-                    scrollX:true,
-                    scrollY:false,
-                    eventPassthrough:'vertical',
-                })
-            }
-        },
+                for(var j =0;j<this.spans.length;j++){
+                    let aa = tagsbox[j]
+                    this.scroll = new  BScroll(aa,{
+                        startX:0,
+                        click:true,
+                        scrollX:true,
+                        scrollY:false,
+                        eventPassthrough:'vertical',
+                    })
+                }
+            },
             showPopup : function (){
                 //控制弹出页面的显示隐藏
                 this.ordershow = true
@@ -495,7 +496,7 @@ import Orderinfo from '../../components/OrderInfo'
                 if(msg.type == 'share'){
                     let categoryName = this.course_detail_data.categoryName
                     let classHourNum = this.course_detail_data.classHourNum
-                    let area = this.course_detail_data.area
+                    let area = this.course_detail_data.storeAddrInfoDto.area
                     let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                     const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","typeId":"'+this.cd_courseid+'","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                     window.android.SkipPage(aa)
@@ -521,7 +522,7 @@ import Orderinfo from '../../components/OrderInfo'
                 if(qury.type == 'share'){
                     let categoryName = this.course_detail_data.categoryName
                     let classHourNum = this.course_detail_data.classHourNum
-                    let area = this.course_detail_data.area
+                    let area = this.course_detail_data.storeAddrInfoDto.area
                     let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
                     const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","type":"course","typeId":"'+this.cd_courseid+'"}'
                     window.webkit.messageHandlers.skipPage.postMessage(aa)
@@ -559,10 +560,11 @@ import Orderinfo from '../../components/OrderInfo'
                 if (this.device === 'android') {
                     
                     window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'","content":"'+addrInfo+'"}');
-                    
+                    this.$refs.h5video.onPlayerPause()
                 }
                 if (this.device === 'ios') { 
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'","content":"'+addrInfo+'"}')
+                    this.$refs.h5video.onPlayerPause()
                 }
             
                 // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
@@ -575,10 +577,12 @@ import Orderinfo from '../../components/OrderInfo'
                     if (this.device === 'android') {
                         //安卓每个页面方法名不一样
                         window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/teacher","title":"授课老师","scheme":"SKLS","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}');
+                        this.$refs.h5video.onPlayerPause()
                     }
                     if (this.device === 'ios') { 
                         
                 　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/teacher","title":"授课老师","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                        this.$refs.h5video.onPlayerPause()
                     }
                 },
             pre_edit_page(qury,token){
@@ -587,6 +591,7 @@ import Orderinfo from '../../components/OrderInfo'
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}');
+                    this.$refs.h5video.onPlayerPause()
                 }
                 if (this.device === 'ios') { 
                     
@@ -596,8 +601,10 @@ import Orderinfo from '../../components/OrderInfo'
                         if(qury === 'VIDEO'){
                         // course_detail_data.videoUrl
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'","videoUrl":"'+this.course_detail_data.videoUrl+'","videoRemarks":"'+this.course_detail_data.videoRemarks+'","videoCoverUrl":"'+this.course_detail_data.videoCoverUrl+'"}')
+                            this.$refs.h5video.onPlayerPause()
                         }else{
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                            this.$refs.h5video.onPlayerPause()
                         }
                         
                     }
@@ -613,10 +620,12 @@ import Orderinfo from '../../components/OrderInfo'
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/OrgIndexMana","title":"机构主页","storeId":"'+this.cd_storeid+'"}');
+                    this.$refs.h5video.onPlayerPause()
                 }
                 if (this.device === 'ios') { 
                     
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/OrgIndexMana","title":"机构主页","jump":"true","storeId":"'+this.cd_storeid+'"}')
+                    this.$refs.h5video.onPlayerPause()
                 }
             },
             lowerShelf(storeId,courseId,cuid,token){
@@ -647,6 +656,7 @@ import Orderinfo from '../../components/OrderInfo'
                             
                             // window.location.reload()
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+                            this.$refs.h5video.onPlayerPause()
                         })
                     }).catch((err)=>{
                         console.log(err)
@@ -710,7 +720,8 @@ import Orderinfo from '../../components/OrderInfo'
             window.getShareParams = this.getShareParams
             this.getCourseId()
             this.isApp()
-        }
+        },
+        
     }
 </script>
 

@@ -1,0 +1,177 @@
+{
+  "id": "1679716",
+  "name": "agent",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11488030",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e74d",
+      "unicode_decimal": 59213
+    },
+    {
+      "icon_id": "11488129",
+      "name": "share",
+      "font_class": "share",
+      "unicode": "e764",
+      "unicode_decimal": 59236
+    },
+    {
+      "icon_id": "6743486",
+      "name": "拍照",
+      "font_class": "paizhao",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "11487977",
+      "name": "arrow-right",
+      "font_class": "arrow-right",
+      "unicode": "e743",
+      "unicode_decimal": 59203
+    },
+    {
+      "icon_id": "11487978",
+      "name": "arrow-lift",
+      "font_class": "arrow-lift",
+      "unicode": "e744",
+      "unicode_decimal": 59204
+    },
+    {
+      "icon_id": "11487982",
+      "name": "arrow-up",
+      "font_class": "arrow-up",
+      "unicode": "e745",
+      "unicode_decimal": 59205
+    },
+    {
+      "icon_id": "11488104",
+      "name": "QRcode",
+      "font_class": "QRcode",
+      "unicode": "e75e",
+      "unicode_decimal": 59230
+    },
+    {
+      "icon_id": "11488109",
+      "name": "resonse rate",
+      "font_class": "resonserate",
+      "unicode": "e75f",
+      "unicode_decimal": 59231
+    },
+    {
+      "icon_id": "11488170",
+      "name": "store",
+      "font_class": "store",
+      "unicode": "e76f",
+      "unicode_decimal": 59247
+    },
+    {
+      "icon_id": "11488225",
+      "name": "add-fill",
+      "font_class": "add-fill",
+      "unicode": "e777",
+      "unicode_decimal": 59255
+    },
+    {
+      "icon_id": "11488238",
+      "name": "clock-fill",
+      "font_class": "clock-fill",
+      "unicode": "e77b",
+      "unicode_decimal": 59259
+    },
+    {
+      "icon_id": "11488274",
+      "name": "help",
+      "font_class": "help",
+      "unicode": "e782",
+      "unicode_decimal": 59266
+    },
+    {
+      "icon_id": "11488300",
+      "name": "ranking list-fill",
+      "font_class": "rankinglist-fill",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "11488301",
+      "name": "reduce-fill",
+      "font_class": "reduce-fill",
+      "unicode": "e789",
+      "unicode_decimal": 59273
+    },
+    {
+      "icon_id": "11488302",
+      "name": "reeor-fill",
+      "font_class": "reeor-fill",
+      "unicode": "e78a",
+      "unicode_decimal": 59274
+    },
+    {
+      "icon_id": "11488306",
+      "name": "prompt-fill",
+      "font_class": "prompt-fill",
+      "unicode": "e78b",
+      "unicode_decimal": 59275
+    },
+    {
+      "icon_id": "11488326",
+      "name": "success-fill",
+      "font_class": "success-fill",
+      "unicode": "e78d",
+      "unicode_decimal": 59277
+    },
+    {
+      "icon_id": "11488334",
+      "name": "trust-fill",
+      "font_class": "trust-fill",
+      "unicode": "e78f",
+      "unicode_decimal": 59279
+    },
+    {
+      "icon_id": "11488335",
+      "name": "vip-fill",
+      "font_class": "vip-fill",
+      "unicode": "e790",
+      "unicode_decimal": 59280
+    },
+    {
+      "icon_id": "11494510",
+      "name": "brand-fill",
+      "font_class": "brand-fill",
+      "unicode": "e79d",
+      "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "11494945",
+      "name": "message center-fill",
+      "font_class": "messagecenter-fill",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
+      "icon_id": "11674772",
+      "name": "feed-logo-fill",
+      "font_class": "feed-logo-fill",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
+    },
+    {
+      "icon_id": "12011691",
+      "name": "arrow-down",
+      "font_class": "arrow-down",
+      "unicode": "e7b2",
+      "unicode_decimal": 59314
+    },
+    {
+      "icon_id": "13087830",
+      "name": "结汇",
+      "font_class": "jiehui",
+      "unicode": "e7c4",
+      "unicode_decimal": 59332
+    }
+  ]
+}

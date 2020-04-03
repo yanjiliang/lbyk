@@ -64,7 +64,7 @@
         <div class="active_bar"></div>
         </div>
       </div>
-      <!-- <p>{{clockDetailInfo.isManager}}</p> -->
+      <!-- <p>{{typeof(clockDetailInfo.isManager)}}</p> -->
       <!-- 打卡介绍 -->
       <div class="clock_detail_list" v-show="RecodTags">
         <ClockList :clockId='clockId' ref="ClockList" :cuid='cuid' :storeId='storeId' :pageType='pageType' :isManager="clockDetailInfo.isManager" :token ='token' @freshPage='freshPage'/>
@@ -124,6 +124,7 @@ export default {
       window.McDispatcher = this.McDispatcher
       window.getParams = this.getParams
   },
+  
   methods:{
 
     init(){
@@ -169,8 +170,10 @@ export default {
         if(res.data.result == 'noLogin'){
             if(this.device == 'android'){
                 window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                this.$refs.ClockList.pauseVideo()
             }else if(this.device == 'ios'){
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                this.$refs.ClockList.pauseVideo()
             }
         }
         
@@ -194,6 +197,7 @@ export default {
           // const content = str.replace(/[\r\n]/g, "")
           let title = aa.replace(/[\r\n]/g, "")
           window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"CLOCK","clockId":"'+this.clockId+'","storeId":"'+this.$route.query.storeId+'","title":"'+title+'"}')
+          this.$refs.ClockList.pauseVideo()
       }
     },
     
@@ -240,10 +244,13 @@ export default {
       if (this.device === 'android') {
           //安卓每个页面方法名不一样
           window.android.SkipPage('{"linkType": "h5","url": "'+url+'"}');
+          this.$refs.ClockList.pauseVideo()
       }
-      if (this.device === 'ios') { 
+      if (this.device === 'ios') {
           
           window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'"}');
+          this.$refs.ClockList.pauseVideo()
+          
       }
       
     },
@@ -259,6 +266,7 @@ export default {
         }
         this.getClockDetailInfo()
         this.$refs.ClockList.getClockRecod();
+        
         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK","url":"'+this.Url+'/CreateClockMana"}')
         
     },

@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        
+        <!-- <p>{{typeof(ClassCircleHead.isManager)}}</p> -->
         <ClockList  :cuid='cuid' :storeId='storeId' ref="ClockList" :clockId='ClassCircleHead.clockId' :classId='classId' :pageType='pageType' :isManager='ClassCircleHead.isManager' :token ='token' @freshPage='freshPage'/>
         <!-- :clockId='ClassCircleHead.clockId' -->
     </div>
@@ -96,15 +96,18 @@ export default {
             })
         },
         toClockTheme(){
+            
             let skipUrl = this.Url + '/ClockDetail?cuid='+this.cuid+'&storeId='+this.storeId+'&clockId='+this.ClassCircleHead.clockId
             if(this.ClassCircleHead.clockId != ''){
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     window.android.SkipPage('{"linkType": "h5","url": "'+skipUrl+'"}');
+                    this.$refs.ClockList.pauseVideo()
                 }
                 if (this.device === 'ios') { 
                     
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme":"H5PAGE","url": "'+skipUrl+'"}')
+                    this.$refs.ClockList.pauseVideo()
                 }
             }else{
                 Toast({

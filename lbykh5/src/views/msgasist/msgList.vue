@@ -2,7 +2,7 @@
 
     <div class="msgList">
             <div class="navbox" v-if="type == 'classStudent' || type == 'classTeacher'">
-                <span class="orglocation">{{msgorg_data.storeName}}</span>
+                <a class="msg_orgin" @click.prevent="msg_skipe_orgindex('JGZY')"><span class="orglocation">{{msgorg_data.storeName}}<img src="../../images/msgasist/return2.png"></span></a>
                 <div class="nav" >
                     <div class="navitem">
                         <a @click.prevent="ClickTo('LXJG')" href="">
@@ -10,7 +10,7 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <div class="navitem">
+                    <div class="navitem" v-if="version != 104">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
@@ -28,18 +28,29 @@
                             <p>课时记录</p>
                         </a>
                     </div>
+                    <!-- <div class="navitem" v-if="device == 'ios'">
+                        <a @click.prevent="toClock()" href="">
+                            <img src="../../images/msgasist/dk2x.png" alt="">
+                            <p>圈子/打卡</p>
+                        </a>
+                    </div> -->
+                    <div class="navitem" v-if="version == 104">
+                        <a @click.prevent="toClock()" href="">
+                            <img src="../../images/msgasist/dk2x.png" alt="">
+                            <p>圈子/打卡</p>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- <p>{{type}}</p>
-            <p>{{msg_identity}}</p> -->
+            <!-- <p>{{version}}</p> -->
 
             <ul>
-                <li class="msglistli" v-for="(item,index) in Asistlist" :key="index" @click.prevent="msg_skipe_teacher(index)">
+                <li class="msglistli" v-for="(item,index) in Asistlist" :key="index">
                     <div class="msgtime">
                         <p>{{item.sendTime}}</p>
                     </div>
-                    <div class="msgbox">
+                    <div class="msgbox" @click.prevent="msg_skipe_teacher(index)">
                         <div class="msgtitlebox">
                             <i v-if="item.icon"><img src="../../images/msgasist/sktx.png" alt=""></i>
                             <span class="msgtitle" v-if="item.title">
@@ -57,7 +68,7 @@
             </ul>
 
             
-            
+        
     </div>
 
 </template>
@@ -91,7 +102,9 @@ export default {
             parameter:'',
             msg_identity:'',
             employStatus:'',
-            staffId:''
+            staffId:'',
+            isManager:Boolean,
+            version:Number
         }
     },
     
@@ -112,12 +125,13 @@ export default {
             this.msg_userInfo = qury
             this.mcid = qury.data.mcid
             this.type = qury.data.type
+            this.msg_cuid = qury.data.cuid
             this.msg_storeid = qury.data.storeId
             this.msg_classid = qury.data.classId
             this.msg_studentid = qury.data.studentId
+            this.version = Number(qury.data.version)
 
             this.$nextTick(()=>{
-                // this.getData(qury.data.mcid)
                 this.getData(qury.data.mcid,qury.data.storeId,qury.data.cuid,qury.data.token)
                 this.getorgphone(qury.data.storeId,qury.data.cuid,qury.data.token)
                 this.getStaffInfo(qury.data.cuid,qury.data.cuid,qury.data.storeId,qury.data.classId,qury.data.token)
@@ -131,25 +145,28 @@ export default {
             this.msg_userInfo = msg
             this.mcid = msg.mcid
             this.type = msg.type
+            this.msg_cuid = msg.cuid
             this.msg_storeid = msg.storeId
             this.msg_classid = msg.classId
             this.msg_studentid = msg.studentId
             this.lng = msg.longitude
             this.lat = msg.latitude
+            this.version = Number(msg.version)
             
             this.getData(msg.mcid,msg.storeId,msg.cuid,msg.token)
             
             this.getorgphone(msg.storeId,msg.cuid,msg.token)
-            this.getStaffInfo(msg.cuid,msg.staffCuId,msg.storeId,msg.classId,msg.token)
+            this.getStaffInfo(msg.cuid,msg.cuid,msg.storeId,msg.classId,msg.token)
+            this.getStaffId(msg.cuid,msg.cuid,msg.storeId,msg.token)
         },
         ClickTo : function (qury){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'","type":"'+this.type+'"}');
+                window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","isManager":"'+this.isManager+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'","type":"'+this.type+'"}');
             }
             if (this.device === 'ios') { 
                 //Toast(this.msg_identity)
-        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
+        　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.msg_storeid+'","staffId":"'+this.staffId+'","classId":"'+this.msg_classid+'","Phonenumber":"'+this.phone+'","studentId":"'+this.msg_studentid+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
             }
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
             //scheme 类型命名规范：例：员工管理-YGGL  首字母大写 
@@ -165,9 +182,18 @@ export default {
             param.append("cuid", cuid)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                
                 this.msglist_data = res.data.data
                 this.Asistlist = this.msglist_data.data
-                
+                this.msg_studentid = this.Asistlist.parameter.studentId
+                this.msg_classid = this.Asistlist.parameter.classId
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
                 // msgLinkDtoList
             }).catch((err)=>{
                 console.log(err)
@@ -184,18 +210,29 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.msg_staffinfo_data = res.data.data
-                
-                
+                this.isManager = this.msg_staffinfo_data.manager
                 this.msg_staffinfo_data.working === true ? this.employStatus = '1' : this.employStatus = '0';
-                if(this.type == 'classTeacher'){
-                    //this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                    if(this.msg_staffinfo_data.roleList){
-                        this.msg_identity = this.msg_staffinfo_data.roleList[0]
-                    }else{
-                        this.msg_identity = 'teacher'
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                     }
-                }else if(this.type == 'classStudent'){
+                }
+                if(this.type == 'classStudent'){
                     this.msg_identity = 'student'
+                }else{
+                    let len = this.msg_staffinfo_data.roleList.length
+                    let list = this.msg_staffinfo_data.roleList
+                    for(let i=0;i<len;i++){
+                        if(list[i] === 'attendOfficer'){
+                            this.msg_identity = 'attendOfficer'
+                            return
+                        }else{
+                            this.msg_identity = 'teacher'
+                        }
+                    }
+                    
                 }
             }).catch((err)=>{
                 console.log(err)
@@ -210,6 +247,13 @@ export default {
             param.append("storeId", storeId)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
                 this.staffId = res.data.data.staffId
             })
         },
@@ -223,6 +267,13 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.msgorg_data = res.data.data
                 this.phone = this.msgorg_data.servicePhone
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
             }).catch((err)=>{
                 console.log(err)
             })
@@ -233,6 +284,32 @@ export default {
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
                     // this.$router.push({name:'Teacher',params:{storeId:this.cd_storeid,courseId:this.cd_courseid}})
+                    if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'noJump'){
+                        return
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'app'){
+                        //跳APP页面的方法调用
+                        let qury = this.Asistlist[index].msgLinkDtoList[0]
+                        this.parameter = JSON.parse(qury.parameter)
+                        let storeId = JSON.parse(qury.parameter).storeId
+                        let classId = JSON.parse(qury.parameter).classId
+                        let studentId = JSON.parse(qury.parameter).studentId
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
+                    
+                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
+                        //跳H5页面的方法
+                        let qury = this.Asistlist[index].msgLinkDtoList[0]
+                        this.parameter = JSON.parse(qury.parameter)
+                        let storeId = JSON.parse(qury.parameter).storeId
+                        let classId = JSON.parse(qury.parameter).classId
+                        let studentId = JSON.parse(qury.parameter).studentId
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
+                            window.android.SkipPage('{"linkType": "h5","scheme": "'+ qury.url +'","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+
+                    }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){
+                        //链接 目前没用到
+                    }
                 }
                 if (this.device === 'ios') { 
                     
@@ -247,14 +324,10 @@ export default {
                         let storeId = JSON.parse(qury.parameter).storeId
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
-                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                        if(this.device == 'android'){
-                            window.android.SkipPage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
-                        }
-                        if(this.device == 'ios'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                        let classScheduleId = JSON.parse(qury.parameter).classScheduleId                     
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury.url +'" ,"storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
-                        }
+
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'h5'){
                         //跳H5页面的方法
                         let qury = this.Asistlist[index].msgLinkDtoList[0]
@@ -263,13 +336,9 @@ export default {
                         let classId = JSON.parse(qury.parameter).classId
                         let studentId = JSON.parse(qury.parameter).studentId
                         let classScheduleId = JSON.parse(qury.parameter).classScheduleId
-                        if(this.device == 'android'){
-                            window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
-                        }
-                        if(this.device == 'ios'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/OrderManagement" ,"title":"预约管理","storeId": "'+storeId+'","classId":"'+classId+'","studentId":"'+studentId+'","classScheduleId":"'+classScheduleId+'","staffId":"'+this.staffId+'","isManager":"'+this.isManager+'","identity":"'+this.msg_identity+'","employStatus":"'+this.employStatus+'"}')
 
-                        }
+                        
                     }else if(this.Asistlist[index].msgLinkDtoList[0].jumpType == 'api'){
                         //链接 目前没用到
                     }
@@ -297,6 +366,20 @@ export default {
                 if (this.device === 'ios') { 
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","url": "'+this.Url+'/orgindex","title":"机构主页","jump":"true","storeId":"'+this.msg_storeid+'"}')
                 }
+            },
+            toClock(){
+                // let className = 
+                if (this.device === 'android') {
+                    //安卓每个页面方法名不一样
+                    window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClassCircle?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'&cuid='+this.msg_cuid+'&storeId='+this.msg_storeid+'"}');
+                }
+                if (this.device === 'ios') { 
+                    // <p>{{msg_cuid}}</p>    
+                    // <p>{{msg_storeid}}</p>
+                    //http://192.168.3.22:8091/clock/clockDetails?cuid=eYhjQznFDdvZiHz4oXt&storeId=STORE_Sh8YinETjSwngmo2szC&clockId=CLOCK_pQNxuyGt6PQpanIYZEB
+            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/ClassCircle?studentId='+this.msg_studentid+'&classId='+this.msg_classid+'&cuid='+this.msg_cuid+'&storeId='+this.msg_storeid+'"}')
+                }
+
             },
 
 

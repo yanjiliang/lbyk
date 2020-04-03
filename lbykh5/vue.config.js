@@ -33,7 +33,15 @@ module.exports = {
                     maxChunks: 5,
                     minChunkSize: 100
                 })
-            ]
+            ],
+        performance: {
+	    	hints:'warning',
+	    	maxEntrypointSize: 50000000,
+	    	maxAssetSize: 30000000,
+	    	assetFilter: function(assetFilename) {
+	    		return assetFilename.endsWith('.js');
+	    	}
+	    }
             // Object.assign(config, { // 开发生产共同配置
             //     resolve: {
             //         alias: {

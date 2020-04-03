@@ -1,83 +1,7 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 
-const msgList = () =>
-    import ('./views/msgasist/msgList.vue')
-
-const JoinStore = () =>
-    import ('./views/join/JoinStore')
-const UserPrivate = () =>
-    import ('./views/user/UserPrivate')
-const UserServiceAgreement = () =>
-    import ('./views/user/UserServiceAgreement')
-const lbykServiceAgreement = () =>
-    import ('./views/user/lbykServiceAgreement.vue')
-const ApplySuccess = () =>
-    import ('./views/join/ApplySuccess')
-
-
 import GoodClass from './views/goodclass/GoodClass.vue'
-const ClassDetail = () =>
-    import ('./views/goodclass/ClassDetail.vue')
-const ClassDetailOrg = () =>
-    import ('./views/goodclass/ClassDetailOrg.vue')
-const ClassDetailShare = () =>
-    import ('./views/goodclass/ClassDetailShare.vue')
-const OrgIndex = () =>
-    import ('./views/goodclass/OrgIndex.vue')
-const OrgIndexShare = () =>
-    import ('./views/goodclass/OrgIndexShare.vue')
-const OrderSuccessApp = () =>
-    import ('./views/goodclass/OrderSuccessApp.vue')
-const OrderFaileApp = () =>
-    import ('./views/goodclass/OrderFaileApp.vue')
-const ClassSoldOutApp = () =>
-    import ('./views/goodclass/ClassSoldOutApp.vue')
-
-
-
-const Addorganize = () =>
-    import ('./views/addorganize/Addorganize.vue')
-const Teacher = () =>
-    import ('./views/goodclass/Teacher.vue')
-const ClassSoldOut = () =>
-    import ('./views/goodclass/ClassSoldOut.vue')
-const AppointmentFail = () =>
-    import ('./views/goodclass/AppointmentFail.vue')
-const AppointmentSuccess = () =>
-    import ('./views/goodclass/AppointmentSuccess.vue')
-
-
-const StoreManagement = () =>
-    import ('./views/mine/StoreManagement.vue')
-const EnrollmentManagement = () =>
-    import ('./views/mine/EnrollmentManagement.vue')
-const OrderManagement = () =>
-    import ('./views/mine/OrderManagement.vue')
-const MyOrders = () =>
-    import ('./views/mine/MyOrders.vue')
-const OrgIndexMana = () =>
-    import ('./views/mine/OrgIndexMana.vue')
-const helpandreport = () =>
-    import ('./views/mine/helpandreport.vue')
-const aboutus = () =>
-    import ('./views/mine/aboutus.vue')
-
-
-const ClassStatement = () =>
-    import ('./views/ClassTime/ClassStatement.vue')
-
-
-const ActivityPage = () =>
-    import ('./views/activity/ActivityPage.vue')
-
-
-const PayPage = () =>
-    import ('./views/Paypage/PayPage.vue')
-const aliPay = () =>
-    import ('./views/Paypage/aliPay.vue')
-const RenewPage = () =>
-    import ('./views/Paypage/RenewPage.vue')
 
 Vue.use(Router);
 
@@ -91,34 +15,34 @@ const router = new Router({
             meta: {
                 title: '消息'
             },
-            component: msgList
+            component: () => import('./views/msgasist/msgList.vue'),
         },
 
         {
             path: '/userPrivate',
             name: 'userPrivate',
             meta: {
-                title: '蜡笔优课用户隐私政策'
+                title: '协议'//蜡笔优课用户隐私政策
             },
-            component: UserPrivate,
+            component: () => import('./views/user/UserPrivate'),
         },
 
         {
             path: '/userServiceAgreement',
             name: 'userServiceAgreement',
             meta: {
-                title: '蜡笔优课用户服务协议'
+                title: '协议'//蜡笔优课用户服务协议
             },
-            component: UserServiceAgreement
+            component: () => import('./views/user/UserServiceAgreement'),
         },
 
         {
             path: '/lbykServiceAgreement',
             name: 'lbykServiceAgreement',
             meta: {
-                title: '蜡笔优课服务协议'
+                title: '协议'//蜡笔优课服务协议
             },
-            component: lbykServiceAgreement
+            component: () => import('./views/user/lbykServiceAgreement.vue'),
         },
 
 
@@ -129,7 +53,7 @@ const router = new Router({
             meta: {
                 title: '欢迎加入蜡笔优课'
             },
-            component: JoinStore
+            component: () => import('./views/join/JoinStore')
         },
 
         {
@@ -138,7 +62,7 @@ const router = new Router({
             meta: {
                 title: '欢迎加入蜡笔优课'
             },
-            component: ApplySuccess
+            component: () => import('./views/join/ApplySuccess')
         },
 
         {
@@ -156,7 +80,7 @@ const router = new Router({
             meta: {
                 title: '授课老师'
             },
-            component: Teacher
+            component: () => import('./views/goodclass/Teacher.vue')
         },
 
         {
@@ -165,7 +89,7 @@ const router = new Router({
             meta: {
                 title: '课程详情'
             },
-            component: ClassDetail
+            component: () => import('./views/goodclass/ClassDetail.vue')
         },
 
         {
@@ -174,7 +98,7 @@ const router = new Router({
             meta: {
                 title: '课程详情-机构'
             },
-            component: ClassDetailOrg
+            component: () => import('./views/goodclass/ClassDetailOrg.vue')
         },
 
 
@@ -184,7 +108,7 @@ const router = new Router({
             meta: {
                 title: '课程详情'
             },
-            component: ClassDetailShare
+            component: () => import('./views/goodclass/ClassDetailShare.vue')
         },
 
         {
@@ -194,7 +118,7 @@ const router = new Router({
             meta: {
                 title: '课程已下架'
             },
-            component: ClassSoldOut
+            component: () => import('./views/goodclass/ClassSoldOut.vue')
         },
 
         {
@@ -204,7 +128,7 @@ const router = new Router({
             meta: {
                 title: '预约失败'
             },
-            component: AppointmentFail
+            component: () => import('./views/goodclass/AppointmentFail.vue')
         },
 
         {
@@ -214,7 +138,7 @@ const router = new Router({
             meta: {
                 title: '预约成功'
             },
-            component: AppointmentSuccess
+            component: () => import('./views/goodclass/AppointmentSuccess.vue')
         },
 
         {
@@ -224,7 +148,7 @@ const router = new Router({
             meta: {
                 title: '预约成功'
             },
-            component: OrderSuccessApp
+            component: () => import('./views/goodclass/OrderSuccessApp.vue')
         },
 
         {
@@ -234,7 +158,7 @@ const router = new Router({
             meta: {
                 title: '预约失败'
             },
-            component: OrderFaileApp
+            component: () => import('./views/goodclass/OrderFaileApp.vue')
         },
 
         {
@@ -244,7 +168,7 @@ const router = new Router({
             meta: {
                 title: '课程已下架'
             },
-            component: ClassSoldOutApp
+            component: () => import('./views/goodclass/ClassSoldOutApp.vue')
         },
 
         {
@@ -253,7 +177,7 @@ const router = new Router({
             meta: {
                 title: '机构入驻'
             },
-            component: Addorganize
+            component: () => import('./views/addorganize/Addorganize.vue')
         },
 
         {
@@ -262,7 +186,7 @@ const router = new Router({
             meta: {
                 title: '机构主页'
             },
-            component: OrgIndex
+            component: () => import('./views/goodclass/OrgIndex.vue')
         },
 
         {
@@ -271,7 +195,7 @@ const router = new Router({
             meta: {
                 title: '机构主页'
             },
-            component: OrgIndexShare
+            component: () => import('./views/goodclass/OrgIndexShare.vue')
         },
 
         {
@@ -280,7 +204,7 @@ const router = new Router({
             meta: {
                 title: '门店管理'
             },
-            component: StoreManagement
+            component: () => import('./views/mine/StoreManagement.vue')
         },
 
         {
@@ -289,7 +213,7 @@ const router = new Router({
             meta: {
                 title: '招生管理'
             },
-            component: EnrollmentManagement
+            component: () => import('./views/mine/EnrollmentManagement.vue')
         },
 
         {
@@ -298,7 +222,7 @@ const router = new Router({
             meta: {
                 title: '我的预约'
             },
-            component: MyOrders
+            component: () => import('./views/mine/MyOrders.vue')
         },
 
         {
@@ -307,7 +231,7 @@ const router = new Router({
             meta: {
                 title: '帮助与反馈'
             },
-            component: helpandreport
+            component: () => import('./views/mine/helpandreport.vue')
         },
 
         {
@@ -316,7 +240,7 @@ const router = new Router({
             meta: {
                 title: '关于我们'
             },
-            component: aboutus
+            component: () => import('./views/mine/aboutus.vue')
         },
 
         {
@@ -325,7 +249,7 @@ const router = new Router({
             meta: {
                 title: '预约管理'
             },
-            component: OrderManagement
+            component: () => import('./views/mine/OrderManagement.vue')
         },
 
         {
@@ -334,7 +258,7 @@ const router = new Router({
             meta: {
                 title: '机构主页-管理'
             },
-            component: OrgIndexMana
+            component: () => import('./views/mine/OrgIndexMana.vue')
         },
 
         {
@@ -343,7 +267,7 @@ const router = new Router({
             meta: {
                 title: '课节结算单'
             },
-            component: ClassStatement
+            component: () => import('./views/ClassTime/ClassStatement.vue')
         },
 
         {
@@ -352,7 +276,7 @@ const router = new Router({
             meta: {
                 title: '首发特惠'
             },
-            component: ActivityPage
+            component: () => import('./views/activity/ActivityPage.vue')
         },
 
         {
@@ -361,7 +285,7 @@ const router = new Router({
             meta: {
                 title: '支付订单'
             },
-            component: PayPage
+            component: () => import('./views/Paypage/PayPage.vue')
         },
 
         {
@@ -370,7 +294,7 @@ const router = new Router({
             meta: {
                 title: '支付宝支付'
             },
-            component: aliPay
+            component: () => import('./views/Paypage/aliPay.vue')
         },
         
         {
@@ -379,7 +303,80 @@ const router = new Router({
             meta: {
                 title: '续费'
             },
-            component: RenewPage
+            component: () => import('./views/Paypage/RenewPage.vue')
+        },
+        
+        {
+            path: '/CreateClock',
+            name: 'CreateClock',
+            meta: {
+                title: ' '
+            },
+            component: () => import('./views/Clockin/CreateClock.vue')
+        },
+        
+        {
+            path: '/CreateClockMana',
+            name: 'CreateClockMana',
+            meta: {
+                title: '打卡管理'
+            },
+            component: () => import('./views/Clockin/CreateClockMana.vue')
+        },
+        
+        {
+            path: '/QuickToClock',
+            name: 'QuickToClock',
+            meta: {
+                title: '快速打卡'
+            },
+            component: () => import('./views/Clockin/QuickToClock.vue')
+        },
+
+        {
+            path: '/ClockDetail',
+            name: 'ClockDetail',
+            meta: {
+                title: '主题详情'
+            },
+            component: () => import('./views/Clockin/ClockDetail.vue')
+        },
+
+        {
+            path: '/ClockShare',
+            name: 'ClockShare',
+            meta: {
+                title: '打卡详情'
+            },
+            component: () => import('./views/Clockin/ClockShare.vue')
+        }, 
+        
+        
+        {
+            path: '/ClassCircle',
+            name: 'ClassCircle',
+            meta: {
+                title: '班级圈子'
+            },
+            component: () => import('./views/Clockin/ClassCircle.vue')
+        }, 
+        
+        {
+            path: '/ClockRecod',
+            name: 'ClockRecod',
+            meta: {
+                title: '打卡记录'
+            },
+            component: () => import('./views/Clockin/ClockRecod.vue')
+        },
+        
+        {
+            path: '/Clockinfo',
+            name: 'Clockinfo',
+            meta: {
+                title: '打卡详情'
+            },
+            component: () => import('./views/Clockin/Clockinfo.vue')
         },
     ]
 })

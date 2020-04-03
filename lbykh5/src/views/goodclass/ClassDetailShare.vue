@@ -25,7 +25,7 @@
                     <div class="locationinfo">
                         <div class="location">
                             <p><img src="../../images/GoodClass/locayellow.png" alt=""></p>
-                            <p>{{course_detail_data.area}}</p>
+                            <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                         </div>
                         <p v-show="course_detail_data.distance">{{course_detail_data.distance}}</p>
                     </div>
@@ -69,18 +69,21 @@
             </div>
 
             
-            <!-- 课程介绍 -->
-            <div class="bandstory" v-if="course_detail_data.introduce.length != 0">
-                <div class="bandtitle">
-                    <p>课程介绍</p>
+            
+
+            <!-- 视课 -->
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios'">
+                <div class="title">
+                    <div class="class_video">
+                        <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
+                        <p>好课程 一“视”便知</p>
+                    </div>
                 </div>
-                <div class="bandinfo">
-                    <p class="fold" ref="bandinfo" id="info">{{course_detail_data.introduce}}</p>
-                    <!-- <p>{{orgindex_data.introduce}}</p> -->
-                    <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p>
+                
+                <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
-
             
             <!-- 授课老师 -->
             <div class="classteacher" v-if="course_detail_data.teacherInfoDtoList.length != 0">
@@ -143,11 +146,11 @@
                     <div class="orglocatin">
                         <div class="locainfo">
                             <div>
-                                <p>{{course_detail_data.area}}</p>
+                                <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
-                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.addrInfo)">复制地址</a> 
+                                <a v-clipboard:copy="course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr" v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址</a> 
                             </div> 
                         </div> 
                         <!-- <p>{{center}}</p> -->
@@ -167,6 +170,18 @@
                             </el-amap>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 课程介绍 -->
+            <div class="bandstory" v-if="course_detail_data.introduce.length != 0">
+                <div class="bandtitle">
+                    <p>课程介绍</p>
+                </div>
+                <div class="bandinfo">
+                    <p ref="bandinfo" id="info" v-html="introduce"></p>
+                    <!-- <p>{{orgindex_data.introduce}}</p> -->
+                    <!-- <p @click="clickTofold()" v-if="infoHeight/23 >= 7 ? true : false"><span v-if="showFold">查看全部</span><i v-if="showFold"><img src="../../assets/images/返回5@2x.png" alt=""></i></p> -->
                 </div>
             </div>
         </div>
@@ -204,11 +219,11 @@
                     </div>
                     <div class="phonenumber">
                         <p>联系电话</p>
-                        <input type="text" name="username" @blur="reSize()" id="phone" placeholder="请输入手机号码">
+                        <input type="tel" pattern="[0-9]*" maxlength="11" name="username" @blur="reSize()" id="phone" placeholder="请输入手机号码">
                     </div>
                     <div class="verticode">
                         <p>验证码</p>
-                        <input type="text" name="username" @blur="reSize()" id="code" placeholder="请输入验证码">
+                        <input type="tel" pattern="[0-9]*" maxlength="4" name="username" @blur="reSize()" id="code" placeholder="请输入验证码">
                         <span v-show="sendCode" class="codetext" @click="getCode()">获取验证码</span>
                         <span v-show="!sendCode" class="codetext"><span>{{code_time}}S</span></span>
                     </div>
@@ -246,10 +261,12 @@ import { Toast } from 'vant';
 
 import BScroll from 'better-scroll'
 import Orderinfo from '../../components/OrderInfo'
+import H5Video from '../../components/H5Video'
 export default {
     name:'classdetail',
     components:{
-        Orderinfo
+        Orderinfo,
+        H5Video
     },
     data (){
         return {
@@ -294,10 +311,17 @@ export default {
                 wechatSharedata:'',
                 infoHeight:'',
                 pre_index:0,
-                pre_show:false
+                pre_show:false,
+                introduce:'',
             }
     },
     methods: {
+        onCopy(){
+            this.$message.success("内容已复制到剪切板！")
+        },
+        onError(){
+            this.$message.error("抱歉，复制失败！")
+        },
         preClick(index){
                 this.pre_show=true;
                 this.pre_index=index;
@@ -412,20 +436,17 @@ export default {
                             //响应码success/error
                             this.resStatus = res.data
                             this.resMsg = res.data.msg
-
-                            // if(res.data.result == 'success'){
-                            //     // this.$router.push({path:'/OrderSuccessApp'})
-                            //     this.$router.push({path:'/AppointmentSuccess'})
-                            // }else if(res.data.result == 'error'){
-                            //     // this.$router.push({path:'/OrderFaileApp'})
-                            //     this.$router.push({ name:'AppointmentFail',params:{ resmsg: this.resMsg }})
-
-                            // }
+                            
+                            
                             
                             if(res.data.result == 'success'){
                                 this.$router.push({path:'/AppointmentSuccess'})
                             }else if(res.data.result == 'noLogin'){ 
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
                             }else if(res.data.result == 'error'){
                                 if(res.data.msg === '课程已下架'){
                                     this.$router.push({ name:'AppointmentFail',params:{ resmsg: this.resMsg }})
@@ -451,7 +472,7 @@ export default {
                 this.urls.push(qurylist[i].split("=")[1])
             }
             this.courseId = this.urls[0]
-            var url1 = this.ip + 'course/details?courseId=' +this.urls[0] ;
+            var url1 = this.ip + 'course/details?courseId=' +this.urls[0]+'&clientType=h5' ;
             axios.post(url1).then((res)=>{
                 // Dialog({ message: res.data.result });
                 
@@ -495,16 +516,35 @@ export default {
                     this.age = this.course_detail_data.minAge  +'岁以上'
                 }
 
+                // 处理富文本
+                    
+                try {
+                    if (typeof JSON.parse(this.course_detail_data.introduce) == "object") {
+                        // Toast('JSON')
+                        let introduce = JSON.parse(this.course_detail_data.introduce)
+                        var richText =''
+                        for(let i =0;i<introduce.length;i++){
+                            //
+                            if(introduce[i].richContentType ==  2){
+                                richText += '<p>'
+                                richText += introduce[i].textContent
+                                richText += '</p>'
+                            }else if(introduce[i].richContentType ==  1){
+                                richText += "<img "
+                                richText += "src='" 
+                                richText += introduce[i].remoteImageUrlString
+                                richText += "'/>" 
+                            }
+                        }
+                        this.introduce = richText
+                    }
+                } catch(e) {
+                    // Toast('字符春')
+                    this.introduce = this.course_detail_data.introduce
+                }
+
             })
         },
-        
-        
-        clickTofold(){
-            this.$refs.bandinfo.classList.remove('fold')
-            this.showFold = false
-
-        },
-        
         
         isApp(){
                 //this.h5orapp = navigator.userAgent.toLowerCase()
@@ -519,13 +559,7 @@ export default {
                 //给iOS APP传参
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
             },
-        //解析地址中传进来的课程ID
-        // getCourseId(){
-        //     let params = window.location.search
-        //     let index = params.lastIndexOf('=')
-        //     this.cd_courseid = params.substring(index+1,params.length)
-
-        // },
+        
         ClickTo : function (qury,addrInfo){
             
             if (this.device === 'android') {
@@ -644,7 +678,7 @@ export default {
                     axios.post(url,param).then((res)=>{
                         this.wechatSharedata = res.data.data
                         wx.config({
-                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                             appId: this.wechatSharedata.appId, // 必填，公众号的唯一标识
                             timestamp: this.wechatSharedata.timestamp, // 必填，生成签名的时间戳
                             nonceStr: this.wechatSharedata.nonceStr, // 必填，生成签名的随机串

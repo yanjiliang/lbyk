@@ -18,7 +18,8 @@
                   <a style="text-decoration:none; color:#FFFFFF;" :href="this.downloadAddress">下载蜡笔优课</a>
              </el-button> -->
              <div class="download" @click="androisIos()">
-                <p style="font-size:14px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" :href="this.downloadAddress">下载蜡笔优课</a></p>
+                <p style="font-size:14px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk">下载蜡笔优课</a></p>
+                <!-- <p style="font-size:16px;font-weight:400;line-height:44px;color:#FFFFFF"><a style="text-decoration:none;color:#fff" href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk">下载APP</a></p> -->
             </div>
              <!-- el-button修改 -->
          </div>

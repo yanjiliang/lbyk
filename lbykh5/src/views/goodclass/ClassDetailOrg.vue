@@ -24,7 +24,7 @@
                     <div class="locationinfo">
                         <div class="location">
                             <p><img src="../../images/GoodClass/locayellow.png" alt=""></p>
-                            <p>{{course_detail_data.area}}</p>
+                            <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                         </div>
                         <p>{{course_detail_data.distance}}</p>
                     </div>
@@ -89,19 +89,31 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 课程介绍 -->
-            <div class="bandstory">
-                <div class="bandtitle">
-                    <p>课程介绍</p>
-                    <a href="" @click.prevent="pre_edit_page('KCJSBJ',cd_token)">编辑</a>
+            
+            <!-- 视课 -->
+            <div class="class_pre_video" v-if="device == 'ios' && version == 104">
+                <div class="title">
+                    <div class="class_video">
+                        <p class="class_video_img"><img src="../../images/GoodClass/video-class.png" alt=""></p>
+                        <p>好课程 一“视”便知</p>
+                    </div>
+                    <a href="" @click.prevent="pre_edit_page('VIDEO',cd_token)">编辑/添加</a>
                 </div>
-                <div class="bandinfo">
-                    <p  ref="bandinfo">{{course_detail_data.introduce}}</p>
+                <div class="noclass" v-if="course_detail_data.videoUrl.length == 0">
+                    <div class="noclass_icon">
+                        <img src="../../images/GoodClass/orgindex/通用-线2@2x.png" alt="icon图片">
+                    </div>
+                    <div class="noclass_info">
+                        <p>未添加视频展示</p>
+                        <p>视频更容易吸引用户，并增加曝光机会</p>
+                    </div>
 
+                    
+                </div>
+                <div v-if="course_detail_data.videoUrl" style="box-sizing:border-box;border-radius:5px;overflow:hidden;position:relative;z-index:39">
+                    <H5Video :fileVideoSrc="course_detail_data.videoUrl" :key="course_detail_data.videoUrl" :playCount='course_detail_data.playCount' :videoCover="course_detail_data.videoCoverUrl" :videoRemarks="course_detail_data.videoRemarks" :videoId="course_detail_data.videoId" />
                 </div>
             </div>
-            
             <!-- 授课老师 -->
             <div class="classteacher">
                 
@@ -166,12 +178,12 @@
                     <div class="orglocatin">
                         <div class="locainfo">
                             <div>
-                                <p>{{course_detail_data.area}}</p>
+                                <p>{{course_detail_data.storeAddrInfoDto.area}}</p>
                                 <!-- <p>{{course_detail_data.detailedAddr}}</p> -->
                                 <p>{{course_detail_data.storeAddrInfoDto.buildingName}}-{{course_detail_data.storeAddrInfoDto.detailedAddr}}</p>
                             </div>
                             <div> 
-                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.addrInfo)">复制地址</a> 
+                                <a @click.prevent="ClickTo('COPY',course_detail_data.storeAddrInfoDto.buildingName+course_detail_data.storeAddrInfoDto.detailedAddr)">复制地址</a> 
                             </div> 
                         </div> 
                         
@@ -193,16 +205,57 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 课程介绍 -->
+            <div class="bandstory">
+                <div class="bandtitle">
+                    <p>课程介绍</p>
+                    <a href="" @click.prevent="pre_edit_page('KCJSBJ',cd_token)">编辑</a>
+                </div>
+                <div class="bandinfo">
+                    <!-- <p  ref="bandinfo" >{{course_detail_data.introduce}}</p> -->
+                    <p ref="bandinfo" id="info" v-html="introduce"></p>
+                </div>
+            </div>
         </div>
         <!-- 预约须知 start -->
         <Orderinfo/>
         <!-- 预约须知 end-->
 
-        <div style="height:95px"></div>
-        <div class="orderbtn">
-            <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
-            <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
-            <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+        <div style="height:165px"></div>
+        <div class="bottom_button" v-if="version == 104">
+            <div flex="main:justify cross:center" style="height:78px;text-align:center">
+                <div style="min-width:90px;">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.exposureCount}}</p>
+                    <p class="font_12px color_9B9B9B">查看过</p>
+                </div>
+                <div style="min-width:90px">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.shareExposureCount}}</p>
+                    <p class="font_12px color_9B9B9B">分享查看</p>
+                </div>
+                <div style="min-width:90px">
+                    <p class="font_18px color_353239" style="margin-bottom:5px">{{course_detail_data.appointmentCount}}</p>
+                    <p class="font_12px color_9B9B9B">预约报名</p>
+                </div>
+                <div flex="dir:top cross:center" style="min-width:90px;" @click="Qcshare()">
+                    <p style="margin-bottom:10px"><img style="width:20px;height:20px;display:block;" src="../../images/GoodClass/qccode.png" alt=""></p>
+                    <p class="font_12px color_9B9B9B">课程二维码</p>
+                </div>
+            </div>
+            <div class="orderbtn">
+                <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
+                <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
+                <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+            </div>
+        </div>
+
+        <div class="bottom_button1" v-if="version != 104">
+            
+            <div class="orderbtn">
+                <p @click="pre_edit_page('KCBJ',cd_token)">编辑</p>
+                <p v-if="changeWord" @click="lowerShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">下架课程</p>
+                <p v-if="!changeWord" @click="uperShelf(cd_storeid,cd_courseid,cd_cuid,cd_token)">开放招生</p>
+            </div>
         </div>
 
         
@@ -228,15 +281,21 @@ let amapManager = new AMapManager();
 
 const axios = require('axios')
 
+import H5Video from '../../components/H5Video'
+
 import { Toast, Dialog  } from 'vant';
 
 import BScroll from 'better-scroll'
+
+import 'flex.css'
+import '../../css/Clock/clockPublic.css'
 
 import Orderinfo from '../../components/OrderInfo'
     export default {
         name: 'classdetailOrg',
         components:{
-            Orderinfo
+            Orderinfo,
+            H5Video
         },
         data() {
             return {
@@ -283,10 +342,18 @@ import Orderinfo from '../../components/OrderInfo'
                 classTimeUnit:'',
                 spans:Object,
                 pre_index:0,
-                pre_show:false
+                pre_show:false,
+                fileVideoSrc:'',
+                introduce:'',
+                version:Number
             }
         },
         methods: {
+            Qcshare(){
+                //http://192.168.3.26:8089/h5/ClassDetailShare?courseId=COURSE_ixQHyUfaqWR7DkZS4WT&from=singlemessage&isappinstalled=0
+                let url = this.Url + '/ClassDetailShare?courseId='+this.cd_courseid
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "QRCODE" ,"url": "'+url+'","logo":"'+this.course_detail_data.storeAddrInfoDto.logo+'"}')
+            },
             preClick(index){
                 this.pre_show=true;
                 this.pre_index=index;
@@ -307,8 +374,9 @@ import Orderinfo from '../../components/OrderInfo'
                 // document.getElementById('tags')[i].style.width= width + 'px'
                 tags[i].style.width = width + 'px'
             }
+            var tagsbox = document.getElementById('tagsbox')
             this.$nextTick(()=>{
-                var tagsbox = document.getElementById('tagsbox')
+                
                 console.log(tagsbox)
                 this.scroll = new  BScroll(tagsbox,{
                     startX:0,
@@ -351,6 +419,16 @@ import Orderinfo from '../../components/OrderInfo'
                     this.spans = this.course_detail_data.teacherInfoDtoList
 
                     this.course_detail_data.classHourUnit == 'section' ? this.classHourUnit = '节' : this.classHourUnit = '次'
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    }
+                    if(res.data.result == 'error'){
+                        Toast(res.data.msg)
+                    }
                     //this.classTimeUnit= this.course_detail_data.classTimeUnit
                     if(this.course_detail_data.classTimeUnit == 'minute'){
                         this.classTimeUnit = '分钟'
@@ -376,14 +454,35 @@ import Orderinfo from '../../components/OrderInfo'
                         this.age = this.course_detail_data.minAge  +'岁以上'
                     }
                     
+
+                    try {
+                        if (typeof JSON.parse(this.course_detail_data.introduce) == "object") {
+                            // Toast('JSON')
+                            let introduce = JSON.parse(this.course_detail_data.introduce)
+                            var richText =''
+                            for(let i =0;i<introduce.length;i++){
+                                //
+                                if(introduce[i].richContentType ==  2){
+                                    richText += '<p>'
+                                    richText += introduce[i].textContent
+                                    richText += '</p>'
+                                }else if(introduce[i].richContentType ==  1){
+                                    richText += "<img "
+                                    richText += "src='" 
+                                    richText += introduce[i].remoteImageUrlString
+                                    richText += "'/>" 
+                                }
+                            }
+                            this.introduce = richText
+                        }
+                    } catch(e) {
+                        // Toast('字符春')
+                        this.introduce = this.course_detail_data.introduce
+                    }
                 })
             },
             
-            clickTofold(){
-                this.$refs.bandinfo.classList.remove('fold')
-                this.showFold = false
-
-            },
+            
             initBandinfo(){
                 // console.log(this.$refs.bandinfo.offsetHeight)
                 let height = this.$refs.bandinfo.offsetHeight
@@ -394,12 +493,11 @@ import Orderinfo from '../../components/OrderInfo'
             },
             getShareParams(msg){
                 if(msg.type == 'share'){
-                    const str = this.course_detail_data.introduce.substring(0,35)
-                    // const strr = JSON.stringify(str)
-                    const content = str.replace(/[\r\n]/g, "")
-                    // const bb = content.replace(" ","")
-                    // Toast(content)
-                    const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
+                    let categoryName = this.course_detail_data.categoryName
+                    let classHourNum = this.course_detail_data.classHourNum
+                    let area = this.course_detail_data.area
+                    let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
+                    const aa = '{"linkType": "app","scheme": "SHARE","type":"COURSE","typeId":"'+this.cd_courseid+'","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","courseId":"'+this.cd_courseid+'"}'
                     window.android.SkipPage(aa)
                 }
             },
@@ -413,6 +511,7 @@ import Orderinfo from '../../components/OrderInfo'
                     this.cd_cuid = msg.cuid
                     this.cd_token = msg.token
                     this.cd_storeid = msg.storeId
+                    this.version = Number(msg.version)
                     this.getCourseData(msg.courseId,msg.cuid,msg.storeId,msg.token)
                     
                 },
@@ -420,9 +519,11 @@ import Orderinfo from '../../components/OrderInfo'
             McDispatcher (qury){
                     //iOS获取APP传过来的参数的方法
                 if(qury.type == 'share'){
-                    const str = this.course_detail_data.introduce.substring(0,35)
-                    const content = str.replace(/[\r\n]/g, "")
-                    const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'"}'
+                    let categoryName = this.course_detail_data.categoryName
+                    let classHourNum = this.course_detail_data.classHourNum
+                    let area = this.course_detail_data.area
+                    let content = '['+categoryName+'/'+classHourNum+'节课]位于'+area+',快来跟我一起学习吧！'
+                    const aa = '{"linkType": "app","scheme": "SHARE","title":"'+this.course_detail_data.courseTitle+'","content":"'+content+'","logo":"'+this.imagelist[0]+'","type":"course","typeId":"'+this.cd_courseid+'"}'
                     window.webkit.messageHandlers.skipPage.postMessage(aa)
                 }
                 this.classdetail_userInfo = qury
@@ -433,6 +534,7 @@ import Orderinfo from '../../components/OrderInfo'
                 this.cd_courseid = qury.data.courseId
                 this.cd_token = qury.data.token
                 this.cd_storeid = qury.data.storeId
+                this.version = Number(qury.data.version)
                 this.getCourseData(qury.data.courseId,qury.data.cuid,qury.data.storeId,qury.data.token)
                     //解析传进来的json
                     //给本地变量赋值，并判断经纬度是否为空，为空显示
@@ -487,10 +589,17 @@ import Orderinfo from '../../components/OrderInfo'
                     window.android.SkipPage('{"linkType": "app","scheme":"'+qury+'","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}');
                 }
                 if (this.device === 'ios') { 
+                    
                     if(token == ''){
                         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                     }else{
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                        if(qury === 'VIDEO'){
+                        // course_detail_data.videoUrl
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'","videoUrl":"'+this.course_detail_data.videoUrl+'","videoRemarks":"'+this.course_detail_data.videoRemarks+'","videoCoverUrl":"'+this.course_detail_data.videoCoverUrl+'"}')
+                        }else{
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"'+qury+'","jump":"true","storeId":"'+this.cd_storeid+'","courseId":"'+this.cd_courseid+'"}')
+                        }
+                        
                     }
             　　　　
 
@@ -511,66 +620,80 @@ import Orderinfo from '../../components/OrderInfo'
                 }
             },
             lowerShelf(storeId,courseId,cuid,token){
-                let url = this.ip + 'course/lowerShelf';
-                //?storeId=' +storeId+ '&courseId=' + courseId
-                let param = new URLSearchParams()
-                param.append("courseId", courseId)
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    let msg = res.data
-                    this.res_result = msg.result
-                    Dialog.confirm({
-                        message: '是否确认下架?',
-                        confirmButtonColor:"#ff444b",
-                        cancelButtonColor:"#9b9b9b",
-                        }).then(() => {
-                        // on close
-                        this.changeWord = false
+                Dialog.confirm({
+                    message: '是否确认下架?',
+                    confirmButtonColor:"#ff444b",
+                    cancelButtonColor:"#9b9b9b",
+                }).then(()=>{
+                    this.changeWord = false
+                    let url = this.ip + 'course/lowerShelf';
+                    let param = new URLSearchParams()
+                    param.append("courseId", courseId)
+                    param.append("cuid", cuid)
+                    param.append("storeId", storeId)
+                    param.append("userToken", token)
+                    axios.post(url,param).then((res)=>{
+                        let msg = res.data
+                        this.res_result = msg.result
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
+                        }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')
-                            this.getCourseData(this.cd_courseid,this.cd_cuid,this.cd_storeid,this.token)
-                            window.location.reload()
-                            //window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+                            
+                            // window.location.reload()
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
                         })
-                        }).catch(() => {
-                        // on cancel
-                        });
-                    
-                    
-                     
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch(()=>{
+                    //cancel
                 })
             },
             uperShelf(storeId,courseId,cuid,token){
-                let url = this.ip + 'course/upperShelf';
-                //?storeId=' +storeId+ '&courseId=' + courseId
-                let param = new URLSearchParams()
-                param.append("courseId", courseId)
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    let msg = res.data
-                    this.res_result = msg.result
-                    Dialog.confirm({
-                        message: '是否确认上架？',
-                        confirmButtonColor:"#ff444b",
-                        cancelButtonColor:"#9b9b9b",
-                        }).then(() => {
-                        // on close
-                        
+                Dialog.confirm({
+                    message: '是否确认上架?',
+                    confirmButtonColor:"#ff444b",
+                    cancelButtonColor:"#9b9b9b",
+                }).then(()=>{
+                    this.changeWord = false
+                    let url = this.ip + 'course/upperShelf';
+                    //?storeId=' +storeId+ '&courseId=' + courseId
+                    let param = new URLSearchParams()
+                    param.append("courseId", courseId)
+                    param.append("cuid", cuid)
+                    param.append("storeId", storeId)
+                    param.append("userToken", token)
+                    axios.post(url,param).then((res)=>{
+                        let msg = res.data
+                        this.res_result = msg.result
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
+                        }
                         this.$nextTick(()=>{
                             Toast.success('操作成功')
                             this.changeWord = true
-                            this.getCourseData(this.cd_courseid,this.cd_cuid,this.cd_storeid,this.token)
-                            window.location.reload()
-                            //window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
+                            
+                            // window.location.reload()
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"FRESH"}')
                         })
-                        });
-                    
-                    
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }).catch(()=>{
+                    //cancel
                 })
+
+                
             }
         },
         mounted(){

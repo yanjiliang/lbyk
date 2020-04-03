@@ -107,3 +107,18 @@
     background: url('../../images/ClassTime/reback2x.png') no-repeat;
     background-size: 100% 100%;
 }
+
+.classStatement .no_data{
+    width: 150px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #C6C6C6;
+    margin: 200px auto;
+}
+.classStatement .no_data img{
+    width: 150px;
+    height: 150px;
+}

@@ -7,34 +7,36 @@
       <div class="renew_userinfo_box">
         <div class="renew_userinfo">
           <div class="renew_userinfo_left">
-            <p><img src="http://img1.imgtn.bdimg.com/it/u=561326960,1564995287&fm=11&gp=0.jpg" alt=""></p>
+            <p><img :src="renewPage_resdata.logo" alt=""></p>
           </div>
           <div class="renew_userinfo_right">
-            <p class="renew_func_title">招生管理</p>
-            <p class="renew_orgin_name">星悦国际（南山店）</p>
-            <p class="renew_func_date">有效期至2020年2月5日 <span>（已过期）</span></p>
+            <p class="renew_func_title">{{renewPage_resdata.functionalName}}</p>
+            <p class="renew_orgin_name">{{renewPage_resdata.storeName}}</p>
+            <p class="renew_func_date" v-if="renewPage_resdata.storeFunctionalDto.effective">有效期至 {{renewPage_resdata.storeFunctionalDto.expirationDate}} <span v-if="!renewPage_resdata.storeFunctionalDto.effective">（已过期）</span></p>
           </div>
         </div>
       </div>
     </div>
-    
+    <!-- <p>{{typeof(select_price)}}</p> -->
     <div class="renew_product_box">
       <p style="font-size:18px;font-weight:bold">选择优惠套餐</p>
       
     </div>
-    <Product :productInfo='productInfo' />
-
+    <!-- 套餐--start -->
+    <Product :productInfo='productInfo' @productPage_data = 'getProductpage_data' />
+    <!-- 套餐--end -->
     <div class="renew_btn_box">
       <div class="renew_btn">
-        <p class="renew_btn_price">12个月：￥798</p>
-        <p class="renew_btn_click">立即续费</p>
+        <p class="renew_btn_price" >{{select_title}}：￥{{select_price}}</p>
+        <p class="renew_btn_click" @click="goToRenew()">立即续费</p>
       </div>
-      <p class="renew_protocol">点击“立即续费”按钮即代表阅读并同意 <a href="">《蜡笔优课服务协议》</a></p>
+      <p class="renew_protocol">点击“立即续费”按钮即代表阅读并同意 <a @click="toService()">《蜡笔优课服务协议》</a></p>
     </div>
   </div>
 </template>
 <script>
   import Product from '../../components/Product'
+import { Toast } from 'vant'
   const axios = require('axios')
   export default {
     name: 'renewpage',
@@ -43,42 +45,130 @@
     },
     data() {
       return {
+        ip:this.$ip.getIp(),
+        Url:this.$Url.geturl(),
+        device:this.$device.getDevice(),
+        renewPage_resdata:'',
         userInfo: '',
-        productInfo: []
+        productInfo: [],
+        intem_index:'',
+        select_title:'12个月',
+        select_price:'798',
+        renew_token:'',
+        renew_storeId:'',
+        renew_cuid:''
       }
     },
-    created() {
+    beforeMount() {
       window.McDispatcher = this.McDispatcher
+      window.getParams = this.getParams
     },
     mounted() {
       this.linkIos()
     },
     methods: {
+      // :href="Url+'/lbykServiceAgreement'"
+      toService(){
+        if(this.device == 'android'){
+            window.android.SkipPage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+        }else if(this.device == 'ios'){
+            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url":"'+this.Url+'/lbykServiceAgreement","title":"服务协议"}')
+        }
+      },
       McDispatcher(qury) {
         //接受数据
         this.userInfo = qury
-        let cuid = qury.data.cuid
-        let storeId = qury.data.storeId
-        let token = qury.data.token
-        this.getProductinfo(storeId, 'RecruitStudents', cuid, token)
+        this.renew_cuid = qury.data.cuid
+        this.renew_storeId = qury.data.storeId
+        this.renew_token = qury.data.token
+        this.renew_type = qury.data.renewType
+        this.getProductinfo(this.renew_storeId,qury.data.renewType, this.renew_cuid, this.renew_token)
       },
       linkIos: function () {
         window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
       },
+      getParams(msg){
+          this.userInfo = msg
+          this.renew_cuid = msg.cuid
+          this.renew_storeId = msg.storeId
+          this.renew_token = msg.token
+          this.renew_type = msg.renewType
+          this.getProductinfo(msg.storeId,msg.renewType,msg.cuid,msg.token)
+      },
       getProductinfo(storeId, func, cuid, token) {
-        // let url = this.ip + 'recruitStudents/goodsInfo';
-        let url = this.ip + 'goods/functionServiceGoods'
+        let url = this.ip + 'goods/functionServiceRenewalGoods'
         let param = new URLSearchParams()
         param.append("storeId", storeId)
         param.append("functional", func) //RecruitStudents
         param.append("cuid", cuid)
         param.append("userToken", token)
         axios.post(url, param).then((res) => {
-          this.productInfo = res.data.data;
+          // this.productInfo = res.data;
+          let res_data = res.data
+          this.renewPage_resdata = res_data.data
+          // Toast(res_data.msg)
+          this.productInfo = res_data.data.goodsList
+          if(res.data.result == 'noLogin'){
+              if(this.device == 'android'){
+                  window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }else if(this.device == 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }
+          }
         }).catch((err) => {
           console.log(err)
         })
       },
+      getProductpage_data(productPage_data){
+        let intem_index = productPage_data.select_item_index
+        this.select_title = this.productInfo[intem_index].title
+        this.select_price = this.productInfo[intem_index].sellingPrice
+        this.intem_index = intem_index
+      },
+      goToRenew(){
+        
+        let price = this.select_price
+        let goodsId = this.productInfo[this.intem_index].goodsId
+        let url = this.ip + 'functionalModule/purchaseOrder';
+            // ?cuid=' +this.cuid + '&storeId=' + this.storeId + '&goodsId=' +this.productInfo.goodsId+ '&price=' +this.productInfo.sellingPrice;
+        let param = new URLSearchParams()
+        param.append("storeId", this.renew_storeId)
+        param.append("goodsId", goodsId)
+        param.append("price", price)
+        param.append("cuid", this.renew_cuid)
+        param.append("userToken", this.renew_token)
+        axios.post(url,param).then((res)=>{
+          let res_data = res.data.data
+          let orderId = res_data.orderDto.orderId
+          if(res.data.result == 'noLogin'){
+              if(this.device == 'android'){
+                  window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }else if(this.device == 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+              }
+          }
+          if(res_data.status == 'orderSuccess'){
+              if(this.device === 'android'){
+                  window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+              }else if(this.device === 'ios'){
+                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                  // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
+              }
+          }else if(res_data.status == 'openingSuccess'){
+            Toast.success('开通成功')
+            setTimeout(()=>{
+                if(this.device === 'android'){
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                }else if(this.device === 'ios'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                }
+            },1500)
+          }else{
+            Toast(res_data.msg)
+          }
+        })
+        
+      }
     }
   }
 </script>
@@ -94,7 +184,7 @@
           position relative
           .bg_box
               width 10rem
-              height 208px
+              height 258px
               background-image: linear-gradient( #2E3662, #3B467A)
               box-sizing border-box
           .bg_box_1
@@ -148,7 +238,18 @@
                           box-sizing border-box
                   .renew_userinfo_right
                       .renew_func_title
-                          font-size 16px
+                          font-size 20px
+                          font-weight bold
+                          margin 8px 0
+                      .renew_orgin_name
+                          font-size 14px
+                          font-weight 400
+                      .renew_func_date
+                          font-size 14px
+                          font-weight 400
+                          span 
+                              font-size 11px
+                              color #FF444B
       .renew_product_box  
         padding 0 16px   
     .renew_btn_box

@@ -3,8 +3,8 @@
         <div class="topbox">
             <div class="top">
                 <div><i><img src="../../images/paypage/时间6@2x.png" alt=""></i><p>支付剩余时间 {{timing}}</p></div>
-                <div><i>￥</i>{{productInfo.sellingPrice}}</div>
-                <div>￥{{productInfo.tagPrice}}</div>
+                <div><i>￥</i>{{orderInfo.amount}}</div>
+                <div>￥{{orderInfo.tagPrice}}</div>
                 <div>招生管理-{{orderId}}</div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     </van-radio-group>
                 </p>
             </div>
-            <div class="alipay radiobox">
+            <!-- <div class="alipay radiobox">
                 <div class="left">
                     <p><img src="../../images/paypage/b-2@2x.png" alt=""></p>
                     <p>支付宝支付</p>
@@ -37,8 +37,8 @@
                     </van-radio-group>
                 </p>
                 
-            </div>
-
+            </div> -->
+            
            
 
         </div>
@@ -61,7 +61,7 @@ export default {
             radio:'1',
             selected:'1',
             timing:'',
-            productInfo:'',
+            orderInfo:'',
             userInfo:'',
             goodsId:'',
             price:'',
@@ -73,25 +73,65 @@ export default {
             timer:'',
             orderId:'',
             clientIp:'',
-            isClicked:true
+            isClicked:true,
+            time:"",
         }
     },
     methods:{
-        getProductinfo(storeId,cuid,token){
+        getOrderinfo(orderId,cuid,token){
             
-            let url = this.ip + 'recruitStudents/goodsInfo';
+            let url = this.ip + 'order/orderInfo';
             let param = new URLSearchParams()
-            param.append("storeId", storeId)
+            param.append("orderId", orderId)
             param.append("cuid", cuid)
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
-                this.productInfo = res.data.data
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
+                this.orderInfo = res.data.data
+                // Toast(res.data.msg)
                 // this.goodsId = this.productInfo.goodsId;
                 // this.price = this.productInfo.sellingPrice
+                let closedTime = this.orderInfo.closedTime
+                let close_time = closedTime.split(' ')
+                let closeTime = close_time[1].split(':')
+                this.close_time_hour = closeTime[0]
+                this.close_time_minit = closeTime[1]
+                this.close_time_sec = closeTime[2]
+                
+                // this.timingCut()
+                setInterval(()=>{
+                    this.timingCut()
+                },1000)
                 
             }).catch((err)=>{
                 console.log(err)
             })
+        },
+        timingCut(){
+                let time_now_hour =  new Date().getHours(); //当前时间
+                let time_now_minit =  new Date().getMinutes(); //当前时间
+                let time_now_sec =  new Date().getSeconds(); //当前时间
+                this.time = (this.close_time_hour - time_now_hour) * 3600 + (this.close_time_minit - time_now_minit) *60 + + (this.close_time_sec - time_now_sec)
+                let time = this.time
+                if(time>0){
+                    let min = parseInt(time / 60)
+                    let sec = parseInt(time % 60)
+                    min = min > 9 ? min : '0' + min
+                    sec = sec > 9 ? sec : '0' + sec,
+                    this.timing = min +':'+ sec
+                    
+                }else{
+                    clearInterval();
+                    Toast('支付有效时间已到，请重新下单支付')
+                }
+                this.time--
+            
         },
         McDispatcher (qury){
             //接受数据
@@ -102,44 +142,41 @@ export default {
             this.token = qury.data.token
             this.orderId = qury.data.orderId
             this.clientIp = qury.data.clientIp
-            this.getProductinfo(qury.data.storeId,qury.data.cuid,qury.data.token)
+            this.getOrderinfo(qury.data.orderId,qury.data.cuid,qury.data.token)
         },
         linkIos : function (){
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
         },
-        timingCut(val1){
-            
-
-            
-            var now = val1;  //处理开始时间
-            var minutes=900000;  //处理输入的过期时间
-            var end = now.getTime()+minutes; //计算最后时间
-            var time_now =  new Date().getTime(); //当前时间
-            var msec =end - time_now;   //最后时间-当前时间
-            if(msec>0){
-                let min = parseInt(msec / 1000 / 60 % 60)
-                let sec = parseInt(msec / 1000 % 60)
-                min = min > 9 ? min : '0' + min
-                sec = sec > 9 ? sec : '0' + sec,
-                // document.getElementById('timer').innerHTML=`${day}天${hr}小时${min}分${sec}秒`
-                this.timing = min +':'+ sec
-            }else{
-                clearInterval(tim);
-                Toast('支付有效时间已到，请重新下单支付')
-            }
-            const that = this
-            var tim=setTimeout(function () {
-                that.timingCut(now)
-            }, 1000)
-            
+        getParams(msg){
+            this.userInfo = msg
+            this.cuid = msg.cuid
+            this.storeId = msg.storeId
+            this.token = msg.token
+            this.orderId = msg.orderId
+            this.clientIp = msg.clientIp
+            this.getOrderinfo(msg.orderId,msg.cuid,msg.token)
         },
+        
         toPay(){
-            if(this.selected == 1){
+            
+            if(this.device == 'android'){
+                if(this.selected == 1){
                 // Toast('微信支付')
-                this.paying(this.cuid,this.orderId,'wx','h5',this.clientIp,'H5',this.token)
-            }else if(this.selected == 2){
-                // Toast('支付宝支付')
-                this.paying(this.cuid,this.orderId,'ali','app',this.clientIp,'iOS',this.token)
+                    // this.paying(this.cuid,this.orderId,'wx','app',this.clientIp,'Android',this.token)
+                   
+                    window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","orderId":"'+this.orderId+'"}')
+                }else if(this.selected == 2){
+                    // Toast('支付宝支付')
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ALIPAY","orderId":"'+this.orderId+'"}')
+                }
+            }else if(this.device == 'ios'){
+                if(this.selected == 1){
+                // Toast('微信支付')
+                    this.paying(this.cuid,this.orderId,'wx','h5',this.clientIp,'H5',this.token)
+                }else if(this.selected == 2){
+                    // Toast('支付宝支付')
+                    this.paying(this.cuid,this.orderId,'ali','app',this.clientIp,'iOS',this.token)
+                }
             }
         },
         paying(cuid,orderId,payMethod,payType,clientIp,clientType,token){
@@ -157,11 +194,23 @@ export default {
                 axios.post(url,param).then((res)=>{
                     const ress = res.data.data
                     const url = ress.parameterMap.mwebUrl
-
+                    
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     if(ress.parameterMap.mwebUrl){
                         // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                        }
                         // window.location.href = url
-                        window.open(url)
+                        // window.open(url)
                     }
                     if(ress.parameterMap.orderStr){
                         
@@ -179,14 +228,13 @@ export default {
 
     },
     mounted(){
-        this.timingCut(new Date())
+        // this.timingCut(new Date())
         this.linkIos()
         
-
     },
     beforeMount(){
         window.McDispatcher = this.McDispatcher
-        
+        window.getParams = this.getParams
     }
 }
 </script>

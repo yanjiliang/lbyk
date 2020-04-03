@@ -31,8 +31,8 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 
 import VideoPlayer from 'vue-video-player'
-import 'vue-video-player/src/custom-theme.css'
 import 'video.js/dist/video-js.css'
+
  
 Vue.use(VideoPlayer)
 
@@ -44,6 +44,9 @@ Vue.use(VueResource);
 Vue.prototype.$ip = Ip;
 Vue.prototype.$Url = Url
 Vue.prototype.$device = device
+
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 
 import { store } from '../store/index'
 

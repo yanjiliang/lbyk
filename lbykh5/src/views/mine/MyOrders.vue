@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="top_right" @click="ClickTo('LXJG',item.servicePhone)">
-                        <p><img src="../../images/mine/电话6@2x(1).png" alt=""></p>
+                        <p><img src="../../images/mine/phone2x.png" alt=""></p>
                         <p>联系机构</p>
                     </div>
                 </div>
@@ -115,6 +115,13 @@ export default {
             axios.post(url,param).then((res)=>{
                 this.myorders_data = res.data.data
                 this.myorders_list = this.myorders_data.data
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
             }).catch(()=>{
 
             })

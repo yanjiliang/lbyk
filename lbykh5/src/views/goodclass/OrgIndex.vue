@@ -351,6 +351,13 @@ export default {
                 
                 this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
                 this.spans = this.orgindexData.teacherInfoDtoList
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
                 // this.aa = this.imglist.length
                 this.Bscroll()
                 //orgindexData.qualityCourseList
@@ -378,7 +385,7 @@ export default {
         
         McDispatcher : function (qury){
             if(qury.type == 'share'){
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme": "SHARE","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme": "SHARE","type":"store","typeId":"'+this.storeId+'","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'"}')
             }
             this.org_index_userInfo = qury
             this.lat = qury.data.latitude
@@ -431,7 +438,7 @@ export default {
         },
         getShareParams(msg){
             if(msg.type == 'share'){
-                window.android.SkipPage('{"linkType":"app","scheme": "SHARE","type":"ORGIN","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'","storeId":"'+this.storeId+'"}')
+                window.android.SkipPage('{"linkType":"app","scheme": "SHARE","type":"ORGIN","typeId":"'+this.storeId+'","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'","storeId":"'+this.org_storeId+'"}')
             }
         },
         isApp(){

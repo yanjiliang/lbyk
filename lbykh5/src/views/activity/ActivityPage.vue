@@ -79,16 +79,33 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.resultinfo= res.data.data
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    
+                }
                 if(this.resultinfo.status == 'openingSuccess'){//这里只是下单成功
                     //const orderId = this.resultinfo.data.orderDto.orderId
                     Toast.success('开通成功')
-                    setTimeout(()=>{
-                        if(this.device === 'android'){
-                            window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
-                        }else if(this.device === 'ios'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
-                        }
-                    },2000)
+                    if(price == 0){
+                        setTimeout(()=>{
+                            if(this.device === 'android'){
+                                window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                            }else if(this.device === 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                            }
+                        },2000)
+                    }else{
+                    //     if(this.device === 'android'){
+                    //         window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                    //     }else if(this.device === 'ios'){
+                    //         window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                    //     }
+                    }
+                    
                     
                     // if(price == 0){
                     //     Toast.success('开通成功')
@@ -123,6 +140,13 @@ export default {
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
                 this.productInfo = res.data.data;
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
             }).catch((err)=>{
                 console.log(err)
             })
@@ -143,6 +167,13 @@ export default {
                 this.openStatus = qury.data.openStatus //功能是否开启
                 this.effective = qury.data.effective //功能是否有效
                 this.getProductinfo(this.storeId,this.cuid,this.token)
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
                 if(qury.data.openStatus){
                     if(this.device === 'android'){
                         window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
@@ -177,6 +208,7 @@ export default {
                 this.storeId = qury.data.storeId //获取的门店id
                 this.openStatus = qury.data.openStatus //功能是否开启
                 this.effective = qury.data.effective //功能是否有效
+                
                 if(this.userInfo.cuid){
                 //登录后的操作
                     if(this.storeId){ //该用户是否有门店入驻

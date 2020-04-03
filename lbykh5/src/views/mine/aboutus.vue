@@ -5,7 +5,7 @@
             <div class="logo">
                 <p><img src="../../images/mine/aboutus.png" alt=""></p>
                 <p>蜡笔优课</p>
-                <p>Version 1.0.0</p>
+                <p>Version {{version}}</p>
             </div>
             
             <div class="info">
@@ -25,10 +25,34 @@ export default {
     name:'aboutus',
     data(){
         return {
-            Url: this.$Url.geturl()
+            Url: this.$Url.geturl(),
+            version:''
         }
     },
-    
+    methods:{
+        McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+            this.version = qury.data.version
+
+                //解析传进来的json
+                //给本地变量赋值，并判断经纬度是否为空，为空显示
+        },
+        getParams(msg){
+            this.version = msg.version
+        },
+        linkIos (){
+                //给iOS APP传参
+                window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+        },
+    },
+    beforeMount(){
+        window.McDispatcher = this.McDispatcher
+        window.getParams = this.getParams
+        
+    },
+    mounted(){
+        this.linkIos()
+    }
 
 }
 </script>

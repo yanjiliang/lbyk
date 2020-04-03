@@ -108,6 +108,13 @@ const axios = require('axios')
                     
                     const indexdata = res.data.data
                     this.data = indexdata.data
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     for(let i = 0; i< this.data.length;i++){
                         if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
                             this.age[i] = '不限年龄'
@@ -141,7 +148,13 @@ const axios = require('axios')
                     let indexdata = res.data.data
                     console.log(indexdata.data)
                     // let page = indexdata.pageNo
-                    
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     if(indexdata.data.length == 0){
                         // this.data = indexdata.data
                         this.pageno = pageNo-1
@@ -229,7 +242,13 @@ const axios = require('axios')
                 this.index_cuid = msg.cuid
                 // this.location = '{"latitude": "'+this.lat+'","longitude": "'+this.lng+'"}'
                 this.location = [msg.latitude,msg.longitude]
-                this.getGoodCourseData(msg.longitude,msg.latitude,msg.cuid)
+                this.pageno = 1
+                if(this.lng == 0){
+                    this.getGoodCourseData('','',msg.cuid)
+                }else{
+                    this.getGoodCourseData(this.lng,this.lat,msg.cuid)
+                }
+                this.getIndexBannerData()
             },
             gc_edit_page :function (qury){
                 //跳转页面
@@ -246,15 +265,15 @@ const axios = require('axios')
             clicktoActivity(index){
                 // if(this.index_cuid){
                     
-                        if(this.imagelist[index].jumpPage == 'StoreEntryPage'){
+                        if(this.imagelist[index].jumpPage){
+                            let url = this.imagelist[index].jumpPage
                             
                             if (this.device === 'android') {
-                                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/Addorganize","scheme":""}');
-                                
+                                window.android.SkipPage('{"scheme":"IndexJGRZ","url": "'+url+'"}');
                             }
                             if (this.device === 'ios') { 
                                 //jump  取值为true为跳新页面打开，false为当前页面打开
-                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"JGRZ","url": "'+this.Url+'/Addorganize","title":"机构入驻"}')
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme":"JGRZ","url": "'+url+'","title":"机构入驻"}')
                             }
                         }
                     

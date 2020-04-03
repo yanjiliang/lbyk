@@ -21,6 +21,7 @@
             <div class="enter_info">
                 <p>入驻须知</p>
                 <p>为保障入驻机构的真实性，我们将进行必要的审核，入住前请准备好 <span>以下材料</span></p>
+               
                 <div class="step">
                     <div class="left">
                         <div>
@@ -67,20 +68,43 @@ export default {
         }
     },
     mounted: function (){
-        
+        this.linkIos()
+    },
+    beforeMount(){
+        window.McDispatcher = this.McDispatcher
+        window.getParams = this.getParams
     },
     methods:{
-        
+        McDispatcher (qury){
+            this.token = qury.data.token
+        },
+        getParams(msg){
+            this.token = msg.token
+        },
+        linkIos (){
+                //给iOS APP传参
+                window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+        },
         consoleQury: function (qury){
             this.msg = qury
         },
         gotoEnter(){
             
             if (this.device === 'android') {
-                window.android.SkipPage('{"linkType": "app","scheme": "JGRZ"}');
+                if(!this.token){
+                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else{
+                    window.android.SkipPage('{"linkType": "app","scheme": "JGRZ"}');
+                }
+                
             }
             if (this.device === 'ios') {
-        　　　　window.webkit.messageHandlers.Addorganize.postMessage('')
+                if(!this.token){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else{
+                    window.webkit.messageHandlers.Addorganize.postMessage('')
+                }
+        　　　　
             }
         }
     }

@@ -1,164 +1,19 @@
 <template>
     <div class="enrollmentManagement">
         <div class="btn_issue" >
-            <div class="btn">
+            <div class="btn" @click="ClickTo('KSFB')">
                 <p><img src="../../images/mine/编辑3@2x.png" alt=""></p>
-                <p @click="ClickTo('KSFB')">快速发布</p>
+                <p>快速发布</p>
             </div>
         </div>
         
-        <!-- 头部用户信息 -->
-        <div class="topbox">
-            <div class="userinfo">
-                <div class="user_pic">
-                    <img src="../../images/mine/招生.png" alt="">
-                </div>
-                <div class="user_state_info">
-                    <p class="status" v-if="enroll_mana_data.effective">招生管理· 使用中</p>
-                    <p class="status" v-if="!enroll_mana_data.effective">招生管理· 已过期</p>
-                    <div class="time" v-if="time < 7300">
-                        <p v-if="enroll_mana_data.effective">有效期至{{enroll_mana_data.expirationDate}}</p>
-                        <p v-if="!enroll_mana_data.effective">部分操作将受限，请及时续费</p>
-                    </div>
-                    <div class="time" v-if="time >= 7300">
-                        <p>更懂教育的互联网营销</p>
-                    </div>
-                    <!-- <p class="renew_btn" v-if="time < 7300" @click="toRenew()"><span>续费</span></p> -->
-                    
-                </div>
-                <div class="pic"></div>
-            </div>
-
-            <div class="class_infobox">
-                <div class="infobox">
-                    <div class="class_info">
-                        <p>{{enroll_mana_data.upperShelfCourseCount}}</p>
-                        <p>招生中课程</p>
-                    </div>
-                    <div class="class_info">
-                        <p>{{enroll_mana_data.releasesCourseSurplusCount}}</p>
-                        <p>剩余发布数</p>
-                    </div>
-                    <div class="class_info">
-                        <p>{{enroll_mana_data.exposureCount}}</p>
-                        <p>曝光总次数</p>
-                    </div>
-                    <div class="class_info">
-                        <p>{{enroll_mana_data.appointmentCount}}</p>
-                        <p>预约总数</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 头部用户信息 -->
-        
-        
+    
         <!-- 主体内容信息 -->
         
-        <!-- 待跟进预约 -->
-        <div class="orderbox">
-            <div class="orderinfo">
-                <div class="infotop">
-                    <p>待跟进预约</p>
-                    <p @click="enroll_skipe_order_page" class="allorder"><span>全部预约</span><span><img src="../../images/GoodClass/reback2x.png" alt=""></span></p>
-                </div>
-
-                <div class="nodatapic" v-if="enroll_mana_data.appointmentDtoList.length == 0">
-                    <img src="../../assets/images/nodata2x.png" alt="">
-                    <p>暂无待跟进预约</p>
-                </div>
-
-                <div class="infodown">
-                    <div class="item" v-for="(item,index) in enroll_mana_data.appointmentDtoList" :key="index">
-                        <div class="item_pic">
-                            <!-- <p><img src="../../images/mine/跟进@2x(1).png" alt=""></p>
-                            <p>待跟进</p> -->
-                            <p class="bgc_processed" v-if=" item.status == 'processed' "><img src="../../images/mine/勾2@2x.png" alt=""></p>
-                            <p class="bgc_pending" v-if=" item.status == 'pending' "><img src="../../images/mine/跟进@2x(1).png" alt=""></p>
-                            <p class="text_processed" v-if=" item.status == 'processed' ">已处理</p>
-                            <p class="text_pending" v-if=" item.status == 'pending' ">待跟进</p>
-                        </div>
-                        <div class="item_info" @click="showPopup(index,$event)">
-                            <p>{{ item.courseTitle }}</p>
-                            <p>{{ item.studentName }}</p>
-                            <p>{{ item.createTime }}</p>
-                        </div>
-                        <div class="item_contact">
-                            <img src="../../images/mine/电话6@2x(1).png" alt="">
-                            <p @click="conTackto('LXJG',item.phone)">联系学员</p>
-                        </div>
-                    </div>
-
-                    <!-- 弹窗 -->
-                    <van-popup
-                        class="pup"
-                        v-model="ordershow"
-                        round
-                        position='bottom'
-                        :style="{height:'55%'}"
-                        >
-                        
-                        <div class="mark"></div>
-                        
-                        <div class="pup_top">
-                            
-                            <!-- top -->
-                            <div class="pup_top_pic">
-                                <p class="bgc_processed" v-if=" popupdata.status == 'processed' "><img src="../../images/mine/勾2@2x.png" alt=""></p>
-                                <p class="bgc_pending" v-if=" popupdata.status == 'pending' "><img src="../../images/mine/跟进@2x(1).png" alt=""></p>
-                            </div>
-                            <div class="pup_top_info">
-                                <p>{{ popupdata.studentName }}</p>
-                                <p>{{ popupdata.createTime }}</p>
-                                
-                            </div>
-                            <div class="pup_top_attact">
-                                <p><img src="../../images/mine/电话6@2x(1).png" alt=""></p>
-                                <p @click="conTackto('LXJG',popupdata.phone)">联系学员</p>
-                            </div>
-                        </div>
-                        
-                            
-                        <div class="pup_mid">
-                            <!-- middle -->
-                            <p class="title">课程信息</p>
-                            <div class="pup_mid_course_info">
-                                <div class="left">
-                                    <p>{{courseDetail.courseTitle}}</p>
-                                    <div>
-                                        <span>{{courseDetail.categoryName}}</span>
-                                        <span>{{courseDetail.minAge}}-{{courseDetail.maxAge}}岁</span>
-                                        <span>{{courseDetail.classHourNum}}节课</span>
-                                    </div>
-                                </div>
-                                <div class="right">
-                                    <p><i>￥</i>{{courseDetail.sellingPrice}}</p>
-                                    <p>￥{{courseDetail.tagPrice}}</p>
-                                    
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pup_down">
-                            <!-- down -->
-                            <p @click="deleteOrder(emroll_cuid,enroll_storeId,popupdata.id,token)">删除</p>
-                            <!-- （pending：待处理 | processed：已处理） -->
-                            <p v-if=" popupdata.status == 'pending' " @click="changeOrderstatus(emroll_cuid,enroll_storeId,'processed',popupdata.id,token)">标记为已处理</p>
-                            <p v-if=" popupdata.status == 'processed' " @click="changeOrderstatus(emroll_cuid,enroll_storeId,'pending',popupdata.id,token)">标记为待跟进</p>
-                        </div>
-                    </van-popup>
-                </div>
-            </div>
-        </div>
-
-        
-
-
-        <!-- 主体内容信息 -->
         <!-- 课程 -->
         <div class="gcList">
             <div class="gc_top">
-                <p class="gcListitle">课程管理</p>
+                <p class="gcListitle">课程列表</p>
                 <div class="liststate">
                     <p @click="showAll()" id="showAll" class="showActive">全部</p>
                     <!-- lowerShelf:下架 | upperShelf：上架 -->
@@ -172,7 +27,7 @@
                 <p>暂无数据</p>
             </div>
             
-            <div class="listbox">
+            <div class="listbox" v-if="loadingDone">
                 
                 <waterfall style="background-color:#fff" :col='col' :width="itemWidth" :gutterWidth="gutterWidth" :data="data"  >
                      
@@ -214,6 +69,7 @@ export default {
             return {
                 imagelist: [],
                 datalist: [],
+                loadingDone:false,
                 col:2,
                 ip: this.$ip.getIp(),
                 Url:this.$Url.geturl(),
@@ -232,15 +88,16 @@ export default {
                 lat:'',
                 defaultImg: 'this.src="' + require('../../assets/images/default.png') + '"',
                 age:[],
-                time:''
+                time:'',
+                selectedItem:0
                 // itemWidth:168
             }
         },
         methods:{
-            toRenew(){
-                Toast('toRenew')
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/RenewPage","jump":"true","title":"续费","storeId": "'+this.enroll_storeId+'"}')
-            },
+            // toRenew(){
+                
+            //     window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "RENEW","url": "'+this.Url+'/RenewPage","renewType":"RecruitStudents","jump":"true","title":"续费","storeId": "'+this.enroll_storeId+'"}')
+            // },
             getData(cuid,storeId,token){
                 var url = this.ip + 'recruitStudents/managerInfo';
                 //?cuid=' + cuid + '&storeId=' +storeId
@@ -251,6 +108,13 @@ export default {
                 param.append("userToken", token)
                 axios.post(url,param).then((res)=>{
                     // this.tableData = res.data
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     this.enroll_mana_data = res.data.data
                     let arrdate = this.enroll_mana_data.expirationDate.split('-')
                     var date = new Date();
@@ -281,17 +145,26 @@ export default {
                         // let aa = res.data.data
                         const indexdata = res.data.data
                         this.data = indexdata.data
-                        for(let i = 0; i< this.data.length;i++){
-                            if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
-                                this.age[i] = '不限年龄'
-                            }else if(this.data[i].minAge == 0 && this.data[i].maxAge != 60){
-                                this.age[i] = this.data[i].maxAge +'岁以下'
-                            }else if(this.data[i].minAge != 0 && this.data[i].maxAge != 60){
-                                this.age[i] = this.data[i].minAge + '-' +this.data[i].maxAge +'岁'
-                            }else if(this.data[i].minAge != 0 && this.data[i].maxAge == 60){
-                                this.age[i] = this.data[i].minAge  +'岁以上'
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                             }
                         }
+                        this.$nextTick(()=>{
+                            for(let i = 0; i< this.data.length;i++){
+                                if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
+                                    this.age[i] = '不限年龄'
+                                }else if(this.data[i].minAge == 0 && this.data[i].maxAge != 60){
+                                    this.age[i] = this.data[i].maxAge +'岁以下'
+                                }else if(this.data[i].minAge != 0 && this.data[i].maxAge != 60){
+                                    this.age[i] = this.data[i].minAge + '-' +this.data[i].maxAge +'岁'
+                                }else if(this.data[i].minAge != 0 && this.data[i].maxAge == 60){
+                                    this.age[i] = this.data[i].minAge  +'岁以上'
+                                }
+                            }
+                        })
                         // Toast(this.data.minAge)
                     }).catch((err)=>{
                         console.log(err)
@@ -308,6 +181,13 @@ export default {
                     axios.post(url,param).then((res) =>{
                         // let aa = res.data.data
                         const indexdata = res.data.data
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
+                        }
                         this.data = indexdata.data
                         for(let i = 0; i< this.data.length;i++){
                             if(this.data[i].minAge == 0 && this.data[i].maxAge == 60){
@@ -325,36 +205,26 @@ export default {
                     })
                 }
             },
-            getCourseDetail(cuid,storeId,id,token){
-                //查询预约的课程详细信息
-                
-                let url = this.ip + 'course-appointment/getById';
-                //?cuid=' +emroll_cuid+'&storeId='+enroll_storeId+'&id='+id
-                let param = new URLSearchParams()
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("id", id)
-                param.append("userToken", token)
-                axios.post(url,param).then((res) =>{
-                    this.courseDetail = res.data.data
-                }).catch((err)=>{
-                    console.log(err)
-                })
-            },
             McDispatcher : function (qury){
             this.emroll_userInfo = qury
             this.emroll_cuid = qury.data.cuid
             this.enroll_storeId = qury.data.storeId
             this.token = qury.data.token
+            
             this.$nextTick(()=>{
+                if(this.selectedItem === 0) this.showAll()
+                if(this.selectedItem === 1) this.showEnrollmenting()
+                if(this.selectedItem === 2) this.showSoldOut()
                 this.getData(qury.data.cuid,qury.data.storeId,qury.data.token)
-                this.getGoodCourseData (qury.data.cuid,qury.data.storeId,'',qury.data.token)
+                // window.location.reload()
+                // this.getGoodCourseData (qury.data.cuid,qury.data.storeId,'',qury.data.token)
             })
             },
             linkIos : function (){
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
             },
             showAll :function (){
+                this.selectedItem = 0
                 document.getElementById('showAll').classList.add('showActive')
                 document.getElementById('showEnrollmenting').classList.remove('showActive')
                 document.getElementById('showSoldOut').classList.remove('showActive')
@@ -363,6 +233,7 @@ export default {
                 })
             },
             showEnrollmenting :function (){
+                this.selectedItem = 1
                 document.getElementById('showAll').classList.remove('showActive')
                 document.getElementById('showEnrollmenting').classList.add('showActive')
                 document.getElementById('showSoldOut').classList.remove('showActive')
@@ -371,6 +242,7 @@ export default {
                 })
             },
             showSoldOut :function (){
+                this.selectedItem = 2
                 document.getElementById('showAll').classList.remove('showActive')
                 document.getElementById('showEnrollmenting').classList.remove('showActive')
                 document.getElementById('showSoldOut').classList.add('showActive')
@@ -431,8 +303,15 @@ export default {
                         param.append("storeId", storeId)
                         param.append("id", id)
                         param.append("userToken", token)
-                        axios.post(url,param).then(() =>{
+                        axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
+                            if(res.data.result == 'noLogin'){
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
+                            }
                             this.$nextTick(()=>{
                                  this.getData(this.emroll_cuid,this.enroll_storeId,this.token) //更新删除之后的列表数据
                             })
@@ -454,8 +333,15 @@ export default {
                 param.append("status", status)
                 param.append("id", id)
                 param.append("userToken", token)
-                axios.post(url,param).then(() =>{
+                axios.post(url,param).then((res) =>{
                     //
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     this.$nextTick(()=>{
                         // this.getData(this.emroll_cuid,this.enroll_storeId)
                         this.getData(this.emroll_cuid,this.enroll_storeId,this.token)
@@ -500,8 +386,10 @@ export default {
                 this.lat = msg.latitude
                 this.$nextTick(()=>{
                     // this.getData(msg.cuid,msg.storeId)
+                    if(this.selectedItem === 0) this.showAll()
+                    if(this.selectedItem === 1) this.showEnrollmenting()
+                    if(this.selectedItem === 2) this.showSoldOut()
                     this.getData(msg.cuid,msg.storeId,msg.token)
-                    this.getGoodCourseData(this.emroll_cuid,this.enroll_storeId,'',msg.token)
                 })
                 
             },
@@ -517,7 +405,11 @@ export default {
 	      }
         },
         mounted () {
+            setTimeout(()=>{
+                this.loadingDone = true
+            },200)
             this.linkIos()
+            
             
         },
         beforeMount(){

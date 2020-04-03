@@ -9,7 +9,7 @@
 
 .orderManagement .nodatapic{
     text-align: center;
-    transform: translateY(50%);
+    transform: translateY(30%);
     font-size:14px;
     font-weight:400;
     line-height:20px;
@@ -22,7 +22,7 @@
     height: 150px;
 }
 
-.orderManagement .contentbox .orderinfo .infotop{
+.orderManagement .contentbox .order_mana_info .infotop{
     display: flex;
     align-items: center;
     justify-content: left;
@@ -32,7 +32,7 @@
     line-height:24px;
     color:rgba(198,198,198,1);
 }
-.orderManagement .contentbox .orderinfo .infotop .active{
+.orderManagement .contentbox .order_mana_info .infotop .active{
     font-size:0.48rem;
     font-weight:bold;
     line-height:25px;
@@ -42,11 +42,11 @@
     font-weight: bold;
     color: #353239;
 }
-.orderManagement .contentbox .orderinfo .infotop p{ 
+.orderManagement .contentbox .order_mana_info .infotop p{ 
     margin-right: 0.32rem;
 }
 
-.orderManagement .contentbox .orderinfo .infodown .item{
+.orderManagement .contentbox .order_mana_info .infodown .item{
     display: flex;
     align-items: center;
     height: 2.69333rem;
@@ -55,44 +55,44 @@
     border-radius: 8px;
     margin-bottom: 0.53333rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell{
     overflow: visible;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right{
     right: -0.64rem;
     display: flex; 
     align-items: center;
     width: 4rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .pending{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .pending{
     background:rgba(77,201,189,1);box-shadow:0px 4px 6px rgba(59,155,146,0.16);margin-right: 0.64rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .processed{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .processed{
     background:rgba(198,198,198,1);box-shadow:0px 4px 6px rgba(0,0,0,0.08);margin-right: 0.64rem;
 }
 
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .markState{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .markState{
     width:52px;height:52px;border-radius:50%;opacity:1;display: flex;align-items: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .markState p{
-    width:30px;height:28px;font-size:10px;font-weight:400;line-height:14px;color:rgba(255,255,255,1);opacity:1;
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .markState p{
+    width:3em;height:28px;font-size:10px;font-weight:400;line-height:14px;color:rgba(255,255,255,1);opacity:1;
     margin: 0 auto;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn{
     width:52px;height:52px;background:rgba(255,68,75,1);box-shadow:0px 4px 6px rgba(255,68,75,0.16);border-radius:50%;opacity:1;display: flex;align-items: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn p{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn p{
     width:20px;height:20px;font-size:10px;font-weight:400;line-height:14px;color:rgba(255,255,255,1);opacity:1;
     margin: 0 auto;
 }
-.orderManagement .contentbox .orderinfo .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn p img{
+.orderManagement .contentbox .order_mana_info .infodown .van-swipe-cell .van-swipe-cell__right .deleteBtn p img{
     width:20px;height:20px;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic{
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic{
     width: 2.453333rem;
     text-align: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic p:nth-child(1){
     width: 0.85333rem;
     height: 0.85333rem;
     border-radius: 50%;
@@ -102,30 +102,30 @@
 .orderManagement .bgc_pending{
     background-color: #EAFEFC;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic .text_pending{
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic .text_pending{
     color: #4DC9BD;
 }
 .orderManagement .bgc_processed{
     background-color: #F6F6F6;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic .text_processed{
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic .text_processed{
     color: #C6C6C6;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic p:nth-child(2){
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic p:nth-child(2){
     width: 2.453333rem;
     font-size:12px;
     font-weight:400;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_pic img{
+.orderManagement .contentbox .order_mana_info .infodown .item .item_pic img{
     width: 0.373333rem;
     height: 0.373333rem;
     transform: translateY(50%);
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_info{
+.orderManagement .contentbox .order_mana_info .infodown .item .item_info{
     
     width: 100%;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_info > p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .item .item_info > p:nth-child(1){
     font-size:14px;
     font-weight:400;
     line-height:20px;
@@ -137,7 +137,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_info > p:nth-child(2){
+.orderManagement .contentbox .order_mana_info .infodown .item .item_info > p:nth-child(2){
     margin: 0.213333rem 0;
     font-size:14px;
     font-weight:bold;
@@ -150,13 +150,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.orderManagement .contentbox .orderinfo .infodown .item .item_info > p:nth-child(3){
+.orderManagement .contentbox .order_mana_info .infodown .item .item_info > p:nth-child(3){
     font-size:12px;
     font-weight:400;
     line-height:17px;
     color:rgba(155,155,155,1);
 }
-.orderManagement .contentbox .orderinfo .infodown .item  .item_contact{
+.orderManagement .contentbox .order_mana_info .infodown .item  .item_contact{
     position: absolute;
     right: 0.4266666rem;
     bottom: 0.6rem;
@@ -169,7 +169,7 @@
     box-shadow:0px 3px 6px rgba(59,155,146,0.16);
     padding: 4px 9px 4px 5px;
 }
-.orderManagement .contentbox .orderinfo .infodown .item  .item_contact img{
+.orderManagement .contentbox .order_mana_info .infodown .item  .item_contact img{
     width: 0.426666rem;
     height: 0.426666rem;
     margin-right: 0.106666rem;
@@ -177,7 +177,7 @@
 
 
 /* 弹出框样式 */
-.orderManagement .contentbox .orderinfo .infodown .pup .mark{
+.orderManagement .contentbox .order_mana_info .infodown .pup .mark{
     width: 0.693333rem;
     height: 0.106666rem;
     background:rgba(232,232,232,1);
@@ -187,7 +187,7 @@
 }
 
 
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -196,7 +196,7 @@
     box-sizing: border-box;
 }
 
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_pic p{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_pic p{
     width: 1.546666rem;
     height: 1.546666rem;
     border-radius:50%;
@@ -206,15 +206,15 @@
     justify-content:center;
     align-items: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_pic img{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_pic img{
     width: 0.64rem‬;
     height: 0.64rem;
     display: block;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_info{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_info{
     margin-right: 0;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_info p:nth-child(1){
     font-size:0.48rem;
     font-weight:400;
     line-height:30px;
@@ -227,7 +227,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_info p:nth-child(2){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_info p:nth-child(2){
     font-size:0.373333rem;
     font-weight:400;
     line-height:0.53333rem;
@@ -240,24 +240,23 @@
     overflow: hidden;
 }
 
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_attact{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact{ 
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    width:1.813333rem;
-    height:0.426666rem;
+    box-sizing: border-box;
     background:rgba(77,201,189,1);
     box-shadow:0px 3px 6px rgba(59,155,146,0.16);
-    opacity:1;
     color:rgba(255,255,255,1);
     border-radius: 15px;
     padding: 0.13333rem 0.24rem 0.106666rem 0.13333rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_attact img{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact img{
     width: 16px;
     height: 16px;
+    display: block;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_top .pup_top_attact p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_top .pup_top_attact p:nth-child(1){
     width: 0.426666rem;
     height: 0.426666rem;
     margin-right: 0.106666rem;
@@ -265,7 +264,7 @@
 
 
 
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid{
     width:8.293333rem;
     /* height:3.68rem; */
     background:rgba(252,252,252,1);
@@ -277,20 +276,20 @@
     margin-top: 0.853333rem;
     margin-bottom: 0.853333rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .title{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .title{
     font-size:14px;
     font-weight:400;
     line-height:0.533333rem;
     color:rgba(155,155,155,1);
     margin-bottom: 0.32rem;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info{
     display: flex;
     align-items: center;
     justify-content: space-between;
 
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left p{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .left p{
     font-size: 16px;
     font-weight:bold;
     line-height:26px;
@@ -305,11 +304,11 @@
     overflow: hidden;
 
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .left div{
     display: flex;
     align-items: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .left div span{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .left div span{
     display: inline-block;
     height:0.373333rem;
     background:rgba(251,245,237,1);
@@ -323,12 +322,12 @@
     padding: 0.053333rem 0.106666rem;
     text-align: center;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .right{
     display: flex;
     flex-direction: column;
     text-align: right;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(1){
     
     height:0.64rem;
     font-size:0.53333rem;
@@ -337,11 +336,11 @@
     color:rgba(255,68,75,1);
     opacity:1;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right i{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .right i{
     font-size:0.32rem;
     font-weight:normal;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(2){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_mid .pup_mid_course_info .right p:nth-child(2){
     font-size:0.32rem;
     font-weight:normal;
     line-height:0.373333rem;
@@ -350,14 +349,14 @@
     text-decoration: line-through;
 }
 
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_down{
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_down{
     display: flex;
     align-items: center;
     width: 9.146666rem;
     margin-left: 0.426666rem;
     justify-content: space-between;
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_down p:nth-child(1){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_down p:nth-child(1){
     width:2.56rem;
     height:1.173333rem;
     background:rgba(246,246,246,1);
@@ -369,7 +368,7 @@
     line-height:1.173333rem;
     color:rgba(198,198,198,1);
 }
-.orderManagement .contentbox .orderinfo .infodown .pup .pup_down p:nth-child(2){
+.orderManagement .contentbox .order_mana_info .infodown .pup .pup_down p:nth-child(2){
     width:6.16rem;
     height:1.173333rem;
     background:rgba(255,68,75,1);

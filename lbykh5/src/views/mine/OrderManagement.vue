@@ -2,7 +2,7 @@
     <div class="orderManagement">
         
         <div class="contentbox" v-if="content_loading">
-            <div class="orderinfo">
+            <div class="order_mana_info">
                 <div class="infotop">
                     <p id="showAll" class="showActive" @click="showAll">全部</p>
                     <p id="showPending" @click="showPending">待跟进</p>
@@ -27,7 +27,7 @@
                                     <p>{{ item.createTime }}</p>
                                 </div>
                                 <div class="item_contact">
-                                    <img src="../../images/mine/电话6@2x(1).png" alt="">
+                                    <img src="../../images/mine/phone2x.png" alt="">
                                     <p @click="conTackto('LXJG',item.phone)">联系学员</p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                 <p>{{ popupdata.createTime }}</p>
                             </div>
                             <div class="pup_top_attact">
-                                <p><img src="../../images/mine/电话6@2x(1).png" alt=""></p>
+                                <p><img src="../../images/mine/phone2x.png" alt=""></p>
                                 <p @click="conTackto('LXJG',popupdata.phone)">联系学员</p>
                             </div>
                         </div>
@@ -133,27 +133,39 @@ import { Toast,Dialog } from 'vant'
                 this.order_mana_cuid = qury.data.cuid
                 this.order_mana_storeid = qury.data.storeId
                 this.token = qury.data.token
-                this.$nextTick(()=>{
-                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',qury.data.token)
-                })
+                this.showAll()
+                // this.$nextTick(()=>{
+                //     this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',qury.data.token)
+                // })
             },
             linkIos : function (){
                 window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
             },
-            getData(cuid,storeId,token){
-       
-                var url = this.ip + 'course-appointment/storeList';
-                //?cuid=" + cuid + "&storeId=" + storeId + "&pageNo=1&pageSize=5"
-                let param = new URLSearchParams()
-                param.append("cuid", cuid)
-                param.append("storeId", storeId)
-                param.append("pageNo", "1")
-                param.append("pageSize", "10")
-                param.append("userToken", token)
-                axios.post(url,param).then((res)=>{
-                    this.order_mana_data = res.data.data.data
-                })
+            getParams(msg){
+                this.order_mana_userInfo = msg
+                this.order_mana_cuid = msg.cuid
+                this.order_mana_storeid = msg.storeId
+                this.token = msg.token
+                this.showAll()
+                // this.$nextTick(()=>{
+                //     this.getOrderinfo(msg.cuid,msg.storeId,'',msg.token)
+                // })
+                
             },
+            // getData(cuid,storeId,token){
+       
+            //     var url = this.ip + 'course-appointment/storeList';
+            //     //?cuid=" + cuid + "&storeId=" + storeId + "&pageNo=1&pageSize=5"
+            //     let param = new URLSearchParams()
+            //     param.append("cuid", cuid)
+            //     param.append("storeId", storeId)
+            //     param.append("pageNo", "1")
+            //     param.append("pageSize", "10")
+            //     param.append("userToken", token)
+            //     axios.post(url,param).then((res)=>{
+            //         this.order_mana_data = res.data.data.data
+            //     })
+            // },
 
             showAll: function(){
                 console.log('1122')
@@ -207,6 +219,13 @@ import { Toast,Dialog } from 'vant'
                 param.append("userToken", token)
                 axios.post(url,param).then((res) =>{
                     this.courseDetail = res.data.data
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                     if(this.courseDetail.minAge == 0 && this.courseDetail.maxAge == 60){
                         this.order_age = '不限年龄'
                     }else if(this.courseDetail.minAge == 0 && this.courseDetail.maxAge != 60){
@@ -233,7 +252,13 @@ import { Toast,Dialog } from 'vant'
                 param.append("userToken", token)
                 axios.post(url,param).then((res) =>{
                     this.order_mana_data = res.data.data.data
-                    
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                    }
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -253,15 +278,30 @@ import { Toast,Dialog } from 'vant'
                         param.append("storeId", storeId)
                         param.append("id", id)
                         param.append("userToken", token)
-                        axios.post(url,param).then(() =>{
+                        axios.post(url,param).then((res) =>{
                             //把需要删除的数据提交后台接口
+                            if(res.data.result == 'noLogin'){
+                                if(this.device == 'android'){
+                                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }else if(this.device == 'ios'){
+                                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                                }
+                            }
                             this.$nextTick(()=>{
-                                this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
+                                // this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)//更新删除之后的列表数据
+                                if(this.activeitem == 0){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',this.token)
+                                }else if(this.activeitem == 1){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'pending',this.token)
+                                }else if(this.activeitem == 2){
+                                    this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'processed',this.token)
+                                }
                             })
                             this.ordershow = false;
                         }).catch((err)=>{
                             console.log(err)
                         })
+                        // Toast(this.activeitem)
                         
                     }).catch(() => {
                     // on cancel
@@ -281,6 +321,13 @@ import { Toast,Dialog } from 'vant'
                 axios.post(url,param).then((res) =>{
                     //传入状态，以改变预约课程状态
                     // let result = res.data
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    }
                     if(this.activeitem == 0){
                         this.$nextTick(()=>{
                             this.getOrderinfo(this.order_mana_cuid,this.order_mana_storeid,'',this.token)
@@ -323,6 +370,7 @@ import { Toast,Dialog } from 'vant'
         },
         beforeMount(){
             window.McDispatcher = this.McDispatcher
+            window.getParams = this.getParams
         }
     }
 </script>

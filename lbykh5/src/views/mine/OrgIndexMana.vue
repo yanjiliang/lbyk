@@ -74,8 +74,8 @@
                         <img src="../../images/GoodClass/orgindex/通用-线2@2x.png" alt="icon图片">
                     </div>
                     <div class="noclass_info">
-                        <p>招生功能未开启</p>
-                        <p>马上开启，拥抱周边3公里优质生源</p>
+                        <p>暂未发布课程</p>
+                        <p>马上发布，拥抱周边3公里优质生源</p>
                     </div>
                 </div>
                 
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <!-- <p>{{org_index_userInfo}}</p> -->
+            <!-- <p>{{aa}}</p> -->
             
             <!-- 师资力量 -->
             <div class="box">
@@ -191,7 +191,7 @@ let amapManager = new VueAMap.AMapManager();
 const axios = require('axios')
 
 import BScroll from 'better-scroll'
-
+import {Toast,Notify} from 'vant'
 
 export default {
     name:'orgindex',
@@ -230,7 +230,8 @@ export default {
             age:[],
             spans:Object,
             pre_index:0,
-            pre_show:false
+            pre_show:false,
+            aa:''
         }
     },
     beforeMount() {
@@ -267,6 +268,7 @@ export default {
                 tags[i].style.width = width + 'px'
                 
             }
+            
             this.$nextTick(()=>{
                 var tagsbox = document.getElementById('tagsbox')
                 console.log(tagsbox)
@@ -311,32 +313,54 @@ export default {
         },
             //  以上是 banner图滑动
             //  下面是请求数据
-        getData (lnt,lat,storeId){
+        getData (lnt,lat,cuid,storeId){
             
             let url = this.ip + 'store/homepage';
             let param = new URLSearchParams()
             param.append("longitude", lnt)
             param.append("latitude", lat)
+            param.append("cuid", cuid)
             param.append("storeId", storeId)
             axios.post(url,param).then((res) =>{
-                this.orgindexData = res.data.data
-                this.org_index_phone = this.orgindexData.servicePhone
-                this.org_index_course = this.orgindexData.qualityCourseList
-                this.imglist = this.orgindexData.picList.reverse()
-                this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
-                this.spans = this.orgindexData.teacherInfoDtoList 
-                this.Bscroll()
-                for(let i = 0; i< this.orgindexData.qualityCourseList.length;i++){
-                    if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
-                        this.age[i] = '不限年龄'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].maxAge +'岁以下'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].minAge + '-' +this.orgindexData.qualityCourseList[i].maxAge +'岁'
-                    }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
-                        this.age[i] = this.orgindexData.qualityCourseList[i].minAge  +'岁以上'
+                
+                if(res.data.result == 'noPrivileges'){
+                    Toast({
+                        message: res.data.msg,
+                        overlay : true,
+                        forbidClick:true,
+                        duration:0
+                    })
+                    setTimeout(()=>{
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
+                    },1500)
+                }else if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }else if(res.data.result == 'success'){
+                    this.orgindexData = res.data.data
+                    this.org_index_phone = this.orgindexData.servicePhone
+                    this.org_index_course = this.orgindexData.qualityCourseList
+                    this.imglist = this.orgindexData.picList.reverse()
+                    this.center = [this.orgindexData.longitude,this.orgindexData.latitude]
+                    this.spans = this.orgindexData.teacherInfoDtoList 
+                    this.Bscroll()
+                    for(let i = 0; i< this.orgindexData.qualityCourseList.length;i++){
+                        if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
+                            this.age[i] = '不限年龄'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge == 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].maxAge +'岁以下'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge != 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].minAge + '-' +this.orgindexData.qualityCourseList[i].maxAge +'岁'
+                        }else if(this.orgindexData.qualityCourseList[i].minAge != 0 && this.orgindexData.qualityCourseList[i].maxAge == 60){
+                            this.age[i] = this.orgindexData.qualityCourseList[i].minAge  +'岁以上'
+                        }
                     }
                 }
+
+                
             }).catch(()=>{
                 
             })
@@ -350,7 +374,7 @@ export default {
         
         McDispatcher : function (qury){
             if(qury.type == 'share'){
-                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "SHARE","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'"}')
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "SHARE","type":"store","typeId":"'+this.org_storeId+'","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'"}')
             }
             this.org_index_userInfo = qury
             this.lat = qury.data.latitude
@@ -358,20 +382,18 @@ export default {
             this.org_storeId = qury.data.storeId
             this.token = qury.data.token
             this.cuid = qury.data.cuid
-            this.getData(qury.data.longitude,qury.data.latitude,qury.data.storeId)
+            this.getData(qury.data.longitude,qury.data.latitude,qury.data.cuid,qury.data.storeId)
             this.getFuctionInfo(qury.data.cuid,qury.data.storeId,qury.data.token)
         },
         linkIos : function (){
             window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
         },
         ClickTo : function (qury){//联系机构
-            var u = navigator.userAgent//app = navigator.appVersion;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
-            var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            if (isAndroid) {
+            
+            if (this.device == 'android') {
                 window.android.SkipPage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.org_storeId+'","Phonenumber":"'+this.org_index_phone+'"}');
             }
-            if (isIOS) { 
+            if (this.device == 'ios') { 
         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "'+ qury +'" ,"storeId": "'+this.org_storeId+'","Phonenumber":"'+this.org_index_phone+'"}')
             }
             // document.getElementById('item').style.href = '{"skipPage":"{"linkType":"h5","type":"员工管理","storeeId":@"xxxxxx"}"}'
@@ -379,14 +401,12 @@ export default {
         },
         oi_skipe_page (index){
                 //跳转页面
-                var u = navigator.userAgent; //app = navigator.appVersion;
-                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
-                var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-                if (isAndroid) {
-                    window.android.SkipPage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"JXHK","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
+                
+                if (this.device == 'android') {
+                    window.android.SkipPage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"ZSKCXQ","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}');
                     
                 }
-                if (isIOS) { 
+                if (this.device == 'ios') { 
                     //jump  取值为true为跳新页面打开，false为当前页面打开
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","url": "'+this.Url+'/ClassDetailOrg","title":"课程详情","scheme":"KCXQ","courseId":"'+this.orgindexData.qualityCourseList[index].courseId+'","storeId":"'+this.org_storeId+'","longitude":"'+this.lng+'","latitude":"'+this.lat+'"}')
                 }
@@ -401,12 +421,12 @@ export default {
             this.token = msg.token
             this.cuid = msg.cuid
             this.org_storeId = msg.storeId
-            this.getData(msg.longitude,msg.latitude,msg.storeId)
+            this.getData(msg.longitude,msg.latitude,msg.cuid,msg.storeId)
             this.getFuctionInfo(msg.cuid,msg.storeId,msg.token)
         },
         getShareParams(msg){
             if(msg.type == 'share'){
-                window.android.SkipPage('{"linkType":"app","scheme": "SHARE","type":"ORGIN","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'","storeId":"'+this.org_storeId+'"}')
+                window.android.SkipPage('{"linkType":"app","scheme": "SHARE","type":"ORGIN","typeId":"'+this.org_storeId+'","title":"'+this.orgindexData.storeName+'","content":"位于'+this.orgindexData.area+'，主营教学科目为'+this.orgindexData.categoryList.join(' · ')+',点击了解更多","logo":"'+this.orgindexData.logo+'","storeId":"'+this.org_storeId+'"}')
             }
         },
         getFuctionInfo(cuid,storeId,token){
@@ -417,9 +437,16 @@ export default {
             let param = new URLSearchParams()
             param.append("cuid", cuid)
             param.append("storeId", storeId)
-            param.append("functional", "RecruitStudents")
+            param.append("functional", "MarketingService")
             param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                }
                 let qury = res.data
                 this.openStatus = qury.data.openStatus //功能是否开启
                 this.effective = qury.data.effective //功能是否有效

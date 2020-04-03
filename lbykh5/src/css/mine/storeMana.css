@@ -1,268 +1,186 @@
-.storemanagement{
-    background:rgba(246,246,246,1);
+.storemanagement{ 
     height: 105vh;
-    opacity: 1;
-    padding-bottom: 30px;
 }
 .storemanagement .container{
     width:100%;
     background:rgba(246,246,246,1);
     opacity:1;
 }
-.storemanagement .container .topbox{
-    display: flex;
-    align-items: center;
-    padding-top: 0.853333rem;
-    padding-left: 0.64rem;
-    margin-bottom: 26px;
-}
-.storemanagement .container .topbox .left{
-    height: 1.76rem;
-    width: 1.76rem;
-    margin-right: 0.426666rem
-}
-.storemanagement .container .topbox .left img{
-    height: 1.76rem;
-    width: 1.76rem;
-    background:rgba(0,0,0,0);
-    box-shadow:0px 4px 10px rgba(0,0,0,0.12);
-    opacity:1;
-    border-radius:8px;
-}
+
 .storemanagement .container .bgpic{
-    width: 9.1466666666666rem;
-    margin: 0 auto;
     box-sizing: border-box;
-}
-.storemanagement .container .bgpic img{
-    width: 100%;
-}
-/*列表头部和图标 */
-.storemanagement .container .orginfo{
-    z-index: 100;
-    opacity: 1;
-    height: 1.093333rem;
-    padding-left: 0.893719rem;
-    padding-top: 10px;
-    margin-bottom: 20px;
-    position: relative;
+    color: #353239;
+    padding: 0 16px;
+    background: #FFFFFF;
 }
 
-.storemanagement .container .orginfo .renew_btn{
-    position: absolute;
-    right: 10%;
-    top: 25%;
-    height: 28px;
-    border: 1px solid #fff;
-    border-radius: 15px;
-    padding: 5px 18px;
+/*列表头部和图标 */
+.storemanagement .container .bgpic .store_service_wrap{
+    z-index: 100;
+    color: #353239;
     box-sizing: border-box;
-    font-size: 12px;
+    border-radius: 15px;
+    padding: 20px 20px 0 20px;
+    position: relative;
+    background: #fff;
+    top: -73px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
 }
-.storemanagement .container .orginfo > p{
-    height:20px;
-    font-size:14px;
-    font-weight:bold;
-    line-height:20px;
-    color:rgba(255,255,255,1);
-    opacity:1;
+
+.storemanagement .container .bgpic .store_service_wrap .store_service_product_item{
+    box-sizing: border-box;
+    padding: 0 9px;
+    color: #C6C6C6;
+}
+.store_service_info{
+    font-size: 12px;
+    
+    font-weight: 400;
+    line-height: 17px;
+    position: relative;
+    box-sizing: border-box;
+}
+.store_service_info .store_service_name{
+    color: #353239;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
     margin-bottom: 4px;
 }
-.storemanagement .container .orginfo div{
-    width:14em;
-    height:17px;
-    font-size:12px;
-    font-weight:300;
-    line-height:17px;
-    color:#f6f6f6;
-    opacity:1;
+.store_mana_renew_btn{
+    position: absolute;
+    bottom: 25%;
+    right: 0;
+    box-sizing: border-box;
+    color: #C6C6C6;
+    border-radius: 14px;
+    background: #f6f6f6;
+    min-width: 60px;
+    text-align: center;
 }
-.storemanagement .container .top{
+.store_mana_renew_btn span{ 
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 30px;
+}
+.store_data_info{
     display: flex;
     align-items: center;
-    clear: both;
-    margin-bottom: 30px;
+    justify-content: space-between;
+    margin-top: 12px;
 }
-.storemanagement .container .top .toptitle{
+.store_data_info .toptitle{
     text-align: center;
-    width: 33.33333333%;
-    vertical-align: middle;
-    box-sizing: border-box;
+    line-height: 14px;
+    min-width: 22%;
+
 }
-.storemanagement .container .top .toptitle p:nth-child(1){
-    height:0.586666rem;
-    font-size:0.48rem;
-    font-weight:normal;
-    line-height:0.586666rem;
-    color:#FFFFFF;
-    opacity:1;
-    margin-bottom: 0.106666rem;
-}
-.storemanagement .container .top .toptitle p:nth-child(2){
-    height:0.453333rem;
-    font-size:0.32rem;
-    font-weight:300;
-    line-height:0.453333rem;
-    color:#f6f6f6;
-    opacity:1;
+.store_data_info .toptitle p:nth-child(1){
+    font-size:18px;
+    font-weight:500;
+    line-height:24px;
+    color:#353239;
+
 }
 
-.storemanagement .listbox{
-    /* margin-top: -30px; */
-    background:rgba(246,246,246,1);
-    opacity:1;
-    box-sizing: border-box;
-    padding: 0 0.426666666rem;
-    padding-top: 0;
-}
-.storemanagement .listbox .list{
-    position: relative;
-    z-index: 99;
-    background:rgba(255,255,255,1);
-    opacity:1;
-    padding: 30px 0 5px 0;
-    border-radius: 0 0 8px 8px;
-}
-.storemanagement .listbox .list .row{
-    display: flex;
-    align-items: center;
-    clear: both;
-    margin-bottom: 30px;
-}
-.storemanagement .listbox .list .row .list_item{
+
+/* .store_service_listbox{
+    border: 1px solid red;
+} */
+.store_service_listbox .store_service_list{
     text-align: center;
-    width: 33.33333333%;
-    vertical-align: middle;
-    box-sizing: border-box;
-}
-.storemanagement .listbox .list .row  .list_item img{
-    width: 48px;
-    height: 48px;
-} 
-.storemanagement .listbox .list .row  .list_item p:nth-child(1){
-    width:48px;
-    height:48px;
-    margin: 0 auto;
-    margin-bottom: 8px;
-    opacity:1;
-    border-radius:20px;
-} 
-.storemanagement .listbox .list .row  .list_item p:nth-child(2){
-    height:17px;
-    font-size:12px;
-    font-weight:400;
-    line-height:17px;
-    color:rgba(94,88,98,1);
-    opacity:1;
-} 
-.storemanagement .bgpic{
-    padding: 10px 0;
-    background: url('../../images/mine/newbg2x.png') no-repeat;
-    background-size: 100% 100%;
-    z-index: 10;
-}
-.storemanagement .topbox{
-    position: relative;
-    z-index: 999;
-    
-}
-
-.storemanagement .enrollmana{
-    width:9.146666rem;
-    background:rgba(255,255,255,1);
-    opacity:1;
-    border-radius:8px;
-    display: flex;
-    align-items: center;
-    margin: 0.53333rem auto;
-    padding: 20px 0;
-}
-.storemanagement .enrollmana .pic{
-    margin-right: 0.32rem;
-    margin-left: 0.88rem;
-    width: 48px;
-    height: 48px;
-    box-shadow:0px 3px 6px rgba(250, 100, 84, .2);
-    border-radius:20px;
-}
-.storemanagement .enrollmana img{
-    width: 48px;
-    height: 48px;
-}
-.storemanagement .enrollmana .info{
-    margin-right: 0.693333rem;
-
-}
-.storemanagement .enrollmana .info > p{
-    font-size:16px;
-    font-weight:bold;
-    line-height:1.6;
-    color:rgba(94,88,98,1);
-    opacity:1;
-    white-space: nowrap;
-}
-.storemanagement .enrollmana .info div p{
-    width:3.65333rem;
-    height:0.53333333rem;
-    font-size:14px;
-    font-weight:400;
-    line-height:0.53333333rem;
-    color:rgba(198,198,198,1);
-    opacity:1;
-    white-space: nowrap;
-}
-.storemanagement .enrollmana .btn{
-    width:1.6rem;
-    height:0.74666rem;
-    border:1px solid rgba(255,68,75,1);
-    opacity:1;
-    border-radius:3px;
-    text-align: center;
-    line-height: 0.75666rem;
-    font-size:12px;
-    font-weight:400;
-    color:rgba(255,68,75,1);
-}
-
-/* 头部 */
-.storemanagement .topbox .right .store_name{
-    width:14em;
-    height:0.66666rem;
-    font-size:0.48rem;
-    font-weight:bold;
-    line-height:25px;
-    color:rgba(53,50,57,1);
-    opacity:1;
-    margin-bottom:4px;
-    white-space: nowrap;
-    text-overflow:ellipsis;
     overflow: hidden;
-    margin-bottom: 0.32rem;
-}
-.storemanagement .topbox .right .links{
-    font-size:0.373333rem;
-    font-weight:400;
-    color:#9b9b9b;
-    opacity:1;
-    display:flex;
-}
-.storemanagement .topbox .right .links .orgindex{
-    background:rgba(255,255,255,1);
-    opacity:1;
-    border-radius:16px;
-    display:flex;
+} 
+.store_service_listbox .store_service_list .row{
+    /* border: 1px solid red; */
+    display: flex;
     align-items: center;
-    padding: 5px 15px;
-    margin-right: 10px;
-    white-space: nowrap;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+.store_service_listbox .store_service_list .row img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
 }
 
-.storemanagement .topbox .right .links .edit{
-    background:rgba(255,255,255,1);
-    opacity:1;
-    border-radius:16px;
-    display:flex;
+.store_service_listbox .store_service_list .row .list_item{
+    width: 66px;
+    background: rgba(0,0,0,0);
+}
+.store_service_listbox .store_service_list .row .list_item p:nth-child(2){
+    color: #7A7A7A;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    margin-top: 4px;
+}
+/* 头部 */
+.storemanagement > .container > .topbox{
+    width: 10rem;
+    height: 297px;
+    padding: 130px 16px 0 16px;
+    box-sizing: border-box;
+    background: url('../../images/mine/store-mana-bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info{
+    display: flex;
     align-items: center;
-    padding: 5px 13px;
-    white-space: nowrap;
+    box-sizing: inherit;
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store_mainpic{
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+    box-sizing: border-box;
+    padding: 3px;
+    margin-right: 12px;
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store_mainpic div{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    overflow: hidden;
+
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store_mainpic img{
+    width: 60px;
+    height: 60px;
+}
+
+
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store .store_name{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    width: 13em;
+    color: #FFFFFF;
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    display:-webkit-box; 
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1;
+    margin-bottom: 8px;
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store .store_btn_box{
+    display: flex;
+    align-items: center;
+}
+.storemanagement > .container > .topbox .store_mana_store_info_box .store_mana_store_info .store_mana_store .store_btn_box .store_index_page{
+    display: flex;
+    align-items: center;
+    background: rgba(252, 240, 241, .3);
+    border-radius: 12px;
+    box-sizing: border-box;
+    padding: 3px 6px 3px 8px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 20px;
 }

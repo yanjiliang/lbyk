@@ -113,3 +113,6 @@ body{
   top: 0;
 }
 
+.vjs-poster{
+  background-size: cover;
+}

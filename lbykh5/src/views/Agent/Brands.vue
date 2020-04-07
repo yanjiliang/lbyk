@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div id="Brands">
         <!-- logo -->
 		<div class="brand_logo" flex="main:center cross:center">
-            <img src="img/logo.png">
+            <img src="../../images/agent/logo.png">
 		</div>
         <!-- 品牌介绍 -->
         <div class="agent_box">
@@ -18,8 +18,8 @@
         <!-- 标题 -->
         <div class="agent_box_title"><span>公司资质</span></div>
             <div class="brand_zizhi" flex="main:justify cross:center">
-                <img src="img/zhizhao.jpg" >
-                <img src="img/ruanzhu.jpg" >
+                <img src="../../images/agent/zhizhao.jpg" >
+                <img src="../../images/agent/ruanzhu.jpg" >
             </div>
         </div>
     </div>
@@ -29,6 +29,6 @@ import 'flex.css'
 import '../../css/agent/iconfont.css'
 import '../../css/agent/agent.css'
 export default {
-
+    name:'Brands'
 }
 </script>

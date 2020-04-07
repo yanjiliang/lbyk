@@ -450,6 +450,51 @@ const router = new Router({
             },
             component: () => import('./views/Agent/StoreDetail.vue')
         },
+        
+        {
+            path: '/Drawing',
+            name: 'Drawing',
+            meta: {
+                title: '提现'
+            },
+            component: () => import('./views/Agent/Drawing.vue')
+        },
+
+        {
+            path: '/DrawResult',
+            name: 'DrawResult',
+            meta: {
+                title: '提现结果'
+            },
+            component: () => import('./views/Agent/DrawResult.vue')
+        },
+
+        {
+            path: '/ServiceAcademic',
+            name: 'ServiceAcademic',
+            meta: {
+                title: '教务服务功能介绍'
+            },
+            component: () => import('./views/Agent/ServiceAcademic.vue')
+        },
+
+        {
+            path: '/ServiceMarket',
+            name: 'ServiceMarket',
+            meta: {
+                title: '营销服务功能介绍'
+            },
+            component: () => import('./views/Agent/ServiceMarket.vue')
+        },
+
+        {
+            path: '/Posters',
+            name: 'Posters',
+            meta: {
+                title: '营销海报'
+            },
+            component: () => import('./views/Agent/Posters.vue')
+        },
     ]
 })
 

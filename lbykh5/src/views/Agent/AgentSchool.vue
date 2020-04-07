@@ -10,7 +10,7 @@
             <div class="agent_box_icon"><span class="iconfont">&#xe790;</span></div>
             <div><p class="font_16 blod">品牌介绍</p><p class="color_gray">了解蜡笔优课</p></div>
         </div>
-        <a href="brand.html" class="agent_btn btn_blue">去了解</a>
+        <a :href="Url+'/Brands'" class="agent_btn btn_blue">去了解</a>
         </div>
         <!-- 服务介绍及价格 -->
         <div class="agent_box" flex="main:justify cross:center">
@@ -18,7 +18,7 @@
             <div class="agent_box_icon btn_blue"><span class="iconfont">&#xe79d;</span></div>
             <div><p class="font_16 blod">服务及价格介绍</p><p class="color_gray">了解客户服务内容</p></div>
         </div>
-        <a href="service.html" class="agent_btn btn_blue">去了解</a>
+        <a :href="Url+'/ServiceIndex'" class="agent_btn btn_blue">去了解</a>
         </div>
         <!-- 销售技巧及重点知识 -->
         <div class="agent_box">
@@ -55,7 +55,32 @@ import 'flex.css'
 import '../../css/agent/iconfont.css'
 import '../../css/agent/agent.css'
 export default {
-    name:'AgentSchool'
+    name:'AgentSchool',
+    data(){
+        return{
+            ip: this.$ip.getIp(),
+            Url: this.$Url.geturl(),
+            device: this.$device.getDevice(),
+        }
+    },
+    mounted(){
+        this.ClickLi()
+    },
+    methods:{
+        ClickLi(){
+            var g = document.getElementsByClassName('ask');
+            for(let i = 0;i<g.length;i++) {
+                let active = g[i].parentNode.parentNode.getElementsByTagName("li");
+                g[i].onclick = function (e) {
+                    for (let j =0;j<active.length;j++) {
+                        active[j].classList.remove("agent_know_active");
+                        g[i].parentNode.classList.add("agent_know_active")
+                    }
+                    e.stopPropagation();
+                }
+            }
+        }
+    }
 }
 </script>
 <style>

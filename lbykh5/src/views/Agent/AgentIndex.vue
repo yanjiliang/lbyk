@@ -90,11 +90,11 @@
             <!-- 我的客户tab结束 -->
             <!-- 客户列表开始 -->
             <ul class="custom_list">
-                <li flex="main:justify cross:center" @click="ToStoreDetail">
+                <li flex="main:justify cross:center" @click="ToStoreDetail" v-for="store in StoreList" :key="store.storeId">
                     <div flex="main:left cross:center">
-                        <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3281231102,3683095279&fm=11&gp=0.jpg" class="avator_48">
+                        <img :src="store.logo" class="avator_48">
                         <div>
-                            <p class="store_name blod">秦红梅国际儿童教育（亿利达店）微服私访胜多负少</p>
+                            <p class="store_name blod">{{store.storeName}}</p>
                             <p class="color_gray font_12"><span>教务服务</span><span
                                     class="iconfont font_12 color_blue">&#xe78d;</span><span
                                     class="margin_left_10">营销服务</span><span
@@ -104,34 +104,14 @@
                     </div>
                     <span class="iconfont font_20 color_gray">&#xe743;</span>
                 </li>
-                <li flex="main:justify cross:center" @click="ToStoreDetail">
-                    <div flex="main:left cross:center">
-                        <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1225147013,1266880682&fm=15&gp=0.jpg" class="avator_48">
-                        <div>
-                            <p class="store_name blod">秦红梅国际儿童教育（亿利达店）</p>
-                            <p class="color_gray font_12"><span>教务服务</span><span
-                                    class="iconfont font_12 color_blue">&#xe78d;</span><span
-                                    class="margin_left_10">营销服务</span><span
-                                    class="iconfont font_12 color_yellow">&#xe77b;</span></p>
-                        </div>
-                    </div>
-                    <span class="iconfont font_20 color_gray">&#xe743;</span>
-                </li>
-                <li flex="main:justify cross:center" @click="ToStoreDetail">
-                    <div flex="main:left cross:center">
-                        <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1225147013,1266880682&fm=15&gp=0.jpg" class="avator_48">
-                        <div>
-                            <p class="store_name blod">秦红梅国际儿童教育（亿利达店）</p>
-                            <p class="color_gray font_12"><span>教务服务</span><span
-                                    class="iconfont font_12 color_blue">&#xe78d;</span><span
-                                    class="margin_left_10">营销服务</span><span
-                                    class="iconfont font_12 color_yellow">&#xe77b;</span></p>
-                        </div>
-                    </div>
-                    <span class="iconfont font_20 color_gray">&#xe743;</span>
-                </li>
             </ul>
             <!-- 客户列表结束 -->
+            <!-- 缺省图 -->
+            <div flex="dir:top cross:center">
+                <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
+                <p class="color_gray font_14">暂无相关门店数据</p>
+            </div>
+            <!-- 缺省图 -->
         </div>
         <!-- 我的客户结束 -->
     </div>
@@ -140,9 +120,9 @@
     import 'flex.css'
     import '../../css/agent/iconfont.css'
     import '../../css/agent/agent.css'
-    import axios from 'axios'
-import { Toast } from 'vant'
-    // const axios = require('axios')
+    // import axios from 'axios'
+    import { Toast } from 'vant'
+    const axios = require('axios')
     export default {
         name: 'AgentIndex',
         data() {

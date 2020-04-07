@@ -1,10 +1,10 @@
 <template>
-    <div id="Posters">
+    <div id="Posters" style="background:#f6f6f6;padding:16px">
         <!-- 海报 -->
-        <swiper :options="swiperOption">
+        <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
-                <div class="swiper-slide-content">
-                    <div class="bill_pic"><img src="img/haibao.png" /></div>
+                <div class="swiper-slide-content" ref="slide">
+                    <div class="bill_pic"><img src="../../images/agent/haibao.png" /></div>
                     <!-- 邀请信息 -->
                     <div class="bill_code_wrap" flex="main:justify cross:center">
                         <!-- 邀请人信息 -->
@@ -17,7 +17,7 @@
                         </div>
                         <!-- 邀请人二维码 -->
                         <div class="bill_code">
-                        <img src="img/code.png" >
+                            <img src="img/code.png" >
                         </div>
                         <!-- 邀请人二维码结束 -->
                     </div>
@@ -28,8 +28,8 @@
                 <!-- 海报名称结束 -->
             </swiper-slide>
             <swiper-slide>
-                <div class="swiper-slide-content">
-                    <div class="bill_pic"><img src="img/haibao2.jpg" /></div>
+                <div class="swiper-slide-content" ref="slide">
+                    <div class="bill_pic"><img src="../../images/agent/haibao2.jpg" /></div>
                     <!-- 邀请信息 -->
                     <div class="bill_code_wrap" flex="main:justify cross:center">
                         <!-- 邀请人信息 -->
@@ -42,7 +42,7 @@
                         </div>
                         <!-- 邀请人二维码 -->
                         <div class="bill_code">
-                        <img src="img/code.png" >
+
                         </div>
                         <!-- 邀请人二维码结束 -->
                     </div>
@@ -52,22 +52,20 @@
                 <div class="bill_name font_16">蜡笔优课教务服务介绍</div>
             </swiper-slide>
             <swiper-slide>
-                <div class="swiper-slide-content">
-                    <div class="bill_pic"><img src="img/haibao3.jpg" /></div>
+                <div class="swiper-slide-content" ref="slide">
+                    <div class="bill_pic"><img src="../../images/agent/haibao3.jpg" /></div>
                     <!-- 邀请信息 -->
                     <div class="bill_code_wrap" flex="main:justify cross:center">
                         <!-- 邀请人信息 -->
                         <div flex="main:left cross:center">
-                        <img src="img/cz.jpg"  class="avator_48">
+                        <img src="http://img2.imgtn.bdimg.com/it/u=2849782395,3149637093&fm=11&gp=0.jpg"  class="avator_48">
                         <div>
                             <p><span class="blod">胡祝丰</span></p>
                             <p class="color_gray font_12">邀您加入蜡笔优课</p>
                         </div>
                         </div>
                         <!-- 邀请人二维码 -->
-                        <div class="bill_code">
-                        <img src="img/code.png" >
-                        </div>
+                        <div class="bill_code" ref="qrcode"></div>
                         <!-- 邀请人二维码结束 -->
                     </div>
                     <!-- 邀请信息结束 -->
@@ -81,7 +79,10 @@
         <!-- 操作区 -->
         <div class="bill_btn">
             <a class="agent_btn btn_blue_border"><span class="iconfont">&#xe75f;</span>分享</a>
-            <button class="agent_btn btn_blue" id="save_bill"><span class="iconfont">&#xe74d;</span>保存</button>
+            <button class="agent_btn btn_blue" id="save_bill" @click="savePoster"><span class="iconfont">&#xe74d;</span>保存</button>
+        </div>
+        <div id="renderImg">
+            
         </div>
     </div>
 </template>
@@ -89,74 +90,86 @@
     import 'flex.css'
     import '../../css/agent/iconfont.css'
     import '../../css/agent/agent.css'
-    import { swiper,swiperSlide } from 'vue-awesome-swiper'
+    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
     import 'swiper/css/swiper.css'
-    // var mySwiper = new Swiper(".swiper-container", {
-    //     slidesPerView: "auto",
-    //     centeredSlides: !0,
-    //     watchSlidesProgress: !0,
-    //     onProgress: function(a) {
-    //         var b, c, d
-    //         for (b = 0; b < a.slides.length; b++) c = a.slides[b]
-    //         d = c.progress
-    //         scale = 1 - Math.min(Math.abs(.2 * d), 1)
-    //         es = c.style
-    //         es.opacity = 1 - Math.min(Math.abs(d / 2), 1)
-    //         es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = "translate3d(0px,0," + -Math.abs(150 * d) + "px)"
-    //     },
-    //     onSetTransition: function(a, b) {
-    //         for (var c = 0; c < a.slides.length; c++) es = a.slides[c].style
-    //         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = b + "ms"
-    //     },
-    // });
-    // var mySwiper = new Swiper('.swiper-container',{
-    //     effect : 'coverflow',
-    //     slidesPerView: 3,
-    //     centeredSlides: true,
-    //     coverflowEffect: {
-    //         rotate: 30,
-    //         stretch: 10,
-    //         depth: 60,
-    //         modifier: 2,
-    //         slideShadows : true
-    //     },
-    // })
+    import  QRCode from 'qrcodejs2'
+    import { Toast } from 'vant'
+    import html2canvas from 'html2canvas'
     export default {
         name:'Posters',
         data(){
             return{
+                activeIndex:Number,
+                currentIndex:'',
                 swiperOption:{
-                    effect : 'coverflow',
-                    slidesPerView: 3,
+                    effect: 'coverflow',
+                    grabCursor: true,
                     centeredSlides: true,
+                    slidesPerView: 'auto',
                     coverflowEffect: {
-                        rotate: 30,
+                        rotate: 50,
                         stretch: 10,
-                        depth: 60,
-                        modifier: 2,
-                        slideShadows : true
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows : false
                     },
-                }
+                    on:{
+                        slideChange: function(){
+                            Toast('当前海报下标为'+this.activeIndex);
+                            // console.log(this)
+                        },
+                    },
+                },
+                posterImg:''
             }
         },
         components:{
-            swiper,
-            swiperSlide
+            Swiper,
+            SwiperSlide
         },
         mounted(){
+            this.qrcode()
+            this.swiper.slideTo(2, 1000, false)
             // var index = this.GetQueryValue('slide') || 0;
             // mySwiper.slideTo(index, 1000, false);//切换到第一个slide，速度为1秒
         },
+        computed:{
+            swiper(){
+                return this.$refs.mySwiper.$swiper
+            }
+        },
         methods:{
-            // GetQueryValue(queryName){
-            //     var query = decodeURI(window.location.search.substring(1));
-            //     var vars = query.split("&");
-            //     for (var i = 0; i < vars.length; i++) {
-            //         var pair = vars[i].split("=");
-            //         if (pair[0] == queryName) { return pair[1]; }
-            //     }
-            //     return null;
-            // }
+            qrcode(){
+                let canvas = this.$refs.qrcode
+                new QRCode(canvas,{
+                    text:'https://m.baidu.com/',
+                    width:48,
+                    height:48,
+                    colorDark:'#000',
+                    colorLight:'#f6f6f6'
+                })
+            },
+            savePoster(){
+                //把海报生成图片，并保存下来
+                let index = this.$refs.mySwiper.$swiper.activeIndex
+                let poster = document.getElementsByClassName('swiper-slide-content')[index]
+                setTimeout(()=>{
+                    html2canvas(poster,{
+                        useCORS:true,
+                        allowTaint:true
+                    }).then(canvas => {
+                        
+                        let src = canvas.toDataURL("image/jpg");
+                        var dBtn = document.createElement('a');
+                        dBtn.download = '下载海报';
+                        dBtn.href = src;
+                        document.body.appendChild(dBtn)
+                        dBtn.click()
+                        dBtn.remove()
+                    });
+                },500)
+                
+            }
         }
     }
 </script>

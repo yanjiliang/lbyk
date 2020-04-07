@@ -495,6 +495,15 @@ const router = new Router({
             },
             component: () => import('./views/Agent/Posters.vue')
         },
+        
+        {
+            path: '/RealName',
+            name: 'RealName',
+            meta: {
+                title: '实名认证'
+            },
+            component: () => import('./views/Agent/RealName.vue')
+        },
     ]
 })
 

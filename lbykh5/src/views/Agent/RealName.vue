@@ -54,16 +54,21 @@
                 console.log(file)
                 this.preViewImg = file.content
                 this.hasUpload = true
-                this.idFile = file
+                this.idFile = file.file
             },
-            // /customer-certification-info/authentication
+            // /customer-certification-info/authentication 
             realNameIdentify(file,cuid){
                 //提交认证的信息
                 let url = this.ip+'customer-certification-info/authentication'
-                let param = new URLSearchParams()
+                let param = new FormData()
                 param.append("cuid",cuid)
                 param.append("idCardPicFile",file)
-                axios.post(url,param).then((res)=>{
+                let config = {
+                    headers: { //添加请求头
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                axios.post(url,param,config).then((res)=>{
                     //
                     if(res.data.result == 'success'){
                         //

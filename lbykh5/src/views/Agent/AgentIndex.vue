@@ -53,7 +53,7 @@
                         class="font_12 block">营销海报</span></a>
                 <a href="#" class="color_black"><span class="iconfont block font_32">&#xe764;</span><span
                         class="font_12 block">邀请链接</span></a>
-                <a class="color_black"><span class="iconfont block font_32">&#xe74d;</span><span
+                <a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk" class="color_black"><span class="iconfont block font_32">&#xe74d;</span><span
                         class="font_12 block">App下载链接</span></a>
                 <a :href="Url+'/ServiceIndex'" class="color_black"><span class="iconfont block font_32">&#xe79d;</span><span
                         class="font_12 block">服务介绍</span></a>

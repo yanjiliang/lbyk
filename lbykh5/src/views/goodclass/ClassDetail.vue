@@ -371,7 +371,6 @@ export default {
         
         showPopup : function (token){
             //控制弹出页面的显示隐藏
-            this.$refs.h5video.onPlayerPause()
             if(token == ''){
                 if(this.device == 'android'){
                     Toast('未登陆，请登录后再预约！')
@@ -383,6 +382,7 @@ export default {
             }else{
                 this.ordershow = true
             }
+            this.$refs.h5video.onPlayerPause()
         },
         getCode : function (){
             //获取验证码

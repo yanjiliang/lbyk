@@ -59,8 +59,13 @@
                 isDone:false
             }
         },
+        beforeMount(){
+            window.McDispatcher = this.McDispatcher
+            window.getParams = this.getParams
+        },
         mounted(){
             this.isDone = true
+            this.linkIos()
         },
         methods: {
             toStoreDetail() {
@@ -82,7 +87,29 @@
                         Toast(res.data.msg)
                     }
                 })
-            }
+            },
+            McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+                this.token = qury.data.token
+                this.cuid = qury.data.cuid
+                if(!qury.data.token){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
+                
+            },
+            getParams(msg){
+                //android获取APP传过来的参数的方法
+                this.token = msg.token
+                this.cuid = msg.cuid
+                if(!msg.token){
+                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
+                
+            },
+            linkIos (){
+                    //给iOS APP传参
+                window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+            },
         }
     }
 </script>

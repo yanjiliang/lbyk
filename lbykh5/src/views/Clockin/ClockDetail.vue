@@ -271,6 +271,7 @@ export default {
         
     },
     getParams(msg){
+        
         this.token = msg.token
         if(!msg.token){
           window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')

@@ -84,11 +84,11 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div> -->
-                                <div class="list_item" v-if="device == 'ios' && version == 104" @click.prevent="ClickTo('DK')">
+                                <div class="list_item" @click.prevent="ClickTo('DK')">
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div>
-                                <div v-if="device == 'android'" class="list_item"></div>
+                                <!-- <div v-if="device == 'android'" class="list_item"></div> -->
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>

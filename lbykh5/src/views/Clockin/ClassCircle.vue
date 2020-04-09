@@ -101,7 +101,7 @@ export default {
             if(this.ClassCircleHead.clockId != ''){
                 if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                    window.android.SkipPage('{"linkType": "h5","url": "'+skipUrl+'"}');
+                    window.android.SkipPage('{"linkType": "h5","scheme":"H5PAGE","url": "'+skipUrl+'"}');
                     this.$refs.ClockList.pauseVideo()
                 }
                 if (this.device === 'ios') { 

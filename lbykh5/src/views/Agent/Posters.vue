@@ -9,16 +9,14 @@
                     <div class="bill_code_wrap" flex="main:justify cross:center">
                         <!-- 邀请人信息 -->
                         <div flex="main:left cross:center">
-                        <img src="img/cz.jpg"  class="avator_48">
+                        <img src="http://img2.imgtn.bdimg.com/it/u=2849782395,3149637093&fm=11&gp=0.jpg"  class="avator_48">
                         <div>
                             <p><span class="blod">陈忠陈忠陈忠</span></p>
                             <p class="color_gray font_12">邀您加入蜡笔优课</p>
                         </div>
                         </div>
                         <!-- 邀请人二维码 -->
-                        <div class="bill_code">
-                            <img src="img/code.png" >
-                        </div>
+                        <div class="bill_code"></div>
                         <!-- 邀请人二维码结束 -->
                     </div>
                     <!-- 邀请信息结束 -->
@@ -34,7 +32,7 @@
                     <div class="bill_code_wrap" flex="main:justify cross:center">
                         <!-- 邀请人信息 -->
                         <div flex="main:left cross:center">
-                        <img src="img/cz.jpg"  class="avator_48">
+                        <img src="http://img2.imgtn.bdimg.com/it/u=2849782395,3149637093&fm=11&gp=0.jpg"  class="avator_48">
                         <div>
                             <p><span class="blod">陈旭</span></p>
                             <p class="color_gray font_12">邀您加入蜡笔优课</p>
@@ -42,7 +40,7 @@
                         </div>
                         <!-- 邀请人二维码 -->
                         <div class="bill_code">
-
+                            <img :src="qrsrc" alt="">                                                
                         </div>
                         <!-- 邀请人二维码结束 -->
                     </div>
@@ -81,9 +79,8 @@
             <a class="agent_btn btn_blue_border"><span class="iconfont">&#xe75f;</span>分享</a>
             <button class="agent_btn btn_blue" id="save_bill" @click="savePoster"><span class="iconfont">&#xe74d;</span>保存</button>
         </div>
-        <div id="renderImg">
-            
-        </div>
+        
+        
     </div>
 </template>
 <script>
@@ -101,6 +98,7 @@
             return{
                 activeIndex:Number,
                 currentIndex:'',
+                qrsrc:'',
                 swiperOption:{
                     effect: 'coverflow',
                     grabCursor: true,
@@ -115,8 +113,8 @@
                     },
                     on:{
                         slideChange: function(){
-                            Toast('当前海报下标为'+this.activeIndex);
-                            // console.log(this)
+                            // Toast('当前海报下标为'+this.activeIndex);
+                            
                         },
                     },
                 },
@@ -140,14 +138,18 @@
         },
         methods:{
             qrcode(){
-                let canvas = this.$refs.qrcode
-                new QRCode(canvas,{
+                // let canvas = this.$refs.qrcode
+                let canvas = document.getElementsByClassName('bill_code')
+                console.log(canvas)
+                for(let i=0;i<canvas.length;i++){
+                    new QRCode(canvas[i],{
                     text:'https://m.baidu.com/',
                     width:48,
                     height:48,
                     colorDark:'#000',
                     colorLight:'#f6f6f6'
                 })
+                }
             },
             savePoster(){
                 //把海报生成图片，并保存下来

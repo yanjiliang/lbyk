@@ -94,6 +94,11 @@ export default {
             }
         }
     },
+    computed:{
+        player(){
+            return this.$refs.videoPlayer.player
+        }
+    },
     methods:{
         hasplay(){
             this.countPlayNum()

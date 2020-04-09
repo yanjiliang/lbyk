@@ -317,8 +317,13 @@ export default {
             // if(this.ClockRecod[index].studentAvatar){let logo = this.ClockRecod[index].studentAvatar}else{let logo = this.ClockRecod[index].logo}
             let logo =''
             this.ClockRecod[index].studentAvatar == '' ? logo = this.ClockRecod[index].logo : logo = this.ClockRecod[index].studentAvatar
+            if(this.device == 'android'){
+                window.android.SkipPage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
+            }
+            if(this.device == 'ios'){
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
+            }
             
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
             let len = this.$refs.h5video.length
             for(let i=0;i<len;i++){
                 this.$refs.h5video[i].onPlayerPause()
@@ -490,7 +495,7 @@ export default {
             let clockId = this.ClockRecod[index].clockId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
+                window.android.SkipPage('{"linkType": "h5","scheme":"H5PAGE","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
                 let len = this.$refs.h5video.length
                 for(let i=0;i<len;i++){
                     this.$refs.h5video[i].onPlayerPause()

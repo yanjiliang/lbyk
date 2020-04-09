@@ -159,8 +159,13 @@ export default {
             let content = str.replace(/[\r\n]/g, "")
             let url = this.Url + '/ClockShare?cuid='+cuid+'&storeId='+storeId+'&classId='+classId+'&studentId='+studentId+'&clockStudentId='+clockStudentId
             let logo = this.ClockResult.storeAddrInfoDto.logo
+            if(this.device == 'android'){
+                window.android.SkipPage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
+            }
+            if(this.device == 'ios'){
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
+            }
             
-            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"WXSHARE","url":"'+url+'","content":"'+content+'","logo":"'+logo+'","title":"'+title+'","type":"clock","typeId":"'+clockStudentId+'"}')
             this.$refs.h5video.onPlayerPause()
         },
         toMoreHandle(){
@@ -193,7 +198,7 @@ export default {
             let clockId = this.$route.query.clockId
             if (this.device === 'android') {
                     //安卓每个页面方法名不一样
-                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
+                window.android.SkipPage('{"linkType": "h5","scheme":"H5PAGE","url": "'+this.Url+'/ClockDetail?clockId='+this.clockId+'&cuid='+this.cuid+'&storeId='+storeId+'"}');
                 this.$refs.h5video.onPlayerPause()
             }
             if (this.device === 'ios') { 

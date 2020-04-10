@@ -91,7 +91,7 @@
             </div>
             
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="device == 'ios' && version == 104">
+            <div class="class_pre_video" v-if="device == 'ios'">
             <!-- <div class="class_pre_video" v-if="device == 'ios'"> -->
                 <div class="title">
                     <div class="class_video">

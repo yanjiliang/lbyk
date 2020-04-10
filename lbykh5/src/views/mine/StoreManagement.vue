@@ -35,7 +35,7 @@
                             <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300 && device == 'ios'" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
                         <!-- <p>{{base_time}}</p> -->
                         <div class="store_data_info">
@@ -115,7 +115,7 @@
                                 <p>更懂教育的互联网营销</p>
                                 
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300 && device == 'ios'" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">

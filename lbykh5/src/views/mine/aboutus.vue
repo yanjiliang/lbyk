@@ -4,7 +4,7 @@
             
             <div class="logo">
                 <p><img src="../../images/mine/aboutus.png" alt=""></p>
-                <p>蜡笔优课</p>
+                <p><a href="http://www.baidu.com">蜡笔优课</a></p>
                 <p>Version {{version}}</p>
             </div>
             

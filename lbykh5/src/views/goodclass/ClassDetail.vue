@@ -79,7 +79,7 @@
 
             
             <!-- 视课 -->
-            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios' && version == 104">
+            <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 ">
             <!-- <div class="class_pre_video" v-if="course_detail_data.videoUrl.length != 0 && device == 'ios' "> -->
                 <div class="title">
                     <div class="class_video">

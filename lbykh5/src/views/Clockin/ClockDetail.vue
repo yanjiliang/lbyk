@@ -183,12 +183,17 @@ export default {
     },
     quickToClock(){
       
-      let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
+      // let url = this.Url+'/QuickToClock?clockId='+this.clockId+'&cuid='+this.$route.query.cuid+'&storeId='+this.$route.query.storeId;
       // window.open(url,'_blank')
       
       if (this.device === 'android') {
           //安卓每个页面方法名不一样
-          window.android.SkipPage('{"linkType": "h5","url": "'+url+'"}');
+          let aa = this.clockDetailInfo.title
+          // const content = str.replace(/[\r\n]/g, "")
+          let title = aa.replace(/[\r\n]/g, "")
+          window.android.SkipPage('{"linkType":"app","scheme":"CLOCK","clockId":"'+this.clockId+'","storeId":"'+this.$route.query.storeId+'","title":"'+title+'"}')
+          this.$refs.ClockList.pauseVideo()
+          // window.android.SkipPage('{"linkType": "h5","url": "'+url+'"}');
       }
       if (this.device === 'ios') { 
           

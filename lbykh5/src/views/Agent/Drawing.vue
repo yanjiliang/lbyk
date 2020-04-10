@@ -35,6 +35,7 @@ import 'flex.css'
 import '../../css/agent/iconfont.css'
 import '../../css/agent/agent.css'
 import {Toast} from 'vant'
+const axios = require('axios')
 export default {
     name:'Drawing',
     data(){
@@ -97,6 +98,21 @@ export default {
             //this.isDisabled = false;
 
         },
+        // toAli(){
+        //     //跳转支付宝
+        //     let url = 'http://192.168.3.22:8081/authorize/visitUrl?cuid=eYhjQznFDdvZiHz4oXt&scope=auth_user&redirect_uri=http%3A%2F%2Fwww.labiyouke.com%2Ftest%2Fpage02.html'
+        //         // alert('121')
+        //     axios.post(url).then((res)=>{
+        //         if(res.data.result == 'success'){
+                    
+        //             let skip = 'alipays://platformapi/startapp?appId=20000067&url='+res.data.data
+        //             let alink = document.createElement('a')
+        //             alink.href = skip
+        //             Toast(skip)
+        //             setTimeout(()=>{alink.click()},200)
+        //         }
+        //     })
+        // },
         // checkCode() {
         //     if (this.mobliePhone == "") {
         //         // this.messages("error", "手机号码不能为空!");

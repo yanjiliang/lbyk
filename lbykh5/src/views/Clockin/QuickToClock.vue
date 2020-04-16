@@ -190,7 +190,6 @@ export default {
         ctx.getContext('2d').drawImage(video, 0, 0, ctx.width, ctx.height)
 
         let src = ctx.toDataURL("image/png");
-        
         this.videoCover = this.translateBase64ImgToFile(src,"videoCover.png","image/png")
       },1000)
     },

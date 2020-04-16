@@ -1,5 +1,5 @@
 <template>
-    <div id="Brands">
+    <div id="Brands" v-if="hasLoaded">
         <!-- logo -->
 		<div class="brand_logo" flex="main:center cross:center">
             <img src="../../images/agent/logo.png">
@@ -29,6 +29,14 @@ import 'flex.css'
 import '../../css/agent/iconfont.css'
 import '../../css/agent/agent.css'
 export default {
-    name:'Brands'
+    name:'Brands',
+    data(){
+        return{
+            hasLoaded:false
+        }
+    },
+    mounted(){
+        this.hasLoaded = true
+    }
 }
 </script>

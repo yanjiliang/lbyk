@@ -1,23 +1,23 @@
 <template>
     <div id="FundsDetail">
         <!-- 资金明细 -->
-        <ul class="deal_list">
+        <ul class="deal_list" v-if="fundsDetail.length != 0 && hasLoaded">
             <li flex="main:justify cross:center" v-for="funds in fundsDetail" :key="funds.createTime">
                 <div flex="main:left cross:center">
                     <img :src="funds.picUrl" class="avator_48">
                     <div>
                         <p class="store_name blod">{{funds.title}}</p>
-                        <p class="color_gray font_12 color_blue"><span>{{funds.createTime}}</span><span
-                                class="margin_left_10">{{funds.typeName}}</span></p>
+                        <p class="color_gray font_12 color_blue"><span>{{funds.createTime}}</span><span class="margin_left_10">{{funds.typeName}}</span></p>
                     </div>
                 </div>
-                <span class="font_18 blod margin_left_10 color_blue">{{funds.amount}}</span>
+                <span v-if="funds.amount >= 0" class="font_18 blod margin_left_10 color_blue">+{{funds.amount}}</span>
+                <span v-if="funds.amount < 0" class="font_18 blod margin_left_10 color_yellow">-{{funds.amount}}</span>
             </li>
             
         </ul>
 
         <!-- 缺省图 -->
-        <div flex="dir:top cross:center" style="margin:200px 0">
+        <div v-if="fundsDetail.length == 0 && hasLoaded" flex="dir:top cross:center" style="margin:200px 0">
             <img style="width:150px;height:150px;display:block" src="../../assets/images/nodata2x.png" alt="">
             <p class="font_14 color_gray">暂无相关数据</p>
         </div>
@@ -36,7 +36,10 @@ const axios = require('axios')
                 ip: this.$ip.getIp(),
                 Url: this.$Url.geturl(),
                 device: this.$device.getDevice(),
-                fundsDetail:""
+                fundsDetail:"",
+                cuid:String,
+                token:String,
+                hasLoaded:false
             }
         },
         beforeMount(){
@@ -46,19 +49,37 @@ const axios = require('axios')
         },
         mounted(){
             //
+            setTimeout(()=>{
+                this.hasLoaded = true
+            },100)
             this.linkIos()
         },
         methods:{
-            getData(cuid){
+            getData(cuid,token){
                 let url = this.ip+'customer-account-flow/listPage'
                 let param = new URLSearchParams()
                 param.append("pageNo",1)
                 param.append("pageSize",50)
                 param.append("cuid",cuid)
+                param.append("userToken", token)
                 axios.post(url,param).then((res)=>{
+                    if(res.data.result == 'noLogin'){
+                        if(this.device == 'android'){
+                            window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }else if(this.device == 'ios'){
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                        }
+                        
+                    }
                     if(res.data.result == 'success'){
                         let fundsDetail = res.data.data
                         this.fundsDetail = fundsDetail.data
+                    }else{
+                        Toast({
+                            message:res.data.msg,
+                            duration:0,
+                            forbidClick:true
+                        })
                     }
                 })
             },
@@ -69,7 +90,7 @@ const axios = require('axios')
                 if(!qury.data.token){
                     window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
-                
+                this.getData(qury.data.cuid,qury.data.token)
             },
             getParams(msg){
                 //android获取APP传过来的参数的方法
@@ -78,7 +99,7 @@ const axios = require('axios')
                 if(!msg.token){
                     window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
-                
+                this.getData(msg.cuid,msg.token)
             },
             linkIos (){
                     //给iOS APP传参

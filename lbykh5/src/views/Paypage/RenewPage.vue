@@ -56,7 +56,8 @@ import { Toast } from 'vant'
         select_price:'798',
         renew_token:'',
         renew_storeId:'',
-        renew_cuid:''
+        renew_cuid:'',
+        hasOrder:true
       }
     },
     beforeMount() {
@@ -127,46 +128,51 @@ import { Toast } from 'vant'
       },
       goToRenew(){
         
-        let price = this.select_price
-        let goodsId = this.productInfo[this.intem_index].goodsId
-        let url = this.ip + 'functionalModule/purchaseOrder';
-            // ?cuid=' +this.cuid + '&storeId=' + this.storeId + '&goodsId=' +this.productInfo.goodsId+ '&price=' +this.productInfo.sellingPrice;
-        let param = new URLSearchParams()
-        param.append("storeId", this.renew_storeId)
-        param.append("goodsId", goodsId)
-        param.append("price", price)
-        param.append("cuid", this.renew_cuid)
-        param.append("userToken", this.renew_token)
-        axios.post(url,param).then((res)=>{
-          let res_data = res.data.data
-          let orderId = res_data.orderDto.orderId
-          if(res.data.result == 'noLogin'){
-              if(this.device == 'android'){
-                  window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-              }else if(this.device == 'ios'){
-                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
-              }
-          }
-          if(res_data.status == 'orderSuccess'){
-              if(this.device === 'android'){
-                  window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
-              }else if(this.device === 'ios'){
-                  window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
-                  // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
-              }
-          }else if(res_data.status == 'openingSuccess'){
-            Toast.success('开通成功')
-            setTimeout(()=>{
-                if(this.device === 'android'){
-                    window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
-                }else if(this.device === 'ios'){
-                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+        if(this.hasOrder){
+          this.hasOrder = false
+          let price = this.select_price
+          let goodsId = this.productInfo[this.intem_index].goodsId
+          let url = this.ip + 'functionalModule/purchaseOrder';
+              // ?cuid=' +this.cuid + '&storeId=' + this.storeId + '&goodsId=' +this.productInfo.goodsId+ '&price=' +this.productInfo.sellingPrice;
+          let param = new URLSearchParams()
+          param.append("storeId", this.renew_storeId)
+          param.append("goodsId", goodsId)
+          param.append("price", price)
+          param.append("cuid", this.renew_cuid)
+          param.append("userToken", this.renew_token)
+          axios.post(url,param).then((res)=>{
+            let res_data = res.data.data
+            let orderId = res_data.orderDto.orderId
+            if(res.data.result == 'noLogin'){
+                if(this.device == 'android'){
+                    window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }else if(this.device == 'ios'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
-            },1500)
-          }else{
-            Toast(res_data.msg)
-          }
-        })
+            }
+            if(res_data.status == 'orderSuccess'){
+                if(this.device === 'android'){
+                    window.android.SkipPage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                }else if(this.device === 'ios'){
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ZFYM","orderId":"'+orderId+'","storeId": "'+this.renew_storeId+'","url":"'+this.Url+'/PayPage","title":"支付订单"}')
+                    // this.$router.push({path:'/PayPage',params:{orderId:orderId,storeId:this.renew_storeId}})
+                }
+            }else if(res_data.status == 'openingSuccess'){
+              Toast.success('开通成功')
+              setTimeout(()=>{
+                  if(this.device === 'android'){
+                      window.android.SkipPage('{"linkType": "h5","scheme": "ZSGL" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                  }else if(this.device === 'ios'){
+                      window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "FTPN" ,"storeId": "'+this.storeId+'","url":"'+this.Url+'/enrollmentManagement","title":"招生管理"}')
+                  }
+              },1500)
+            }else{
+              Toast(res_data.msg)
+            }
+          })
+        }else{
+          Toast('不可重复下单')
+        }
         
       }
     }

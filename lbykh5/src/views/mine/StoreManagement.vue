@@ -35,7 +35,7 @@
                             <div v-if="base_time >= 7300">
                                 <p>教务管理轻松便捷</p>
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300" @click="toRenew('BaseFunctional')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':baseFunc}" v-if="base_time < 7300 && version >= 101" @click="toRenew('BaseFunctional')"><span>续费</span></p>
                         </div>
                         <!-- <p>{{base_time}}</p> -->
                         <div class="store_data_info">
@@ -84,11 +84,11 @@
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div> -->
-                                <div class="list_item" @click.prevent="ClickTo('DK')">
+                                <div class="list_item" v-if="device == 'ios' && version >= 101" @click.prevent="ClickTo('DK')">
                                     <p><img style="box-shadow:0px 4px 6px rgba(151, 71, 255, .2);" src="../../images/mine/dk2xnew.png" alt=""></p>
                                     <p>打卡</p>
                                 </div>
-                                <!-- <div v-if="device == 'android'" class="list_item"></div> -->
+                                <div v-if="device == 'android'" class="list_item"></div>
                                 <div class="list_item"></div>
                                 <div class="list_item"></div>
                             </div>
@@ -115,7 +115,7 @@
                                 <p>更懂教育的互联网营销</p>
                                 
                             </div>
-                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300" @click="toRenew('MarketingService')"><span>续费</span></p>
+                            <p class="store_mana_renew_btn" :class="{'time_long':marketFunc}" v-if="market_time < 7300 && version >= 101" @click="toRenew('MarketingService')"><span>续费</span></p>
                         </div>
 
                         <div class="store_data_info">
@@ -300,17 +300,19 @@ export default {
             axios.post(url,param).then((res)=>{
                 
                 if(res.data.result == 'noPrivileges'){
-                    // Toast(res.data.msg)
-                    // Notify({ type: 'danger', message: res.data.msg})
-                    Toast({
-                        message: res.data.msg,
-                        overlay : true,
-                        forbidClick:true,
-                        duration:0
-                    })
-                    setTimeout(()=>{
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"REBACK"}')
-                    },1500)
+                    // Toast({
+                    //     message:'您还没有权限哦',
+                    //     duration:0,
+                    //     forbidClick:true
+                    // })
+                    // setTimeout(()=>{
+                    //     if(this.device == 'android'){
+                    //         window.android.SkipPage('{"linkType":"app","scheme":"DIALOG"}')
+                    //     }
+                    //     if(this.device == 'ios'){
+                    //         window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"DIALOG"}')
+                    //     }
+                    // },1500)
                 }else if(res.data.result == 'noLogin'){
                     if(this.device == 'android'){
                         window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')

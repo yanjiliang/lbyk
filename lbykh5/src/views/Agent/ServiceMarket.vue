@@ -66,7 +66,7 @@
                 </p>
             </div>
             <div class="share_fix">
-                <p><a class="agent_btn btn_blue font_14"><span class="iconfont block">&#xe75f;</span>分享</a></p>
+                <p><a class="agent_btn btn_blue font_14" @click="sharePage()" v-if="h5orApp == 'app'"><span class="iconfont block">&#xe75f;</span>分享</a></p>
             </div>
         </div>
     </div>
@@ -76,6 +76,55 @@ import 'flex.css'
 import '../../css/agent/iconfont.css'
 import '../../css/agent/agent.css'
     export default {
-        name:'ServiceMarket'
+        name:'ServiceMarket',
+        data(){
+            return{
+                ip: this.$ip.getIp(),
+                Url: this.$Url.geturl(),
+                device: this.$device.getDevice(),
+                h5orApp:'h5'
+            }
+        },
+        beforeMount(){
+            window.McDispatcher = this.McDispatcher
+            window.getParams = this.getParams
+        },
+        mounted(){
+            this.linkIos()
+        },
+        methods:{
+            sharePage(){
+                let url = window.location.href
+                if(this.device == 'android'){
+                    //
+                    window.android.SkipPage('{"linkType": "app","scheme": "SHARE","shareType":"SERVICELINK","url":"'+url+'","titile":"蜡笔优课","content":"【产品介绍】蜡笔优课致力于打造一体化的培训机构招生及管理","logo":"https://lbyk.oss-cn-shenzhen.aliyuncs.com/imag/logo/LOGO.png"}')
+                }
+                if(this.device == 'ios'){
+                    //
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "SHARE","url":"'+url+'","titile":"蜡笔优课","content":"【产品介绍】蜡笔优课致力于打造一体化的培训机构招生及管理","logo":"https://lbyk.oss-cn-shenzhen.aliyuncs.com/imag/logo/LOGO.png"}')
+                }
+            },
+            McDispatcher (qury){
+                //iOS获取APP传过来的参数的方法
+                this.token = qury.data.token
+                this.cuid = qury.data.cuid
+                if(!qury.data.token){
+                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
+                this.h5orApp = 'app'
+            },
+            getParams(msg){
+                this.token = msg.token
+                this.cuid = msg.cuid
+                if(!msg.token){
+                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                }
+                this.h5orApp = 'app'
+            },
+            linkIos (){
+                    //给iOS APP传参
+                window.webkit.messageHandlers.getUserInfo.postMessage('成功了吗？')
+            },
+        }
     }
 </script>

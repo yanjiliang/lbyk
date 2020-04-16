@@ -16,12 +16,10 @@
 
             <div class="join_input">
                 <div class="join_input_item">
-                    <input  type="tel" pattern="[0-9]*" maxlength="11"  class="lb_mobliePhone" v-model="mobliePhone" placeholder="手机号码"
-                           @blur="getUser()">
+                    <input  type="tel" pattern="[0-9]*" maxlength="11"  class="lb_mobliePhone" v-model="mobliePhone" placeholder="手机号码" @blur="getUser()">
                 </div>
                 <div class="join_input_item">
-                    <div class="code_input fl"><input  type="tel" pattern="[0-9]*"  class="lb_checkCode" v-model="checkCodes"
-                                                      maxlength="4" placeholder="验证码"></div>
+                    <div class="code_input fl"><input  type="tel" pattern="[0-9]*"  class="lb_checkCode" v-model="checkCodes" maxlength="4" placeholder="验证码"></div>
                     <div class="get_code fr">
                         <span v-show="showTow" style="color:red;">{{count}}s</span>
                         <button v-show="flag" @click="getCheckCode()" :disabled="isDisabled">获取验证码</button>

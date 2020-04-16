@@ -504,6 +504,42 @@ const router = new Router({
             },
             component: () => import('./views/Agent/RealName.vue')
         },
+
+        {
+            path: '/InvitePage',
+            name: 'InvitePage',
+            meta: {
+                title: '用户邀请'
+            },
+            component: () => import('./views/Agent/InvitePage.vue')
+        },
+        
+        {
+            path: '/SkipAli',
+            name: 'SkipAli',
+            meta: {
+                title: '跳转到支付宝'
+            },
+            component: () => import('./views/Agent/SkipAli.vue')
+        },
+
+        {
+            path: '/RebackApp',
+            name: 'RebackApp',
+            meta: {
+                title: '返回蜡笔优课'
+            },
+            component: () => import('./views/Agent/RebackApp.vue')
+        },
+        
+        {
+            path: '/InviteResult',
+            name: 'InviteResult',
+            meta: {
+                title: '结果'
+            },
+            component: () => import('./views/Agent/InviteResult.vue')
+        },
     ]
 })
 

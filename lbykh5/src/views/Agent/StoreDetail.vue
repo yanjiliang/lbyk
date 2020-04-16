@@ -152,13 +152,22 @@ export default {
         this.linkIos()
     },
     methods:{
-        getStoreInfo(cuid,storeId){
+        getStoreInfo(cuid,storeId,token){
             //获取门店信息
             let url = this.ip+'agent/storeInfo';
             let param = new URLSearchParams()
             param.append("cuid",cuid)
             param.append("storeId",storeId)
+            param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    
+                }
                 if(res.data.result == 'success'){
                     //请求成功
                     let storeInfo = res.data.data
@@ -173,7 +182,7 @@ export default {
                 }
             })
         },
-        getAccountFlow(cuid,storeId){
+        getAccountFlow(cuid,storeId,token){
             // /agent/storeAccountFlow
             let url = this.ip+'agent/storeAccountFlow';
             let param = new URLSearchParams();
@@ -181,7 +190,16 @@ export default {
             param.append("pageSize",50)
             param.append("cuid",cuid)
             param.append("storeId",storeId)
+            param.append("userToken", token)
             axios.post(url,param).then((res)=>{
+                if(res.data.result == 'noLogin'){
+                    if(this.device == 'android'){
+                        window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }else if(this.device == 'ios'){
+                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                    }
+                    
+                }
                 if(res.data.result == 'success'){
                     //
                     let accountFlow = res.data.data
@@ -194,29 +212,27 @@ export default {
         McDispatcher (qury){
                 //iOS获取APP传过来的参数的方法
             this.token = qury.data.token
-            // this.cuid = qury.data.cuid
-            this.cuid = 'Zxu3w9mbqlEAu8CLbGB'
+            this.cuid = qury.data.cuid
             if(!qury.data.token){
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
-            // this.getStoreInfo(qury.data.cuid,this.$route.query.storeId)
-            // this.getAccountFlow(qury.data.cuid,this.$route.query.storeId)
-            this.getStoreInfo('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
-            this.getAccountFlow('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
+            this.getStoreInfo(qury.data.cuid,this.$route.query.storeId,qury.data.token)
+            this.getAccountFlow(qury.data.cuid,this.$route.query.storeId,qury.data.token)
+            // this.getStoreInfo('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
+            // this.getAccountFlow('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
             
         },
         getParams(msg){
             //android获取APP传过来的参数的方法
             this.token = msg.token
-            // this.cuid = msg.cuid
-            this.cuid = 'Zxu3w9mbqlEAu8CLbGB'
+            this.cuid = msg.cuid
             if(!msg.token){
                 window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
             }
-            // this.getStoreInfo(msg.cuid,this.$route.query.storeId)
-            // this.getAccountFlow(msg.cuid,this.$route.query.storeId)
-            this.getStoreInfo('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
-            this.getAccountFlow('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
+            this.getStoreInfo(msg.cuid,this.$route.query.storeId,msg.token)
+            this.getAccountFlow(msg.cuid,this.$route.query.storeId,msg.token)
+            // this.getStoreInfo('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
+            // this.getAccountFlow('Zxu3w9mbqlEAu8CLbGB',this.$route.query.storeId)
             
         },
         linkIos (){

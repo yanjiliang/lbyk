@@ -10,12 +10,12 @@
                             <p>联系机构</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem" v-if="version != 104">
+                    <div class="navitem" v-if="version < 104">
                         <a @click.prevent="msg_skipe_orgindex('JGZY')" href="">
                             <img src="../../images/msgasist/机构主页@2x.png" alt="">
                             <p>机构主页</p>
                         </a>
-                    </div> -->
+                    </div>
                     <div class="navitem">
                         <a @click.prevent="ClickTo('BJXQ')" href="">
                             <img src="../../images/msgasist/班级详情@2x.png" alt="">
@@ -28,24 +28,24 @@
                             <p>课时记录</p>
                         </a>
                     </div>
-                    <!-- <div class="navitem" v-if="device == 'ios'">
+                    <div class="navitem" v-if="device == 'ios' && version >= 104">
                         <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>圈子/打卡</p>
                         </a>
-                    </div> -->
+                    </div>
                     <!-- <div class="navitem" v-if="version == 104">
                         <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>圈子/打卡</p>
                         </a>
                     </div> -->
-                    <div class="navitem">
+                    <!-- <div class="navitem">
                         <a @click.prevent="toClock()" href="">
                             <img src="../../images/msgasist/dk2x.png" alt="">
                             <p>圈子/打卡</p>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

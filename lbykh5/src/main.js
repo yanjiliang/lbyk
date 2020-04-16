@@ -33,6 +33,9 @@ Vue.prototype.$axios = axios
 import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 
+import VConsole from 'vconsole';
+let vConsole = new VConsole();
+
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // import 'swiper/css/swiper.css'
 // Vue.use(VueAwesomeSwiper, /* { default options with global component } */)

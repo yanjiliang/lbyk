@@ -4,10 +4,10 @@
         <!-- <p>{{cuid}}</p> -->
         <div class="agent_header" flex="main:left cross:center">
             <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avator_64">
-            <p v-if="!userInfo.avatar" class="avator_64 font_18 color_blue" style="border:1px solid #ffffff;text-align:center;line-height:64px">诸葛</p>
+            <p v-if="!userInfo.avatar" class="avator_64 font_18 color_blue" style="border:1px solid #ffffff;text-align:center;line-height:64px">{{userInfo.realName.substring(userInfo.realName.length-2,userInfo.realName.length)}}</p>
             <div>
-                <!-- <p class="font_20 blod">{{userInfo.realName}}</p> -->
-                <p class="font_20 blod">赛诸葛</p>
+                <p class="font_20 blod">{{userInfo.realName}}</p>
+                <!-- <p class="font_20 blod">赛诸葛</p> -->
                 <p><a @click.prevent="skipStaticPage(Url+'/AgentRules','代理政策及规则')">代理政策及规则<span class="iconfont">&#xe743;</span></a></p>
             </div>
         </div>
@@ -50,12 +50,13 @@
                 </p>
             </div>
             <div class="invite_tools text_center" flex="main:justify cross:center">
-                <a @click.prevent="skipStaticPage(Url+'/Posters','营销海报')" class="color_black"><span class="iconfont block font_32">&#xe75e;</span><span
+                <a @click.prevent="skipStaticPage(Url+'/Posters?slider=2','营销海报')" class="color_black"><span class="iconfont block font_32">&#xe75e;</span><span
                         class="font_12 block">营销海报</span></a>
-                <a href="#" class="color_black"><span class="iconfont block font_32">&#xe764;</span><span
+                <a @click="InviteLink" class="color_black"><span class="iconfont block font_32">&#xe764;</span><span
                         class="font_12 block">邀请链接</span></a>
-                <a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk" class="color_black"><span class="iconfont block font_32">&#xe74d;</span><span
+                <a @click="downLoad" class="color_black"><span class="iconfont block font_32">&#xe74d;</span><span
                         class="font_12 block">App下载链接</span></a>
+                        <!-- href="https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk" -->
                 <a @click.prevent="skipStaticPage(Url+'/ServiceIndex','服务介绍')" class="color_black"><span class="iconfont block font_32">&#xe79d;</span><span
                         class="font_12 block">服务介绍</span></a>
             </div>
@@ -66,9 +67,9 @@
             <div class="agent_box_title" flex="main:justify cross:center">
                 <span>门店维护</span>
                 <div class="font_12">
-                    <i class="color_blue"><span class="iconfont font_12">&#xe78d;</span>正常</i>
-                    <i class="color_gray"><span class="iconfont font_12">&#xe789;</span>未开通</i>
-                    <i class="color_red"><span class="iconfont font_12">&#xe78b;</span>已到期</i>
+                    <i class="color_blue" style="margin-right:3px"><span class="iconfont font_12">&#xe78d;</span>正常</i>
+                    <i class="color_gray" style="margin-right:3px"><span class="iconfont font_12">&#xe789;</span>未开通</i>
+                    <i class="color_red" style="margin-right:3px"><span class="iconfont font_12">&#xe78b;</span>已到期</i>
                     <i class="color_yellow"><span class="iconfont font_12">&#xe77b;</span>即将到期</i>
                 </div>
             </div>
@@ -143,14 +144,17 @@
                 expiredCount:'',
                 expiringCount:'',
                 totalCount:'',
-                token:''
+                token:'',
+                linktoinvite:''
             }
         },
-        beforeMount(){
+        created(){
             window.McDispatcher = this.McDispatcher
             window.getParams = this.getParams
         },
         mounted(){
+            
+            console.log(this.userInfo)
             setTimeout(()=>{
                 this.isDone = true
             },200)
@@ -167,19 +171,22 @@
             　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'","title":"门店详情"}')
                 }
             },
-            getInfo(cuid){
+            getInfo(cuid,token){
                 let url = this.ip+'agent/info';
                 let param = new URLSearchParams()
                 param.append("cuid", cuid)
+                param.append("userToken", token)
                 axios.post(url,param).then((res)=>{
                     //数据处理
                     if(res.data.result == 'success'){
                         let UserInfo = res.data
                         this.userInfo = UserInfo.data
+                        // console.log(this.userInfo)
                         if(!UserInfo.data.realNameAuth){
                             //没有实名认证
                             if (this.device === 'android') {
                                 window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/RealName","title":"实名认证"}');
+                                // this.toRealName()
                             }
                             if (this.device === 'ios') { 
                         　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+this.Url+'/RealName","title":"实名认证"}')
@@ -190,15 +197,24 @@
                     }
                 })
             },
-            getStoreList(cuid,status){
+            getStoreList(cuid,status,token){
                 if(status == ''){
                     let url = this.ip+'agent/storeList';
                     let param = new URLSearchParams()
                     param.append("pageNo", 1)
                     param.append("pageSize", 50)
                     param.append("cuid", cuid)
+                    param.append("userToken", token)
                     axios.post(url,param).then((res)=>{
                         //数据处理
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
+                            
+                        }
                         if(res.data.result == 'success'){
                             let StoreList = res.data.data
                             this.StoreList = StoreList.pageData.data
@@ -216,8 +232,17 @@
                     param.append("pageSize", 50)
                     param.append("cuid", cuid)
                     param.append("status", status)
+                    param.append("userToken", token)
                     axios.post(url,param).then((res)=>{
                         //数据处理
+                        if(res.data.result == 'noLogin'){
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
+                            }
+                            
+                        }
                         if(res.data.result == 'success'){
                             let StoreList = res.data.data
                             this.StoreList = StoreList.pageData.data
@@ -230,6 +255,32 @@
                     })
                 }
             },
+            InviteLink(){
+                //邀请链接
+                let name = this.userInfo.realName
+                let title = name+'邀请你加入蜡笔优课'
+                let logo = 'https://lbyk.oss-cn-shenzhen.aliyuncs.com/imag/logo/LOGO.png'
+                let content = '即刻拥有更懂教育的无接触式营销以及轻松便捷的教务管理服务。'
+                if(this.device == 'android'){
+                    //
+                    window.android.SkipPage('{"linkType": "app","scheme": "SHARE","shareType":"YQLINK","url":"'+this.Url+'/InvitePage?cuid='+this.cuid+'","title":"'+title+'","content":"'+content+'","logo":"'+logo+'"}')
+                }
+                if(this.device == 'ios'){
+                    //
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "SHARE","url":"'+this.Url+'/InvitePage?cuid='+this.cuid+'","title":"'+title+'","content":"'+content+'","logo":"'+logo+'"}')
+                }
+            },
+            downLoad(){
+                // 下载链接分享
+                if(this.device == 'android'){
+                    //
+                    window.android.SkipPage('{"linkType": "app","scheme": "SHARE","shareType":"DOWNLOADLINK","url":"https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk","titile":"蜡笔优课","content":"【产品介绍】蜡笔优课致力于打造一体化的培训机构招生及管理","logo":"https://lbyk.oss-cn-shenzhen.aliyuncs.com/imag/logo/LOGO.png"}')
+                }
+                if(this.device == 'ios'){
+                    //
+                    window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "app","scheme": "SHARE","url":"https://a.app.qq.com/o/simple.jsp?pkgname=com.lbyk.lbyk","titile":"蜡笔优课","content":"【产品介绍】蜡笔优课致力于打造一体化的培训机构招生及管理","logo":"https://lbyk.oss-cn-shenzhen.aliyuncs.com/imag/logo/LOGO.png"}')
+                }
+            },
             changeItem(status){
                 let item = document.getElementsByClassName('tab_cell')
                 if(status === 'all'){
@@ -237,49 +288,78 @@
                     item[0].classList.add('active')
                     item[1].classList.remove('active')
                     item[2].classList.remove('active')
-                    this.getStoreList(this.cuid,'')
+                    this.getStoreList(this.cuid,'',this.token)
                 }else if(status === 'expired'){
                     //已过期
                     item[0].classList.remove('active')
                     item[1].classList.add('active')
                     item[2].classList.remove('active')
-                    this.getStoreList(this.cuid,'expired')
+                    this.getStoreList(this.cuid,'expired',this.token)
                 }else if(status === 'expiring'){
                     //即将过期
                     item[0].classList.remove('active')
                     item[1].classList.remove('active')
                     item[2].classList.add('active')
-                    this.getStoreList(this.cuid,'expiring')
+                    this.getStoreList(this.cuid,'expiring',this.token)
                 }
             },
             skipStaticPage(url,title){
-                if (this.device === 'android') {
-                    window.android.SkipPage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}');
+                if(title == '提现'){
+                    if(this.userInfo.balance != '0'){
+                        Toast({
+                            message:'暂无可提现金额'
+                        })
+                    }else{
+                        if (this.device === 'android') {
+                            if(title == '营销海报'){
+                                window.android.SkipPage('{"linkType": "h5","scheme":"YXHB","url": "'+url+'","title":"'+title+'"}');
+                            }else{
+                                window.android.SkipPage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}');
+                            }
+                        }
+                        if (this.device === 'ios') { 
+                    　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}')
+                        }
+                    }
+                }else{
+                    if (this.device === 'android') {
+                        if(title == '营销海报'){
+                            window.android.SkipPage('{"linkType": "h5","scheme":"YXHB","url": "'+url+'","title":"'+title+'"}');
+                        }else{
+                            window.android.SkipPage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}');
+                        }
+                    }
+                    if (this.device === 'ios') { 
+                　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}')
+                    }
                 }
-                if (this.device === 'ios') { 
-            　　　　window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","url": "'+url+'","title":"'+title+'"}')
-                }
+            },
+            toRealName(){
+                // window.android.SkipPage('{"linkType":"app","scheme":"REALNAME"}');
+                window.android.SkipPage('{"linkType": "h5","url": "'+this.Url+'/RealName","title":"实名认证"}')
             },
             McDispatcher (qury){
                 //iOS获取APP传过来的参数的方法
                 this.token = qury.data.token
-                // this.cuid = qury.data.cuid
-                this.cuid = 'Zxu3w9mbqlEAu8CLbGB'
+                this.cuid = qury.data.cuid
                 if(!qury.data.token){
                 window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
-                // this.getInfo(qury.data.cuid)
-                this.getInfo('Zxu3w9mbqlEAu8CLbGB')
-                this.changeItem('all')
+                this.getStoreList(this.cuid,'',qury.data.token)
+                this.getInfo(qury.data.cuid,qury.data.token)
+                
+                
             },
             getParams(msg){
+                // this.userInfo='222'
                 this.token = msg.token
                 this.cuid = msg.cuid
                 if(!msg.token){
                 window.android.SkipPage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                 }
-                this.getInfo(msg.cuid)
-                this.changeItem('all')
+                this.getInfo(msg.cuid,msg.token)
+                this.getStoreList(this.cuid,'',msg.token)
+                
             },
             linkIos (){
                     //给iOS APP传参

@@ -202,27 +202,37 @@ export default {
                             window.webkit.messageHandlers.skipPage.postMessage('{"linkType":"app","scheme":"LOGIN","callback":"true"}')
                         }
                     }
-                    if(ress.parameterMap.mwebUrl){
-                        // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
-                        if(this.device == 'android'){
-                            window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
-                        }else if(this.device == 'ios'){
-                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                    if(res.data.result == 'success'){
+                        if(ress.parameterMap.mwebUrl){
+                            // window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                            // setTimeout(()=>{
+                            //     this.isClicked = true
+                            // },2000)
+                            if(this.device == 'android'){
+                                window.android.SkipPage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                            }else if(this.device == 'ios'){
+                                window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "WXPAY","mwebUrl":"'+url+'"}')
+                            }
+                            // window.location.href = url
+                            // window.open(url)
                         }
-                        // window.location.href = url
-                        // window.open(url)
-                    }
-                    if(ress.parameterMap.orderStr){
                         
-                        const str = ress.parameterMap
-                        const str2 = JSON.stringify(str)
-                        window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ALIPAY","orderStr":'+str2+'}')
+                        if(ress.parameterMap.orderStr){
+                            
+                            const str = ress.parameterMap
+                            const str2 = JSON.stringify(str)
+                            window.webkit.messageHandlers.skipPage.postMessage('{"linkType": "h5","scheme": "ALIPAY","orderStr":'+str2+'}')
+                        }
+                        // setTimeout(()=>{
+                        //     this.isClicked = true
+                        // },2000)
+                    }else{
+                        Toast(res.data.msg)
                     }
-                    setTimeout(()=>{
-                        this.isClicked = true
-                    },2000)
                     
                 })
+            }else{
+                Toast('不可重复支付，如果支付失败，请回退重新支付')
             }
         }
 
